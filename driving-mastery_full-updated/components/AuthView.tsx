@@ -123,7 +123,7 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
                               required
                             />
                         </div>
-                    </div>)
+                    </div>)}
 
                     {!needsCode && (
                     <div>
@@ -149,7 +149,7 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
                                 {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
                             </button>
                         </div>
-                    </div>)
+                    </div>)}
 
                     {isSignUp && needsCode && (
                       <div>
