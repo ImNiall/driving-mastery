@@ -4,6 +4,9 @@ import ProgressChart from './ProgressChart';
 import StudyPlan from './StudyPlan';
 import { STUDY_PLANS } from '../constants';
 import { QuizIcon, BookOpenIcon, ChatIcon } from './icons';
+import Seo from './Seo';
+import JsonLd from './JsonLd';
+import { SITE_URL } from '../config/seo';
 
 // --- Sub-components defined in-file to avoid creating new files ---
 
@@ -49,8 +52,24 @@ const Dashboard: React.FC<DashboardProps> = ({ progress, setupQuiz, setView, vie
         
     return (
         <div className="space-y-8">
+            {/* SEO: Dashboard */}
+            <Seo
+                title="Dashboard – Driving Mastery"
+                description="Review your progress and get help from your AI Mentor."
+                url={`${SITE_URL}/`}
+            />
+            <JsonLd
+                data={{
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    name: "Driving Mastery – UK Theory Coach",
+                    description: "Practice UK driving theory with adaptive quizzes.",
+                    applicationCategory: "EducationalApplication",
+                    operatingSystem: "Web",
+                }}
+            />
             <div className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold text-gray-800">Your Dashboard</h2>
+                <h1 className="text-2xl font-bold text-gray-800">Your Dashboard</h1>
                 <p className="text-gray-600 mt-1">Review your progress and get help from your AI Mentor.</p>
             </div>
 

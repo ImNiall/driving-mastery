@@ -10,6 +10,7 @@ import LandingPage from './components/LandingPage';
 import FloatingChatWidget from './components/FloatingChatWidget';
 import LeaderboardView from './components/LeaderboardView';
 import AuthView from './components/AuthView';
+import PricingPlans from './components/PricingPlans';
 import { View, QuizResult, Category, QuizAttempt, LearningModule, QuizAction, FinalQuizResults } from './types';
 import { DVSA_CATEGORIES, LEARNING_MODULES, MASTERY_POINTS } from './constants';
 import { ChatIcon, XIcon } from './components/icons';
@@ -246,6 +247,8 @@ const App: React.FC = () => {
         return <ChatView onStartCustomQuiz={handleStartCustomQuiz} />;
       case 'leaderboard':
         return <LeaderboardView currentUserMasteryPoints={masteryPoints} />;
+      case 'pricing':
+        return <PricingPlans />;
       default:
         return <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
     }

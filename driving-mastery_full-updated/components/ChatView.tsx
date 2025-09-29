@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, QuizAction } from '../types';
-import { getChatResponse } from '../services/geminiService';
+import { getChatResponse } from '../services/openaiService';
 import { SendIcon } from './icons';
+import { useAuth } from '@clerk/clerk-react';
 
 interface ChatViewProps {
   onStartCustomQuiz: (action: QuizAction) => void;
@@ -13,6 +14,7 @@ const ChatView: React.FC<ChatViewProps> = ({ onStartCustomQuiz }) => {
   const [isLoading, setIsLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isInitialized = useRef(false);
+  const { getToken } = useAuth();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -28,7 +30,8 @@ const ChatView: React.FC<ChatViewProps> = ({ onStartCustomQuiz }) => {
         setIsLoading(true);
         // This initial message isn't shown to the user but prompts the AI's greeting.
         const initialUserMessage: ChatMessage = { role: 'user', text: 'Hi Theo.' };
-        const { text, action } = await getChatResponse([initialUserMessage]);
+        const token = await getToken().catch(() => undefined);
+        const { text, action } = await getChatResponse([initialUserMessage], token || undefined);
         
         const modelMessage: ChatMessage = { role: 'model', text, action };
         setMessages([modelMessage]);
@@ -47,7 +50,8 @@ const ChatView: React.FC<ChatViewProps> = ({ onStartCustomQuiz }) => {
     setInput('');
     setIsLoading(true);
 
-    const { text, action } = await getChatResponse(newMessages);
+    const token = await getToken().catch(() => undefined);
+    const { text, action } = await getChatResponse(newMessages, token || undefined);
     
     const modelMessage: ChatMessage = { role: 'model', text, action };
     setMessages(prev => [...prev, modelMessage]);

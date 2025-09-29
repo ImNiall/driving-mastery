@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage, QuizAction } from '../types';
-import { getChatResponse } from '../services/geminiService';
+import { getChatResponse } from '../services/openaiService';
 import { ChatIcon, SendIcon, SpinnerIcon, XIcon } from './icons';
 
 interface FloatingChatWidgetProps {

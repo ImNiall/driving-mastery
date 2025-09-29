@@ -15,6 +15,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
     { id: 'quiz', icon: QuizIcon, label: 'Quiz' },
     { id: 'modules', icon: BookOpenIcon, label: 'Modules' },
     { id: 'chat', icon: ChatIcon, label: 'AI Mentor' },
+    { id: 'pricing', icon: TrophyIcon, label: 'Pricing' },
   ] as const;
 
   return (

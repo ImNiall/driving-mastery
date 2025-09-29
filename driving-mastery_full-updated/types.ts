@@ -91,10 +91,9 @@ export interface FinalQuizResults {
   date: string;
   pointsEarned: number;
 }
-
 export interface LeaderboardEntry {
   name: string;
   masteryPoints: number;
 }
 
-export type View = 'dashboard' | 'quiz-start' | 'quiz' | 'modules' | 'chat' | 'quiz-results' | 'leaderboard' | 'auth';
+export type View = 'dashboard' | 'quiz-start' | 'quiz' | 'modules' | 'chat' | 'quiz-results' | 'leaderboard' | 'auth' | 'pricing';

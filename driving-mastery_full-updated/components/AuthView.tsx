@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from '../types';
 import { UserIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, BookOpenIcon } from './icons';
+import { useSignIn, useSignUp } from '@clerk/clerk-react';
 
 interface AuthViewProps {
   defaultMode: 'signin' | 'signup';
@@ -12,15 +13,60 @@ interface AuthViewProps {
 const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, setView }) => {
   const [mode, setMode] = useState(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [needsCode, setNeedsCode] = useState(false);
+  const [code, setCode] = useState('');
+
+  const { isLoaded: signInLoaded, signIn, setActive: setActiveFromSignIn } = useSignIn();
+  const { isLoaded: signUpLoaded, signUp, setActive: setActiveFromSignUp } = useSignUp();
 
   const isSignUp = mode === 'signup';
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSignUp) {
-      onSignUp();
-    } else {
-      onLogin();
+    setError(null);
+    setSubmitting(true);
+    try {
+      if (isSignUp) {
+        if (!signUpLoaded) throw new Error('Auth not ready');
+        if (!needsCode) {
+          // 1) Create sign up intent and send code
+          await signUp.create({ emailAddress: email, password });
+          if (fullName) {
+            await signUp.update({ firstName: fullName.split(' ').slice(0, -1).join(' ') || fullName, lastName: fullName.split(' ').slice(-1).join(' ') || undefined });
+          }
+          await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+          setNeedsCode(true);
+          setSubmitting(false);
+          return;
+        } else {
+          // 2) Verify the code and complete session
+          const res = await signUp.attemptEmailAddressVerification({ code });
+          if (res.status === 'complete') {
+            await setActiveFromSignUp({ session: res.createdSessionId });
+            onSignUp();
+          } else {
+            throw new Error('Verification not complete');
+          }
+        }
+      } else {
+        if (!signInLoaded) throw new Error('Auth not ready');
+        await signIn.create({ identifier: email, password });
+        const attempt = await signIn.attemptFirstFactor({ strategy: 'password', password });
+        if (attempt.status === 'complete') {
+          await setActiveFromSignIn({ session: attempt.createdSessionId });
+        }
+        onLogin();
+      }
+    } catch (err: any) {
+      const msg = err?.errors?.[0]?.message || err?.message || 'Authentication failed';
+      setError(msg);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -40,18 +86,26 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {isSignUp && (
+                    {isSignUp && !needsCode && (
                         <div>
                             <label className="text-sm font-semibold text-gray-700 block mb-2">Full Name</label>
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <UserIcon className="w-5 h-5 text-gray-400" />
                                 </span>
-                                <input type="text" placeholder="e.g. Alex Smith" className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition" required />
+                                <input
+                                  type="text"
+                                  placeholder="e.g. Alex Smith"
+                                  value={fullName}
+                                  onChange={(e) => setFullName(e.target.value)}
+                                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                                  required
+                                />
                             </div>
                         </div>
                     )}
 
+                    {!needsCode && (
                     <div>
                         <label className="text-sm font-semibold text-gray-700 block mb-2">Email Address</label>
                         <div className="relative">
@@ -60,17 +114,32 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                                 </svg>
                             </span>
-                            <input type="email" placeholder="you@example.com" className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition" required />
+                            <input
+                              type="email"
+                              placeholder="you@example.com"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                              required
+                            />
                         </div>
-                    </div>
+                    </div>)
 
+                    {!needsCode && (
                     <div>
                         <label className="text-sm font-semibold text-gray-700 block mb-2">Password</label>
                         <div className="relative">
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <LockClosedIcon className="w-5 h-5 text-gray-400" />
                             </span>
-                            <input type={showPassword ? 'text' : 'password'} placeholder="••••••••" className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition" required />
+                            <input
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="••••••••"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                              required
+                            />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
@@ -80,9 +149,26 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
                                 {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
                             </button>
                         </div>
-                    </div>
+                    </div>)
+
+                    {isSignUp && needsCode && (
+                      <div>
+                        <label className="text-sm font-semibold text-gray-700 block mb-2">Verification code</label>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          placeholder="Enter the 6-digit code"
+                          value={code}
+                          onChange={(e) => setCode(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent transition"
+                          required
+                        />
+                        <p className="text-xs text-gray-500 mt-1">We sent a code to {email}. Check your inbox and spam.</p>
+                      </div>
+                    )}
                     
-                    <button type="submit" className="w-full bg-brand-blue text-white py-3 rounded-md font-bold text-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                    {error && <p className="text-sm text-red-600 mb-2" role="alert">{error}</p>}
+                    <button type="submit" disabled={submitting} className="w-full bg-brand-blue text-white py-3 rounded-md font-bold text-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg disabled:opacity-60">
                         {isSignUp ? 'Sign Up' : 'Sign In'}
                     </button>
                 </form>

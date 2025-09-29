@@ -8,6 +8,9 @@ import ModuleCard from './ModuleCard';
 import QuestionCard from './QuestionCard';
 // FIX: Imported CheckCircleIcon to resolve 'Cannot find name' error.
 import { LightbulbIcon, WarningIcon, TrophyIcon, ClipboardListIcon, QuizIcon, CheckCircleIcon } from './icons';
+import Seo from './Seo';
+import JsonLd from './JsonLd';
+import { SITE_URL } from '../config/seo';
 
 // --- Helper Components ---
 
@@ -51,8 +54,9 @@ const EnhancedMarkdownRenderer: React.FC<{ content: string }> = ({ content }) =>
         const trimmedLine = line.trim();
 
         if (trimmedLine.startsWith('# ')) {
+            // Demote to h2 to ensure only one h1 per page (the module title outside)
             flushList();
-            elements.push(<h1 key={index} className="text-3xl font-bold mt-8 mb-4 text-gray-900 border-b pb-2">{trimmedLine.substring(2)}</h1>);
+            elements.push(<h2 key={index} className="text-3xl font-bold mt-8 mb-4 text-gray-900 border-b pb-2">{trimmedLine.substring(2)}</h2>);
             return;
         }
         if (trimmedLine.startsWith('## ')) {
@@ -286,9 +290,26 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
     if (selectedModule) {
         return (
             <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8">
+                {/* SEO: Module detail */}
+                <Seo
+                    title={`${selectedModule.title} – UK Theory Module`}
+                    description={selectedModule.summary}
+                    url={`${SITE_URL}/modules/${selectedModule.slug}`}
+                />
+                <JsonLd
+                    data={{
+                        "@context": "https://schema.org",
+                        "@type": "BreadcrumbList",
+                        itemListElement: [
+                            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                            { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
+                            { "@type": "ListItem", position: 3, name: selectedModule.title, item: `${SITE_URL}/modules/${selectedModule.slug}` }
+                        ]
+                    }}
+                />
                 <div>
                     <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">&larr; Back to all modules</button>
-                    <h2 className="text-4xl font-bold text-gray-800">{selectedModule.title}</h2>
+                    <h1 className="text-4xl font-bold text-gray-800">{selectedModule.title}</h1>
                     <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{selectedModule.category}</span>
                     <div className="mt-6">
                         <EnhancedMarkdownRenderer content={selectedModule.content} />
@@ -333,8 +354,14 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
     
     return (
         <div>
+            {/* SEO: Modules list */}
+            <Seo
+                title="Modules – Driving Mastery"
+                description="Study modules covering all 14 DVSA categories for the UK driving theory test."
+                url={`${SITE_URL}/modules`}
+            />
             <div className="text-center mb-10">
-                <h2 className="text-3xl font-bold text-gray-800">DVSA Learning Modules</h2>
+                <h1 className="text-3xl font-bold text-gray-800">DVSA Learning Modules</h1>
                 <p className="text-gray-600 mt-2 max-w-2xl mx-auto">Browse all 14 official categories. Each module contains key information and a mini-quiz to test your understanding.</p>
             </div>
             
