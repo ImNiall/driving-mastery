@@ -45,12 +45,15 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
           return;
         } else {
           // 2) Verify the code and complete session
-          const res = await signUp.attemptEmailAddressVerification({ code });
+          const res = await signUp.attemptEmailAddressVerification({ code: code.trim() });
           if (res.status === 'complete') {
             await setActiveFromSignUp({ session: res.createdSessionId });
             onSignUp();
           } else {
-            throw new Error('Verification not complete');
+            // Surface Clerk response to help diagnose
+            console.warn('[Clerk] Email verification not complete:', res);
+            const message = (res as any)?.errors?.[0]?.message || `Verification not complete (status: ${res.status})`;
+            throw new Error(message);
           }
         }
       } else {
@@ -164,6 +167,24 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
                           required
                         />
                         <p className="text-xs text-gray-500 mt-1">We sent a code to {email}. Check your inbox and spam.</p>
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              setSubmitting(true);
+                              setError(null);
+                              await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+                            } catch (e: any) {
+                              setError(e?.errors?.[0]?.message || e?.message || 'Failed to resend code');
+                            } finally {
+                              setSubmitting(false);
+                            }
+                          }}
+                          className="mt-2 text-sm font-semibold text-brand-blue hover:underline"
+                          disabled={submitting}
+                        >
+                          Resend code
+                        </button>
                       </div>
                     )}
                     

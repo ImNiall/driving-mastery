@@ -14,6 +14,9 @@ import PricingPlans from './components/PricingPlans';
 import { View, QuizResult, Category, QuizAttempt, LearningModule, QuizAction, FinalQuizResults } from './types';
 import { DVSA_CATEGORIES, LEARNING_MODULES, MASTERY_POINTS } from './constants';
 import { ChatIcon, XIcon } from './components/icons';
+import { useAuth } from '@clerk/clerk-react';
+import { incrementProgress } from './services/progressService';
+import { logAttempt } from './services/historyService';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,6 +34,8 @@ const App: React.FC = () => {
         return null;
     }
   });
+
+  const { getToken } = useAuth();
 
   const [isChatWidgetOpen, setIsChatWidgetOpen] = useState(false);
   const [chatContextMessage, setChatContextMessage] = useState<string | null>(null);
@@ -162,6 +167,30 @@ const App: React.FC = () => {
       total: summary.totalQuestions,
       date: resultsWithPoints.date,
     }]);
+
+    // Persist to server (Supabase) via Netlify Functions
+    (async () => {
+      try {
+        const token = await getToken();
+        if (token) {
+          // Atomic per-category increments
+          for (const r of summary.results) {
+            await incrementProgress({ category: r.category, deltaCorrect: r.correct, deltaTotal: r.total }, token);
+          }
+          // Log attempt for analytics/review
+          await logAttempt({
+            score: summary.totalCorrect,
+            total: summary.totalQuestions,
+            details: {
+              categories: summary.results.map(r => r.category),
+              date: resultsWithPoints.date,
+            },
+          }, token);
+        }
+      } catch (e) {
+        console.error('Failed to persist quiz data:', e);
+      }
+    })();
     
     const weakestTopics = summary.results
         .filter(r => (r.correct / r.total) < 0.86)
