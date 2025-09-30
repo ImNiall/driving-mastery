@@ -12,3 +12,13 @@
   from = "/api/progress"
   to = "/.netlify/functions/progress"
   status = 200
+
+[[redirects]]
+  from = "/api/history"
+  to = "/.netlify/functions/history"
+  status = 200
+
+[[redirects]]
+  from = "/api/usage"
+  to = "/.netlify/functions/usage"
+  status = 200
