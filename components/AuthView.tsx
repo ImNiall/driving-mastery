@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from '../types';
-import { UserIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, BookOpenIcon } from './icons';
-import { useSignIn, useSignUp } from '@clerk/clerk-react';
+import { UserIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from './icons';
+import { useSignIn, useSignUp, useClerk } from '@clerk/clerk-react';
 
 interface AuthViewProps {
   defaultMode: 'signin' | 'signup';
@@ -11,13 +11,14 @@ interface AuthViewProps {
 }
 
 const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, setView }) => {
-  const [mode, setMode] = useState(defaultMode);
+  const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const clerk = useClerk() as any;
   const [needsCode, setNeedsCode] = useState(false);
   const [code, setCode] = useState('');
 
@@ -35,7 +36,12 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
         if (!signUpLoaded) throw new Error('Auth not ready');
         if (!needsCode) {
           // 1) Create sign up intent and send code
-          await signUp.create({ emailAddress: email, password });
+          let captchaToken: string | undefined;
+          try {
+            // If bot protection enabled, fetch a token. Fallback if not available.
+            captchaToken = (await clerk?.captcha?.getToken?.()) as string | undefined;
+          } catch {}
+          await (signUp as any).create({ emailAddress: email, password, captchaToken });
           if (fullName) {
             await signUp.update({ firstName: fullName.split(' ').slice(0, -1).join(' ') || fullName, lastName: fullName.split(' ').slice(-1).join(' ') || undefined });
           }
