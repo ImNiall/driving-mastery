@@ -10,6 +10,11 @@ if (!rootElement) {
 
 // Allow overriding the Clerk Frontend API host via env to avoid any lingering custom domain config
 const FRONTEND_API = (import.meta as any).env?.VITE_CLERK_FRONTEND_API as string | undefined;
+// Lightweight runtime debug to verify host selection (safe: no secrets)
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line no-console
+  console.info('[Clerk debug] frontendApi =', FRONTEND_API || '(unset)', ' location.host =', window.location.host);
+}
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
