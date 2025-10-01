@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <ClerkProvider
       publishableKey={(import.meta as any).env?.VITE_CLERK_PUBLISHABLE_KEY as string}
-      clerkJSUrl="https://cdn.clerk.com/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+      clerkJSUrl="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
     >
       <App />
     </ClerkProvider>
