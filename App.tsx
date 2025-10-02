@@ -272,12 +272,7 @@ const App: React.FC = () => {
       case 'quiz-results':
         return quizResults ? <QuizResultsView results={quizResults} onBackToDashboard={handleBackToDashboard} onRestartQuiz={handleRestartQuiz} onViewModule={handleViewModule} setView={setCurrentView} /> : <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
       case 'modules':
-        // TEMP: stub to isolate React #300 origin
-        return (
-          <div data-test="modules-stub" className="p-6 bg-white rounded-lg shadow">
-            Modules stub
-          </div>
-        );
+        return <ModulesView selectedModule={selectedModule} setSelectedModule={setSelectedModule} latestQuizResults={quizResults} onModuleMastery={handleModuleMastery} masteredModules={masteredModules} />;
       case 'chat':
         return <ChatView onStartCustomQuiz={handleStartCustomQuiz} />;
       case 'leaderboard':
