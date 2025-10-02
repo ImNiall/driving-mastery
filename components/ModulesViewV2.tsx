@@ -17,8 +17,13 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
       <ErrorBoundary>
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
           <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
-          <h1 className="text-3xl font-bold text-gray-800">Module detail (v2)</h1>
-          <p className="text-gray-600">We will restore fields step-by-step.</p>
+          <h1 className="text-3xl font-bold text-gray-800">
+            <SafeText value={selectedModule.title} />
+          </h1>
+          <span className="inline-block text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
+            <SafeText value={selectedModule.category} />
+          </span>
+          <p className="text-gray-600 text-sm">Detail view (v2) — title + category</p>
         </div>
       </ErrorBoundary>
     );
