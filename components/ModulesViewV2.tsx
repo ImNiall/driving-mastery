@@ -147,7 +147,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
     return latestQuizResults.results
       .filter(r => r.total > 0 && (r.correct / r.total) * 100 < 86)
       .sort((a, b) => (a.correct / a.total) - (b.correct / b.total))
-      .map(r => r.category);
+      .map(r => assertString('results.category', r.category));
   }, [latestQuizResults]);
 
   if (selectedModule) {
@@ -201,66 +201,80 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
   }
 
   const filteredModules = useMemo(() => {
-    let mods = LEARNING_MODULES;
-    if (filter === 'recommended' && recommendedCategories.length > 0) {
-      mods = mods
-        .filter(m => recommendedCategories.includes(m.category))
-        .sort((a, b) => recommendedCategories.indexOf(a.category) - recommendedCategories.indexOf(b.category));
+    try {
+      let mods = LEARNING_MODULES;
+      if (filter === 'recommended' && recommendedCategories.length > 0) {
+        mods = mods
+          .filter(m => recommendedCategories.includes(assertString('module.category', m.category)))
+          .sort((a, b) =>
+            recommendedCategories.indexOf(assertString('module.category', a.category)) -
+            recommendedCategories.indexOf(assertString('module.category', b.category))
+          );
+      }
+      const q = searchTerm.trim().toLowerCase();
+      if (q) {
+        mods = mods.filter(m =>
+          assertString('module.title', m.title).toLowerCase().includes(q) ||
+          assertString('module.category', m.category).toLowerCase().includes(q)
+        );
+      }
+      return mods;
+    } catch (e) {
+      // Fallback to all modules if any unexpected data shape appears
+      console.error('[ModulesViewV2] filter/search error:', e);
+      return LEARNING_MODULES;
     }
-    const q = searchTerm.trim().toLowerCase();
-    if (q) {
-      mods = mods.filter(m => m.title.toLowerCase().includes(q) || m.category.toLowerCase().includes(q));
-    }
-    return mods;
   }, [searchTerm, filter, recommendedCategories]);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <h1 className="text-2xl font-bold text-gray-800 text-center">DVSA Learning Modules</h1>
+    <ErrorBoundary>
+      <div className="bg-white p-6 rounded-lg shadow" data-build-version="modulesv2-b4f02d9-hardening-1">
+        <h1 className="text-2xl font-bold text-gray-800 text-center">DVSA Learning Modules</h1>
 
-      <div className="max-w-2xl mx-auto mt-4 flex justify-center items-center space-x-2">
-        <button
-          onClick={() => setFilter('all')}
-          className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'all' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
-        >
-          All Modules
-        </button>
-        {recommendedCategories.length > 0 && (
+        <div className="max-w-2xl mx-auto mt-4 flex justify-center items-center space-x-2">
           <button
-            onClick={() => setFilter('recommended')}
-            className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'recommended' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
+            onClick={() => setFilter('all')}
+            className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'all' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
           >
-            Recommended
+            All Modules
           </button>
+          {recommendedCategories.length > 0 && (
+            <button
+              onClick={() => setFilter('recommended')}
+              className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'recommended' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
+            >
+              Recommended
+            </button>
+          )}
+        </div>
+        {filter === 'recommended' && (
+          <p className="text-center text-xs text-gray-500 mt-2">based on your most recent performance</p>
+        )}
+
+        <div className="max-w-2xl mx-auto mt-6">
+          <input
+            type="text"
+            placeholder="Search for a topic..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
+          />
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          {filteredModules.map(m => (
+            <ModuleCard key={String(m.slug)} module={m} onSelect={setSelectedModule} />
+          ))}
+        </div>
+        {filteredModules.length === 0 && (
+          <div className="text-center col-span-full py-12 text-gray-500">
+            <p>
+              {filter === 'recommended' ? 'No specific recommendations right now. Great work!' : `No modules found for "${searchTerm}".`}
+            </p>
+          </div>
         )}
       </div>
-      {filter === 'recommended' && (
-        <p className="text-center text-xs text-gray-500 mt-2">based on your most recent performance</p>
-      )}
-
-      <div className="max-w-2xl mx-auto mt-6">
-        <input
-          type="text"
-          placeholder="Search for a topic..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
-        />
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {filteredModules.map(m => (
-          <ModuleCard key={String(m.slug)} module={m} onSelect={setSelectedModule} />
-        ))}
-      </div>
-      {filteredModules.length === 0 && (
-        <div className="text-center col-span-full py-12 text-gray-500">
-          <p>
-            {filter === 'recommended' ? 'No specific recommendations right now. Great work!' : `No modules found for "${searchTerm}".`}
-          </p>
-        </div>
-      )}
-    </div>
+    </ErrorBoundary>
   );
 };
 
