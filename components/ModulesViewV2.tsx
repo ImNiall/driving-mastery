@@ -9,7 +9,6 @@ import JsonLd from './JsonLd';
 import { parseInlineMarkdown, SafeText } from '../utils/markdown';
 import { assertString } from '../utils/assertString';
 import QuestionCard from './QuestionCard';
-import { LightbulbIcon, WarningIcon } from './icons';
 
 // Simple, safe markdown renderer (headings, paragraphs, inline **bold**)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -47,105 +46,6 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
   return <div>{elements}</div>;
 };
 
-// Enhanced markdown with callouts and grouped bullet lists (parity with v1)
-const EnhancedMarkdownRenderer: React.FC<{ content: unknown }> = ({ content }) => {
-  const elements: React.ReactNode[] = [];
-  const safeContent = assertString('module.content', content);
-  const lines = safeContent.split('\n').filter(line => line.trim() !== '');
-
-  interface ListItem {
-    text: string;
-    notes: React.ReactNode[];
-  }
-  let listItems: ListItem[] = [];
-
-  const flushList = () => {
-    if (listItems.length > 0) {
-      elements.push(
-        <ul key={`ul-${elements.length}`} className="list-disc space-y-2 pl-6 my-4 text-gray-700">
-          {listItems.map((item, i) => (
-            <li key={i}>
-              {parseInlineMarkdown(item.text)}
-              {item.notes.length > 0 && <div className="mt-3 space-y-3">{item.notes}</div>}
-            </li>
-          ))}
-        </ul>
-      );
-      listItems = [];
-    }
-  };
-
-  lines.forEach((line, index) => {
-    const trimmedLine = line.trim();
-
-    if (trimmedLine.startsWith('# ')) {
-      // Demote to h2 to ensure only one h1 per page (module title outside)
-      flushList();
-      elements.push(<h2 key={index} className="text-3xl font-bold mt-8 mb-4 text-gray-900 border-b pb-2">{trimmedLine.substring(2)}</h2>);
-      return;
-    }
-    if (trimmedLine.startsWith('## ')) {
-      flushList();
-      elements.push(<h2 key={index} className="text-2xl font-semibold mt-6 mb-3 text-gray-800">{trimmedLine.substring(3)}</h2>);
-      return;
-    }
-
-    // Notes nested within a list
-    if ((trimmedLine.startsWith('>! ') || trimmedLine.startsWith('>W ')) && listItems.length > 0) {
-      const lastItem = listItems[listItems.length - 1];
-      if (trimmedLine.startsWith('>! ')) {
-        lastItem.notes.push(
-          <div key={`${index}-note`} className="p-4 bg-blue-50 border-l-4 border-brand-blue rounded-r-lg flex items-start space-x-4">
-            <LightbulbIcon className="w-8 h-8 text-brand-blue flex-shrink-0 mt-1" />
-            <div className="text-blue-800">{parseInlineMarkdown(trimmedLine.substring(3))}</div>
-          </div>
-        );
-      } else {
-        lastItem.notes.push(
-          <div key={`${index}-note`} className="p-4 bg-red-50 border-l-4 border-brand-red rounded-r-lg flex items-start space-x-4">
-            <WarningIcon className="w-8 h-8 text-brand-red flex-shrink-0 mt-1" />
-            <div className="text-red-800">{parseInlineMarkdown(trimmedLine.substring(3))}</div>
-          </div>
-        );
-      }
-      return;
-    }
-
-    // Top-level notes
-    if (trimmedLine.startsWith('>! ')) {
-      flushList();
-      elements.push(
-        <div key={index} className="my-5 p-4 bg-blue-50 border-l-4 border-brand-blue rounded-r-lg flex items-start space-x-4">
-          <LightbulbIcon className="w-8 h-8 text-brand-blue flex-shrink-0 mt-1" />
-          <div className="text-blue-800">{parseInlineMarkdown(trimmedLine.substring(3))}</div>
-        </div>
-      );
-      return;
-    }
-    if (trimmedLine.startsWith('>W ')) {
-      flushList();
-      elements.push(
-        <div key={index} className="my-5 p-4 bg-red-50 border-l-4 border-brand-red rounded-r-lg flex items-start space-x-4">
-          <WarningIcon className="w-8 h-8 text-brand-red flex-shrink-0 mt-1" />
-          <div className="text-red-800">{parseInlineMarkdown(trimmedLine.substring(3))}</div>
-        </div>
-      );
-      return;
-    }
-
-    if (trimmedLine.startsWith('* ')) {
-      listItems.push({ text: trimmedLine.substring(2), notes: [] });
-      return;
-    }
-
-    flushList();
-    elements.push(<p key={index} className="my-4 text-gray-700 leading-relaxed">{parseInlineMarkdown(trimmedLine)}</p>);
-  });
-
-  flushList();
-
-  return <div>{elements}</div>;
-};
 
 interface ModulesViewProps {
   selectedModule: LearningModule | null;
@@ -275,7 +175,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
             }}
           />
           <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
-          <h1 className="text-4xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-gray-800">
             <SafeText value={selectedModule.title} />
           </h1>
           <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full inline-block">
@@ -285,7 +185,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
             <SafeText value={selectedModule.summary} />
           </p>
           <div className="mt-6">
-            <EnhancedMarkdownRenderer content={selectedModule.content} />
+            <SimpleMarkdown content={selectedModule.content} />
           </div>
           <div className="mt-8 pt-8 border-t-2 border-gray-100">
             <div className="text-center mb-6">
