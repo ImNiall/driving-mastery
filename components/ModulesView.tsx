@@ -280,18 +280,26 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
             .map(r => r.category);
     }, [latestQuizResults]);
 
+    // FULL ROOT ISOLATION: temporarily render a constant stub for the entire Modules view
+    console.log('ModulesView: root stub render');
+    return (
+        <ErrorBoundary>
+            <div className="bg-white p-6 rounded-lg shadow">
+                Modules root stub
+            </div>
+        </ErrorBoundary>
+    );
+
 
     if (selectedModule) {
-        // Normalize module to view model with guaranteed primitives
-        const vm = normalizeModule(selectedModule);
-        
+        // FULL ISOLATION: do NOT touch selectedModule values at all
+        console.log('ModulesView: rendering constant stub for selected module');
         return (
             <ErrorBoundary>
                 <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
                     <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
-                    <h1 className="text-4xl font-bold text-gray-800">{vm.title}</h1>
-                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full inline-block">{vm.category}</span>
-                    <p className="mt-4 text-gray-700">{vm.summary}</p>
+                    <h1 className="text-4xl font-bold text-gray-800">Module detail stub</h1>
+                    <p className="mt-4 text-gray-700">If you can see this, the crash is inside selectedModule value usage.</p>
                 </div>
             </ErrorBoundary>
         );
