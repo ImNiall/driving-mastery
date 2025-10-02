@@ -134,9 +134,8 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
 };
 
 const ModulesViewCore: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedModule, latestQuizResults, onModuleMastery }) => {
-  // V2 safe feature set (no enhanced callouts)
+  // V2 safe feature set (incremental)
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState<'all' | 'recommended'>('all');
 
   const recommendedCategories = useMemo(() => {
     if (!latestQuizResults) return [] as string[];
@@ -147,51 +146,45 @@ const ModulesViewCore: React.FC<ModulesViewProps> = ({ selectedModule, setSelect
   }, [latestQuizResults]);
 
   if (selectedModule) {
-    const safeTitle = assertString('seo.title', selectedModule.title);
-    const safeSummary = assertString('seo.description', selectedModule.summary);
-    const safeSlug = assertString('seo.slug', selectedModule.slug);
+    console.log('[ModulesViewCore] detail title-only');
     return (
       <ErrorBoundary>
-        <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
-          {/* SEO */}
-          <Seo title={`${safeTitle} – UK Theory Module`} description={safeSummary} url={`${SITE_URL}/modules/${safeSlug}`} />
-          <JsonLd
-            data={{
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-                { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
-                { "@type": "ListItem", position: 3, name: safeTitle, item: `${SITE_URL}/modules/${safeSlug}` }
-              ]
-            }}
-          />
+        <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-4" data-build-version="modules-core-detail-title-1">
           <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
           <h1 className="text-3xl font-bold text-gray-800"><SafeText value={selectedModule.title} /></h1>
-          <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full inline-block"><SafeText value={selectedModule.category} /></span>
-          <p className="text-gray-700"><SafeText value={selectedModule.summary} /></p>
-          <div className="mt-6">
-            <SimpleMarkdown content={selectedModule.content} />
-          </div>
-          <div className="mt-8 pt-8 border-t-2 border-gray-100">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-800">Test Your Knowledge</h3>
-            </div>
-            <ErrorBoundary fallback={<div className="text-center p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400"><p className="text-yellow-800">Quiz temporarily unavailable. You can still study the content above.</p></div>}>
-              <MiniQuizV2 module={selectedModule} onModuleMastery={onModuleMastery} />
-            </ErrorBoundary>
-          </div>
         </div>
       </ErrorBoundary>
     );
   }
 
-  const filteredModules = useMemo(() => LEARNING_MODULES, []);
+  const filteredModules = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return LEARNING_MODULES;
+    try {
+      return LEARNING_MODULES.filter(m =>
+        assertString('module.title', m.title).toLowerCase().includes(q) ||
+        assertString('module.category', m.category).toLowerCase().includes(q) ||
+        assertString('module.summary', m.summary).toLowerCase().includes(q)
+      );
+    } catch (e) {
+      console.error('[ModulesViewCore] search error:', e);
+      return LEARNING_MODULES;
+    }
+  }, [searchTerm]);
 
   return (
     <ErrorBoundary>
-      <div className="bg-white p-6 rounded-lg shadow" data-build-version="modules-core-v2-listonly-1">
-        <h1 className="text-2xl font-bold text-gray-800">Modules</h1>
+      <div className="bg-white p-6 rounded-lg shadow" data-build-version="modules-core-v2-search-1">
+        <h1 className="text-2xl font-bold text-gray-800 text-center">Modules</h1>
+        <div className="max-w-2xl mx-auto mt-4">
+          <input
+            type="text"
+            placeholder="Search for a topic..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
+          />
+        </div>
         <ul className="mt-4 divide-y divide-gray-100">
           {filteredModules.map((m) => (
             <li key={String(m.slug)} className="py-4 flex items-start justify-between">
