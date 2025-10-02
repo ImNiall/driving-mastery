@@ -20,26 +20,53 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       </div>
     );
   }
-  const lines = text.split('\n').filter(l => l.trim() !== '');
+  const lines = text.split('\n');
   const elements: React.ReactNode[] = [];
-  lines.forEach((line, index) => {
-    const t = line.trim();
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
+    const t = raw.trim();
+    if (!t) continue;
+
+    // Note callout: group consecutive lines starting with "Note:"
+    if (t.startsWith('Note:')) {
+      const noteItems: React.ReactNode[] = [];
+      const start = i;
+      while (i < lines.length) {
+        const s = lines[i].trim();
+        if (!s.startsWith('Note:')) break;
+        const body = s.substring(5).replace(/^\s*[-–:\s]?\s*/, '');
+        noteItems.push(
+          <p key={`note-${i}`} className="text-sm leading-relaxed">{parseInlineMarkdown(body)}</p>
+        );
+        i++;
+      }
+      i -= 1; // compensate for for-loop increment
+      elements.push(
+        <div key={`note-block-${start}`} className="my-4 p-4 rounded-md border border-blue-200 bg-blue-50">
+          <div className="text-blue-900 space-y-2">
+            {noteItems}
+          </div>
+        </div>
+      );
+      continue;
+    }
+
     if (t.startsWith('# ')) {
       elements.push(
-        <h2 key={`h1-${index}`} className="text-2xl font-bold mt-6 mb-3 text-gray-900 border-b pb-1">{t.substring(2)}</h2>
+        <h2 key={`h1-${i}`} className="text-2xl font-bold mt-6 mb-3 text-gray-900 border-b pb-1">{t.substring(2)}</h2>
       );
-      return;
+      continue;
     }
     if (t.startsWith('## ')) {
       elements.push(
-        <h3 key={`h2-${index}`} className="text-xl font-semibold mt-5 mb-2 text-gray-800">{t.substring(3)}</h3>
+        <h3 key={`h2-${i}`} className="text-xl font-semibold mt-5 mb-2 text-gray-800">{t.substring(3)}</h3>
       );
-      return;
+      continue;
     }
     elements.push(
-      <p key={`p-${index}`} className="my-3 text-gray-700 leading-relaxed">{parseInlineMarkdown(t)}</p>
+      <p key={`p-${i}`} className="my-3 text-gray-700 leading-relaxed">{parseInlineMarkdown(t)}</p>
     );
-  });
+  }
   return <div>{elements}</div>;
 };
 
