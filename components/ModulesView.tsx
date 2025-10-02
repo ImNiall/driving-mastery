@@ -297,15 +297,15 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
                     <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">
                         ← Back to all modules
                     </button>
-                    <h1 className="text-4xl font-bold text-gray-800">{selectedModule.title}</h1>
+                    <h1 className="text-4xl font-bold text-gray-800">{String(selectedModule.title)}</h1>
                     <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">
                         {String(selectedModule.category)}
                     </span>
                     <div className="mt-6">
                         <div className="prose max-w-none">
-                            <p className="text-gray-600">{selectedModule.summary}</p>
+                            <p className="text-gray-600">{String(selectedModule.summary || '')}</p>
                             <div className="mt-4 whitespace-pre-wrap text-gray-700">
-                                {selectedModule.content}
+                                {String(selectedModule.content || '')}
                             </div>
                         </div>
                     </div>
