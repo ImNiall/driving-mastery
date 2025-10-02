@@ -8,6 +8,7 @@ import Seo from './Seo';
 import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
+import ModuleCardV2 from './ModuleCardV2';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -248,29 +249,11 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
           className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
         />
       </div>
-      <ul className="mt-4 divide-y divide-gray-100">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {filteredModules.map((m) => (
-          <li key={String(m.slug)} className="py-4 flex items-start justify-between">
-            <div className="pr-4">
-              <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
-                <SafeText value={m.category} />
-              </span>
-              <h3 className="text-lg font-bold text-gray-800 mt-2">
-                <SafeText value={m.title} />
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                <SafeText value={m.summary} />
-              </p>
-            </div>
-            <button
-              onClick={() => setSelectedModule(m)}
-              className="self-center bg-brand-blue text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-700"
-            >
-              Open
-            </button>
-          </li>
+          <ModuleCardV2 key={String(m.slug)} module={m} onSelect={setSelectedModule} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
