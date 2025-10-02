@@ -186,78 +186,35 @@ const ModulesViewCore: React.FC<ModulesViewProps> = ({ selectedModule, setSelect
     );
   }
 
-  const filteredModules = useMemo(() => {
-    try {
-      let mods = LEARNING_MODULES;
-      if (filter === 'recommended' && recommendedCategories.length > 0) {
-        mods = mods
-          .filter(m => recommendedCategories.includes(assertString('module.category', m.category)))
-          .sort((a, b) =>
-            recommendedCategories.indexOf(assertString('module.category', a.category)) -
-            recommendedCategories.indexOf(assertString('module.category', b.category))
-          );
-      }
-      const q = searchTerm.trim().toLowerCase();
-      if (q) {
-        mods = mods.filter(m =>
-          assertString('module.title', m.title).toLowerCase().includes(q) ||
-          assertString('module.category', m.category).toLowerCase().includes(q)
-        );
-      }
-      return mods;
-    } catch (e) {
-      console.error('[ModulesViewCore] filter/search error:', e);
-      return LEARNING_MODULES;
-    }
-  }, [searchTerm, filter, recommendedCategories]);
+  const filteredModules = useMemo(() => LEARNING_MODULES, []);
 
   return (
     <ErrorBoundary>
-      <div className="bg-white p-6 rounded-lg shadow" data-build-version="modules-core-v2-safe-1">
-        <h1 className="text-2xl font-bold text-gray-800 text-center">DVSA Learning Modules</h1>
-
-        <div className="max-w-2xl mx-auto mt-4 flex justify-center items-center space-x-2">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'all' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
-          >
-            All Modules
-          </button>
-          {recommendedCategories.length > 0 && (
-            <button
-              onClick={() => setFilter('recommended')}
-              className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'recommended' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
-            >
-              Recommended
-            </button>
-          )}
-        </div>
-        {filter === 'recommended' && (
-          <p className="text-center text-xs text-gray-500 mt-2">based on your most recent performance</p>
-        )}
-
-        <div className="max-w-2xl mx-auto mt-6">
-          <input
-            type="text"
-            placeholder="Search for a topic..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {filteredModules.map(m => (
-            <ModuleCard key={String(m.slug)} module={m} onSelect={setSelectedModule} />
+      <div className="bg-white p-6 rounded-lg shadow" data-build-version="modules-core-v2-listonly-1">
+        <h1 className="text-2xl font-bold text-gray-800">Modules</h1>
+        <ul className="mt-4 divide-y divide-gray-100">
+          {filteredModules.map((m) => (
+            <li key={String(m.slug)} className="py-4 flex items-start justify-between">
+              <div className="pr-4">
+                <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
+                  <SafeText value={m.category} />
+                </span>
+                <h3 className="text-lg font-bold text-gray-800 mt-2">
+                  <SafeText value={m.title} />
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  <SafeText value={m.summary} />
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedModule(m)}
+                className="self-center bg-brand-blue text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-700"
+              >
+                Open
+              </button>
+            </li>
           ))}
-        </div>
-        {filteredModules.length === 0 && (
-          <div className="text-center col-span-full py-12 text-gray-500">
-            <p>
-              {filter === 'recommended' ? 'No specific recommendations right now. Great work!' : `No modules found for "${searchTerm}".`}
-            </p>
-          </div>
-        )}
+        </ul>
       </div>
     </ErrorBoundary>
   );
