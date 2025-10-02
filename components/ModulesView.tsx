@@ -12,6 +12,8 @@ import Seo from './Seo';
 import JsonLd from './JsonLd';
 import { SITE_URL } from '../config/seo';
 import ErrorBoundary from './ErrorBoundary';
+import { assertString, normalizeModule, ModuleVM } from '../utils/assertString';
+import { parseInlineMarkdown, SafeText } from '../utils/markdown';
 
 // --- Helper Components ---
 
@@ -289,14 +291,17 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
 
 
     if (selectedModule) {
+        // Normalize module to view model with guaranteed primitives
+        const vm = normalizeModule(selectedModule);
+        
         return (
             <ErrorBoundary>
                 <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8">
                     {/* SEO: Module detail */}
                     <Seo
-                        title={`${String(selectedModule.title)} – UK Theory Module`}
-                        description={String(selectedModule.summary || '')}
-                        url={`${SITE_URL}/modules/${String(selectedModule.slug || '')}`}
+                        title={`${vm.title} – UK Theory Module`}
+                        description={vm.summary}
+                        url={`${SITE_URL}/modules/${vm.slug}`}
                     />
                     <JsonLd
                         data={{
@@ -305,16 +310,16 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
                             itemListElement: [
                                 { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
                                 { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
-                                { "@type": "ListItem", position: 3, name: String(selectedModule.title || ''), item: `${SITE_URL}/modules/${String(selectedModule.slug || '')}` }
+                                { "@type": "ListItem", position: 3, name: vm.title, item: `${SITE_URL}/modules/${vm.slug}` }
                             ]
                         }}
                     />
                     <div>
                         <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">&larr; Back to all modules</button>
-                        <h1 className="text-4xl font-bold text-gray-800">{String(selectedModule.title || '')}</h1>
-                        <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{String(selectedModule.category || '')}</span>
+                        <h1 className="text-4xl font-bold text-gray-800">{vm.title}</h1>
+                        <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{vm.category}</span>
                         <div className="mt-6">
-                            <EnhancedMarkdownRenderer content={selectedModule.content} />
+                            <EnhancedMarkdownRenderer content={vm.content} />
                         </div>
                     </div>
                     
@@ -326,7 +331,7 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
                             </h3>
                         </div>
                         <MiniQuiz 
-                            module={selectedModule}
+                            module={selectedModule} /* Keep original for now as MiniQuiz expects LearningModule type */
                             onModuleMastery={onModuleMastery}
                         />
                     </div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { SITE_URL, DEFAULT_OG } from "../config/seo";
+import { assertString } from "../utils/assertString";
 
 type Props = {
   title?: string;
@@ -38,18 +39,24 @@ export default function Seo({
   image = DEFAULT_OG,
 }: Props) {
   useEffect(() => {
-    const cleanDesc = (description || "").slice(0, 160);
-    if (title) document.title = title;
+    // Ensure all values are strings
+    const safeTitle = assertString('seo.title', title);
+    const safeDesc = assertString('seo.description', description);
+    const safeUrl = assertString('seo.url', url);
+    const safeImage = assertString('seo.image', image);
+    
+    const cleanDesc = (safeDesc || "").slice(0, 160);
+    if (safeTitle) document.title = safeTitle;
 
     upsertMeta("description", cleanDesc, "name");
-    upsertLink("canonical", url);
+    upsertLink("canonical", safeUrl);
 
     // Open Graph
     upsertMeta("og:type", "website", "property");
-    upsertMeta("og:title", title, "property");
+    upsertMeta("og:title", safeTitle, "property");
     upsertMeta("og:description", cleanDesc, "property");
-    upsertMeta("og:url", url, "property");
-    upsertMeta("og:image", image, "property");
+    upsertMeta("og:url", safeUrl, "property");
+    upsertMeta("og:image", safeImage, "property");
 
     // Twitter
     upsertMeta("twitter:card", "summary_large_image", "name");
