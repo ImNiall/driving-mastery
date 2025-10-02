@@ -4,6 +4,9 @@ import { LEARNING_MODULES } from '../constants';
 import ErrorBoundary from './ErrorBoundary';
 import { parseInlineMarkdown, SafeText } from '../utils/markdown';
 import { assertString } from '../utils/assertString';
+import Seo from './Seo';
+import { SITE_URL } from '../config/seo';
+import JsonLd from './JsonLd';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -47,9 +50,28 @@ interface ModulesViewProps {
 }
 const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedModule }) => {
   if (selectedModule) {
+    const safeTitle = assertString('seo.title', selectedModule.title);
+    const safeSummary = assertString('seo.description', selectedModule.summary);
+    const safeSlug = assertString('seo.slug', selectedModule.slug);
     return (
       <ErrorBoundary>
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
+          <Seo
+            title={`${safeTitle} – UK Theory Module`}
+            description={safeSummary}
+            url={`${SITE_URL}/modules/${safeSlug}`}
+          />
+          <JsonLd
+            data={{
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
+                { "@type": "ListItem", position: 3, name: safeTitle, item: `${SITE_URL}/modules/${safeSlug}` }
+              ]
+            }}
+          />
           <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
           <h1 className="text-3xl font-bold text-gray-800">
             <SafeText value={selectedModule.title} />
