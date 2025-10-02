@@ -1,12 +1,13 @@
 import React from 'react';
-import { LearningModule, FinalQuizResults, Category } from '../types';
-import { LEARNING_MODULES } from '../constants';
+import { LearningModule, FinalQuizResults, Category, Question as QuestionType, UserAnswer } from '../types';
+import { LEARNING_MODULES, QUESTION_BANK } from '../constants';
 import ErrorBoundary from './ErrorBoundary';
 import { parseInlineMarkdown, SafeText } from '../utils/markdown';
 import { assertString } from '../utils/assertString';
 import Seo from './Seo';
 import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
+import QuestionCard from './QuestionCard';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -41,6 +42,88 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
   return <div>{elements}</div>;
 };
 
+// Lightweight MiniQuiz for module detail
+const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category: Category) => void; }> = ({ module, onModuleMastery }) => {
+  const [state, setState] = React.useState<'idle' | 'active' | 'finished'>('idle');
+  const [questions, setQuestions] = React.useState<QuestionType[]>([]);
+  const [index, setIndex] = React.useState(0);
+  const [selected, setSelected] = React.useState<string | null>(null);
+  const [submitted, setSubmitted] = React.useState(false);
+  const [answers, setAnswers] = React.useState<UserAnswer[]>([]);
+
+  const load = React.useCallback(() => {
+    const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
+    setQuestions(shuffled.slice(0, 5));
+  }, [module.category]);
+
+  React.useEffect(() => { load(); }, [load]);
+
+  const score = answers.filter(a => a.isCorrect).length;
+
+  if (questions.length < 5) {
+    return (
+      <div className="text-center p-4 bg-gray-100 rounded-lg">
+        <p className="text-gray-600">More practice questions for this module are coming soon!</p>
+      </div>
+    );
+  }
+
+  if (state === 'idle') {
+    return (
+      <div className="bg-slate-100 p-6 rounded-lg text-center">
+        <h3 className="text-xl font-bold text-gray-800">Ready to test your knowledge?</h3>
+        <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); load(); }}>Start Quiz</button>
+      </div>
+    );
+  }
+
+  if (state === 'finished') {
+    const passed = score >= 4; // 80% pass mark
+    return (
+      <div className="bg-slate-100 p-6 rounded-lg text-center">
+        <h3 className="text-xl font-bold text-gray-800">{passed ? 'Excellent Work!' : 'Good Effort!'}</h3>
+        <p className="text-gray-700 mt-2">You scored {score} / {questions.length}</p>
+        <div className="mt-4 space-x-2">
+          <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => { setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); load(); }}>Try Again</button>
+        </div>
+      </div>
+    );
+  }
+
+  // active
+  return (
+    <div className="bg-slate-100 p-4 rounded-lg">
+      <p className="text-center text-sm font-semibold text-gray-600 mb-3">Question {index + 1} of {questions.length}</p>
+      <QuestionCard
+        question={questions[index]}
+        selectedOption={selected}
+        isAnswered={submitted}
+        onOptionSelect={(opt) => { if (!submitted) setSelected(opt); }}
+      />
+      <div className="mt-4">
+        {submitted ? (
+          <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={() => {
+            if (index < questions.length - 1) {
+              setIndex(i => i + 1); setSelected(null); setSubmitted(false);
+            } else {
+              if (score >= 4) onModuleMastery(module.category);
+              setState('finished');
+            }
+          }}> {index < questions.length - 1 ? 'Next Question' : 'Finish Quiz'} </button>
+        ) : (
+          <button className="w-full bg-gray-800 text-white py-2 rounded disabled:bg-gray-300" disabled={!selected} onClick={() => {
+            if (!selected) return;
+            const isCorrect = questions[index].options.find(o => o.text === selected)?.isCorrect || false;
+            setAnswers(prev => [...prev, { questionId: questions[index].id, selectedOption: selected, isCorrect }]);
+            setSubmitted(true);
+          }}> Submit Answer </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 interface ModulesViewProps {
   selectedModule: LearningModule | null;
   setSelectedModule: (module: LearningModule | null) => void;
@@ -48,7 +131,7 @@ interface ModulesViewProps {
   onModuleMastery: (category: Category) => void;
   masteredModules: string[];
 }
-const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedModule }) => {
+const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedModule, onModuleMastery }) => {
   if (selectedModule) {
     const safeTitle = assertString('seo.title', selectedModule.title);
     const safeSummary = assertString('seo.description', selectedModule.summary);
@@ -85,7 +168,15 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
           <div className="mt-6">
             <SimpleMarkdown content={selectedModule.content} />
           </div>
-          <p className="text-gray-500 text-sm">Detail view (v2) — title + category + summary + content</p>
+          <div className="mt-8 pt-8 border-t-2 border-gray-100">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-800">Test Your Knowledge</h3>
+            </div>
+            <ErrorBoundary fallback={<div className="text-center p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400"><p className="text-yellow-800">Quiz temporarily unavailable. You can still study the content above.</p></div>}>
+              <MiniQuizV2 module={selectedModule} onModuleMastery={onModuleMastery} />
+            </ErrorBoundary>
+          </div>
+          <p className="text-gray-500 text-sm">Detail view (v2) — title + category + summary + content + quiz</p>
         </div>
       </ErrorBoundary>
     );
