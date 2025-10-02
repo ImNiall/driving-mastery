@@ -54,6 +54,29 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       continue;
     }
 
+    // Unordered lists: group consecutive lines starting with -, *, or •
+    const listRe = /^(?:-|\*|•)\s+/;
+    if (listRe.test(t)) {
+      const items: React.ReactNode[] = [];
+      const start = i;
+      while (i < lines.length) {
+        const s = lines[i].trim();
+        if (!s || !listRe.test(s)) break;
+        const body = s.replace(listRe, '');
+        items.push(
+          <li key={`li-${i}`} className="ml-4 list-disc"><span>{parseInlineMarkdown(body)}</span></li>
+        );
+        i++;
+      }
+      i -= 1; // for-loop compensation
+      elements.push(
+        <ul key={`ul-${start}`} className="my-3 pl-5 text-gray-700 space-y-1">
+          {items}
+        </ul>
+      );
+      continue;
+    }
+
     if (t.startsWith('# ')) {
       elements.push(
         <h2 key={`h1-${i}`} className="text-2xl font-bold mt-6 mb-3 text-gray-900 border-b pb-1">{t.substring(2)}</h2>
@@ -63,6 +86,12 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
     if (t.startsWith('## ')) {
       elements.push(
         <h3 key={`h2-${i}`} className="text-xl font-semibold mt-5 mb-2 text-gray-800">{t.substring(3)}</h3>
+      );
+      continue;
+    }
+    if (t.startsWith('### ')) {
+      elements.push(
+        <h4 key={`h3-${i}`} className="text-lg font-semibold mt-4 mb-2 text-gray-800">{t.substring(4)}</h4>
       );
       continue;
     }
