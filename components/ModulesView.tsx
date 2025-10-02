@@ -1,16 +1,11 @@
 
 
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { LearningModule, Question, UserAnswer, Category, FinalQuizResults } from '../types';
-import { LEARNING_MODULES, QUESTION_BANK } from '../constants';
+import React, { useState, useMemo } from 'react';
+import { LearningModule, Category, FinalQuizResults } from '../types';
+import { LEARNING_MODULES } from '../constants';
 import ModuleCard from './ModuleCard';
-import QuestionCard from './QuestionCard';
-// FIX: Imported CheckCircleIcon to resolve 'Cannot find name' error.
-import { LightbulbIcon, WarningIcon, TrophyIcon, ClipboardListIcon, QuizIcon, CheckCircleIcon } from './icons';
-import Seo from './Seo';
-import JsonLd from './JsonLd';
-import { SITE_URL } from '../config/seo';
+import ErrorBoundary from './ErrorBoundary';
 
 // --- Helper Components ---
 
@@ -290,27 +285,22 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
     if (selectedModule) {
         console.log('ModulesView: Rendering selected module', selectedModule.title);
         
-        // Simplified render without SEO/JsonLd to isolate issue
         return (
-            <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8">
-                <div>
-                    <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">
-                        ← Back to all modules
+            <ErrorBoundary>
+                <div className="bg-white p-6 rounded-lg max-w-4xl mx-auto">
+                    <button 
+                        onClick={() => setSelectedModule(null)} 
+                        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+                    >
+                        Back to modules
                     </button>
-                    <h1 className="text-4xl font-bold text-gray-800">{String(selectedModule.title)}</h1>
-                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">
-                        {String(selectedModule.category)}
-                    </span>
-                    <div className="mt-6">
-                        <div className="prose max-w-none">
-                            <p className="text-gray-600">{String(selectedModule.summary || '')}</p>
-                            <div className="mt-4 whitespace-pre-wrap text-gray-700">
-                                {String(selectedModule.content || '')}
-                            </div>
-                        </div>
+                    
+                    <div className="border p-4 rounded bg-gray-50">
+                        <div>Title: {String(selectedModule.title || '')}</div>
+                        <div>Category: {String(selectedModule.category || '')}</div>
                     </div>
                 </div>
-            </div>
+            </ErrorBoundary>
         );
     }
 
