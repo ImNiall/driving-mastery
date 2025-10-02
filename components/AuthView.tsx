@@ -25,6 +25,20 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
   const { isLoaded: signInLoaded, signIn, setActive: setActiveFromSignIn } = useSignIn();
   const { isLoaded: signUpLoaded, signUp, setActive: setActiveFromSignUp } = useSignUp();
 
+  const handleClearSession = async () => {
+    try {
+      await clerk?.signOut();
+      setError(null);
+      setNeedsCode(false);
+      setCode('');
+      setEmail('');
+      setPassword('');
+      setFullName('');
+    } catch (err: any) {
+      console.error('Sign out error:', err);
+    }
+  };
+
   const isSignUp = mode === 'signup';
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -194,7 +208,20 @@ const AuthView: React.FC<AuthViewProps> = ({ defaultMode, onLogin, onSignUp, set
                       </div>
                     )}
                     
-                    {error && <p className="text-sm text-red-600 mb-2" role="alert">{error}</p>}
+                    {error && (
+                      <div className="space-y-2">
+                        <p className="text-sm text-red-600" role="alert">{error}</p>
+                        {error.toLowerCase().includes('session') && (
+                          <button
+                            type="button"
+                            onClick={handleClearSession}
+                            className="w-full bg-gray-600 text-white py-2 rounded-md font-semibold text-sm hover:bg-gray-700 transition-colors"
+                          >
+                            Clear Session & Try Again
+                          </button>
+                        )}
+                      </div>
+                    )}
                     <button type="submit" disabled={submitting} className="w-full bg-brand-blue text-white py-3 rounded-md font-bold text-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg disabled:opacity-60">
                         {isSignUp ? 'Sign Up' : 'Sign In'}
                     </button>
