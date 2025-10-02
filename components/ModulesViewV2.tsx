@@ -27,14 +27,17 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
     const t = raw.trim();
     if (!t) continue;
 
-    // Note callout: group consecutive lines starting with "Note:"
-    if (t.startsWith('Note:')) {
+    // Note callout: group consecutive lines starting with variants of "Note"
+    const noteRe = /^note\s*[:\-–—]?\s*/i;
+    const firstMatch = t.match(noteRe);
+    if (firstMatch) {
       const noteItems: React.ReactNode[] = [];
       const start = i;
       while (i < lines.length) {
         const s = lines[i].trim();
-        if (!s.startsWith('Note:')) break;
-        const body = s.substring(5).replace(/^\s*[-–:\s]?\s*/, '');
+        const mm = s.match(noteRe);
+        if (!mm) break;
+        const body = s.slice(mm[0].length);
         noteItems.push(
           <p key={`note-${i}`} className="text-sm leading-relaxed">{parseInlineMarkdown(body)}</p>
         );
