@@ -288,45 +288,27 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
 
 
     if (selectedModule) {
+        console.log('ModulesView: Rendering selected module', selectedModule.title);
+        
+        // Simplified render without SEO/JsonLd to isolate issue
         return (
             <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8">
-                {/* SEO: Module detail */}
-                <Seo
-                    title={`${selectedModule.title} – UK Theory Module`}
-                    description={selectedModule.summary}
-                    url={`${SITE_URL}/modules/${selectedModule.slug}`}
-                />
-                <JsonLd
-                    data={{
-                        "@context": "https://schema.org",
-                        "@type": "BreadcrumbList",
-                        itemListElement: [
-                            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-                            { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
-                            { "@type": "ListItem", position: 3, name: selectedModule.title, item: `${SITE_URL}/modules/${selectedModule.slug}` }
-                        ]
-                    }}
-                />
                 <div>
-                    <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">&larr; Back to all modules</button>
+                    <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">
+                        ← Back to all modules
+                    </button>
                     <h1 className="text-4xl font-bold text-gray-800">{selectedModule.title}</h1>
-                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{String(selectedModule.category)}</span>
+                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">
+                        {String(selectedModule.category)}
+                    </span>
                     <div className="mt-6">
-                        <EnhancedMarkdownRenderer content={selectedModule.content} />
+                        <div className="prose max-w-none">
+                            <p className="text-gray-600">{selectedModule.summary}</p>
+                            <div className="mt-4 whitespace-pre-wrap text-gray-700">
+                                {selectedModule.content}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <div className="mt-8 pt-8 border-t-2 border-gray-100">
-                    <div className="text-center mb-6">
-                        <h3 className="text-2xl font-bold text-gray-800 flex items-center justify-center">
-                            <QuizIcon className="w-6 h-6 mr-3 text-brand-blue" />
-                            Test Your Knowledge
-                        </h3>
-                    </div>
-                    <MiniQuiz 
-                        module={selectedModule}
-                        onModuleMastery={onModuleMastery}
-                    />
                 </div>
             </div>
         );
