@@ -1,10 +1,16 @@
 
 
 
-import React, { useState, useMemo } from 'react';
-import { LearningModule, Category, FinalQuizResults } from '../types';
-import { LEARNING_MODULES } from '../constants';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { LearningModule, Question, UserAnswer, Category, FinalQuizResults } from '../types';
+import { LEARNING_MODULES, QUESTION_BANK } from '../constants';
 import ModuleCard from './ModuleCard';
+import QuestionCard from './QuestionCard';
+// FIX: Imported CheckCircleIcon to resolve 'Cannot find name' error.
+import { LightbulbIcon, WarningIcon, TrophyIcon, ClipboardListIcon, QuizIcon, CheckCircleIcon } from './icons';
+import Seo from './Seo';
+import JsonLd from './JsonLd';
+import { SITE_URL } from '../config/seo';
 import ErrorBoundary from './ErrorBoundary';
 
 // --- Helper Components ---
@@ -283,21 +289,46 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
 
 
     if (selectedModule) {
-        console.log('ModulesView: Rendering selected module', selectedModule.title);
-        
         return (
             <ErrorBoundary>
-                <div className="bg-white p-6 rounded-lg max-w-4xl mx-auto">
-                    <button 
-                        onClick={() => setSelectedModule(null)} 
-                        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-                    >
-                        Back to modules
-                    </button>
+                <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8">
+                    {/* SEO: Module detail */}
+                    <Seo
+                        title={`${String(selectedModule.title)} – UK Theory Module`}
+                        description={String(selectedModule.summary || '')}
+                        url={`${SITE_URL}/modules/${String(selectedModule.slug || '')}`}
+                    />
+                    <JsonLd
+                        data={{
+                            "@context": "https://schema.org",
+                            "@type": "BreadcrumbList",
+                            itemListElement: [
+                                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                                { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
+                                { "@type": "ListItem", position: 3, name: String(selectedModule.title || ''), item: `${SITE_URL}/modules/${String(selectedModule.slug || '')}` }
+                            ]
+                        }}
+                    />
+                    <div>
+                        <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">&larr; Back to all modules</button>
+                        <h1 className="text-4xl font-bold text-gray-800">{String(selectedModule.title || '')}</h1>
+                        <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{String(selectedModule.category || '')}</span>
+                        <div className="mt-6">
+                            <EnhancedMarkdownRenderer content={selectedModule.content} />
+                        </div>
+                    </div>
                     
-                    <div className="border p-4 rounded bg-gray-50">
-                        <div>Title: {String(selectedModule.title || '')}</div>
-                        <div>Category: {String(selectedModule.category || '')}</div>
+                    <div className="mt-8 pt-8 border-t-2 border-gray-100">
+                        <div className="text-center mb-6">
+                            <h3 className="text-2xl font-bold text-gray-800 flex items-center justify-center">
+                                <QuizIcon className="w-6 h-6 mr-3 text-brand-blue" />
+                                Test Your Knowledge
+                            </h3>
+                        </div>
+                        <MiniQuiz 
+                            module={selectedModule}
+                            onModuleMastery={onModuleMastery}
+                        />
                     </div>
                 </div>
             </ErrorBoundary>
@@ -326,6 +357,12 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
     
     return (
         <div>
+            {/* SEO: Modules list */}
+            <Seo
+                title="Modules – Driving Mastery"
+                description="Study modules covering all 14 DVSA categories for the UK driving theory test."
+                url={`${SITE_URL}/modules`}
+            />
             <div className="text-center mb-10">
                 <h1 className="text-3xl font-bold text-gray-800">DVSA Learning Modules</h1>
                 <p className="text-gray-600 mt-2 max-w-2xl mx-auto">Browse all 14 official categories. Each module contains key information and a mini-quiz to test your understanding.</p>
