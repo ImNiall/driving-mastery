@@ -17,6 +17,7 @@ import { ChatIcon, XIcon } from './components/icons';
 import { useAuth } from '@clerk/clerk-react';
 import { incrementProgress } from './services/progressService';
 import { logAttempt } from './services/historyService';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -271,7 +272,12 @@ const App: React.FC = () => {
       case 'quiz-results':
         return quizResults ? <QuizResultsView results={quizResults} onBackToDashboard={handleBackToDashboard} onRestartQuiz={handleRestartQuiz} onViewModule={handleViewModule} setView={setCurrentView} /> : <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
       case 'modules':
-        return <ModulesView selectedModule={selectedModule} setSelectedModule={setSelectedModule} latestQuizResults={quizResults} onModuleMastery={handleModuleMastery} masteredModules={masteredModules} />;
+        // TEMP: stub to isolate React #300 origin
+        return (
+          <div data-test="modules-stub" className="p-6 bg-white rounded-lg shadow">
+            Modules stub
+          </div>
+        );
       case 'chat':
         return <ChatView onStartCustomQuiz={handleStartCustomQuiz} />;
       case 'leaderboard':
@@ -300,6 +306,7 @@ const App: React.FC = () => {
   }
 
   return (
+    <ErrorBoundary fallback={<div className="p-6 m-6 bg-red-50 border border-red-200 rounded">The app encountered an error while rendering. Please reload.</div>}>
     <div className="min-h-screen bg-slate-50">
       <Header currentView={currentView} setView={(view) => {
           if (view === 'modules') setSelectedModule(null);
@@ -308,7 +315,9 @@ const App: React.FC = () => {
         }}
       />
       <main className="container mx-auto p-4 md:p-6 mb-20 md:mb-0">
-        {renderLoggedInView()}
+        <ErrorBoundary fallback={<div className="p-4 bg-red-50 border border-red-200 rounded">This section failed to load.</div>}>
+          {renderLoggedInView()}
+        </ErrorBoundary>
       </main>
 
       <div className="fixed bottom-6 right-6 z-50">
@@ -335,6 +344,7 @@ const App: React.FC = () => {
           </button>
       </div>
     </div>
+    </ErrorBoundary>
   );
 };
 
