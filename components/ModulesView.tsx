@@ -287,61 +287,11 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
         
         return (
             <ErrorBoundary>
-                <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-8">
-                    {/* SEO: Module detail */}
-                    <Seo
-                        title={`${vm.title} – UK Theory Module`}
-                        description={vm.summary}
-                        url={`${SITE_URL}/modules/${vm.slug}`}
-                    />
-                    <JsonLd
-                        data={{
-                            "@context": "https://schema.org",
-                            "@type": "BreadcrumbList",
-                            itemListElement: [
-                                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-                                { "@type": "ListItem", position: 2, name: "Modules", item: `${SITE_URL}/modules` },
-                                { "@type": "ListItem", position: 3, name: vm.title, item: `${SITE_URL}/modules/${vm.slug}` }
-                            ]
-                        }}
-                    />
-                    <div>
-                        <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">&larr; Back to all modules</button>
-                        <h1 className="text-4xl font-bold text-gray-800">{vm.title}</h1>
-                        <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{vm.category}</span>
-                        <div className="mt-6">
-                            <ErrorBoundary
-                                fallback={
-                                    <div className="my-4 p-4 bg-red-50 border-l-4 border-red-400 rounded-r">
-                                        <p className="text-red-800 text-sm">We couldn't render the module content. Please try again.</p>
-                                    </div>
-                                }
-                            >
-                                <EnhancedMarkdownRenderer content={vm.content} />
-                            </ErrorBoundary>
-                        </div>
-                    </div>
-                    
-                    <div className="mt-8 pt-8 border-t-2 border-gray-100">
-                        <div className="text-center mb-6">
-                            <h3 className="text-2xl font-bold text-gray-800 flex items-center justify-center">
-                                <QuizIcon className="w-6 h-6 mr-3 text-brand-blue" />
-                                Test Your Knowledge
-                            </h3>
-                        </div>
-                        <ErrorBoundary
-                            fallback={
-                                <div className="text-center p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
-                                    <p className="text-yellow-800">Quiz temporarily unavailable. You can still study the content above.</p>
-                                </div>
-                            }
-                        >
-                            <MiniQuiz 
-                                module={selectedModule} /* Keep original for now as MiniQuiz expects LearningModule type */
-                                onModuleMastery={onModuleMastery}
-                            />
-                        </ErrorBoundary>
-                    </div>
+                <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
+                    <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
+                    <h1 className="text-4xl font-bold text-gray-800">{vm.title}</h1>
+                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full inline-block">{vm.category}</span>
+                    <p className="mt-4 text-gray-700">{vm.summary}</p>
                 </div>
             </ErrorBoundary>
         );
