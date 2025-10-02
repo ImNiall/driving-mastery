@@ -38,6 +38,23 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       );
       return;
     }
+    // Top-level callouts only: info (>!) and warning (>W)
+    if (t.startsWith('>! ')) {
+      elements.push(
+        <div key={`info-${index}`} className="my-4 p-4 bg-blue-50 border-l-4 border-brand-blue rounded-r">
+          <div className="text-blue-800">{parseInlineMarkdown(t.substring(3))}</div>
+        </div>
+      );
+      return;
+    }
+    if (t.startsWith('>W ')) {
+      elements.push(
+        <div key={`warn-${index}`} className="my-4 p-4 bg-red-50 border-l-4 border-brand-red rounded-r">
+          <div className="text-red-800">{parseInlineMarkdown(t.substring(3))}</div>
+        </div>
+      );
+      return;
+    }
     elements.push(
       <p key={`p-${index}`} className="my-3 text-gray-700 leading-relaxed">{parseInlineMarkdown(t)}</p>
     );
