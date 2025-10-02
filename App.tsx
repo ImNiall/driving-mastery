@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard';
 import QuizStartView from './components/QuizStartView';
 import QuizView from './components/QuizView';
 import QuizResultsView from './components/QuizResultsView';
-import ModulesView from './components/ModulesViewCore';
+import ModulesView from './components/ModulesViewV2';
 import ChatView from './components/ChatView';
 import LandingPage from './components/LandingPage';
 import FloatingChatWidget from './components/FloatingChatWidget';
