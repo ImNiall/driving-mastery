@@ -326,12 +326,6 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
     
     return (
         <div>
-            {/* SEO: Modules list */}
-            <Seo
-                title="Modules – Driving Mastery"
-                description="Study modules covering all 14 DVSA categories for the UK driving theory test."
-                url={`${SITE_URL}/modules`}
-            />
             <div className="text-center mb-10">
                 <h1 className="text-3xl font-bold text-gray-800">DVSA Learning Modules</h1>
                 <p className="text-gray-600 mt-2 max-w-2xl mx-auto">Browse all 14 official categories. Each module contains key information and a mini-quiz to test your understanding.</p>
