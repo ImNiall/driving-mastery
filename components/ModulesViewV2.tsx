@@ -182,11 +182,38 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
     );
   }
 
+  // L1: search-only filtering
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const filteredModules = React.useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return LEARNING_MODULES;
+    try {
+      return LEARNING_MODULES.filter(m =>
+        assertString('module.title', m.title).toLowerCase().includes(q) ||
+        assertString('module.category', m.category).toLowerCase().includes(q) ||
+        assertString('module.summary', m.summary).toLowerCase().includes(q)
+      );
+    } catch (e) {
+      // If any unexpected shape sneaks in, fail open to full list and log once
+      console.error('[ModulesViewV2] search filter error:', e);
+      return LEARNING_MODULES;
+    }
+  }, [searchTerm]);
+
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <h1 className="text-2xl font-bold text-gray-800">Modules (v2)</h1>
+      <div className="max-w-2xl mx-auto mt-4">
+        <input
+          type="text"
+          placeholder="Search for a topic..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
+        />
+      </div>
       <ul className="mt-4 divide-y divide-gray-100">
-        {LEARNING_MODULES.map((m) => (
+        {filteredModules.map((m) => (
           <li key={String(m.slug)} className="py-4 flex items-start justify-between">
             <div className="pr-4">
               <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
