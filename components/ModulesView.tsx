@@ -17,19 +17,10 @@ import { parseInlineMarkdown, SafeText } from '../utils/markdown';
 
 // --- Helper Components ---
 
-const parseInlineMarkdown = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, index) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-            return <strong key={index}>{part.slice(2, -2)}</strong>;
-        }
-        return part;
-    });
-};
-
-const EnhancedMarkdownRenderer: React.FC<{ content: string }> = ({ content }) => {
+const EnhancedMarkdownRenderer: React.FC<{ content: unknown }> = ({ content }) => {
     const elements: React.ReactNode[] = [];
-    const lines = content.split('\n').filter(line => line.trim() !== '');
+    const safeContent = assertString('module.content', content);
+    const lines = safeContent.split('\n').filter(line => line.trim() !== '');
 
     interface ListItem {
         text: string;
@@ -319,7 +310,15 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
                         <h1 className="text-4xl font-bold text-gray-800">{vm.title}</h1>
                         <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{vm.category}</span>
                         <div className="mt-6">
-                            <EnhancedMarkdownRenderer content={vm.content} />
+                            <ErrorBoundary
+                                fallback={
+                                    <div className="my-4 p-4 bg-red-50 border-l-4 border-red-400 rounded-r">
+                                        <p className="text-red-800 text-sm">We couldn't render the module content. Please try again.</p>
+                                    </div>
+                                }
+                            >
+                                <EnhancedMarkdownRenderer content={vm.content} />
+                            </ErrorBoundary>
                         </div>
                     </div>
                     
@@ -330,10 +329,18 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
                                 Test Your Knowledge
                             </h3>
                         </div>
-                        <MiniQuiz 
-                            module={selectedModule} /* Keep original for now as MiniQuiz expects LearningModule type */
-                            onModuleMastery={onModuleMastery}
-                        />
+                        <ErrorBoundary
+                            fallback={
+                                <div className="text-center p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                                    <p className="text-yellow-800">Quiz temporarily unavailable. You can still study the content above.</p>
+                                </div>
+                            }
+                        >
+                            <MiniQuiz 
+                                module={selectedModule} /* Keep original for now as MiniQuiz expects LearningModule type */
+                                onModuleMastery={onModuleMastery}
+                            />
+                        </ErrorBoundary>
                     </div>
                 </div>
             </ErrorBoundary>
