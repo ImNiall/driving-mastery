@@ -310,7 +310,7 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
                 <div>
                     <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold mb-6">&larr; Back to all modules</button>
                     <h1 className="text-4xl font-bold text-gray-800">{selectedModule.title}</h1>
-                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{selectedModule.category}</span>
+                    <span className="text-sm font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full mt-2 inline-block">{String(selectedModule.category)}</span>
                     <div className="mt-6">
                         <EnhancedMarkdownRenderer content={selectedModule.content} />
                     </div>

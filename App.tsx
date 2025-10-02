@@ -87,11 +87,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     try {
-      const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
-      setIsLoggedIn(loggedInStatus);
-      if (loggedInStatus) {
-        setCurrentView('dashboard');
-      }
+      // TEMP: Auto-login to bypass Clerk issues
+      setIsLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
+      setCurrentView('dashboard');
     } catch (e) {
       console.error("Could not read from localStorage", e);
     } finally {
