@@ -1,6 +1,7 @@
 import React from 'react';
 import { Question } from '../types';
 import { CheckCircleIcon, XCircleIcon, LightbulbIcon, FlagIcon } from './icons';
+import { SafeText } from '../utils/markdown';
 
 interface QuestionCardProps {
   question: Question;
@@ -73,7 +74,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         </div>
       )}
       <div className="flex justify-between items-start mb-2">
-        <p className="text-sm font-semibold text-brand-blue">{question.category}</p>
+        <p className="text-sm font-semibold text-brand-blue"><SafeText value={question.category} /></p>
         {isReviewMode && isFlagged && (
           <div className="flex items-center text-xs font-semibold bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
             <FlagIcon className="w-4 h-4 mr-1" />
@@ -81,7 +82,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           </div>
         )}
       </div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-5">{question.question}</h2>
+      <h2 className="text-lg font-semibold text-gray-800 mb-5"><SafeText value={question.question} /></h2>
       
       <div className="space-y-3">
         {question.options.map((option, index) => (
@@ -89,9 +90,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             key={index}
             disabled={isAnswered || isReviewMode}
             onClick={() => onOptionSelect(option.text)}
-            className={`w-full text-left p-3 rounded-lg border-2 transition-all duration-150 flex justify-between items-center text-sm ${getOptionClass(option.text)}`}
+            className={`w-full text-left p-3 rounded-lg border-2 transition-all duration-150 flex justify-between items-center text-sm ${getOptionClass(String(option.text))}`}
           >
-            <span className="flex-grow pr-4">{option.text}</span>
+            <span className="flex-grow pr-4"><SafeText value={option.text} /></span>
             {showFeedbackIcons(option.text)}
           </button>
         ))}
@@ -102,7 +103,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
           <LightbulbIcon className="w-6 h-6 text-brand-blue flex-shrink-0 mt-1" />
           <div>
             <h4 className="font-bold text-gray-800">Explanation</h4>
-            <p className="text-gray-700 mt-1 text-sm">{question.explanation}</p>
+            <p className="text-gray-700 mt-1 text-sm"><SafeText value={question.explanation} /></p>
           </div>
         </div>
       )}
