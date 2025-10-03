@@ -307,6 +307,7 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
     
     const updateSession = async () => {
       try {
+        console.log('[MiniQuizV2] Saving session with index:', index);
         await upsertQuizSession({
           user_id: userId,
           module_slug: module.slug,
@@ -325,6 +326,47 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
       updateSession();
     }
   }, [userId, module.slug, index, questions, answers, state, isLoading]);
+  
+  // Add a keep-alive timer to prevent session timeouts
+  React.useEffect(() => {
+    // Only run timer when quiz is active
+    if (state !== 'active' || !userId || questions.length === 0) return;
+    
+    console.log('[MiniQuizV2] Starting keep-alive timer');
+    
+    // Save state every 15 seconds to keep session fresh
+    const timerId = setInterval(() => {
+      console.log('[MiniQuizV2] Keep-alive tick, current index:', index);
+      
+      // Verify our index is still correct
+      if (index !== currentIndexRef.current && currentIndexRef.current > 0) {
+        console.log('[MiniQuizV2] Index mismatch detected in timer, restoring to:', currentIndexRef.current);
+        setIndex(currentIndexRef.current);
+      }
+      
+      // Force save current state
+      (async () => {
+        try {
+          await upsertQuizSession({
+            user_id: userId,
+            module_slug: module.slug,
+            current_index: currentIndexRef.current || index,
+            questions,
+            answers,
+            state
+          });
+          console.log('[MiniQuizV2] Keep-alive state saved successfully');
+        } catch (err) {
+          console.error('[MiniQuizV2] Keep-alive save failed:', err);
+        }
+      })();
+    }, 15000); // 15 seconds
+    
+    return () => {
+      console.log('[MiniQuizV2] Clearing keep-alive timer');
+      clearInterval(timerId);
+    };
+  }, [userId, state, questions.length, module.slug, index, questions, answers]);
   
   // Update ref whenever index changes legitimately
   React.useEffect(() => {
