@@ -268,13 +268,45 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   // Number of questions to show in quiz
   const questionCount = 5;
   
-  // Simple deterministic question selection
+  // Random question selection with session-based consistency
   const selectQuestions = React.useCallback(() => {
+    // Get questions for this category
     const filtered = QUESTION_BANK.filter(q => q.category === module.category);
-    // Use a stable sort based on question ID to ensure consistent ordering
-    const sorted = [...filtered].sort((a, b) => a.id - b.id);
-    return sorted.slice(0, questionCount);
-  }, [module.category]);
+    
+    // Check if we have a stored question selection for this session
+    const sessionKey = `${storageKey}:questionIds`;
+    try {
+      const storedIds = sessionStorage.getItem(sessionKey);
+      if (storedIds) {
+        // Use previously selected questions to maintain consistency
+        const ids = JSON.parse(storedIds) as number[];
+        const questions = ids
+          .map(id => filtered.find(q => q.id === id))
+          .filter(Boolean) as QuestionType[];
+        
+        // If we have enough questions, use them
+        if (questions.length === questionCount) {
+          return questions;
+        }
+      }
+    } catch (e) {
+      console.warn('[MiniQuizV2] Failed to restore question selection:', e);
+    }
+    
+    // Otherwise, select random questions
+    const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, questionCount);
+    
+    // Store the selection for this session
+    try {
+      const ids = selected.map(q => q.id);
+      sessionStorage.setItem(sessionKey, JSON.stringify(ids));
+    } catch (e) {
+      console.warn('[MiniQuizV2] Failed to store question selection:', e);
+    }
+    
+    return selected;
+  }, [module.category, storageKey]);
 
   // Load questions once on mount
   React.useEffect(() => {
@@ -334,7 +366,21 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
     return (
       <div className="bg-slate-100 p-6 rounded-lg text-center">
         <h3 className="text-xl font-bold text-gray-800">Ready to test your knowledge?</h3>
-        <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); }}>Start Quiz</button>
+        <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { 
+          // Reset state
+          setState('active'); 
+          setIndex(0); 
+          setSelected(null); 
+          setSubmitted(false); 
+          setAnswers([]);
+          
+          // Load random questions if not already loaded
+          if (!questionsLoadedRef.current) {
+            const selectedQuestions = selectQuestions();
+            setQuestions(selectedQuestions);
+            questionsLoadedRef.current = true;
+          }
+        }}>Start Quiz</button>
       </div>
     );
   }
@@ -349,10 +395,25 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         <div className="mt-4 space-x-2">
           <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => {
             try { 
+              // Clear all stored data for this quiz
               localStorage.removeItem(`${storageKey}:answers`);
-              sessionStorage.removeItem(storageKey); 
+              sessionStorage.removeItem(storageKey);
+              sessionStorage.removeItem(`${storageKey}:questionIds`);
+              
+              // Reset question loading flag to force new random selection
+              questionsLoadedRef.current = false;
             } catch {}
-            setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]);
+            
+            // Reset state
+            setState('active'); 
+            setIndex(0); 
+            setSelected(null); 
+            setSubmitted(false); 
+            setAnswers([]);
+            
+            // Load new random questions
+            const newQuestions = selectQuestions();
+            setQuestions(newQuestions);
           }}>Try Again</button>
         </div>
       </div>
