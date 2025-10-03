@@ -264,6 +264,8 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         sessionStorage.removeItem(storageKey);
         return;
       }
+      // Avoid persisting partial/empty question sets which can break restore
+      if (questions.length !== 5) return;
       const ids = questions.map(q => String(q.id));
       const payload = { ids, index, answers, state, selected, submitted };
       sessionStorage.setItem(storageKey, JSON.stringify(payload));
