@@ -225,6 +225,22 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   const storageKey = React.useMemo(() => `miniQuiz:${String(module.slug)}`, [module.slug]);
   const restoredRef = React.useRef(false);
 
+  // Helper: persist safely
+  const persist = React.useCallback(() => {
+    try {
+      if (state === 'idle') {
+        sessionStorage.removeItem(storageKey);
+        return;
+      }
+      if (questions.length !== 5) return;
+      const ids = questions.map(q => String(q.id));
+      const payload = { ids, index, answers, state, selected, submitted, ts: Date.now() };
+      sessionStorage.setItem(storageKey, JSON.stringify(payload));
+    } catch (e) {
+      console.warn('[MiniQuizV2] persist failed:', e);
+    }
+  }, [storageKey, questions, index, answers, state, selected, submitted]);
+
   const load = React.useCallback(() => {
     const filtered = QUESTION_BANK.filter(q => q.category === module.category);
     const shuffled = [...filtered].sort(() => 0.5 - Math.random());
@@ -259,20 +275,34 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
 
   // Persist on change
   React.useEffect(() => {
-    try {
-      if (state === 'idle') {
-        sessionStorage.removeItem(storageKey);
-        return;
-      }
-      // Avoid persisting partial/empty question sets which can break restore
-      if (questions.length !== 5) return;
-      const ids = questions.map(q => String(q.id));
-      const payload = { ids, index, answers, state, selected, submitted };
-      sessionStorage.setItem(storageKey, JSON.stringify(payload));
-    } catch (e) {
-      console.warn('[MiniQuizV2] persist failed:', e);
+    persist();
+  }, [persist]);
+
+  // Extra safety: persist on tab hide/unload and heartbeat every 10s while active
+  React.useEffect(() => {
+    const onVis = () => { if (document.visibilityState !== 'visible') persist(); };
+    const onUnload = () => { persist(); };
+    document.addEventListener('visibilitychange', onVis);
+    window.addEventListener('beforeunload', onUnload);
+    let timer: number | undefined;
+    if (state === 'active') {
+      timer = window.setInterval(() => persist(), 10000) as unknown as number;
     }
-  }, [storageKey, questions, index, answers, state, selected, submitted]);
+    return () => {
+      document.removeEventListener('visibilitychange', onVis);
+      window.removeEventListener('beforeunload', onUnload);
+      if (timer) window.clearInterval(timer);
+    };
+  }, [state, persist]);
+
+  // Fallback delayed load if restore didn't complete in time (defensive against effect ordering)
+  React.useEffect(() => {
+    if (restoredRef.current) return;
+    const t = window.setTimeout(() => {
+      if (!restoredRef.current) load();
+    }, 250);
+    return () => window.clearTimeout(t);
+  }, [load]);
 
   const score = answers.filter(a => a.isCorrect).length;
 
