@@ -2,6 +2,42 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Question, UserAnswer } from '../types';
 
+// Custom serializer to handle circular references
+const customSerializer = {
+  serialize: (state: any) => {
+    try {
+      // Use a replacer function to handle circular references
+      const seen = new WeakSet();
+      const replacer = (key: string, value: any) => {
+        // Skip __proto__ properties
+        if (key === '__proto__') return undefined;
+        
+        // Handle circular references
+        if (typeof value === 'object' && value !== null) {
+          if (seen.has(value)) {
+            return '[Circular Reference]';
+          }
+          seen.add(value);
+        }
+        return value;
+      };
+      
+      return JSON.stringify(state, replacer);
+    } catch (err) {
+      console.error('Failed to serialize state:', err);
+      return JSON.stringify({});
+    }
+  },
+  deserialize: (str: string) => {
+    try {
+      return JSON.parse(str);
+    } catch (err) {
+      console.error('Failed to deserialize state:', err);
+      return {};
+    }
+  }
+};
+
 /**
  * Quiz state store that persists across component remounts
  * Uses Zustand with sessionStorage persistence
@@ -55,7 +91,17 @@ export const makeQuizStore = (attemptId: string, moduleSlug: string) =>
       }),
       {
         name: `quiz_${moduleSlug}_${attemptId}`, // unique per attempt and module
-        storage: createJSONStorage(() => sessionStorage),
+        storage: createJSONStorage(() => ({
+          getItem: (name) => {
+            const str = sessionStorage.getItem(name);
+            if (!str) return null;
+            return customSerializer.deserialize(str);
+          },
+          setItem: (name, value) => {
+            sessionStorage.setItem(name, customSerializer.serialize(value));
+          },
+          removeItem: (name) => sessionStorage.removeItem(name)
+        })),
         version: 1,
       }
     )
