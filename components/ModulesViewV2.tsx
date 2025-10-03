@@ -215,173 +215,110 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
 
 // Lightweight MiniQuiz for module detail
 const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category: Category) => void; }> = ({ module, onModuleMastery }) => {
-  const [state, setState] = React.useState<'idle' | 'active' | 'finished'>('idle');
+  // Get URL parameters to track quiz state
+  const getUrlParams = () => {
+    if (typeof window === 'undefined') return {};
+    const params = new URLSearchParams(window.location.search);
+    return {
+      quizIndex: parseInt(params.get('qidx') || '0', 10),
+      quizModule: params.get('qmod'),
+      quizActive: params.get('qact') === '1'
+    };
+  };
+  
+  // Update URL with quiz state
+  const updateUrlParams = (index: number, active: boolean) => {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    
+    if (active) {
+      params.set('qidx', String(index));
+      params.set('qmod', module.slug);
+      params.set('qact', '1');
+    } else {
+      params.delete('qidx');
+      params.delete('qmod');
+      params.delete('qact');
+    }
+    
+    url.search = params.toString();
+    window.history.replaceState({}, '', url.toString());
+  };
+  
+  // Initialize state from URL if available
+  const urlParams = getUrlParams();
+  const isCurrentModule = urlParams.quizModule === module.slug;
+  const initialIndex = isCurrentModule && urlParams.quizActive ? urlParams.quizIndex : 0;
+  const initialState = isCurrentModule && urlParams.quizActive ? 'active' : 'idle';
+  
+  const [state, setState] = React.useState<'idle' | 'active' | 'finished'>(initialState);
   const [questions, setQuestions] = React.useState<QuestionType[]>([]);
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(initialIndex);
   const [selected, setSelected] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
   const [answers, setAnswers] = React.useState<UserAnswer[]>([]);
 
-  // Persist quiz progress per module to survive remounts/HMR
+  // Simple storage key for local persistence
   const storageKey = React.useMemo(() => `miniQuiz:${String(module.slug)}`, [module.slug]);
-  const restoredRef = React.useRef(false);
-
-  // Configurable question count (default 10), bounded by available questions in the bank for this category
-  const questionCount = React.useMemo(() => {
-    // @ts-ignore Vite env
-    const desired = Number(((import.meta as any)?.env?.VITE_MINI_QUIZ_COUNT) ?? 10);
-    const available = QUESTION_BANK.filter(q => q.category === module.category).length;
-    const bounded = Math.max(1, Math.min(isFinite(desired) && desired > 0 ? desired : 10, available));
-    return bounded;
+  
+  // Track if questions are loaded
+  const questionsLoadedRef = React.useRef(false);
+  
+  // Number of questions to show in quiz
+  const questionCount = 5;
+  
+  // Simple deterministic question selection
+  const selectQuestions = React.useCallback(() => {
+    const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+    // Use a stable sort based on question ID to ensure consistent ordering
+    const sorted = [...filtered].sort((a, b) => a.id - b.id);
+    return sorted.slice(0, questionCount);
   }, [module.category]);
 
-  // Deterministic seeded RNG (Mulberry32) based on slug + current day string
-  const seedFromString = (s: string) => {
-    let h = 1779033703 ^ s.length;
-    for (let i = 0; i < s.length; i++) {
-      h = Math.imul(h ^ s.charCodeAt(i), 3432918353);
-      h = (h << 13) | (h >>> 19);
-    }
-    return (h >>> 0);
-  };
-  const mulberry32 = (a: number) => () => {
-    a |= 0; a = a + 0x6D2B79F5 | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-  const deterministicPick = React.useCallback((arr: QuestionType[], count: number) => {
-    const seed = seedFromString(`${module.slug}-${new Date().toDateString()}`);
-    const rand = mulberry32(seed);
-    const copy = [...arr];
-    // Fisher-Yates with seeded RNG
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(rand() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy.slice(0, count);
-  }, [module.slug]);
-
-  // Helper: persist safely
-  const persist = React.useCallback(() => {
-    try {
-      if (state === 'idle') {
-        sessionStorage.removeItem(storageKey);
-        return;
-      }
-      if (questions.length < 1) return;
-      const ids = questions.map(q => String(q.id));
-      const snapshot = questions.map(q => ({ id: q.id, question: q.question, options: q.options, explanation: q.explanation, image: (q as any).image ?? null, category: q.category }));
-      const payload = { ids, snapshot, index, answers, state, selected, submitted, ts: Date.now(), questionCount };
-      sessionStorage.setItem(storageKey, JSON.stringify(payload));
-    } catch (e) {
-      console.warn('[MiniQuizV2] persist failed:', e);
-    }
-  }, [storageKey, questions, index, answers, state, selected, submitted, questionCount]);
-
-  const load = React.useCallback(() => {
-    const filtered = QUESTION_BANK.filter(q => q.category === module.category);
-    const picked = filtered.length <= questionCount ? filtered : deterministicPick(filtered, questionCount);
-    setQuestions(picked);
-  }, [module.category, questionCount, deterministicPick]);
-
-  // Try restore from sessionStorage first
+  // Load questions once on mount
   React.useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(storageKey);
-      if (!raw) return;
-      const data = JSON.parse(raw);
-      if (!data) return;
-      if (Array.isArray(data.snapshot) && data.snapshot.length > 0) {
-        setQuestions(data.snapshot as QuestionType[]);
-      } else if (Array.isArray(data.ids) && data.ids.length > 0) {
-        const qs: QuestionType[] = data.ids
-          .map((id: string) => QUESTION_BANK.find(q => String(q.id) === String(id)))
-          .filter(Boolean) as QuestionType[];
-        if (qs.length !== data.ids.length) return; // fall back to load
-        setQuestions(qs);
-      } else {
-        return;
-      }
-      setIndex(Number(data.index) || 0);
-      setAnswers(Array.isArray(data.answers) ? data.answers : []);
-      setSelected(data.selected ?? null);
-      setSubmitted(Boolean(data.submitted));
-      setState(data.state === 'finished' ? 'finished' : 'active');
-      restoredRef.current = true;
-    } catch (e) {
-      console.warn('[MiniQuizV2] restore failed:', e);
+    if (!questionsLoadedRef.current) {
+      const selectedQuestions = selectQuestions();
+      setQuestions(selectedQuestions);
+      questionsLoadedRef.current = true;
     }
-  }, [storageKey]);
-
-  // Load fresh questions only if we didn't restore
-  React.useEffect(() => { if (!restoredRef.current) load(); }, [load]);
-
-  // Persist on change - immediately after any state change that affects the quiz
+  }, [selectQuestions]);
+  
+  // Update URL whenever index or state changes
   React.useEffect(() => {
     if (state === 'active') {
-      // Force synchronous persistence
+      updateUrlParams(index, true);
+    } else {
+      updateUrlParams(0, false);
+    }
+  }, [index, state, module.slug]);
+  
+  // Store answers in localStorage
+  React.useEffect(() => {
+    if (answers.length > 0) {
       try {
-        persist();
-        // Double-check that our persistence worked by reading it back
-        const raw = sessionStorage.getItem(storageKey);
-        if (raw) {
-          const data = JSON.parse(raw);
-          if (data && typeof data.index === 'number') {
-            // Update our safety ref with the persisted index
-            lastValidIndexRef.current = Math.max(lastValidIndexRef.current, data.index);
-          }
+        localStorage.setItem(`${storageKey}:answers`, JSON.stringify(answers));
+      } catch (e) {
+        console.warn('[MiniQuizV2] Failed to store answers:', e);
+      }
+    }
+  }, [answers, storageKey]);
+  
+  // Restore answers from localStorage
+  React.useEffect(() => {
+    if (state === 'active' && answers.length === 0) {
+      try {
+        const savedAnswers = localStorage.getItem(`${storageKey}:answers`);
+        if (savedAnswers) {
+          const parsedAnswers = JSON.parse(savedAnswers) as UserAnswer[];
+          setAnswers(parsedAnswers);
         }
       } catch (e) {
-        console.error('[MiniQuizV2] Persistence verification failed:', e);
+        console.warn('[MiniQuizV2] Failed to restore answers:', e);
       }
     }
-  }, [state, index, answers, selected, submitted, questions, persist, storageKey]);
-
-  // Extra safety: persist on tab hide/unload and heartbeat every 10s while active
-  React.useEffect(() => {
-    const onVis = () => { if (document.visibilityState !== 'visible') persist(); };
-    const onUnload = () => { persist(); };
-    document.addEventListener('visibilitychange', onVis);
-    window.addEventListener('beforeunload', onUnload);
-    let timer: number | undefined;
-    if (state === 'active') {
-      timer = window.setInterval(() => persist(), 10000) as unknown as number;
-    }
-    return () => {
-      document.removeEventListener('visibilitychange', onVis);
-      window.removeEventListener('beforeunload', onUnload);
-      if (timer) window.clearInterval(timer);
-    };
-  }, [state, persist]);
-
-  // Fallback delayed load if restore didn't complete in time (defensive against effect ordering)
-  React.useEffect(() => {
-    if (restoredRef.current) return;
-    const t = window.setTimeout(() => {
-      if (!restoredRef.current) load();
-    }, 250);
-    return () => window.clearTimeout(t);
-  }, [load]);
-  
-  // CRITICAL: Prevent index reset during active quiz
-  // This ref tracks the last known valid index to prevent unexpected resets
-  const lastValidIndexRef = React.useRef(0);
-  
-  // Update the ref whenever index changes legitimately
-  React.useEffect(() => {
-    if (state === 'active' && index > 0) {
-      lastValidIndexRef.current = index;
-    }
-  }, [state, index]);
-  
-  // Check for unexpected index resets and restore from ref if needed
-  React.useEffect(() => {
-    if (state === 'active' && index === 0 && lastValidIndexRef.current > 0 && answers.length > 0) {
-      console.log('[MiniQuizV2] Detected unexpected index reset, restoring to', lastValidIndexRef.current);
-      setIndex(lastValidIndexRef.current);
-    }
-  }, [state, index, answers.length]);
+  }, [state, answers.length, storageKey]);
 
   const score = answers.filter(a => a.isCorrect).length;
 
@@ -397,7 +334,7 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
     return (
       <div className="bg-slate-100 p-6 rounded-lg text-center">
         <h3 className="text-xl font-bold text-gray-800">Ready to test your knowledge?</h3>
-        <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); load(); }}>Start Quiz</button>
+        <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); }}>Start Quiz</button>
       </div>
     );
   }
@@ -411,8 +348,11 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         <p className="text-gray-700 mt-2">You scored {score} / {questions.length} (pass {passMark}+)</p>
         <div className="mt-4 space-x-2">
           <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => {
-            try { sessionStorage.removeItem(storageKey); } catch {}
-            setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); load();
+            try { 
+              localStorage.removeItem(`${storageKey}:answers`);
+              sessionStorage.removeItem(storageKey); 
+            } catch {}
+            setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]);
           }}>Try Again</button>
         </div>
       </div>
@@ -433,22 +373,11 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         {submitted ? (
           <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={() => {
             if (index < questions.length - 1) {
-              // Force immediate persist before state changes
-              persist();
-              
-              // Update state in a single batch to avoid partial updates
+              // Simply update the index - URL will be updated by effect
               const nextIndex = index + 1;
-              // Update our safety ref
-              lastValidIndexRef.current = nextIndex;
-              // Update state
-              setIndex(nextIndex); 
-              setSelected(null); 
+              setIndex(nextIndex);
+              setSelected(null);
               setSubmitted(false);
-              
-              // Force another persist after state changes
-              setTimeout(() => persist(), 0);
-              // And another for extra safety
-              setTimeout(() => persist(), 100);
             } else {
               // Store wrong answers when quiz is finished
               const wrongAnswers = answers.filter(a => !a.isCorrect);
