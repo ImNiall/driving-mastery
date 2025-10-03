@@ -4,6 +4,8 @@ import { QUESTION_BANK } from '../constants';
 import QuestionCard from './QuestionCard';
 import QuizTimer from './QuizTimer';
 import { ArrowRightIcon, ArrowLeftIcon, FlagIcon, CheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from './icons';
+import { useQuizStore } from '../store/quizStore';
+import { v4 as uuidv4 } from 'uuid';
 
 interface QuizProgressPanelProps {
   questions: Question[];
@@ -78,10 +80,19 @@ interface QuizViewProps {
 
 const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComplete, seenQuestionIds, onQuestionsSeen }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const [flaggedQuestions, setFlaggedQuestions] = useState<number[]>([]);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
+  
+  // Use the Zustand store
+  const quizId = useQuizStore(state => state.quizId);
+  const currentIndex = useQuizStore(state => state.currentIndex);
+  const answers = useQuizStore(state => state.answers);
+  const startQuiz = useQuizStore(state => state.start);
+  const gotoQuestion = useQuizStore(state => state.goto);
+  const nextQuestion = useQuizStore(state => state.next);
+  const prevQuestion = useQuizStore(state => state.prev);
+  const answerQuestion = useQuizStore(state => state.answer);
+  const resetQuiz = useQuizStore(state => state.reset);
   
   // Calculate time limit based on quiz length
   const timeLimit = useMemo(() => {
@@ -105,14 +116,23 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
     }
 
     const shuffled = [...unseenQuestions].sort(() => 0.5 - Math.random());
-    setQuestions(shuffled.slice(0, length));
-  }, [categories, length, seenQuestionIds]);
+    const selectedQuestions = shuffled.slice(0, length);
+    setQuestions(selectedQuestions);
+    
+    // Initialize the quiz in the store with a unique ID
+    if (!quizId) {
+      startQuiz(uuidv4());
+    }
+  }, [categories, length, seenQuestionIds, quizId, startQuiz]);
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = questions[currentIndex];
 
   const handleOptionSelect = (option: string) => {
-    if (!currentQuestion || userAnswers.hasOwnProperty(currentQuestion.id)) return;
-    setUserAnswers(prev => ({ ...prev, [currentQuestion.id]: option }));
+    if (!currentQuestion) return;
+    // Check if this question has already been answered
+    if (answers[`${currentQuestion.id}`]) return;
+    // Use the store to record the answer
+    answerQuestion(`${currentQuestion.id}`, option);
   };
   
   const toggleFlag = () => {
@@ -126,15 +146,14 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
   };
   
   const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
+    if (currentIndex < questions.length - 1) {
+      nextQuestion();
     }
   };
 
   const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      // FIX: Corrected logic to go to the previous question instead of next.
-      setCurrentQuestionIndex(prev => prev - 1);
+    if (currentIndex > 0) {
+      prevQuestion();
     }
   };
 
@@ -145,7 +164,8 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
   
   const handleFinishTest = (timeExpired = false) => {
     const finalUserAnswers: UserAnswer[] = questions.map(q => {
-        const selectedOption = userAnswers[q.id] || "Not Answered";
+        const answer = answers[`${q.id}`];
+        const selectedOption = answer ? answer.choice : "Not Answered";
         const isCorrect = q.options.find(o => o.text === selectedOption)?.isCorrect || false;
         return { questionId: q.id, selectedOption, isCorrect };
     });
@@ -192,9 +212,9 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
     );
   }
 
-  const selectedOptionForCurrent = userAnswers[currentQuestion.id] || null;
-  const isCurrentQuestionFlagged = flaggedQuestions.includes(currentQuestion.id);
-  const isCurrentQuestionAnswered = userAnswers.hasOwnProperty(currentQuestion.id);
+  const selectedOptionForCurrent = currentQuestion ? (answers[`${currentQuestion.id}`]?.choice || null) : null;
+  const isCurrentQuestionFlagged = currentQuestion ? flaggedQuestions.includes(currentQuestion.id) : false;
+  const isCurrentQuestionAnswered = currentQuestion ? !!answers[`${currentQuestion.id}`] : false;
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -209,7 +229,7 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
             </div>
             
             <div className="w-full flex justify-between items-center text-sm">
-                <p className="font-semibold text-gray-700">Question {currentQuestionIndex + 1} of {questions.length}</p>
+                <p className="font-semibold text-gray-700">Question {currentIndex + 1} of {questions.length}</p>
                 <div className="flex space-x-2">
                     <div className="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full text-xs">
                         <ClockIcon className="w-4 h-4 mr-1.5" />
@@ -239,7 +259,7 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
             <div className="w-full flex justify-between mt-4">
                 <button
                     onClick={handlePrevious}
-                    disabled={currentQuestionIndex === 0}
+                    disabled={currentIndex === 0}
                     className="flex items-center bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     <ArrowLeftIcon className="w-5 h-5 mr-2" />
@@ -247,7 +267,7 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
                 </button>
                 <button
                     onClick={handleNext}
-                    disabled={currentQuestionIndex === questions.length - 1}
+                    disabled={currentIndex === questions.length - 1}
                     className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                 >
                     Next
@@ -258,10 +278,10 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
         <div className="mt-8">
             <QuizProgressPanel 
                 questions={questions}
-                userAnswers={userAnswers}
+                userAnswers={Object.fromEntries(Object.entries(answers).map(([qid, answer]) => [parseInt(qid), answer.choice]))}
                 flaggedQuestions={flaggedQuestions}
-                currentQuestionIndex={currentQuestionIndex}
-                setCurrentQuestionIndex={setCurrentQuestionIndex}
+                currentQuestionIndex={currentIndex}
+                setCurrentQuestionIndex={gotoQuestion}
                 onFinishTest={handleFinishTest}
             />
         </div>

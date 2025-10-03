@@ -2,6 +2,7 @@ import React from 'react';
 import { FinalQuizResults, Category } from '../types';
 import { TrophyIcon, ClipboardListIcon, FlagIcon, ArrowLeftIcon, BookOpenIcon } from './icons';
 import QuestionCard from './QuestionCard';
+import { useQuizStore } from '../store/quizStore';
 
 interface QuizResultsViewProps {
     results: FinalQuizResults;
@@ -13,6 +14,9 @@ interface QuizResultsViewProps {
 
 const QuizResultsView: React.FC<QuizResultsViewProps> = ({ results, onBackToDashboard, onRestartQuiz, onViewModule, setView }) => {
     const { totalCorrect, totalQuestions, finalUserAnswers, questions, flaggedQuestions, pointsEarned } = results;
+    
+    // Use the Zustand store
+    const reset = useQuizStore(state => state.reset);
     const percentage = totalQuestions > 0 ? Math.round((totalCorrect/totalQuestions)*100) : 0;
     const passed = percentage >= 86;
 
@@ -48,7 +52,14 @@ const QuizResultsView: React.FC<QuizResultsViewProps> = ({ results, onBackToDash
                     <button onClick={onBackToDashboard} className="w-full bg-gray-600 text-white py-3 px-4 rounded-md hover:bg-gray-700 transition-colors font-semibold text-lg flex items-center justify-center">
                        <ArrowLeftIcon className="w-5 h-5 mr-2" /> Dashboard
                     </button>
-                    <button onClick={onRestartQuiz} className="w-full bg-brand-blue text-white py-3 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold text-lg">
+                    <button 
+                        onClick={() => {
+                            // Reset the quiz state in the store
+                            reset();
+                            onRestartQuiz();
+                        }} 
+                        className="w-full bg-brand-blue text-white py-3 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold text-lg"
+                    >
                         Restart Quiz
                     </button>
                 </div>

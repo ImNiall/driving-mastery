@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Category, QuizAttempt } from '../types';
+import { useQuizStore } from '../store/quizStore';
+import { v4 as uuidv4 } from 'uuid';
 
 interface QuizStartViewProps {
   categories?: Category[];
@@ -10,6 +12,8 @@ interface QuizStartViewProps {
 }
 
 const QuizStartView: React.FC<QuizStartViewProps> = ({ categories, onStartQuiz, onBack, quizHistory }) => {
+  // Use the Zustand store
+  const start = useQuizStore(state => state.start);
   const options = [
     { length: 10, title: 'Quick Practice', description: 'A brief 10-question quiz to quickly assess your knowledge.' },
     { length: 25, title: 'Standard Mock Test', description: 'A comprehensive 25-question practice test covering a range of topics.' },
@@ -42,11 +46,21 @@ const QuizStartView: React.FC<QuizStartViewProps> = ({ categories, onStartQuiz, 
           return (
             <div 
               key={length}
-              onClick={() => onStartQuiz(length)}
+              onClick={() => {
+                // Initialize the quiz in the store with a unique ID
+                start(uuidv4());
+                onStartQuiz(length);
+              }}
               className="group bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:shadow-xl hover:-translate-y-1 hover:border-brand-blue active:scale-95 active:bg-blue-50 transition-all duration-300 ease-in-out cursor-pointer flex flex-col text-center"
               role="button"
               tabIndex={0}
-              onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && onStartQuiz(length)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  // Initialize the quiz in the store with a unique ID
+                  start(uuidv4());
+                  onStartQuiz(length);
+                }
+              }}
               aria-label={`Start a ${length} question test titled ${title}`}
             >
               <h3 className="text-5xl font-bold text-brand-blue group-hover:scale-110 transition-transform duration-300 ease-in-out">{length}</h3>
