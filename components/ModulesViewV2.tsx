@@ -9,7 +9,6 @@ import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
 import ModuleCardV2 from './ModuleCardV2';
-import { MODULE_CONTENT_ADDENDUM } from '../content/module-addendum';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -21,9 +20,10 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       </div>
     );
   }
-  const lines = text.split('\n');
-  const elements: React.ReactNode[] = [];
-  for (let i = 0; i < lines.length; i++) {
+  try {
+    const lines = text.split('\n');
+    const elements: React.ReactNode[] = [];
+    for (let i = 0; i < lines.length; i++) {
     const raw = lines[i];
     const t = raw.trim();
     if (!t) continue;
@@ -176,8 +176,19 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
     elements.push(
       <p key={`p-${i}`} className="my-3 text-gray-700 leading-relaxed">{parseInlineMarkdown(t)}</p>
     );
+    }
+    return <div>{elements}</div>;
+  } catch (err) {
+    console.error('[SimpleMarkdown] parsing error, falling back:', err);
+    const safeLines = String(text).split('\n').filter(l => l.trim() !== '');
+    return (
+      <div>
+        {safeLines.map((l, idx) => (
+          <p key={`fallback-${idx}`} className="my-3 text-gray-700 leading-relaxed">{l}</p>
+        ))}
+      </div>
+    );
   }
-  return <div>{elements}</div>;
 };
 
 // Lightweight MiniQuiz for module detail
@@ -274,11 +285,6 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
     const safeTitle = assertString('seo.title', selectedModule.title);
     const safeSummary = assertString('seo.description', selectedModule.summary);
     const safeSlug = assertString('seo.slug', selectedModule.slug);
-    const combinedContent = React.useMemo(() => {
-      const base = assertString('module.content', selectedModule.content);
-      const extra = MODULE_CONTENT_ADDENDUM[selectedModule.slug] || '';
-      return extra ? base + "\n\n" + extra : base;
-    }, [selectedModule]);
     return (
       <ErrorBoundary>
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
@@ -309,7 +315,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
             <SafeText value={selectedModule.summary} />
           </p>
           <div className="mt-6">
-            <SimpleMarkdown content={combinedContent} />
+            <SimpleMarkdown content={selectedModule.content} />
           </div>
           <div className="mt-8 pt-8 border-t-2 border-gray-100">
             <div className="text-center mb-6">
