@@ -54,6 +54,29 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       continue;
     }
 
+    // Blockquotes: group consecutive lines starting with '>'
+    const quoteRe = /^>\s?/;
+    if (quoteRe.test(t)) {
+      const paras: React.ReactNode[] = [];
+      const start = i;
+      while (i < lines.length) {
+        const s = lines[i].trim();
+        if (!quoteRe.test(s)) break;
+        const body = s.replace(quoteRe, '');
+        paras.push(
+          <p key={`q-${i}`} className="text-gray-700">{parseInlineMarkdown(body)}</p>
+        );
+        i++;
+      }
+      i -= 1; // compensate
+      elements.push(
+        <blockquote key={`quote-${start}`} className="my-4 pl-4 border-l-4 border-gray-300 bg-gray-50 py-2">
+          <div className="space-y-2">{paras}</div>
+        </blockquote>
+      );
+      continue;
+    }
+
     // Warning callout: group consecutive lines starting with variants of "Warning"
     const warnRe = /^warning\s*[:\-–—]?\s*/i;
     const warnMatch = t.match(warnRe);
