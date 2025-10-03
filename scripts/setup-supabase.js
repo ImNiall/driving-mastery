@@ -7,10 +7,18 @@
  * 2. Run: node scripts/setup-supabase.js
  */
 
-require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
-const path = require('path');
+import { config } from 'dotenv';
+import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Load environment variables
+config();
+
+// Get directory name in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Get Supabase credentials
 const supabaseUrl = process.env.SUPABASE_URL;

@@ -7,10 +7,15 @@
  * 2. Follow the prompts to create your .env file
  */
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
-const { exec } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import readline from 'readline';
+import { exec } from 'child_process';
+import { fileURLToPath } from 'url';
+
+// Get directory name in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const rl = readline.createInterface({
   input: process.stdin,
