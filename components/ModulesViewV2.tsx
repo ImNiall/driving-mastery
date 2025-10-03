@@ -54,6 +54,33 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       continue;
     }
 
+    // Warning callout: group consecutive lines starting with variants of "Warning"
+    const warnRe = /^warning\s*[:\-–—]?\s*/i;
+    const warnMatch = t.match(warnRe);
+    if (warnMatch) {
+      const warnItems: React.ReactNode[] = [];
+      const start = i;
+      while (i < lines.length) {
+        const s = lines[i].trim();
+        const mm = s.match(warnRe);
+        if (!mm) break;
+        const body = s.slice(mm[0].length);
+        warnItems.push(
+          <p key={`warn-${i}`} className="text-sm leading-relaxed">{parseInlineMarkdown(body)}</p>
+        );
+        i++;
+      }
+      i -= 1; // compensate for loop
+      elements.push(
+        <div key={`warn-block-${start}`} className="my-4 p-4 rounded-md border border-yellow-300 bg-yellow-50">
+          <div className="text-yellow-900 space-y-2">
+            {warnItems}
+          </div>
+        </div>
+      );
+      continue;
+    }
+
     // Unordered lists: group consecutive lines starting with -, *, or •
     const listRe = /^(?:-|\*|•)\s+/;
     if (listRe.test(t)) {
