@@ -1,11 +1,18 @@
 -- Create quiz_sessions table for persistent quiz state
-CREATE TABLE IF NOT EXISTS quiz_sessions (
-  user_id UUID NOT NULL,
-  quiz_id TEXT NOT NULL,
-  state JSONB NOT NULL,
-  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-  PRIMARY KEY (user_id, quiz_id)
-);
+-- First, check if the table exists
+DO $$ 
+BEGIN
+  IF NOT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'quiz_sessions') THEN
+    -- Create the table if it doesn't exist
+    CREATE TABLE quiz_sessions (
+      user_id TEXT NOT NULL, -- Using TEXT for maximum compatibility
+      quiz_id TEXT NOT NULL,
+      state JSONB NOT NULL,
+      updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      PRIMARY KEY (user_id, quiz_id)
+    );
+  END IF;
+END $$;
 
 -- Add RLS policies
 ALTER TABLE quiz_sessions ENABLE ROW LEVEL SECURITY;
@@ -18,19 +25,19 @@ DROP POLICY IF EXISTS delete_own_sessions ON quiz_sessions;
 
 -- Policy for selecting: users can only see their own sessions
 CREATE POLICY select_own_sessions ON quiz_sessions
-  FOR SELECT USING ((SELECT auth.uid())::uuid = user_id);
+  FOR SELECT USING ((SELECT auth.uid())::text = user_id);
 
 -- Policy for inserting: users can only insert their own sessions
 CREATE POLICY insert_own_sessions ON quiz_sessions
-  FOR INSERT WITH CHECK ((SELECT auth.uid())::uuid = user_id);
+  FOR INSERT WITH CHECK ((SELECT auth.uid())::text = user_id);
 
 -- Policy for updating: users can only update their own sessions
 CREATE POLICY update_own_sessions ON quiz_sessions
-  FOR UPDATE USING ((SELECT auth.uid())::uuid = user_id);
+  FOR UPDATE USING ((SELECT auth.uid())::text = user_id);
 
 -- Policy for deleting: users can only delete their own sessions
 CREATE POLICY delete_own_sessions ON quiz_sessions
-  FOR DELETE USING ((SELECT auth.uid())::uuid = user_id);
+  FOR DELETE USING ((SELECT auth.uid())::text = user_id);
 
 -- Create index for faster lookups
 CREATE INDEX IF NOT EXISTS idx_quiz_sessions_user_id ON quiz_sessions (user_id);

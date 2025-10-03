@@ -15,7 +15,10 @@ export default function useQuizSync() {
       if (!isSignedIn || !state.quizId || !user) return;
       
       try {
-        const { data } = await fetchZustandQuizSession(user.id, state.quizId);
+        // Ensure we're using the user ID as a string for maximum compatibility
+        const userId = user.id.toString();
+        const { data } = await fetchZustandQuizSession(userId, state.quizId);
+        
         if (data?.state?.updated_at && (!state.startedAt || data.state.updated_at > state.startedAt)) {
           // naive reconcile: prefer DB if newer
           useQuizStore.setState({ ...state, ...data.state });
@@ -33,7 +36,10 @@ export default function useQuizSync() {
     
     clearTimeout(t);
     t = setTimeout(() => {
-      upsertZustandQuizSession(user.id, { 
+      // Ensure we're using the user ID as a string for maximum compatibility
+      const userId = user.id.toString();
+      
+      upsertZustandQuizSession(userId, { 
         quizId: state.quizId, 
         state: { ...state, updated_at: new Date().toISOString() } 
       }).catch(error => {
