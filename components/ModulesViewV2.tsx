@@ -76,8 +76,8 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       continue;
     }
 
-    // Blockquotes: group consecutive lines starting with '>'
-    const quoteRe = /^>\s?/;
+    // Blockquotes: group consecutive lines starting with '>', but NOT callout shorthands (Note/Warning/Tip/N/W/T/!)
+    const quoteRe = /^>\s*(?!([Nn]ote|[Nn]|[Ww]arning|[Ww]|[Tt]ip|[Tt]|!))/;
     if (quoteRe.test(t)) {
       const paras: React.ReactNode[] = [];
       const start = i;
@@ -221,13 +221,56 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   const [submitted, setSubmitted] = React.useState(false);
   const [answers, setAnswers] = React.useState<UserAnswer[]>([]);
 
+  // Persist quiz progress per module to survive remounts/HMR
+  const storageKey = React.useMemo(() => `miniQuiz:${String(module.slug)}`, [module.slug]);
+  const restoredRef = React.useRef(false);
+
   const load = React.useCallback(() => {
     const filtered = QUESTION_BANK.filter(q => q.category === module.category);
     const shuffled = [...filtered].sort(() => 0.5 - Math.random());
     setQuestions(shuffled.slice(0, 5));
   }, [module.category]);
 
-  React.useEffect(() => { load(); }, [load]);
+  // Try restore from sessionStorage first
+  React.useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(storageKey);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.ids) || data.ids.length !== 5) return;
+      const qs: QuestionType[] = data.ids
+        .map((id: string) => QUESTION_BANK.find(q => String(q.id) === String(id)))
+        .filter(Boolean) as QuestionType[];
+      if (qs.length !== data.ids.length) return;
+      setQuestions(qs);
+      setIndex(Number(data.index) || 0);
+      setAnswers(Array.isArray(data.answers) ? data.answers : []);
+      setSelected(data.selected ?? null);
+      setSubmitted(Boolean(data.submitted));
+      setState(data.state === 'finished' ? 'finished' : 'active');
+      restoredRef.current = true;
+    } catch (e) {
+      console.warn('[MiniQuizV2] restore failed:', e);
+    }
+  }, [storageKey]);
+
+  // Load fresh questions only if we didn't restore
+  React.useEffect(() => { if (!restoredRef.current) load(); }, [load]);
+
+  // Persist on change
+  React.useEffect(() => {
+    try {
+      if (state === 'idle') {
+        sessionStorage.removeItem(storageKey);
+        return;
+      }
+      const ids = questions.map(q => String(q.id));
+      const payload = { ids, index, answers, state, selected, submitted };
+      sessionStorage.setItem(storageKey, JSON.stringify(payload));
+    } catch (e) {
+      console.warn('[MiniQuizV2] persist failed:', e);
+    }
+  }, [storageKey, questions, index, answers, state, selected, submitted]);
 
   const score = answers.filter(a => a.isCorrect).length;
 
@@ -255,7 +298,10 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         <h3 className="text-xl font-bold text-gray-800">{passed ? 'Excellent Work!' : 'Good Effort!'}</h3>
         <p className="text-gray-700 mt-2">You scored {score} / {questions.length}</p>
         <div className="mt-4 space-x-2">
-          <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => { setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); load(); }}>Try Again</button>
+          <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => {
+            try { sessionStorage.removeItem(storageKey); } catch {}
+            setState('active'); setIndex(0); setSelected(null); setSubmitted(false); setAnswers([]); load();
+          }}>Try Again</button>
         </div>
       </div>
     );
