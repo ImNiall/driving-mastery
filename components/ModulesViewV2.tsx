@@ -215,46 +215,9 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
 
 // Lightweight MiniQuiz for module detail
 const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category: Category) => void; }> = ({ module, onModuleMastery }) => {
-  // Get URL parameters to track quiz state
-  const getUrlParams = () => {
-    if (typeof window === 'undefined') return {};
-    const params = new URLSearchParams(window.location.search);
-    return {
-      quizIndex: parseInt(params.get('qidx') || '0', 10),
-      quizModule: params.get('qmod'),
-      quizActive: params.get('qact') === '1'
-    };
-  };
-  
-  // Update URL with quiz state
-  const updateUrlParams = (index: number, active: boolean) => {
-    if (typeof window === 'undefined') return;
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    
-    if (active) {
-      params.set('qidx', String(index));
-      params.set('qmod', module.slug);
-      params.set('qact', '1');
-    } else {
-      params.delete('qidx');
-      params.delete('qmod');
-      params.delete('qact');
-    }
-    
-    url.search = params.toString();
-    window.history.replaceState({}, '', url.toString());
-  };
-  
-  // Initialize state from URL if available
-  const urlParams = getUrlParams();
-  const isCurrentModule = urlParams.quizModule === module.slug;
-  const initialIndex = isCurrentModule && urlParams.quizActive ? urlParams.quizIndex : 0;
-  const initialState = isCurrentModule && urlParams.quizActive ? 'active' : 'idle';
-  
-  const [state, setState] = React.useState<'idle' | 'active' | 'finished'>(initialState);
+  const [state, setState] = React.useState<'idle' | 'active' | 'finished'>('idle');
   const [questions, setQuestions] = React.useState<QuestionType[]>([]);
-  const [index, setIndex] = React.useState(initialIndex);
+  const [index, setIndex] = React.useState(0);
   const [selected, setSelected] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
   const [answers, setAnswers] = React.useState<UserAnswer[]>([]);
@@ -262,95 +225,30 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   // Simple storage key for local persistence
   const storageKey = React.useMemo(() => `miniQuiz:${String(module.slug)}`, [module.slug]);
   
-  // Track if questions are loaded
-  const questionsLoadedRef = React.useRef(false);
+  // Critical: This ref prevents index resets during active quiz
+  const currentIndexRef = React.useRef(0);
   
-  // Number of questions to show in quiz
-  const questionCount = 5;
-  
-  // Random question selection with session-based consistency
-  const selectQuestions = React.useCallback(() => {
-    // Get questions for this category
-    const filtered = QUESTION_BANK.filter(q => q.category === module.category);
-    
-    // Check if we have a stored question selection for this session
-    const sessionKey = `${storageKey}:questionIds`;
-    try {
-      const storedIds = sessionStorage.getItem(sessionKey);
-      if (storedIds) {
-        // Use previously selected questions to maintain consistency
-        const ids = JSON.parse(storedIds) as number[];
-        const questions = ids
-          .map(id => filtered.find(q => q.id === id))
-          .filter(Boolean) as QuestionType[];
-        
-        // If we have enough questions, use them
-        if (questions.length === questionCount) {
-          return questions;
-        }
-      }
-    } catch (e) {
-      console.warn('[MiniQuizV2] Failed to restore question selection:', e);
-    }
-    
-    // Otherwise, select random questions
-    const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-    const selected = shuffled.slice(0, questionCount);
-    
-    // Store the selection for this session
-    try {
-      const ids = selected.map(q => q.id);
-      sessionStorage.setItem(sessionKey, JSON.stringify(ids));
-    } catch (e) {
-      console.warn('[MiniQuizV2] Failed to store question selection:', e);
-    }
-    
-    return selected;
-  }, [module.category, storageKey]);
-
-  // Load questions once on mount
+  // Load questions on mount
   React.useEffect(() => {
-    if (!questionsLoadedRef.current) {
-      const selectedQuestions = selectQuestions();
-      setQuestions(selectedQuestions);
-      questionsLoadedRef.current = true;
-    }
-  }, [selectQuestions]);
+    const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+    const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+    setQuestions(shuffled.slice(0, 5));
+  }, [module.category]);
   
-  // Update URL whenever index or state changes
+  // Update ref whenever index changes legitimately
   React.useEffect(() => {
     if (state === 'active') {
-      updateUrlParams(index, true);
-    } else {
-      updateUrlParams(0, false);
+      currentIndexRef.current = index;
     }
-  }, [index, state, module.slug]);
+  }, [index, state]);
   
-  // Store answers in localStorage
+  // Check for unexpected index resets and restore from ref
   React.useEffect(() => {
-    if (answers.length > 0) {
-      try {
-        localStorage.setItem(`${storageKey}:answers`, JSON.stringify(answers));
-      } catch (e) {
-        console.warn('[MiniQuizV2] Failed to store answers:', e);
-      }
+    if (state === 'active' && index === 0 && currentIndexRef.current > 0 && answers.length > 0) {
+      console.log('[MiniQuizV2] Detected unexpected index reset, restoring to', currentIndexRef.current);
+      setIndex(currentIndexRef.current);
     }
-  }, [answers, storageKey]);
-  
-  // Restore answers from localStorage
-  React.useEffect(() => {
-    if (state === 'active' && answers.length === 0) {
-      try {
-        const savedAnswers = localStorage.getItem(`${storageKey}:answers`);
-        if (savedAnswers) {
-          const parsedAnswers = JSON.parse(savedAnswers) as UserAnswer[];
-          setAnswers(parsedAnswers);
-        }
-      } catch (e) {
-        console.warn('[MiniQuizV2] Failed to restore answers:', e);
-      }
-    }
-  }, [state, answers.length, storageKey]);
+  }, [state, index, answers.length]);
 
   const score = answers.filter(a => a.isCorrect).length;
 
@@ -367,19 +265,13 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
       <div className="bg-slate-100 p-6 rounded-lg text-center">
         <h3 className="text-xl font-bold text-gray-800">Ready to test your knowledge?</h3>
         <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { 
-          // Reset state
+          // Reset state and index ref
           setState('active'); 
-          setIndex(0); 
+          setIndex(0);
+          currentIndexRef.current = 0;
           setSelected(null); 
           setSubmitted(false); 
           setAnswers([]);
-          
-          // Load random questions if not already loaded
-          if (!questionsLoadedRef.current) {
-            const selectedQuestions = selectQuestions();
-            setQuestions(selectedQuestions);
-            questionsLoadedRef.current = true;
-          }
         }}>Start Quiz</button>
       </div>
     );
@@ -394,26 +286,18 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         <p className="text-gray-700 mt-2">You scored {score} / {questions.length} (pass {passMark}+)</p>
         <div className="mt-4 space-x-2">
           <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => {
-            try { 
-              // Clear all stored data for this quiz
-              localStorage.removeItem(`${storageKey}:answers`);
-              sessionStorage.removeItem(storageKey);
-              sessionStorage.removeItem(`${storageKey}:questionIds`);
-              
-              // Reset question loading flag to force new random selection
-              questionsLoadedRef.current = false;
-            } catch {}
-            
-            // Reset state
+            // Reset state and index ref
             setState('active'); 
-            setIndex(0); 
+            setIndex(0);
+            currentIndexRef.current = 0;
             setSelected(null); 
             setSubmitted(false); 
             setAnswers([]);
             
             // Load new random questions
-            const newQuestions = selectQuestions();
-            setQuestions(newQuestions);
+            const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+            const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+            setQuestions(shuffled.slice(0, 5));
           }}>Try Again</button>
         </div>
       </div>
@@ -434,8 +318,9 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         {submitted ? (
           <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={() => {
             if (index < questions.length - 1) {
-              // Simply update the index - URL will be updated by effect
+              // Update index and ref
               const nextIndex = index + 1;
+              currentIndexRef.current = nextIndex;
               setIndex(nextIndex);
               setSelected(null);
               setSubmitted(false);
