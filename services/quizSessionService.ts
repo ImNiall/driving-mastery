@@ -172,7 +172,7 @@ export async function upsertZustandQuizSession(userId: string, payload: ZustandP
   try {
     const supabase = getSupabaseClient();
     return supabase.from('quiz_sessions').upsert({
-      user_id: userId, 
+      user_id: userId, // Clerk user IDs are UUIDs, so this will work with our UUID column
       quiz_id: payload.quizId, 
       state: payload.state, 
       updated_at: new Date().toISOString()
