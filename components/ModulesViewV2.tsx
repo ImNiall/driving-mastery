@@ -225,6 +225,42 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   const storageKey = React.useMemo(() => `miniQuiz:${String(module.slug)}`, [module.slug]);
   const restoredRef = React.useRef(false);
 
+  // Configurable question count (default 10), bounded by available questions in the bank for this category
+  const questionCount = React.useMemo(() => {
+    // @ts-ignore Vite env
+    const desired = Number(((import.meta as any)?.env?.VITE_MINI_QUIZ_COUNT) ?? 10);
+    const available = QUESTION_BANK.filter(q => q.category === module.category).length;
+    const bounded = Math.max(1, Math.min(isFinite(desired) && desired > 0 ? desired : 10, available));
+    return bounded;
+  }, [module.category]);
+
+  // Deterministic seeded RNG (Mulberry32) based on slug + current day string
+  const seedFromString = (s: string) => {
+    let h = 1779033703 ^ s.length;
+    for (let i = 0; i < s.length; i++) {
+      h = Math.imul(h ^ s.charCodeAt(i), 3432918353);
+      h = (h << 13) | (h >>> 19);
+    }
+    return (h >>> 0);
+  };
+  const mulberry32 = (a: number) => () => {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const deterministicPick = React.useCallback((arr: QuestionType[], count: number) => {
+    const seed = seedFromString(`${module.slug}-${new Date().toDateString()}`);
+    const rand = mulberry32(seed);
+    const copy = [...arr];
+    // Fisher-Yates with seeded RNG
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, count);
+  }, [module.slug]);
+
   // Helper: persist safely
   const persist = React.useCallback(() => {
     try {
@@ -232,20 +268,21 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         sessionStorage.removeItem(storageKey);
         return;
       }
-      if (questions.length !== 5) return;
+      if (questions.length < 1) return;
       const ids = questions.map(q => String(q.id));
-      const payload = { ids, index, answers, state, selected, submitted, ts: Date.now() };
+      const snapshot = questions.map(q => ({ id: q.id, question: q.question, options: q.options, explanation: q.explanation, image: (q as any).image ?? null, category: q.category }));
+      const payload = { ids, snapshot, index, answers, state, selected, submitted, ts: Date.now(), questionCount };
       sessionStorage.setItem(storageKey, JSON.stringify(payload));
     } catch (e) {
       console.warn('[MiniQuizV2] persist failed:', e);
     }
-  }, [storageKey, questions, index, answers, state, selected, submitted]);
+  }, [storageKey, questions, index, answers, state, selected, submitted, questionCount]);
 
   const load = React.useCallback(() => {
     const filtered = QUESTION_BANK.filter(q => q.category === module.category);
-    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
-    setQuestions(shuffled.slice(0, 5));
-  }, [module.category]);
+    const picked = filtered.length <= questionCount ? filtered : deterministicPick(filtered, questionCount);
+    setQuestions(picked);
+  }, [module.category, questionCount, deterministicPick]);
 
   // Try restore from sessionStorage first
   React.useEffect(() => {
@@ -253,12 +290,18 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
       const raw = sessionStorage.getItem(storageKey);
       if (!raw) return;
       const data = JSON.parse(raw);
-      if (!data || !Array.isArray(data.ids) || data.ids.length !== 5) return;
-      const qs: QuestionType[] = data.ids
-        .map((id: string) => QUESTION_BANK.find(q => String(q.id) === String(id)))
-        .filter(Boolean) as QuestionType[];
-      if (qs.length !== data.ids.length) return;
-      setQuestions(qs);
+      if (!data) return;
+      if (Array.isArray(data.snapshot) && data.snapshot.length > 0) {
+        setQuestions(data.snapshot as QuestionType[]);
+      } else if (Array.isArray(data.ids) && data.ids.length > 0) {
+        const qs: QuestionType[] = data.ids
+          .map((id: string) => QUESTION_BANK.find(q => String(q.id) === String(id)))
+          .filter(Boolean) as QuestionType[];
+        if (qs.length !== data.ids.length) return; // fall back to load
+        setQuestions(qs);
+      } else {
+        return;
+      }
       setIndex(Number(data.index) || 0);
       setAnswers(Array.isArray(data.answers) ? data.answers : []);
       setSelected(data.selected ?? null);
@@ -306,7 +349,7 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
 
   const score = answers.filter(a => a.isCorrect).length;
 
-  if (questions.length < 5) {
+  if (questions.length < 1) {
     return (
       <div className="text-center p-4 bg-gray-100 rounded-lg">
         <p className="text-gray-600">More practice questions for this module are coming soon!</p>
@@ -324,11 +367,12 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   }
 
   if (state === 'finished') {
-    const passed = score >= 4; // 80% pass mark
+    const passMark = Math.ceil(0.8 * questions.length);
+    const passed = score >= passMark;
     return (
       <div className="bg-slate-100 p-6 rounded-lg text-center">
         <h3 className="text-xl font-bold text-gray-800">{passed ? 'Excellent Work!' : 'Good Effort!'}</h3>
-        <p className="text-gray-700 mt-2">You scored {score} / {questions.length}</p>
+        <p className="text-gray-700 mt-2">You scored {score} / {questions.length} (pass {passMark}+)</p>
         <div className="mt-4 space-x-2">
           <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => {
             try { sessionStorage.removeItem(storageKey); } catch {}
@@ -353,7 +397,10 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         {submitted ? (
           <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={() => {
             if (index < questions.length - 1) {
-              setIndex(i => i + 1); setSelected(null); setSubmitted(false);
+              const nextIndex = index + 1;
+              setIndex(nextIndex); 
+              setSelected(null); 
+              setSubmitted(false);
             } else {
               if (score >= 4) onModuleMastery(module.category);
               setState('finished');
