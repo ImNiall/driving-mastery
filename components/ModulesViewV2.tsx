@@ -235,7 +235,9 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   
   // Load quiz session from Supabase or create a new one
   React.useEffect(() => {
+    console.log('[MiniQuizV2] Auth state changed:', { userId, moduleSlug: module.slug });
     if (!userId) {
+      console.log('[MiniQuizV2] No userId available, skipping session load');
       setIsLoading(false);
       return;
     }
@@ -245,10 +247,18 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         setIsLoading(true);
         
         // Try to fetch existing session
+        console.log('[MiniQuizV2] Fetching session for:', { userId, moduleSlug: module.slug });
         const session = await getQuizSession(userId, module.slug);
+        console.log('[MiniQuizV2] Session result:', session ? { 
+          id: session.id, 
+          index: session.current_index, 
+          state: session.state,
+          questionCount: session.questions?.length
+        } : 'No session found');
         
         if (session) {
           // Restore session
+          console.log('[MiniQuizV2] Restoring session, current_index:', session.current_index);
           setQuestions(session.questions);
           setIndex(session.current_index);
           currentIndexRef.current = session.current_index;
@@ -325,6 +335,7 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   
   // Check for unexpected index resets and restore from ref
   React.useEffect(() => {
+    console.log('[MiniQuizV2] Index check:', { index, refIndex: currentIndexRef.current, state, answersLength: answers.length });
     if (state === 'active' && index === 0 && currentIndexRef.current > 0 && answers.length > 0) {
       console.log('[MiniQuizV2] Detected unexpected index reset, restoring to', currentIndexRef.current);
       setIndex(currentIndexRef.current);

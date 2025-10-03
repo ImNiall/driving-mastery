@@ -18,6 +18,7 @@ import { useAuth } from '@clerk/clerk-react';
 import { incrementProgress } from './services/progressService';
 import { logAttempt } from './services/historyService';
 import ErrorBoundary from './components/ErrorBoundary';
+import SupabaseDiagnostic from './components/SupabaseDiagnostic';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -303,6 +304,7 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary fallback={<div className="p-6 m-6 bg-red-50 border border-red-200 rounded">The app encountered an error while rendering. Please reload.</div>}>
     <div className="min-h-screen bg-slate-50">
+      <SupabaseDiagnostic />
       <Header currentView={currentView} setView={(view) => {
           if (view === 'modules') setSelectedModule(null);
           if (view === 'quiz') handleSetupQuiz();

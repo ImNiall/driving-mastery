@@ -36,7 +36,7 @@ if (!supabaseUrl && typeof process !== 'undefined' && process.env) {
 // Create a singleton client
 let supabaseClient: ReturnType<typeof createClient> | null = null;
 
-function getSupabaseClient() {
+export function getSupabaseClient() {
   if (!supabaseClient) {
     if (!supabaseUrl || !supabaseAnonKey) {
       console.error('Missing Supabase URL or anon key');
@@ -52,6 +52,7 @@ function getSupabaseClient() {
  */
 export async function getQuizSession(userId: string, moduleSlug: string): Promise<QuizSession | null> {
   try {
+    console.log('[QuizSessionService] Getting session for:', { userId, moduleSlug });
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from('quiz_sessions')
@@ -59,6 +60,8 @@ export async function getQuizSession(userId: string, moduleSlug: string): Promis
       .eq('user_id', userId)
       .eq('module_slug', moduleSlug)
       .single();
+    
+    console.log('[QuizSessionService] Get session result:', { success: !error, error: error?.message, hasData: !!data });
     
     if (error) {
       if (error.code === 'PGRST116') {
@@ -81,6 +84,12 @@ export async function getQuizSession(userId: string, moduleSlug: string): Promis
  */
 export async function upsertQuizSession(session: QuizSession): Promise<QuizSession | null> {
   try {
+    console.log('[QuizSessionService] Upserting session:', { 
+      userId: session.user_id, 
+      moduleSlug: session.module_slug,
+      index: session.current_index,
+      state: session.state
+    });
     const supabase = getSupabaseClient();
     // Type assertion to handle Supabase typing issues
     const { data, error } = await supabase
@@ -88,6 +97,8 @@ export async function upsertQuizSession(session: QuizSession): Promise<QuizSessi
       .upsert(session as any, { onConflict: 'user_id,module_slug' })
       .select()
       .single();
+      
+    console.log('[QuizSessionService] Upsert result:', { success: !error, error: error?.message, sessionId: data?.id });
     
     if (error) {
       console.error('Error upserting quiz session:', error);
