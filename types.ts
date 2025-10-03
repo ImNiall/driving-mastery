@@ -93,6 +93,7 @@ export interface FinalQuizResults {
   flaggedQuestions: number[];
   date: string;
   pointsEarned: number;
+  timeExpired?: boolean; // Indicates if the quiz ended because time ran out
 }
 export interface LeaderboardEntry {
   name: string;

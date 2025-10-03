@@ -160,3 +160,9 @@ export const EyeSlashIcon = ({ className }: { className?: string }) => (
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c1.472 0 2.872.323 4.125.875m3.375 3.375a10.053 10.053 0 01-4.25 4.25M21.542 12a10.053 10.053 0 01-4.25 4.25" />
     </svg>
 );
+
+export const ClockIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);

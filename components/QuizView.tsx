@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Question, UserAnswer, Category, QuizResult, FinalQuizResults } from '../types';
 import { QUESTION_BANK } from '../constants';
 import QuestionCard from './QuestionCard';
-import { ArrowRightIcon, ArrowLeftIcon, FlagIcon, CheckIcon, CheckCircleIcon, XCircleIcon } from './icons';
+import QuizTimer from './QuizTimer';
+import { ArrowRightIcon, ArrowLeftIcon, FlagIcon, CheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from './icons';
 
 interface QuizProgressPanelProps {
   questions: Question[];
@@ -80,6 +81,15 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const [flaggedQuestions, setFlaggedQuestions] = useState<number[]>([]);
+  const [isTimerPaused, setIsTimerPaused] = useState(false);
+  
+  // Calculate time limit based on quiz length
+  const timeLimit = useMemo(() => {
+    // Official theory test: 57 minutes for 50 questions
+    // That's about 1.14 minutes per question
+    const minutesPerQuestion = 1.14;
+    return Math.ceil(length * minutesPerQuestion);
+  }, [length]);
 
   useEffect(() => {
     // FIX: Filter out questions that have already been seen to avoid repetition.
@@ -128,7 +138,12 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
     }
   };
 
-  const handleFinishTest = () => {
+  const handleTimeUp = () => {
+    // When time is up, automatically finish the test
+    handleFinishTest(true);
+  };
+  
+  const handleFinishTest = (timeExpired = false) => {
     const finalUserAnswers: UserAnswer[] = questions.map(q => {
         const selectedOption = userAnswers[q.id] || "Not Answered";
         const isCorrect = q.options.find(o => o.text === selectedOption)?.isCorrect || false;
@@ -163,6 +178,7 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
       questions,
       flaggedQuestions,
       date: new Date().toISOString(),
+      timeExpired: timeExpired,
     });
   };
 
@@ -183,19 +199,34 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
   return (
     <div className="max-w-3xl mx-auto">
         <div className="flex flex-col items-center space-y-4">
+            {/* Timer Component */}
+            <div className="w-full">
+                <QuizTimer 
+                    initialMinutes={timeLimit} 
+                    onTimeUp={handleTimeUp} 
+                    isPaused={isTimerPaused} 
+                />
+            </div>
+            
             <div className="w-full flex justify-between items-center text-sm">
                 <p className="font-semibold text-gray-700">Question {currentQuestionIndex + 1} of {questions.length}</p>
-                <button
-                    onClick={toggleFlag}
-                    className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
-                        isCurrentQuestionFlagged
-                        ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                >
-                    <FlagIcon className="w-4 h-4" />
-                    <span>{isCurrentQuestionFlagged ? 'Flagged' : 'Flag for Review'}</span>
-                </button>
+                <div className="flex space-x-2">
+                    <div className="flex items-center text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full text-xs">
+                        <ClockIcon className="w-4 h-4 mr-1.5" />
+                        <span>{timeLimit} minutes</span>
+                    </div>
+                    <button
+                        onClick={toggleFlag}
+                        className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                            isCurrentQuestionFlagged
+                            ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
+                    >
+                        <FlagIcon className="w-4 h-4" />
+                        <span>{isCurrentQuestionFlagged ? 'Flagged' : 'Flag for Review'}</span>
+                    </button>
+                </div>
             </div>
 
             <QuestionCard
