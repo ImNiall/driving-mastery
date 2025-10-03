@@ -159,3 +159,39 @@ export async function getUserQuizSessions(userId: string): Promise<QuizSession[]
     return [];
   }
 }
+
+/**
+ * Zustand-specific functions for quiz state persistence
+ */
+type ZustandPayload = { quizId: string; state: any };
+
+/**
+ * Upsert a quiz session with Zustand state
+ */
+export async function upsertZustandQuizSession(userId: string, payload: ZustandPayload) {
+  try {
+    const supabase = getSupabaseClient();
+    return supabase.from('quiz_sessions').upsert({
+      user_id: userId, 
+      quiz_id: payload.quizId, 
+      state: payload.state, 
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,quiz_id' });
+  } catch (err) {
+    console.error('Failed to upsert Zustand quiz session:', err);
+    return { data: null, error: err };
+  }
+}
+
+/**
+ * Fetch a quiz session for Zustand state
+ */
+export async function fetchZustandQuizSession(userId: string, quizId: string) {
+  try {
+    const supabase = getSupabaseClient();
+    return supabase.from('quiz_sessions').select('*').eq('user_id', userId).eq('quiz_id', quizId).maybeSingle();
+  } catch (err) {
+    console.error('Failed to fetch Zustand quiz session:', err);
+    return { data: null, error: err };
+  }
+}

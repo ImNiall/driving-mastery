@@ -6,6 +6,7 @@ import QuizTimer from './QuizTimer';
 import { ArrowRightIcon, ArrowLeftIcon, FlagIcon, CheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from './icons';
 import { useQuizStore } from '../store/quizStore';
 import { v4 as uuidv4 } from 'uuid';
+import useQuizSync from '../hooks/useQuizSync';
 
 interface QuizProgressPanelProps {
   questions: Question[];
@@ -82,6 +83,9 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
   const [questions, setQuestions] = useState<Question[]>([]);
   const [flaggedQuestions, setFlaggedQuestions] = useState<number[]>([]);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
+  
+  // Use the quiz sync hook to keep DB in sync
+  useQuizSync();
   
   // Use the Zustand store
   const quizId = useQuizStore(state => state.quizId);
