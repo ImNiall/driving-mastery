@@ -1,4 +1,11 @@
-import { v4 as uuid } from "uuid";
+// Generate a random UUID
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
 
 /**
  * Creates or retrieves a stable quiz attempt ID
@@ -10,7 +17,7 @@ export function getOrCreateAttemptId(storageKey = "quiz_attempt_id") {
   
   let id = sessionStorage.getItem(storageKey);
   if (!id) {
-    id = uuid();
+    id = generateUUID();
     sessionStorage.setItem(storageKey, id);
     
     // Also put it in the URL so refreshes/bookmarks resume correctly
