@@ -1,6 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
-import debounce from 'lodash.debounce';
 import { Question, UserAnswer } from '../types';
+
+// Custom debounce function to replace lodash.debounce
+function debounce<F extends (...args: any[]) => any>(func: F, wait: number) {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+  
+  return function(...args: Parameters<F>) {
+    const context = this;
+    if (timeout) clearTimeout(timeout);
+    
+    timeout = setTimeout(() => {
+      timeout = null;
+      func.apply(context, args);
+    }, wait);
+  } as F;
+}
 
 /**
  * Debounced function to update quiz attempt progress in Supabase

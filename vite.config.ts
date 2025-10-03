@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       optimizeDeps: {
-        include: ['zustand', 'zustand/middleware', 'lodash.debounce']
+        include: ['zustand', 'zustand/middleware']
       }
     };
 });
