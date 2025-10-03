@@ -28,7 +28,7 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
     if (!t) continue;
 
     // Note callout: group consecutive lines starting with variants of "Note"
-    const noteRe = /^note\s*[:\-–—]?\s*/i;
+    const noteRe = /^(?:>\s*)?(?:note|n)\s*[:\-–—]?\s*/i;
     const firstMatch = t.match(noteRe);
     if (firstMatch) {
       const noteItems: React.ReactNode[] = [];
@@ -78,7 +78,7 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
     }
 
     // Warning callout: group consecutive lines starting with variants of "Warning"
-    const warnRe = /^warning\s*[:\-–—]?\s*/i;
+    const warnRe = /^(?:>\s*)?(?:warning|w)\s*[:\-–—]?\s*/i;
     const warnMatch = t.match(warnRe);
     if (warnMatch) {
       const warnItems: React.ReactNode[] = [];
@@ -105,7 +105,7 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
     }
 
     // Tip callout: group consecutive lines starting with variants of "Tip"
-    const tipRe = /^tip\s*[:\-–—]?\s*/i;
+    const tipRe = /^(?:>\s*)?(?:tip|t|!)\s*[:\-–—]?\s*/i;
     const tipMatch = t.match(tipRe);
     if (tipMatch) {
       const tipItems: React.ReactNode[] = [];
