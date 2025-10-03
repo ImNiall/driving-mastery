@@ -21,6 +21,18 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        commonjsOptions: {
+          include: [/node_modules/],
+        },
+        rollupOptions: {
+          // Make sure to include these dependencies in the build
+          external: [],
+        }
+      },
+      optimizeDeps: {
+        include: ['zustand', 'zustand/middleware']
       }
     };
 });
