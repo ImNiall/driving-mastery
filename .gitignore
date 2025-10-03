@@ -1,5 +1,6 @@
 .env
 .env.local
+.env.direct
 node_modules
 dist
 .DS_Store
