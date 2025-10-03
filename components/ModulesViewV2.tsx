@@ -104,6 +104,33 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
       continue;
     }
 
+    // Tip callout: group consecutive lines starting with variants of "Tip"
+    const tipRe = /^tip\s*[:\-–—]?\s*/i;
+    const tipMatch = t.match(tipRe);
+    if (tipMatch) {
+      const tipItems: React.ReactNode[] = [];
+      const start = i;
+      while (i < lines.length) {
+        const s = lines[i].trim();
+        const mm = s.match(tipRe);
+        if (!mm) break;
+        const body = s.slice(mm[0].length);
+        tipItems.push(
+          <p key={`tip-${i}`} className="text-sm leading-relaxed">{parseInlineMarkdown(body)}</p>
+        );
+        i++;
+      }
+      i -= 1;
+      elements.push(
+        <div key={`tip-block-${start}`} className="my-4 p-4 rounded-md border border-green-300 bg-green-50">
+          <div className="text-green-900 space-y-2">
+            {tipItems}
+          </div>
+        </div>
+      );
+      continue;
+    }
+
     // Unordered lists: group consecutive lines starting with -, *, or •
     const listRe = /^(?:-|\*|•)\s+/;
     if (listRe.test(t)) {
