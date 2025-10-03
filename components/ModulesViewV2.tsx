@@ -9,6 +9,7 @@ import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
 import ModuleCardV2 from './ModuleCardV2';
+import { MODULE_CONTENT_ADDENDUM } from '../content/module-addendum';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -273,6 +274,11 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
     const safeTitle = assertString('seo.title', selectedModule.title);
     const safeSummary = assertString('seo.description', selectedModule.summary);
     const safeSlug = assertString('seo.slug', selectedModule.slug);
+    const combinedContent = React.useMemo(() => {
+      const base = assertString('module.content', selectedModule.content);
+      const extra = MODULE_CONTENT_ADDENDUM[selectedModule.slug] || '';
+      return extra ? base + "\n\n" + extra : base;
+    }, [selectedModule]);
     return (
       <ErrorBoundary>
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
@@ -303,7 +309,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
             <SafeText value={selectedModule.summary} />
           </p>
           <div className="mt-6">
-            <SimpleMarkdown content={selectedModule.content} />
+            <SimpleMarkdown content={combinedContent} />
           </div>
           <div className="mt-8 pt-8 border-t-2 border-gray-100">
             <div className="text-center mb-6">
