@@ -33,6 +33,9 @@ export interface UserAnswer {
   questionId: number;
   selectedOption: string;
   isCorrect: boolean;
+  questionText?: string; // The full question text
+  category?: Category; // The category this question belongs to
+  moduleSlug?: string; // The module slug this question is related to
 }
 
 export interface QuizResult {

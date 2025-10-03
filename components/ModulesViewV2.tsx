@@ -9,6 +9,7 @@ import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
 import ModuleCardV2 from './ModuleCardV2';
+import { storeWrongAnswers, getWrongAnswersForModule, clearWrongAnswersForModule } from '../utils/wrongAnswers';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -402,6 +403,12 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
               setSelected(null); 
               setSubmitted(false);
             } else {
+              // Store wrong answers when quiz is finished
+              const wrongAnswers = answers.filter(a => !a.isCorrect);
+              if (wrongAnswers.length > 0) {
+                storeWrongAnswers(wrongAnswers);
+              }
+              
               if (score >= 4) onModuleMastery(module.category);
               setState('finished');
             }
@@ -409,8 +416,16 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         ) : (
           <button className="w-full bg-gray-800 text-white py-2 rounded disabled:bg-gray-300" disabled={!selected} onClick={() => {
             if (!selected) return;
-            const isCorrect = questions[index].options.find(o => o.text === selected)?.isCorrect || false;
-            setAnswers(prev => [...prev, { questionId: questions[index].id, selectedOption: selected, isCorrect }]);
+            const currentQuestion = questions[index];
+            const isCorrect = currentQuestion.options.find(o => o.text === selected)?.isCorrect || false;
+            setAnswers(prev => [...prev, { 
+              questionId: currentQuestion.id, 
+              selectedOption: selected, 
+              isCorrect,
+              questionText: currentQuestion.question,
+              category: currentQuestion.category,
+              moduleSlug: module.slug
+            }]);
             setSubmitted(true);
           }}> Submit Answer </button>
         )}
@@ -427,6 +442,8 @@ interface ModulesViewProps {
   masteredModules: string[];
 }
 const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedModule, latestQuizResults, onModuleMastery }) => {
+  // State to force refresh when learning points are cleared
+  const [learningPointsKey, setLearningPointsKey] = React.useState(0);
   if (selectedModule) {
     const safeTitle = assertString('seo.title', selectedModule.title);
     const safeSummary = assertString('seo.description', selectedModule.summary);
@@ -460,6 +477,40 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
           <p className="text-gray-700">
             <SafeText value={selectedModule.summary} />
           </p>
+          
+          {/* Learning Points section - shows questions the user got wrong */}
+          {(() => {
+            const wrongAnswers = getWrongAnswersForModule(safeSlug);
+            if (wrongAnswers.length > 0) {
+              return (
+                <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg" key={`learning-points-${learningPointsKey}`}>
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-semibold text-amber-800 mb-2">Your Learning Points</h3>
+                    <button 
+                      onClick={() => {
+                        clearWrongAnswersForModule(safeSlug);
+                        setLearningPointsKey(prev => prev + 1); // Force refresh
+                      }}
+                      className="text-xs text-amber-700 hover:text-amber-900 underline"
+                    >
+                      Mark as reviewed
+                    </button>
+                  </div>
+                  <p className="text-sm text-amber-700 mb-3">Based on your quiz performance, focus on these concepts:</p>
+                  <ul className="list-disc pl-5 space-y-2">
+                    {wrongAnswers.map((answer, idx) => (
+                      <li key={`wrong-${idx}`} className="text-amber-800">
+                        <span className="font-medium">You had difficulty with:</span> "{answer.questionText}"
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-sm text-amber-700 mt-3">These concepts are covered in this module. Pay special attention to the sections below.</p>
+                </div>
+              );
+            }
+            return null;
+          })()} 
+          
           <div className="mt-6">
             <SimpleMarkdown content={selectedModule.content} />
           </div>
