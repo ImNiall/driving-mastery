@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { ClerkProvider } from '@clerk/clerk-react';
+import ClerkAppProvider from './src/providers/ClerkAppProvider';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -11,11 +11,8 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <ClerkProvider
-      publishableKey={(import.meta as any).env?.VITE_CLERK_PUBLISHABLE_KEY as string}
-      frontendApi={(import.meta as any).env?.VITE_CLERK_FRONTEND_API as string}
-    >
+    <ClerkAppProvider>
       <App />
-    </ClerkProvider>
+    </ClerkAppProvider>
   </React.StrictMode>
 );
