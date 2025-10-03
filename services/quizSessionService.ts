@@ -15,10 +15,23 @@ export interface QuizSession {
 }
 
 // Initialize Supabase client
-// @ts-ignore - Vite env variables
-const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL as string;
-// @ts-ignore - Vite env variables
-const supabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY as string;
+// Try to get credentials from various sources
+let supabaseUrl: string;
+let supabaseAnonKey: string;
+
+// Check Vite env (client-side)
+if (typeof import.meta !== 'undefined' && import.meta.env) {
+  // @ts-ignore - Vite env variables
+  supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  // @ts-ignore - Vite env variables
+  supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+}
+
+// Check process.env (server-side) if not found in Vite env
+if (!supabaseUrl && typeof process !== 'undefined' && process.env) {
+  supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+}
 
 // Create a singleton client
 let supabaseClient: ReturnType<typeof createClient> | null = null;
