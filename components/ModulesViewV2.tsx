@@ -317,10 +317,12 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   // Load fresh questions only if we didn't restore
   React.useEffect(() => { if (!restoredRef.current) load(); }, [load]);
 
-  // Persist on change
+  // Persist on change - immediately after any state change that affects the quiz
   React.useEffect(() => {
-    persist();
-  }, [persist]);
+    if (state === 'active') {
+      persist();
+    }
+  }, [state, index, answers, selected, submitted, questions, persist]);
 
   // Extra safety: persist on tab hide/unload and heartbeat every 10s while active
   React.useEffect(() => {
@@ -398,10 +400,17 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         {submitted ? (
           <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={() => {
             if (index < questions.length - 1) {
+              // Force immediate persist before state changes
+              persist();
+              
+              // Update state in a single batch to avoid partial updates
               const nextIndex = index + 1;
               setIndex(nextIndex); 
               setSelected(null); 
               setSubmitted(false);
+              
+              // Force another persist after state changes
+              setTimeout(() => persist(), 0);
             } else {
               // Store wrong answers when quiz is finished
               const wrongAnswers = answers.filter(a => !a.isCorrect);
