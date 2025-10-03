@@ -9,11 +9,31 @@ import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
 import ModuleCardV2 from './ModuleCardV2';
-import { MODULE_CONTENT_ADDENDUM } from '../content/module-addendum';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
-  const text = assertString('module.content', content);
+  // Outer guard around coercion
+  let text: string;
+  try {
+    text = assertString('module.content', content);
+  } catch (e) {
+    console.error('[SimpleMarkdown] content assert failed, falling back:', e);
+    const fallback = String(content ?? '').trim();
+    if (!fallback) {
+      return (
+        <div className="my-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r">
+          <p className="text-yellow-800 text-sm">Module content coming soon.</p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        {fallback.split('\n').filter(Boolean).map((l, idx) => (
+          <p key={`assert-fallback-${idx}`} className="my-3 text-gray-700 leading-relaxed">{l}</p>
+        ))}
+      </div>
+    );
+  }
   if (!text || !text.trim()) {
     return (
       <div className="my-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r">
@@ -286,21 +306,6 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
     const safeTitle = assertString('seo.title', selectedModule.title);
     const safeSummary = assertString('seo.description', selectedModule.summary);
     const safeSlug = assertString('seo.slug', selectedModule.slug);
-    // Feature flag for addendum: default off. Enable via ?addendum=1 or VITE_ENABLE_MODULE_ADDENDUM=true
-    const enableAddendum = React.useMemo(() => {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('addendum') === '1') return true;
-      } catch {}
-      // @ts-ignore Vite env
-      return String((import.meta as any)?.env?.VITE_ENABLE_MODULE_ADDENDUM || '') === 'true';
-    }, []);
-    const contentToRender = React.useMemo(() => {
-      const base = selectedModule.content;
-      if (!enableAddendum) return base;
-      const extra = MODULE_CONTENT_ADDENDUM[selectedModule.slug] || '';
-      return extra ? String(base) + "\n\n" + extra : String(base);
-    }, [enableAddendum, selectedModule]);
     return (
       <ErrorBoundary>
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
@@ -331,7 +336,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
             <SafeText value={selectedModule.summary} />
           </p>
           <div className="mt-6">
-            <SimpleMarkdown content={contentToRender} />
+            <SimpleMarkdown content={selectedModule.content} />
           </div>
           <div className="mt-8 pt-8 border-t-2 border-gray-100">
             <div className="text-center mb-6">
