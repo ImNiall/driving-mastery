@@ -320,9 +320,23 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
   // Persist on change - immediately after any state change that affects the quiz
   React.useEffect(() => {
     if (state === 'active') {
-      persist();
+      // Force synchronous persistence
+      try {
+        persist();
+        // Double-check that our persistence worked by reading it back
+        const raw = sessionStorage.getItem(storageKey);
+        if (raw) {
+          const data = JSON.parse(raw);
+          if (data && typeof data.index === 'number') {
+            // Update our safety ref with the persisted index
+            lastValidIndexRef.current = Math.max(lastValidIndexRef.current, data.index);
+          }
+        }
+      } catch (e) {
+        console.error('[MiniQuizV2] Persistence verification failed:', e);
+      }
     }
-  }, [state, index, answers, selected, submitted, questions, persist]);
+  }, [state, index, answers, selected, submitted, questions, persist, storageKey]);
 
   // Extra safety: persist on tab hide/unload and heartbeat every 10s while active
   React.useEffect(() => {
@@ -349,6 +363,25 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
     }, 250);
     return () => window.clearTimeout(t);
   }, [load]);
+  
+  // CRITICAL: Prevent index reset during active quiz
+  // This ref tracks the last known valid index to prevent unexpected resets
+  const lastValidIndexRef = React.useRef(0);
+  
+  // Update the ref whenever index changes legitimately
+  React.useEffect(() => {
+    if (state === 'active' && index > 0) {
+      lastValidIndexRef.current = index;
+    }
+  }, [state, index]);
+  
+  // Check for unexpected index resets and restore from ref if needed
+  React.useEffect(() => {
+    if (state === 'active' && index === 0 && lastValidIndexRef.current > 0 && answers.length > 0) {
+      console.log('[MiniQuizV2] Detected unexpected index reset, restoring to', lastValidIndexRef.current);
+      setIndex(lastValidIndexRef.current);
+    }
+  }, [state, index, answers.length]);
 
   const score = answers.filter(a => a.isCorrect).length;
 
@@ -405,12 +438,17 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
               
               // Update state in a single batch to avoid partial updates
               const nextIndex = index + 1;
+              // Update our safety ref
+              lastValidIndexRef.current = nextIndex;
+              // Update state
               setIndex(nextIndex); 
               setSelected(null); 
               setSubmitted(false);
               
               // Force another persist after state changes
               setTimeout(() => persist(), 0);
+              // And another for extra safety
+              setTimeout(() => persist(), 100);
             } else {
               // Store wrong answers when quiz is finished
               const wrongAnswers = answers.filter(a => !a.isCorrect);
