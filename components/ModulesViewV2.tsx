@@ -10,6 +10,8 @@ import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
 import ModuleCardV2 from './ModuleCardV2';
 import { storeWrongAnswers, getWrongAnswersForModule, clearWrongAnswersForModule } from '../utils/wrongAnswers';
+import { getQuizSession, upsertQuizSession, QuizSession } from '../services/quizSessionService';
+import { useAuth } from '@clerk/clerk-react';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -215,25 +217,104 @@ const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
 
 // Lightweight MiniQuiz for module detail
 const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category: Category) => void; }> = ({ module, onModuleMastery }) => {
+  const { userId, getToken } = useAuth();
   const [state, setState] = React.useState<'idle' | 'active' | 'finished'>('idle');
   const [questions, setQuestions] = React.useState<QuestionType[]>([]);
   const [index, setIndex] = React.useState(0);
   const [selected, setSelected] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
   const [answers, setAnswers] = React.useState<UserAnswer[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [sessionId, setSessionId] = React.useState<string | undefined>(undefined);
 
-  // Simple storage key for local persistence
+  // Simple storage key for local persistence (fallback)
   const storageKey = React.useMemo(() => `miniQuiz:${String(module.slug)}`, [module.slug]);
   
   // Critical: This ref prevents index resets during active quiz
   const currentIndexRef = React.useRef(0);
   
-  // Load questions on mount
+  // Load quiz session from Supabase or create a new one
   React.useEffect(() => {
-    const filtered = QUESTION_BANK.filter(q => q.category === module.category);
-    const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-    setQuestions(shuffled.slice(0, 5));
-  }, [module.category]);
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
+    
+    const loadQuizSession = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Try to fetch existing session
+        const session = await getQuizSession(userId, module.slug);
+        
+        if (session) {
+          // Restore session
+          setQuestions(session.questions);
+          setIndex(session.current_index);
+          currentIndexRef.current = session.current_index;
+          setAnswers(session.answers);
+          setState(session.state === 'finished' ? 'finished' : 'active');
+          setSessionId(session.id);
+        } else {
+          // Create new session with random questions
+          const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+          const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+          const selectedQuestions = shuffled.slice(0, 5);
+          
+          setQuestions(selectedQuestions);
+          
+          // Create in Supabase
+          const newSession = await upsertQuizSession({
+            user_id: userId,
+            module_slug: module.slug,
+            current_index: 0,
+            questions: selectedQuestions,
+            answers: [],
+            state: 'idle'
+          });
+          
+          if (newSession?.id) {
+            setSessionId(newSession.id);
+          }
+        }
+      } catch (err) {
+        console.error('[MiniQuizV2] Error loading quiz session:', err);
+        // Fallback to local questions
+        const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+        const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+        setQuestions(shuffled.slice(0, 5));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadQuizSession();
+  }, [userId, module.slug, module.category]);
+  
+  // Update session in Supabase when state changes
+  React.useEffect(() => {
+    if (!userId || isLoading) return;
+    
+    const updateSession = async () => {
+      try {
+        await upsertQuizSession({
+          user_id: userId,
+          module_slug: module.slug,
+          current_index: index,
+          questions,
+          answers,
+          state
+        });
+      } catch (err) {
+        console.error('[MiniQuizV2] Error updating quiz session:', err);
+      }
+    };
+    
+    // Only update if we have questions loaded
+    if (questions.length > 0) {
+      updateSession();
+    }
+  }, [userId, module.slug, index, questions, answers, state, isLoading]);
   
   // Update ref whenever index changes legitimately
   React.useEffect(() => {
@@ -264,15 +345,37 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
     return (
       <div className="bg-slate-100 p-6 rounded-lg text-center">
         <h3 className="text-xl font-bold text-gray-800">Ready to test your knowledge?</h3>
-        <button className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" onClick={() => { 
-          // Reset state and index ref
-          setState('active'); 
-          setIndex(0);
-          currentIndexRef.current = 0;
-          setSelected(null); 
-          setSubmitted(false); 
-          setAnswers([]);
-        }}>Start Quiz</button>
+        <button 
+          className="mt-4 bg-brand-blue text-white font-semibold px-4 py-2 rounded" 
+          disabled={isLoading}
+          onClick={async () => { 
+            // Reset state and index ref
+            setState('active'); 
+            setIndex(0);
+            currentIndexRef.current = 0;
+            setSelected(null); 
+            setSubmitted(false); 
+            setAnswers([]);
+            
+            // Update in Supabase
+            if (userId) {
+              try {
+                await upsertQuizSession({
+                  user_id: userId,
+                  module_slug: module.slug,
+                  current_index: 0,
+                  questions,
+                  answers: [],
+                  state: 'active'
+                });
+              } catch (err) {
+                console.error('[MiniQuizV2] Error updating quiz session:', err);
+              }
+            }
+          }}
+        >
+          {isLoading ? 'Loading...' : 'Start Quiz'}
+        </button>
       </div>
     );
   }
@@ -285,20 +388,42 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
         <h3 className="text-xl font-bold text-gray-800">{passed ? 'Excellent Work!' : 'Good Effort!'}</h3>
         <p className="text-gray-700 mt-2">You scored {score} / {questions.length} (pass {passMark}+)</p>
         <div className="mt-4 space-x-2">
-          <button className="bg-gray-800 text-white px-4 py-2 rounded" onClick={() => {
-            // Reset state and index ref
-            setState('active'); 
-            setIndex(0);
-            currentIndexRef.current = 0;
-            setSelected(null); 
-            setSubmitted(false); 
-            setAnswers([]);
-            
-            // Load new random questions
-            const filtered = QUESTION_BANK.filter(q => q.category === module.category);
-            const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-            setQuestions(shuffled.slice(0, 5));
-          }}>Try Again</button>
+          <button 
+            className="bg-gray-800 text-white px-4 py-2 rounded" 
+            disabled={isLoading}
+            onClick={async () => {
+              // Reset state and index ref
+              setState('active'); 
+              setIndex(0);
+              currentIndexRef.current = 0;
+              setSelected(null); 
+              setSubmitted(false); 
+              setAnswers([]);
+              
+              // Load new random questions
+              const filtered = QUESTION_BANK.filter(q => q.category === module.category);
+              const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+              setQuestions(shuffled.slice(0, 5));
+              
+              // Update in Supabase
+              if (userId) {
+                try {
+                  await upsertQuizSession({
+                    user_id: userId,
+                    module_slug: module.slug,
+                    current_index: 0,
+                    questions: shuffled.slice(0, 5),
+                    answers: [],
+                    state: 'active'
+                  });
+                } catch (err) {
+                  console.error('[MiniQuizV2] Error updating quiz session:', err);
+                }
+              }
+            }}
+          >
+            {isLoading ? 'Loading...' : 'Try Again'}
+          </button>
         </div>
       </div>
     );
@@ -316,7 +441,7 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
       />
       <div className="mt-4">
         {submitted ? (
-          <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={() => {
+          <button className="w-full bg-brand-blue text-white py-2 rounded" onClick={async () => {
             if (index < questions.length - 1) {
               // Update index and ref
               const nextIndex = index + 1;
@@ -324,6 +449,22 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
               setIndex(nextIndex);
               setSelected(null);
               setSubmitted(false);
+              
+              // Update in Supabase
+              if (userId) {
+                try {
+                  await upsertQuizSession({
+                    user_id: userId,
+                    module_slug: module.slug,
+                    current_index: nextIndex,
+                    questions,
+                    answers,
+                    state: 'active'
+                  });
+                } catch (err) {
+                  console.error('[MiniQuizV2] Error updating quiz session:', err);
+                }
+              }
             } else {
               // Store wrong answers when quiz is finished
               const wrongAnswers = answers.filter(a => !a.isCorrect);
@@ -333,22 +474,56 @@ const MiniQuizV2: React.FC<{ module: LearningModule; onModuleMastery: (category:
               
               if (score >= 4) onModuleMastery(module.category);
               setState('finished');
+              
+              // Update in Supabase
+              if (userId) {
+                try {
+                  await upsertQuizSession({
+                    user_id: userId,
+                    module_slug: module.slug,
+                    current_index: index,
+                    questions,
+                    answers,
+                    state: 'finished'
+                  });
+                } catch (err) {
+                  console.error('[MiniQuizV2] Error updating quiz session:', err);
+                }
+              }
             }
           }}> {index < questions.length - 1 ? 'Next Question' : 'Finish Quiz'} </button>
         ) : (
-          <button className="w-full bg-gray-800 text-white py-2 rounded disabled:bg-gray-300" disabled={!selected} onClick={() => {
+          <button className="w-full bg-gray-800 text-white py-2 rounded disabled:bg-gray-300" disabled={!selected} onClick={async () => {
             if (!selected) return;
             const currentQuestion = questions[index];
             const isCorrect = currentQuestion.options.find(o => o.text === selected)?.isCorrect || false;
-            setAnswers(prev => [...prev, { 
+            const newAnswer = { 
               questionId: currentQuestion.id, 
               selectedOption: selected, 
               isCorrect,
               questionText: currentQuestion.question,
               category: currentQuestion.category,
               moduleSlug: module.slug
-            }]);
+            };
+            
+            setAnswers(prev => [...prev, newAnswer]);
             setSubmitted(true);
+            
+            // Update in Supabase
+            if (userId) {
+              try {
+                await upsertQuizSession({
+                  user_id: userId,
+                  module_slug: module.slug,
+                  current_index: index,
+                  questions,
+                  answers: [...answers, newAnswer],
+                  state: 'active'
+                });
+              } catch (err) {
+                console.error('[MiniQuizV2] Error updating quiz session:', err);
+              }
+            }
           }}> Submit Answer </button>
         )}
       </div>
