@@ -9,6 +9,7 @@ import { SITE_URL } from '../config/seo';
 import JsonLd from './JsonLd';
 import QuestionCard from './QuestionCard';
 import ModuleCardV2 from './ModuleCardV2';
+import { MODULE_CONTENT_ADDENDUM } from '../content/module-addendum';
 
 // Simple, safe markdown renderer (headings + paragraphs)
 const SimpleMarkdown: React.FC<{ content: unknown }> = ({ content }) => {
@@ -285,6 +286,21 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
     const safeTitle = assertString('seo.title', selectedModule.title);
     const safeSummary = assertString('seo.description', selectedModule.summary);
     const safeSlug = assertString('seo.slug', selectedModule.slug);
+    // Feature flag for addendum: default off. Enable via ?addendum=1 or VITE_ENABLE_MODULE_ADDENDUM=true
+    const enableAddendum = React.useMemo(() => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('addendum') === '1') return true;
+      } catch {}
+      // @ts-ignore Vite env
+      return String((import.meta as any)?.env?.VITE_ENABLE_MODULE_ADDENDUM || '') === 'true';
+    }, []);
+    const contentToRender = React.useMemo(() => {
+      const base = selectedModule.content;
+      if (!enableAddendum) return base;
+      const extra = MODULE_CONTENT_ADDENDUM[selectedModule.slug] || '';
+      return extra ? String(base) + "\n\n" + extra : String(base);
+    }, [enableAddendum, selectedModule]);
     return (
       <ErrorBoundary>
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
@@ -315,7 +331,7 @@ const ModulesViewV2: React.FC<ModulesViewProps> = ({ selectedModule, setSelected
             <SafeText value={selectedModule.summary} />
           </p>
           <div className="mt-6">
-            <SimpleMarkdown content={selectedModule.content} />
+            <SimpleMarkdown content={contentToRender} />
           </div>
           <div className="mt-8 pt-8 border-t-2 border-gray-100">
             <div className="text-center mb-6">
