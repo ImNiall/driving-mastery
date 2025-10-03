@@ -47,3 +47,24 @@ If you prefer to set up manually:
 2. Fill in your Supabase, Clerk, and OpenAI credentials
 3. Run `node scripts/setup-supabase.js` to set up the database
 4. Run `npm run dev` to start the app
+
+## Environments
+
+### Development vs Production
+
+This application uses different Clerk instances for development and production:
+
+- **Development**: Uses `*.clerk.accounts.dev` domains
+- **Production**: Uses custom FQDN (`clerk.drivingmastery.co.uk`)
+
+### Environment Configuration
+
+- **Local Development**: Create a `.env.local` file (gitignored) based on `.env.local.example` with your development keys
+- **Production**: Environment variables are set via the Netlify UI dashboard
+
+### Key Management
+
+- Development keys (starting with `pk_test_`) should be used locally
+- Production keys (starting with `pk_live_`) should only be set in the Netlify dashboard
+- Never commit real API keys to the repository
+
