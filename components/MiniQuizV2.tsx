@@ -330,9 +330,16 @@ const MiniQuizV2: React.FC<MiniQuizProps> = ({ module, onModuleMastery, attemptI
               setSubmitted(false);
             } else {
               // Quiz finished
-              const wrongAnswers = answers.filter(a => !a.isCorrect);
+              const wrongAnswers = answers.filter(a => !a.isCorrect).map(a => ({
+                questionId: a.questionId.toString(),
+                selected: a.selectedOption,
+                correct: currentQuestion.options.find(o => o.isCorrect)?.text || '',
+                category: a.category,
+                timestamp: new Date().toISOString()
+              }));
+              
               if (wrongAnswers.length > 0) {
-                storeWrongAnswers(wrongAnswers);
+                storeWrongAnswers(attemptId, wrongAnswers);
               }
               
               if (score >= 4) onModuleMastery(module.category);

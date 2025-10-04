@@ -7,6 +7,14 @@ export type HistoryItem = {
   created_at: string;
 };
 
+export type WrongAnswer = {
+  questionId: string;
+  selected: string;      // user's choice
+  correct: string;       // correct answer
+  category?: string;     // optional DVSA category
+  timestamp?: string;    // ISO string
+};
+
 const API_URL = "/api/history";
 
 function authHeaders(token?: string) {
@@ -23,14 +31,38 @@ export async function getHistory(token?: string, days = 7): Promise<HistoryItem[
   return (data.items || []) as HistoryItem[];
 }
 
-export async function logAttempt(
-  params: { score: number; total: number; details?: any },
-  token?: string
-): Promise<void> {
-  const resp = await fetch(API_URL, {
-    method: "POST",
-    headers: authHeaders(token),
-    body: JSON.stringify(params),
+// Dedicated helper for wrong answers
+export async function storeWrongAnswers(attemptId: string, wrong: WrongAnswer[]) {
+  const res = await fetch('/api/history', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type: 'wrong_answers',
+      attemptId,
+      details: { wrong },
+    }),
   });
-  if (!resp.ok) throw new Error(await resp.text());
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`historyService.storeWrongAnswers failed: ${res.status} ${text}` );
+  }
+  try { return await res.json(); } catch { return {}; }
+}
+
+// Generic attempt logger for scores etc.
+export async function logAttempt(
+  payload: {
+    attemptId: string;
+    score: number;
+    total: number;
+    meta?: Record<string, any>;
+  }
+): Promise<any> {
+  const res = await fetch('/api/history', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'attempt', ...payload }),
+  });
+  if (!res.ok) throw new Error(`historyService.logAttempt failed: ${res.status}` );
+  try { return await res.json(); } catch { return null; }
 }
