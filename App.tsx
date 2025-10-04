@@ -19,7 +19,8 @@ import { incrementProgress } from './services/progressService';
 import { logAttempt } from './services/historyService';
 import ErrorBoundary from './components/ErrorBoundary';
 import SupabaseDiagnostic from './components/SupabaseDiagnostic';
-import AuthGate from './components/auth/AuthGate';
+// Import AuthGate from the correct path
+import AuthGate from './src/components/auth/AuthGate';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
