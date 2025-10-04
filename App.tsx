@@ -19,6 +19,7 @@ import { incrementProgress } from './services/progressService';
 import { logAttempt } from './services/historyService';
 import ErrorBoundary from './components/ErrorBoundary';
 import SupabaseDiagnostic from './components/SupabaseDiagnostic';
+import AuthGate from './components/auth/AuthGate';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -267,11 +268,11 @@ const App: React.FC = () => {
       case 'dashboard':
         return <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
       case 'quiz-start':
-        return <QuizStartView onStartQuiz={handleStartQuiz} onBack={handleBackToDashboard} quizHistory={quizHistory} />;
+        return <AuthGate><QuizStartView onStartQuiz={handleStartQuiz} onBack={handleBackToDashboard} quizHistory={quizHistory} /></AuthGate>;
       case 'quiz':
-        return <QuizView key={Date.now()} categories={quizConfig.categories} length={quizConfig.length} onQuizComplete={handleQuizComplete} seenQuestionIds={seenQuestionIds} onQuestionsSeen={handleQuestionsSeen} />;
+        return <AuthGate><QuizView categories={quizConfig.categories} length={quizConfig.length} onQuizComplete={handleQuizComplete} seenQuestionIds={seenQuestionIds} onQuestionsSeen={handleQuestionsSeen} /></AuthGate>;
       case 'quiz-results':
-        return quizResults ? <QuizResultsView results={quizResults} onBackToDashboard={handleBackToDashboard} onRestartQuiz={handleRestartQuiz} onViewModule={handleViewModule} setView={setCurrentView} /> : <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
+        return quizResults ? <AuthGate><QuizResultsView results={quizResults} onBackToDashboard={handleBackToDashboard} onRestartQuiz={handleRestartQuiz} onViewModule={handleViewModule} setView={setCurrentView} /></AuthGate> : <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
       case 'modules':
         return <ModulesView selectedModule={selectedModule} setSelectedModule={setSelectedModule} latestQuizResults={quizResults} onModuleMastery={handleModuleMastery} masteredModules={masteredModules} />;
       case 'chat':
