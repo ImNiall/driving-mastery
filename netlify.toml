@@ -3,11 +3,8 @@
   publish = "dist"
   functions = "netlify/functions"
 
-# Production environment variables
-[context.production.environment]
-  VITE_CLERK_PUBLISHABLE_KEY = "pk_live_Y291cnQtc3BhcnJvdy0xNS5jbGVyay5hY2NvdW50cy5kZXYk" # Replace with actual production key
-  VITE_SUPABASE_URL = "https://ynqwlxvqnfvbvnpbcnwx.supabase.co" # Replace with actual production URL
-  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlucXdseHZxbmZ2YnZucGJjbnd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5NTk3MzYsImV4cCI6MjAzMTUzNTczNn0.Vu7Wy0Xt0eLXRgJnYFxfhQUQVVSzl_bYP-EjUKkkmQE" # Replace with actual production key
+# IMPORTANT: Do not commit secrets here. Use Netlify UI Environment Variables instead.
+# Remove any hardcoded keys and set VITE_* vars in the dashboard per environment.
 
 # Deploy preview environment (no auth)
 [context.deploy-preview.environment]
@@ -45,10 +42,21 @@
   to = "/index.html"
   status = 200
 
-# CORS Headers
+# Global security and CORS headers
 [[headers]]
   for = "/*"
   [headers.values]
+    # Basic security
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+    # CORS (adjust Origin to specific domains in production if desired)
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
     Access-Control-Allow-Headers = "Authorization, Content-Type, Accept, Origin, User-Agent"
+
+    # Content Security Policy (tune as needed)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://*.clerk.com https://*.accounts.dev; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.netlify.app https://drivingmastery.co.uk https://*.clerk.com https://*.accounts.dev https://ynqwlxvqnfvbvnpbcnwx.supabase.co; frame-ancestors 'none';"
