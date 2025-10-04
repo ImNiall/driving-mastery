@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clerk Instance Check</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .card {
+      background-color: #f5f7fa;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1, h2 { margin-top: 0; }
+    pre {
+      background-color: #edf2f7;
+      padding: 12px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .key-info {
+      font-family: monospace;
+      font-size: 14px;
+      background: #e2e8f0;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .success { color: #38a169; }
+    .error { color: #e53e3e; }
+    .warning { color: #d69e2e; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background-color: #f7fafc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clerk Instance Check</h1>
+  
+  <div class="card">
+    <h2>Current Environment</h2>
+    <div id="env-info"></div>
+  </div>
+
+  <div class="card">
+    <h2>Clerk Key Analysis</h2>
+    <div id="key-info"></div>
+  </div>
+
+  <div class="card">
+    <h2>Network Requests</h2>
+    <p>Click the button below to simulate Clerk initialization and analyze network requests:</p>
+    <button id="analyze-btn">Analyze Clerk Requests</button>
+    <div id="network-info"></div>
+  </div>
+
+  <div class="card">
+    <h2>Recommendation</h2>
+    <div id="recommendation"></div>
+  </div>
+
+  <script>
+    // Display environment info
+    const envInfo = document.getElementById('env-info');
+    envInfo.innerHTML = `
+      <p><strong>Current URL:</strong> ${window.location.href}</p>
+      <p><strong>Origin:</strong> ${window.location.origin}</p>
+      <p><strong>Hostname:</strong> ${window.location.hostname}</p>
+    `;
+
+    // Get Clerk key from various sources
+    let publishableKey = '';
+    
+    // From window object (env-config.js)
+    if (window.ENV_VITE_CLERK_PUBLISHABLE_KEY) {
+      publishableKey = window.ENV_VITE_CLERK_PUBLISHABLE_KEY;
+    }
+    
+    // From meta tags
+    const metaKey = document.querySelector('meta[name="clerk-publishable-key"]');
+    if (!publishableKey && metaKey) {
+      publishableKey = metaKey.getAttribute('content');
+    }
+    
+    // Display key info
+    const keyInfo = document.getElementById('key-info');
+    if (publishableKey) {
+      const keyPrefix = publishableKey.substring(0, 8);
+      const keyType = publishableKey.startsWith('pk_test_') ? 'Development/Test' : 
+                     publishableKey.startsWith('pk_live_') ? 'Production' : 'Unknown';
+      
+      keyInfo.innerHTML = `
+        <p><strong>Key Found:</strong> Yes</p>
+        <p><strong>Key Prefix:</strong> <span class="key-info">${keyPrefix}...</span></p>
+        <p><strong>Key Type:</strong> ${keyType}</p>
+        <p><strong>Expected Host:</strong> ${keyType === 'Development/Test' ? 
+          '<span class="key-info">*.clerk.accounts.dev</span>' : 
+          '<span class="key-info">clerk.your-domain.com</span> (custom FQDN)'}</p>
+      `;
+    } else {
+      keyInfo.innerHTML = `
+        <p class="error"><strong>Key Found:</strong> No</p>
+        <p>No Clerk publishable key was found in the environment.</p>
+      `;
+    }
+
+    // Network request analysis
+    document.getElementById('analyze-btn').addEventListener('click', async () => {
+      const networkInfo = document.getElementById('network-info');
+      const recommendation = document.getElementById('recommendation');
+      
+      networkInfo.innerHTML = '<p>Analyzing Clerk requests...</p>';
+      
+      try {
+        // Create an iframe to isolate the requests
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        // Create a script element to load Clerk
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+        iframe.contentDocument.head.appendChild(script);
+        
+        // Wait for script to load
+        await new Promise((resolve) => {
+          script.onload = resolve;
+          script.onerror = () => {
+            networkInfo.innerHTML = '<p class="error">Failed to load Clerk script</p>';
+            resolve();
+          };
+        });
+        
+        // Wait a bit for potential requests
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Check if we can access the Clerk object
+        if (!iframe.contentWindow.Clerk) {
+          networkInfo.innerHTML = '<p class="error">Clerk object not available in iframe</p>';
+          return;
+        }
+        
+        // Try to initialize Clerk
+        try {
+          iframe.contentWindow.Clerk.load({
+            publishableKey: publishableKey || 'pk_test_placeholder'
+          });
+          
+          // Wait for potential requests
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          // Since we can't directly access the network requests from the iframe,
+          // we'll provide guidance based on the key type
+          const keyType = publishableKey.startsWith('pk_test_') ? 'Development/Test' : 
+                         publishableKey.startsWith('pk_live_') ? 'Production' : 'Unknown';
+          
+          networkInfo.innerHTML = `
+            <p>Based on your key type (${keyType}), Clerk will attempt to connect to:</p>
+            <ul>
+              <li>${keyType === 'Development/Test' ? 
+                '<strong>*.clerk.accounts.dev</strong> (Development instance)' : 
+                '<strong>clerk.your-domain.com</strong> (Production instance with custom FQDN)'}</li>
+            </ul>
+            <p>If you're seeing 400 errors, it's likely because:</p>
+            <ol>
+              <li>Your site's origin (${window.location.origin}) is not authorized in the Clerk dashboard, or</li>
+              <li>You're using a ${keyType} key but trying to access the ${keyType === 'Development/Test' ? 'Production' : 'Development'} instance</li>
+            </ol>
+          `;
+          
+          // Provide recommendation
+          recommendation.innerHTML = `
+            <h3>Based on your key (${keyPrefix}...), you should:</h3>
+            <ol>
+              <li>Ensure you're using a <strong>${keyType}</strong> instance in Clerk</li>
+              <li>Add <strong>${window.location.origin}</strong> to the Authorized JavaScript Origins in your Clerk dashboard</li>
+              <li>Make sure your redirect URLs include all authentication paths (e.g., /sign-in, /sign-up, /sso-callback)</li>
+              <li>Remove any frontendApi configuration from your ClerkProvider</li>
+              <li>Set only <strong>VITE_CLERK_PUBLISHABLE_KEY=${keyPrefix}...</strong> in your Netlify environment variables</li>
+            </ol>
+            <p>After making these changes, clear the Netlify cache and redeploy.</p>
+          `;
+        } catch (error) {
+          networkInfo.innerHTML = `
+            <p class="error">Error initializing Clerk:</p>
+            <pre>${error.message || JSON.stringify(error)}</pre>
+          `;
+        }
+        
+        // Clean up
+        document.body.removeChild(iframe);
+      } catch (error) {
+        networkInfo.innerHTML = `
+          <p class="error">Error during analysis:</p>
+          <pre>${error.message || JSON.stringify(error)}</pre>
+        `;
+      }
+    });
+
+    // Initial recommendation based on key
+    const recommendation = document.getElementById('recommendation');
+    if (publishableKey) {
+      const keyPrefix = publishableKey.substring(0, 8);
+      const keyType = publishableKey.startsWith('pk_test_') ? 'Development/Test' : 
+                     publishableKey.startsWith('pk_live_') ? 'Production' : 'Unknown';
+      
+      recommendation.innerHTML = `
+        <p>Based on your key prefix (${keyPrefix}...), you should:</p>
+        <table>
+          <tr>
+            <th>If you're using:</th>
+            <th>Then you need:</th>
+          </tr>
+          <tr>
+            <td>${keyType} Clerk instance</td>
+            <td>
+              <ul>
+                <li>Add ${window.location.origin} to Authorized JavaScript Origins</li>
+                <li>Set VITE_CLERK_PUBLISHABLE_KEY=${keyPrefix}... in Netlify</li>
+                <li>Remove any frontendApi configuration</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+        <p>Click the "Analyze Clerk Requests" button above for more detailed recommendations.</p>
+      `;
+    } else {
+      recommendation.innerHTML = `
+        <p class="error">No Clerk publishable key found. You need to:</p>
+        <ol>
+          <li>Set VITE_CLERK_PUBLISHABLE_KEY in your Netlify environment variables</li>
+          <li>Make sure it's correctly injected into your application</li>
+          <li>Clear the Netlify cache and redeploy</li>
+        </ol>
+      `;
+    }
+  </script>
+</body>
+</html>
