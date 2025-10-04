@@ -3,6 +3,16 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Production environment variables
+[context.production.environment]
+  VITE_CLERK_PUBLISHABLE_KEY = "pk_live_Y291cnQtc3BhcnJvdy0xNS5jbGVyay5hY2NvdW50cy5kZXYk" # Replace with actual production key
+  VITE_SUPABASE_URL = "https://ynqwlxvqnfvbvnpbcnwx.supabase.co" # Replace with actual production URL
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlucXdseHZxbmZ2YnZucGJjbnd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5NTk3MzYsImV4cCI6MjAzMTUzNTczNn0.Vu7Wy0Xt0eLXRgJnYFxfhQUQVVSzl_bYP-EjUKkkmQE" # Replace with actual production key
+
+# Deploy preview environment (no auth)
+[context.deploy-preview.environment]
+  # No Clerk keys for preview environments
+
 [[redirects]]
   from = "/api/chat"
   to = "/.netlify/functions/chat"
@@ -21,4 +31,16 @@
 [[redirects]]
   from = "/api/usage"
   to = "/.netlify/functions/usage"
+  status = 200
+
+# Clerk authentication redirects
+[[redirects]]
+  from = "/sso-callback"
+  to = "/sign-in"
+  status = 200
+
+# SPA fallback - must be the last redirect
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
