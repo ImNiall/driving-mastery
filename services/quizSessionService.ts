@@ -42,7 +42,24 @@ export function getSupabaseClient() {
       console.error('Missing Supabase URL or anon key');
       throw new Error('Supabase configuration missing');
     }
-    supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+    
+    // Create client with additional options for CORS
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true
+      },
+      global: {
+        headers: {
+          'X-Client-Info': 'driving-mastery-app'
+        },
+      }
+    });
+    
+    // Log successful initialization in development
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`Supabase client initialized with URL: ${supabaseUrl.substring(0, 15)}...`);
+    }
   }
   return supabaseClient;
 }
