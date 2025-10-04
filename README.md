@@ -1,70 +1,98 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Driving Mastery: AI Driving Theory Coach
 
-# Run and deploy your AI Studio app
+An interactive platform to help learner drivers master the UK driving theory test through personalized quizzes, learning modules, and AI-powered assistance.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/1sy6YZvCaubP42EFk-hO7ap3On-AcnmiD
+- **Interactive Quizzes**: Practice with questions similar to the official DVSA test
+- **Learning Modules**: Study specific topics to improve your knowledge
+- **Progress Tracking**: Monitor your improvement over time
+- **AI Chat Assistant**: Get personalized help with difficult concepts
+- **Leaderboard**: Compare your progress with other learners
 
-## Run Locally
+## Getting Started
 
-**Prerequisites:**
-- Node.js (v16+)
-- Supabase account (free tier works fine)
+### Prerequisites
+
+- Node.js 20 or higher
+- npm or yarn
+- Supabase account
 - Clerk account for authentication
+- OpenAI API key (optional for chat functionality)
 
-### Setup
+### Installation
 
-1. **Install dependencies:**
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/driving-mastery.git
+   cd driving-mastery
+   ```
+
+2. Install dependencies
    ```bash
    npm install
    ```
 
-2. **Set up environment variables:**
+3. Create a `.env.local` file based on `.env.local.example`
    ```bash
-   node scripts/setup-dev.js
+   cp .env.local.example .env.local
    ```
-   This interactive script will guide you through creating your `.env` file with all necessary credentials.
 
-3. **Set up Supabase database:**
-   ```bash
-   node scripts/setup-supabase.js
-   ```
-   This will create the required tables in your Supabase instance.
+4. Update the environment variables in `.env.local` with your credentials
 
-4. **Run the app:**
+5. Start the development server
    ```bash
    npm run dev
    ```
 
-### Manual Setup
+## Environment Setup
 
-If you prefer to set up manually:
+### Supabase Configuration
 
-1. Copy `.env.example` to `.env`
-2. Fill in your Supabase, Clerk, and OpenAI credentials
-3. Run `node scripts/setup-supabase.js` to set up the database
-4. Run `npm run dev` to start the app
+1. Create a new Supabase project
+2. Run the SQL scripts in the `scripts` directory to set up the database schema
+3. Update your `.env.local` file with the Supabase URL and anon key
 
-## Environments
+### Clerk Dashboard Settings
 
-### Development vs Production
+#### Authorized JavaScript Origins
 
-This application uses different Clerk instances for development and production:
+- [ ] `http://localhost:5173` (Vite dev server)
+- [ ] `https://<your-prod-domain>` (Your production domain)
+- [ ] `https://<your-netlify-preview-domain>` (Optional, for Netlify preview deployments)
 
-- **Development**: Uses `*.clerk.accounts.dev` domains
-- **Production**: Uses custom FQDN (`clerk.drivingmastery.co.uk`)
+#### Redirect URLs
 
-### Environment Configuration
+- [ ] `http://localhost:5173/sign-in`
+- [ ] `http://localhost:5173/sign-up`
+- [ ] `http://localhost:5173/sso-callback`
+- [ ] `https://<your-prod-domain>/sign-in`
+- [ ] `https://<your-prod-domain>/sign-up`
+- [ ] `https://<your-prod-domain>/sso-callback`
 
-- **Local Development**: Create a `.env.local` file (gitignored) based on `.env.local.example` with your development keys
-- **Production**: Environment variables are set via the Netlify UI dashboard
+> **Note**: Production instance should be bound to your custom FQDN; development instance uses *.accounts.dev domain.
 
-### Key Management
+## Deployment
 
-- Development keys (starting with `pk_test_`) should be used locally
-- Production keys (starting with `pk_live_`) should only be set in the Netlify dashboard
-- Never commit real API keys to the repository
+### Netlify Deployment
 
+1. Connect your GitHub repository to Netlify
+2. Configure the build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+3. Add environment variables in the Netlify dashboard
+4. Set NODE_VERSION to 20 in the environment variables
+
+## Project Structure
+
+- `components/`: React components
+- `hooks/`: Custom React hooks
+- `services/`: API and service functions
+- `store/`: Zustand state management
+- `types/`: TypeScript type definitions
+- `constants/`: Application constants
+- `scripts/`: Database and utility scripts
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
