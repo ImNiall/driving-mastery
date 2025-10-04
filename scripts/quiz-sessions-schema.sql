@@ -1,9 +1,9 @@
 -- Create quiz_sessions table for persistent quiz state
--- First, check if the table exists
+-- First, check if the table exists and create it if needed
 DO $$ 
 BEGIN
+  -- Create the table if it doesn't exist
   IF NOT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'quiz_sessions') THEN
-    -- Create the table if it doesn't exist
     CREATE TABLE quiz_sessions (
       user_id TEXT NOT NULL, -- Using TEXT for maximum compatibility
       quiz_id TEXT NOT NULL,
@@ -11,6 +11,24 @@ BEGIN
       updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
       PRIMARY KEY (user_id, quiz_id)
     );
+  ELSE
+    -- If table exists but quiz_id column doesn't, add it
+    IF NOT EXISTS (SELECT FROM information_schema.columns 
+                  WHERE table_schema = 'public' AND table_name = 'quiz_sessions' AND column_name = 'quiz_id') THEN
+      ALTER TABLE quiz_sessions ADD COLUMN quiz_id TEXT DEFAULT 'default_quiz';
+      
+      -- Drop existing primary key if it exists
+      DO $$ 
+      BEGIN
+        IF EXISTS (SELECT FROM information_schema.table_constraints 
+                  WHERE table_schema = 'public' AND table_name = 'quiz_sessions' AND constraint_type = 'PRIMARY KEY') THEN
+          ALTER TABLE quiz_sessions DROP CONSTRAINT quiz_sessions_pkey;
+        END IF;
+      END $$;
+      
+      -- Add new primary key
+      ALTER TABLE quiz_sessions ADD PRIMARY KEY (user_id, quiz_id);
+    END IF;
   END IF;
 END $$;
 
