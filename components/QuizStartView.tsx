@@ -2,7 +2,6 @@
 import React from 'react';
 import { Category, QuizAttempt } from '../types';
 import { useQuizStore } from '../store/quizStore';
-import * as uuid from 'uuid';
 
 interface QuizStartViewProps {
   categories?: Category[];
@@ -48,7 +47,10 @@ const QuizStartView: React.FC<QuizStartViewProps> = ({ categories, onStartQuiz, 
               key={length}
               onClick={() => {
                 // Initialize the quiz in the store with a unique ID
-                start(uuid.v4());
+                const id = (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
+                  ? crypto.randomUUID()
+                  : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+                start(id);
                 onStartQuiz(length);
               }}
               className="group bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:shadow-xl hover:-translate-y-1 hover:border-brand-blue active:scale-95 active:bg-blue-50 transition-all duration-300 ease-in-out cursor-pointer flex flex-col text-center"
@@ -57,7 +59,10 @@ const QuizStartView: React.FC<QuizStartViewProps> = ({ categories, onStartQuiz, 
               onKeyPress={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   // Initialize the quiz in the store with a unique ID
-                  start(uuid.v4());
+                  const id = (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
+                    ? crypto.randomUUID()
+                    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+                  start(id);
                   onStartQuiz(length);
                 }
               }}

@@ -5,7 +5,6 @@ import QuestionCard from './QuestionCard';
 import QuizTimer from './QuizTimer';
 import { ArrowRightIcon, ArrowLeftIcon, FlagIcon, CheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from './icons';
 import { useQuizStore } from '../store/quizStore';
-import * as uuid from 'uuid';
 import useQuizSync from '../hooks/useQuizSync';
 
 interface QuizProgressPanelProps {
@@ -125,7 +124,10 @@ const QuizView: React.FC<QuizViewProps> = ({ categories, length = 10, onQuizComp
     
     // Initialize the quiz in the store with a unique ID
     if (!quizId) {
-      startQuiz(uuid.v4());
+      const id = (typeof crypto !== 'undefined' && 'randomUUID' in crypto)
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      startQuiz(id);
     }
   }, [categories, length, seenQuestionIds, quizId, startQuiz]);
 
