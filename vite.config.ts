@@ -20,7 +20,8 @@ export default defineConfig(({ mode }) => {
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),
-        }
+        },
+        dedupe: ['react', 'react-dom']
       },
       build: {
         commonjsOptions: {
@@ -32,7 +33,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       optimizeDeps: {
-        include: ['zustand', 'zustand/middleware']
+        include: ['react', 'react-dom', 'zustand', 'zustand/middleware']
       }
     };
 });
