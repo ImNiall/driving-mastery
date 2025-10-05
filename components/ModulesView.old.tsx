@@ -1,26 +1,48 @@
 
 
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { LearningModule, Question, UserAnswer, Category, FinalQuizResults } from '../types';
-import { LEARNING_MODULES, QUESTION_BANK } from '../constants';
+import React, { useState, useMemo } from 'react';
+import { LearningModule, Category, FinalQuizResults } from '../types';
+import { LEARNING_MODULES } from '../constants';
 import ModuleCard from './ModuleCard';
-import QuestionCard from './QuestionCard';
-// FIX: Imported CheckCircleIcon to resolve 'Cannot find name' error.
-import { LightbulbIcon, WarningIcon, TrophyIcon, ClipboardListIcon, QuizIcon, CheckCircleIcon } from './icons';
-import Seo from './Seo';
-import JsonLd from './JsonLd';
-import { SITE_URL } from '../config/seo';
-import ErrorBoundary from './ErrorBoundary';
-import { assertString, normalizeModule, ModuleVM } from '../utils/assertString';
-import { parseInlineMarkdown, SafeText } from '../utils/markdown';
+import ModuleDetail from './ModuleDetail';
 
 // --- Helper Components ---
 
-const EnhancedMarkdownRenderer: React.FC<{ content: unknown }> = ({ content }) => {
+const parseInlineMarkdown = (text: string) => {
+    if (typeof text !== 'string') return String(text || '');
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+        if (typeof part !== 'string') return null;
+        if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        return <React.Fragment key={index}>{part}</React.Fragment>;
+    });
+};
+
+const EnhancedMarkdownRenderer: React.FC<{ content: string | undefined | null }> = ({ content }) => {
+    // Guard: if no content, render a friendly placeholder instead of crashing
+    if (typeof content !== 'string' || content.trim() === '') {
+        return (
+            <div className="my-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r">
+                <p className="text-yellow-800 text-sm">Module content is coming soon.</p>
+            </div>
+        );
+    }
+
     const elements: React.ReactNode[] = [];
-    const safeContent = assertString('module.content', content);
-    const lines = safeContent.split('\n').filter(line => line.trim() !== '');
+    let lines: string[] = [];
+    try {
+        lines = content.split('\n').filter(line => line.trim() !== '');
+    } catch (err) {
+        // Fallback in case of unexpected content format
+        return (
+            <div className="my-4 p-4 bg-red-50 border-l-4 border-red-400 rounded-r">
+                <p className="text-red-800 text-sm">We couldn't render this module's content right now.</p>
+            </div>
+        );
+    }
 
     interface ListItem {
         text: string;
@@ -280,18 +302,9 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
             .map(r => r.category);
     }, [latestQuizResults]);
 
+
     if (selectedModule) {
-        // FULL ISOLATION: do NOT touch selectedModule values at all
-        console.log('ModulesView: rendering constant stub for selected module');
-        return (
-            <ErrorBoundary>
-                <div className="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-4xl mx-auto space-y-6">
-                    <button onClick={() => setSelectedModule(null)} className="text-brand-blue font-semibold">&larr; Back to all modules</button>
-                    <h1 className="text-4xl font-bold text-gray-800">Module detail stub</h1>
-                    <p className="mt-4 text-gray-700">If you can see this, the crash is inside selectedModule value usage.</p>
-                </div>
-            </ErrorBoundary>
-        );
+        return <ModuleDetail module={selectedModule} onBack={() => setSelectedModule(null)} />;
     }
 
     const filteredModules = useMemo(() => {
@@ -315,31 +328,64 @@ const ModulesView: React.FC<ModulesViewProps> = ({ selectedModule, setSelectedMo
     }, [searchTerm, filter, recommendedCategories]);
     
     return (
-        <div className="bg-white p-6 rounded-lg shadow">
-            <h1 className="text-2xl font-bold text-gray-800">Modules</h1>
-            <ul className="mt-4 divide-y divide-gray-100">
-                {LEARNING_MODULES.map((m) => (
-                    <li key={String(m.slug)} className="py-4 flex items-start justify-between">
-                        <div className="pr-4">
-                            <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
-                                <SafeText value={m.category} />
-                            </span>
-                            <h3 className="text-lg font-bold text-gray-800 mt-2">
-                                <SafeText value={m.title} />
-                            </h3>
-                            <p className="text-sm text-gray-600 mt-1">
-                                <SafeText value={m.summary} />
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => setSelectedModule(m)}
-                            className="self-center bg-brand-blue text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-700"
-                        >
-                            Open
-                        </button>
-                    </li>
+        <div>
+            {/* SEO: Modules list */}
+            <Seo
+                title="Modules – Driving Mastery"
+                description="Study modules covering all 14 DVSA categories for the UK driving theory test."
+                url={`${SITE_URL}/modules`}
+            />
+            <div className="text-center mb-10">
+                <h1 className="text-3xl font-bold text-gray-800">DVSA Learning Modules</h1>
+                <p className="text-gray-600 mt-2 max-w-2xl mx-auto">Browse all 14 official categories. Each module contains key information and a mini-quiz to test your understanding.</p>
+            </div>
+            
+            <div className="max-w-2xl mx-auto mb-4 flex justify-center items-center space-x-2">
+                 <button 
+                    onClick={() => setFilter('all')}
+                    className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'all' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
+                >
+                    All Modules
+                </button>
+                {recommendedCategories.length > 0 && (
+                    <button 
+                        onClick={() => setFilter('recommended')}
+                        className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === 'recommended' ? 'bg-brand-blue text-white shadow' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
+                    >
+                        Recommended
+                    </button>
+                )}
+            </div>
+            {filter === 'recommended' && (
+                <p className="text-center text-xs text-gray-500 mb-6">based on your most recent performance</p>
+            )}
+
+
+            <div className="max-w-2xl mx-auto mb-8">
+                <input
+                    type="text"
+                    placeholder="Search for a topic..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-brand-blue focus:border-brand-blue transition"
+                />
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredModules.map(module => (
+                    <ModuleCard key={module.slug} module={module} onSelect={setSelectedModule} />
                 ))}
-            </ul>
+            </div>
+            {filteredModules.length === 0 && (
+                <div className="text-center col-span-full py-12 text-gray-500">
+                    <p>
+                        {filter === 'recommended' 
+                            ? "No specific recommendations right now. Great work!" 
+                            : `No modules found for "${searchTerm}".`
+                        }
+                    </p>
+                </div>
+            )}
         </div>
     );
 };

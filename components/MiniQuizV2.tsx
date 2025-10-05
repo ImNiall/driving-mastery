@@ -2,7 +2,7 @@ import React from 'react';
 import { Question as QuestionType, UserAnswer, Category, LearningModule } from '../types';
 import { QUESTION_BANK } from '../constants';
 import QuestionCard from './QuestionCard';
-import { useAuth } from '@clerk/clerk-react';
+import { useAuthCtx } from '../src/providers/AuthProvider';
 import { getSupabaseClient } from '../services/quizSessionService';
 import { makeQuizStore } from '../store/useQuizStore';
 import { upsertQuizProgress, upsertQuizAnswers, upsertQuizQuestions, loadQuizAttempt } from '../services/supabaseWrites';
@@ -21,8 +21,9 @@ const MiniQuizV2: React.FC<MiniQuizProps> = ({ module, onModuleMastery, attemptI
     return () => console.log('[MiniQuizV2] Component unmounted', { attemptId, moduleSlug: module.slug });
   }, [attemptId, module.slug]);
   
-  // Get auth from Clerk
-  const { userId } = useAuth();
+  // Get auth from Supabase
+  const { user } = useAuthCtx();
+  const userId = user?.id;
   
   // Create Zustand store for this quiz attempt
   const storeRef = React.useRef<ReturnType<typeof makeQuizStore>>();
@@ -137,64 +138,74 @@ const MiniQuizV2: React.FC<MiniQuizProps> = ({ module, onModuleMastery, attemptI
   // Subscribe to store changes and update Supabase
   React.useEffect(() => {
     if (!userId) return;
-    
-    // Subscribe to index changes
-    const unsubIndex = useQuizStore.subscribe(
-      state => state.currentIndex,
-      (currentIndex, prevIndex) => {
-        console.log('[MiniQuizV2] Index changed:', { prevIndex, currentIndex });
-        if (questions.length > 0) {
-          upsertQuizProgress(
-            supabase,
-            attemptId,
-            module.slug,
-            userId,
-            currentIndex,
-            useQuizStore.getState().state
-          );
-        }
+
+    // Index watcher
+    const selectIndex = (s: ReturnType<typeof useQuizStore.getState>) => s.currentIndex;
+    let prevIndex = selectIndex(useQuizStore.getState());
+    const unsubIndex = useQuizStore.subscribe((state) => {
+      const next = selectIndex(state);
+      if (Object.is(next, prevIndex)) return;
+      const old = prevIndex;
+      prevIndex = next;
+      console.log('[MiniQuizV2] Index changed:', { prevIndex: old, currentIndex: next });
+      if (questions.length > 0) {
+        upsertQuizProgress(
+          supabase,
+          attemptId,
+          module.slug,
+          userId,
+          next,
+          useQuizStore.getState().state
+        );
       }
-    );
-    
-    // Subscribe to state changes
-    const unsubState = useQuizStore.subscribe(
-      state => state.state,
-      (newState, prevState) => {
-        console.log('[MiniQuizV2] State changed:', { prevState, newState });
-        if (questions.length > 0) {
-          upsertQuizProgress(
-            supabase,
-            attemptId,
-            module.slug,
-            userId,
-            useQuizStore.getState().currentIndex,
-            newState
-          );
-        }
+    });
+
+    // State watcher
+    const selectState = (s: ReturnType<typeof useQuizStore.getState>) => s.state;
+    let prevStateVal = selectState(useQuizStore.getState());
+    const unsubState = useQuizStore.subscribe((state) => {
+      const next = selectState(state);
+      if (Object.is(next, prevStateVal)) return;
+      const old = prevStateVal;
+      prevStateVal = next;
+      console.log('[MiniQuizV2] State changed:', { prevState: old, newState: next });
+      if (questions.length > 0) {
+        upsertQuizProgress(
+          supabase,
+          attemptId,
+          module.slug,
+          userId,
+          useQuizStore.getState().currentIndex,
+          next
+        );
       }
-    );
-    
-    // Subscribe to answers changes
-    const unsubAnswers = useQuizStore.subscribe(
-      state => state.answers,
-      (newAnswers) => {
-        console.log('[MiniQuizV2] Answers updated:', { count: newAnswers.length });
-        if (newAnswers.length > 0) {
-          upsertQuizAnswers(supabase, attemptId, newAnswers);
-        }
+    });
+
+    // Answers watcher
+    const selectAnswers = (s: ReturnType<typeof useQuizStore.getState>) => s.answers;
+    let prevAnswers = selectAnswers(useQuizStore.getState());
+    const unsubAnswers = useQuizStore.subscribe((state) => {
+      const next = selectAnswers(state);
+      if (next === prevAnswers) return; // shallow reference compare
+      prevAnswers = next;
+      console.log('[MiniQuizV2] Answers updated:', { count: next.length });
+      if (next.length > 0) {
+        upsertQuizAnswers(supabase, attemptId, next);
       }
-    );
-    
-    // Subscribe to questions changes
-    const unsubQuestions = useQuizStore.subscribe(
-      state => state.questions,
-      (newQuestions) => {
-        console.log('[MiniQuizV2] Questions updated:', { count: newQuestions.length });
-        if (newQuestions.length > 0) {
-          upsertQuizQuestions(supabase, attemptId, newQuestions);
-        }
+    });
+
+    // Questions watcher
+    const selectQuestions = (s: ReturnType<typeof useQuizStore.getState>) => s.questions;
+    let prevQuestions = selectQuestions(useQuizStore.getState());
+    const unsubQuestions = useQuizStore.subscribe((state) => {
+      const next = selectQuestions(state);
+      if (next === prevQuestions) return;
+      prevQuestions = next;
+      console.log('[MiniQuizV2] Questions updated:', { count: next.length });
+      if (next.length > 0) {
+        upsertQuizQuestions(supabase, attemptId, next);
       }
-    );
+    });
     
     // Update user ID when it becomes available
     if (userId) {

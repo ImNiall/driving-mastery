@@ -14,13 +14,12 @@ import PricingPlans from './components/PricingPlans';
 import { View, QuizResult, Category, QuizAttempt, LearningModule, QuizAction, FinalQuizResults } from './types';
 import { DVSA_CATEGORIES, LEARNING_MODULES, MASTERY_POINTS } from './constants';
 import { ChatIcon, XIcon } from './components/icons';
-import { useAuth } from '@clerk/clerk-react';
+import { useAuthCtx } from './src/providers/AuthProvider';
 import { incrementProgress } from './services/progressService';
 import { logAttempt } from './services/historyService';
 import ErrorBoundary from './components/ErrorBoundary';
 import SupabaseDiagnostic from './components/SupabaseDiagnostic';
-// Import AuthGate from the correct path
-import AuthGate from './src/components/auth/AuthGate';
+import SupaAuthGate from './src/components/auth/SupaAuthGate';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,7 +38,7 @@ const App: React.FC = () => {
     }
   });
 
-  const { getToken } = useAuth();
+  const { session } = useAuthCtx();
 
   const [isChatWidgetOpen, setIsChatWidgetOpen] = useState(false);
   const [chatContextMessage, setChatContextMessage] = useState<string | null>(null);
@@ -183,7 +182,7 @@ const App: React.FC = () => {
     // Persist to server (Supabase) via Netlify Functions
     (async () => {
       try {
-        const token = await getToken();
+        const token = session?.access_token;
         if (token) {
           // Atomic per-category increments
           for (const r of summary.results) {
@@ -277,11 +276,11 @@ const App: React.FC = () => {
       case 'dashboard':
         return <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
       case 'quiz-start':
-        return <AuthGate><QuizStartView onStartQuiz={handleStartQuiz} onBack={handleBackToDashboard} quizHistory={quizHistory} /></AuthGate>;
+        return <SupaAuthGate><QuizStartView onStartQuiz={handleStartQuiz} onBack={handleBackToDashboard} quizHistory={quizHistory} /></SupaAuthGate>;
       case 'quiz':
-        return <AuthGate><QuizView categories={quizConfig.categories} length={quizConfig.length} onQuizComplete={handleQuizComplete} seenQuestionIds={seenQuestionIds} onQuestionsSeen={handleQuestionsSeen} /></AuthGate>;
+        return <SupaAuthGate><QuizView categories={quizConfig.categories} length={quizConfig.length} onQuizComplete={handleQuizComplete} seenQuestionIds={seenQuestionIds} onQuestionsSeen={handleQuestionsSeen} /></SupaAuthGate>;
       case 'quiz-results':
-        return quizResults ? <AuthGate><QuizResultsView results={quizResults} onBackToDashboard={handleBackToDashboard} onRestartQuiz={handleRestartQuiz} onViewModule={handleViewModule} setView={setCurrentView} /></AuthGate> : <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
+        return quizResults ? <SupaAuthGate><QuizResultsView results={quizResults} onBackToDashboard={handleBackToDashboard} onRestartQuiz={handleRestartQuiz} onViewModule={handleViewModule} setView={setCurrentView} /></SupaAuthGate> : <Dashboard progress={progress} setupQuiz={handleSetupQuiz} setView={setCurrentView} viewModule={handleViewModule} onOpenChat={handleOpenChat} />;
       case 'modules':
         return <ModulesView selectedModule={selectedModule} setSelectedModule={setSelectedModule} latestQuizResults={quizResults} onModuleMastery={handleModuleMastery} masteredModules={masteredModules} />;
       case 'chat':

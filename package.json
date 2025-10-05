@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
     "dev:server": "NODE_ENV=development node server/index.js",
@@ -15,7 +17,6 @@
     "seo:audit": "node scripts/seo-audit.cjs"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.49.0",
     "@clerk/clerk-sdk-node": "^4.13.23",
     "@supabase/supabase-js": "^2.58.0",
     "cors": "^2.8.5",

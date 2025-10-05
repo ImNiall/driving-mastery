@@ -5,7 +5,7 @@ import QuestionCard from './QuestionCard';
 import QuizTimer from './QuizTimer';
 import { ArrowRightIcon, ArrowLeftIcon, FlagIcon, CheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from './icons';
 import { useQuizStore } from '../store/quizStore';
-import useQuizSync from '../hooks/useQuizSync';
+import useQuizSync from '../src/hooks/useQuizSync';
 
 interface QuizProgressPanelProps {
   questions: Question[];
