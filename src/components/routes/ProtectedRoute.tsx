@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '@clerk/clerk-react';
+import { useAuthCtx } from '../../providers/AuthProvider';
 
 export default function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const { isLoaded, isSignedIn } = useAuth();
-  if (!isLoaded) return null; // wait for Clerk to bootstrap
-  return isSignedIn ? children : <Navigate to="/sign-in" replace />;
+  const { loading, session } = useAuthCtx();
+  if (loading) return null; // or a spinner skeleton
+  return session ? children : <Navigate to="/sign-in" replace />;
 }
