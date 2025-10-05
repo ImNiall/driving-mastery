@@ -91,10 +91,18 @@ const App: React.FC = () => {
 
   useEffect(() => {
     try {
-      const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
-      setIsLoggedIn(loggedInStatus);
-      if (loggedInStatus) {
-        setCurrentView('dashboard');
+      // Support pretty URLs for auth without a router
+      const path = window.location.pathname;
+      if (path === '/sign-in' || path === '/sign-up') {
+        setIsLoggedIn(false);
+        setAuthMode(path === '/sign-in' ? 'signin' : 'signup');
+        setCurrentView('auth');
+      } else {
+        const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
+        setIsLoggedIn(loggedInStatus);
+        if (loggedInStatus) {
+          setCurrentView('dashboard');
+        }
       }
     } catch (e) {
       console.error("Could not read from localStorage", e);
