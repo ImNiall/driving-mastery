@@ -2,7 +2,7 @@
 // Uses OpenAI server-side. Ensure OPENAI_API_KEY and OPENAI_MODEL are set in Netlify env.
 
 const OpenAI = require('openai');
-const { verifyToken } = require('@clerk/clerk-sdk-node');
+const { requireUser } = require('./_supabase');
 
 // Minimal server-only constants (duplicated to avoid TS/ESM import issues in functions)
 const DVSA_CATEGORIES = [
@@ -58,17 +58,8 @@ exports.handler = async function (event) {
       return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
-    // Auth: verify Clerk JWT from Authorization header
-    const authHeader = event.headers['authorization'] || event.headers['Authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Missing Authorization header' }) };
-    }
-    const token = authHeader.substring('Bearer '.length);
-    try {
-      await verifyToken(token, { secretKey: process.env.CLERK_SECRET_KEY });
-    } catch (e) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
-    }
+    // Require Supabase user (throws 401 if missing/invalid)
+    await requireUser(event);
 
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
     const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';

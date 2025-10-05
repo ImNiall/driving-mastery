@@ -1,8 +1,7 @@
 // Netlify Function: /api/progress
-// CRUD for user progress using Supabase. Protected by Clerk JWT.
+// CRUD for user progress using Supabase. Protected by Supabase JWT.
 
-const { verifyToken } = require('@clerk/clerk-sdk-node');
-const { getSupabaseAdmin } = require('./_supabase');
+const { getSupabaseAdmin, requireUser } = require('./_supabase');
 
 exports.handler = async function (event) {
   try {
@@ -14,19 +13,8 @@ exports.handler = async function (event) {
       return { statusCode: 204, headers: corsHeaders() };
     }
 
-    // Verify Clerk JWT
-    const authHeader = event.headers['authorization'] || event.headers['Authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return withCors({ statusCode: 401, body: JSON.stringify({ error: 'Missing Authorization header' }) });
-    }
-    const token = authHeader.substring('Bearer '.length);
-    let sub;
-    try {
-      const claims = await verifyToken(token, { secretKey: process.env.CLERK_SECRET_KEY });
-      sub = claims.sub;
-    } catch (e) {
-      return withCors({ statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) });
-    }
+    // Require Supabase user (maps to clerk_user_id column for now)
+    const user = await requireUser(event);
 
     const supabase = getSupabaseAdmin();
 
@@ -34,7 +22,7 @@ exports.handler = async function (event) {
       // GET /api/progress?category=Motorway%20rules (optional)
       const qs = event.queryStringParameters || {};
       const category = qs.category;
-      let query = supabase.from('progress').select('*').eq('clerk_user_id', sub);
+      let query = supabase.from('progress').select('*').eq('clerk_user_id', user.id);
       if (category) query = query.eq('category', category);
       const { data, error } = await query;
       if (error) throw error;
@@ -49,7 +37,7 @@ exports.handler = async function (event) {
       if (!category) return withCors({ statusCode: 400, body: JSON.stringify({ error: 'Missing category' }) });
       const { data, error } = await supabase
         .from('progress')
-        .upsert({ clerk_user_id: sub, category, correct, total, updated_at: new Date().toISOString() }, { onConflict: 'clerk_user_id,category' })
+        .upsert({ clerk_user_id: user.id, category, correct, total, updated_at: new Date().toISOString() }, { onConflict: 'clerk_user_id,category' })
         .select('*');
       if (error) throw error;
       return withCors({ statusCode: 200, body: JSON.stringify({ item: (data || [])[0] }) });
@@ -72,7 +60,7 @@ exports.handler = async function (event) {
       const { data, error } = await supabase
         .from('progress')
         .select('*')
-        .eq('clerk_user_id', sub)
+        .eq('clerk_user_id', user.id)
         .eq('category', category)
         .limit(1);
       if (error) throw error;
@@ -83,7 +71,7 @@ exports.handler = async function (event) {
       // DELETE /api/progress?category=Motorway%20rules (optional)
       const qs = event.queryStringParameters || {};
       const category = qs.category;
-      let query = supabase.from('progress').delete().eq('clerk_user_id', sub);
+      let query = supabase.from('progress').delete().eq('clerk_user_id', user.id);
       if (category) query = query.eq('category', category);
       const { error } = await query;
       if (error) throw error;

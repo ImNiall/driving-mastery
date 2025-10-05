@@ -1,8 +1,7 @@
 // Netlify Function: /api/history
-// Logs and retrieves quiz attempts. Protected by Clerk JWT.
+// Logs and retrieves quiz attempts. Protected by Supabase JWT.
 
-const { verifyToken } = require('@clerk/clerk-sdk-node');
-const { getSupabaseAdmin } = require('./_supabase');
+const { getSupabaseAdmin, requireUser } = require('./_supabase');
 
 exports.handler = async function (event) {
   try {
@@ -14,19 +13,8 @@ exports.handler = async function (event) {
       return { statusCode: 204, headers: corsHeaders() };
     }
 
-    // Verify Clerk JWT
-    const authHeader = event.headers['authorization'] || event.headers['Authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return withCors({ statusCode: 401, body: JSON.stringify({ error: 'Missing Authorization header' }) });
-    }
-    const token = authHeader.substring('Bearer '.length);
-    let sub;
-    try {
-      const claims = await verifyToken(token, { secretKey: process.env.CLERK_SECRET_KEY });
-      sub = claims.sub;
-    } catch (e) {
-      return withCors({ statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) });
-    }
+    // Require Supabase user
+    const user = await requireUser(event);
 
     const supabase = getSupabaseAdmin();
 
@@ -37,7 +25,7 @@ exports.handler = async function (event) {
       const { data, error } = await supabase
         .from('quiz_history')
         .select('*')
-        .eq('clerk_user_id', sub)
+        .eq('clerk_user_id', user.id)
         .gte('created_at', since)
         .order('created_at', { ascending: false });
       if (error) throw error;
@@ -52,7 +40,7 @@ exports.handler = async function (event) {
       }
       const { error } = await supabase
         .from('quiz_history')
-        .insert([{ clerk_user_id: sub, score, total, details: details || null }]);
+        .insert([{ clerk_user_id: user.id, score, total, details: details || null }]);
       if (error) throw error;
       return withCors({ statusCode: 201, body: JSON.stringify({ ok: true }) });
     }

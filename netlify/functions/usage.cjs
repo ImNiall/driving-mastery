@@ -1,8 +1,7 @@
 // Netlify Function: /api/usage
-// Tracks once-per-day feature usage. Protected by Clerk JWT.
+// Tracks once-per-day feature usage. Protected by Supabase JWT.
 
-const { verifyToken } = require('@clerk/clerk-sdk-node');
-const { getSupabaseAdmin } = require('./_supabase');
+const { getSupabaseAdmin, requireUser } = require('./_supabase');
 
 exports.handler = async function (event) {
   try {
@@ -14,19 +13,8 @@ exports.handler = async function (event) {
       return { statusCode: 204, headers: corsHeaders() };
     }
 
-    // Verify Clerk JWT
-    const authHeader = event.headers['authorization'] || event.headers['Authorization'];
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return withCors({ statusCode: 401, body: JSON.stringify({ error: 'Missing Authorization header' }) });
-    }
-    const token = authHeader.substring('Bearer '.length);
-    let sub;
-    try {
-      const claims = await verifyToken(token, { secretKey: process.env.CLERK_SECRET_KEY });
-      sub = claims.sub;
-    } catch (e) {
-      return withCors({ statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) });
-    }
+    // Require Supabase user
+    const user = await requireUser(event);
 
     const supabase = getSupabaseAdmin();
 
@@ -39,7 +27,7 @@ exports.handler = async function (event) {
       const { data, error } = await supabase
         .from('usage_limits')
         .select('*')
-        .eq('clerk_user_id', sub)
+        .eq('clerk_user_id', user.id)
         .eq('feature', feature)
         .eq('used_on', today)
         .limit(1);
@@ -54,7 +42,7 @@ exports.handler = async function (event) {
       // Insert; unique constraint makes it once-per-day
       const { error } = await supabase
         .from('usage_limits')
-        .insert([{ clerk_user_id: sub, feature }]);
+        .insert([{ clerk_user_id: user.id, feature }]);
       if (error) {
         // 23505 = unique_violation (already used today)
         if (error.code === '23505') {
