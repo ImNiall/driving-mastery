@@ -59,4 +59,14 @@
     Access-Control-Allow-Headers = "Authorization, Content-Type, Accept, Origin, User-Agent"
 
     # Content Security Policy (tune as needed)
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://*.clerk.com https://*.accounts.dev https://clerk.drivingmastery.co.uk https://accounts.drivingmastery.co.uk; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.netlify.app https://drivingmastery.co.uk https://*.clerk.com https://*.accounts.dev https://clerk.drivingmastery.co.uk https://accounts.drivingmastery.co.uk https://ynqwlxvqnfvbvnpbcnwx.supabase.co; frame-src https://clerk.drivingmastery.co.uk https://accounts.drivingmastery.co.uk; frame-ancestors 'none';"
+    Content-Security-Policy = """
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    connect-src 'self' https://*.supabase.co https://*.supabase.net;
+    img-src 'self' data: blob:;
+    style-src 'self' 'unsafe-inline';
+    font-src 'self' data:;
+    frame-src 'self';
+    base-uri 'self';
+    form-action 'self';
+    """
