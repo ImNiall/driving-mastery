@@ -1,5 +1,7 @@
 
 import React from 'react';
+import { supabase } from '../src/lib/supabase';
+import { useAuthCtx } from '../src/providers/AuthProvider';
 import { View } from '../types';
 import { HomeIcon, QuizIcon, BookOpenIcon, ChatIcon, TrophyIcon } from './icons';
 
@@ -17,6 +19,8 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
     { id: 'chat', icon: ChatIcon, label: 'AI Mentor' },
     { id: 'pricing', icon: TrophyIcon, label: 'Pricing' },
   ] as const;
+
+  const { user } = useAuthCtx();
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-10">
@@ -39,6 +43,17 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
               {item.label}
             </button>
           ))}
+          <span className="mx-2 text-gray-300">|</span>
+          <span className="text-sm text-gray-600 mr-2">
+            {user?.email ? `Hello, ${user.email}` : 'Guest'}
+          </span>
+          <button
+            onClick={() => supabase.auth.signOut()}
+            className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+            aria-label="Sign out"
+          >
+            Sign out
+          </button>
         </nav>
       </div>
        {/* Mobile Bottom Nav */}
