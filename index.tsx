@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import ClerkAppProvider from './src/providers/ClerkAppProvider';
+import AuthProvider from './src/providers/AuthProvider';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -11,8 +11,8 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <ClerkAppProvider>
+    <AuthProvider>
       <App />
-    </ClerkAppProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
