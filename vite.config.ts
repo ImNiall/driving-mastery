@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         dedupe: ['react', 'react-dom']
       },
       build: {
+        sourcemap: true,
         commonjsOptions: {
           include: [/node_modules/],
         },
