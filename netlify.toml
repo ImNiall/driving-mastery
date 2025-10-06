@@ -1,24 +1,6 @@
 [build]
   command = "npm run build"
+  publish = ".next"
 
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Production CSP: local assets + Supabase + Google Fonts
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co https://*.supabase.in; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self';"
-
-# Temporary debug header to verify which deploy/domain is serving this site
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Debug-Release = "2025-10-06-1135"
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

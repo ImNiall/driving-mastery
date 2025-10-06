@@ -3,9 +3,13 @@
 .env.direct
 node_modules
 dist
+.next
 .DS_Store
 
 # env
 .env*
 *.env*
 .env.direct
+
+# Local Netlify folder
+.netlify
