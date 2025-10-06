@@ -6,45 +6,10 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Driving Mastery: Your AI Driving Theory Coach</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      // Early unregister any existing service workers and clear caches before app loads
-      (function() {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
-        }
-        if (typeof caches !== 'undefined' && caches.keys) {
-          caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
-        }
-      })();
-    </script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'brand-blue': '#3B82F6',
-              'brand-blue-light': '#EFF6FF',
-              'brand-green': '#10B981',
-              'brand-red': '#EF4444',
-            },
-             animation: {
-              'fade-in': 'fadeIn 0.5s ease-in-out',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-            },
-          }
-        }
-      }
-    </script>
-<link rel="stylesheet" href="/index.css?v=2">
+<link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-slate-50">
     <div id="root"></div>
-    <script type="module" src="/index.tsx?v=2"></script>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
