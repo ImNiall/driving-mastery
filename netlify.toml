@@ -1,100 +1,18 @@
 [build]
   command = "npm run build"
-  publish = "dist"
-  functions = "netlify/functions"
-
-# IMPORTANT: Do not commit secrets here. Use Netlify UI Environment Variables instead.
-# Remove any hardcoded keys and set VITE_* vars in the dashboard per environment.
-
-# Deploy preview environment (no auth)
-[context.deploy-preview.environment]
-  # No Clerk keys for preview environments
-
-[[redirects]]
-  from = "/api/chat"
-  to = "/.netlify/functions/chat"
-  status = 200
-
-[[redirects]]
-  from = "/api/progress"
-  to = "/.netlify/functions/progress"
-  status = 200
-
-[[redirects]]
-  from = "/api/history"
-  to = "/.netlify/functions/history"
-  status = 200
-
-[[redirects]]
-  from = "/api/usage"
-  to = "/.netlify/functions/usage"
-  status = 200
-
-
-# SPA fallback - must be the last redirect
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Global security and CORS headers
-[[headers]]
-  for = "/*"
-  [headers.values]
-    # Basic security
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-
-    # CORS (adjust Origin to specific domains in production if desired)
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-    Access-Control-Allow-Headers = "Authorization, Content-Type, Accept, Origin, User-Agent"
-
-    # Content Security Policy (tune as needed)
-    Content-Security-Policy = """
-    default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval';
-    connect-src 'self' https://*.supabase.co https://*.supabase.net;
-    img-src 'self' data: blob:;
-    style-src 'self' 'unsafe-inline';
-    font-src 'self' data:;
-    frame-src 'self';
-    base-uri 'self';
-    form-action 'self';
-    """
-
-# Prevent stale HTML and Service Worker caching
-[[headers]]
-  for = "/"
-  [headers.values]
-    Cache-Control = "no-store, must-revalidate"
 
 [[headers]]
   for = "/index.html"
   [headers.values]
-    Cache-Control = "no-store, must-revalidate"
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
 
 [[headers]]
-  for = "/service-worker.js"
+  for = "/*"
   [headers.values]
-    Cache-Control = "no-store, must-revalidate"
+    Cache-Control = "public, max-age=31536000, immutable"
 
-# Temporarily force JS assets to bypass caches (remove after validation)
+# Production CSP: local assets + Supabase + Google Fonts
 [[headers]]
-  for = "/*.js"
+  for = "/*"
   [headers.values]
-    Cache-Control = "no-store, must-revalidate"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "no-store, must-revalidate"
-
-# Optional: nuke caches/cookies/storage on next load (heavy-handed)
-[[headers]]
-  for = "/"
-  [headers.values]
-    Clear-Site-Data = "\"cache, storage\""
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co https://*.supabase.in; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self';"
