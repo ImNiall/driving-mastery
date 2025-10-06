@@ -30,11 +30,6 @@
   to = "/.netlify/functions/usage"
   status = 200
 
-# Clerk authentication redirects
-[[redirects]]
-  from = "/sso-callback"
-  to = "/sign-in"
-  status = 200
 
 # SPA fallback - must be the last redirect
 [[redirects]]
@@ -86,3 +81,20 @@
   for = "/service-worker.js"
   [headers.values]
     Cache-Control = "no-store, must-revalidate"
+
+# Temporarily force JS assets to bypass caches (remove after validation)
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "no-store, must-revalidate"
+
+# Optional: nuke caches/cookies/storage on next load (heavy-handed)
+[[headers]]
+  for = "/"
+  [headers.values]
+    Clear-Site-Data = "\"cache, storage\""
