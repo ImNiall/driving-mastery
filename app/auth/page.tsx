@@ -18,23 +18,22 @@ function AuthInner() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
     try {
       if (mode === "signup") {
         const { error: err } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/modules` },
+          options: { emailRedirectTo: `${window.location.origin}/dashboard` },
         });
         if (err) throw err;
-        router.push("/modules");
+        router.push("/dashboard");
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (err) throw err;
-        router.push("/modules");
+        router.push("/dashboard");
       }
     } catch (err: any) {
       setError(err?.message || "Authentication failed");
