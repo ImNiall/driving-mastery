@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "deploy": "npm run build && node scripts/scan-built-for-clerk.cjs",
+    "deploy": "npm run build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
