@@ -12,21 +12,31 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "allowJs": false,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "paths": { "@/*": ["./*"] },
+    "paths": {
+      "@/*": ["./*"]
+    },
     "noEmit": true,
     "types": ["node"],
-    "plugins": [ { "name": "next" } ]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "allowJs": true,
+    "esModuleInterop": true,
+    "isolatedModules": true
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["app/**/*", "lib/**/*", "next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next",
+    "public",
+    "scripts",
+    "dist",
+    "build",
+    "out",
+    "**/*.test.*"
   ]
 }

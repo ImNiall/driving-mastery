@@ -1,25 +1,31 @@
-import React, { useMemo } from 'react';
-import { getOrCreateModuleAttemptId } from '../utils/attemptId';
-import { useAuthReady } from '../hooks/useAuthReady';
-import { getSupabaseClient } from '../services/quizSessionService';
-import { LearningModule } from '../types';
-import MiniQuizV2 from './MiniQuizV2';
+import React, { useMemo } from "react";
+import { getOrCreateModuleAttemptId } from "../utils/attemptId";
+import { useAuthReady } from "../hooks/useAuthReady";
+import { getSupabaseClient } from "../services/quizSessionService";
+import { LearningModule } from "../types";
+import MiniQuizV2 from "./MiniQuizV2";
 
 interface MiniQuizWrapperProps {
   module: LearningModule;
   onModuleMastery: (category: string) => void;
 }
 
-const MiniQuizWrapper: React.FC<MiniQuizWrapperProps> = ({ module, onModuleMastery }) => {
+const MiniQuizWrapper: React.FC<MiniQuizWrapperProps> = ({
+  module,
+  onModuleMastery,
+}) => {
   // Get Supabase client
   const supabase = useMemo(() => getSupabaseClient(), []);
-  
+
   // Wait for auth to be ready
   const authReady = useAuthReady(supabase);
-  
+
   // Create or get the attempt ID for this module
-  const attemptId = useMemo(() => getOrCreateModuleAttemptId(module.slug), [module.slug]);
-  
+  const attemptId = useMemo(
+    () => getOrCreateModuleAttemptId(module.slug),
+    [module.slug],
+  );
+
   // Loading state while auth is initializing
   if (!authReady) {
     return (
@@ -31,7 +37,7 @@ const MiniQuizWrapper: React.FC<MiniQuizWrapperProps> = ({ module, onModuleMaste
       </div>
     );
   }
-  
+
   // Only render the quiz component when auth is ready and we have an attempt ID
   // The key prop ensures the component fully remounts if the attempt ID changes
   return (
