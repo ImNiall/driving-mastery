@@ -1,4 +1,5 @@
 import React from "react";
+import { supabase } from "@/lib/supabase/client";
 import {
   StarIcon,
   CpuChipIcon,
@@ -11,27 +12,60 @@ interface LandingPageProps {
   onNavigateToAuth: (mode: "signup" | "signin") => void;
 }
 
-const LandingHeader: React.FC<LandingPageProps> = ({ onNavigateToAuth }) => (
-  <header className="bg-white/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
-    <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold text-brand-blue">Driving Mastery</h1>
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={() => onNavigateToAuth("signin")}
-          className="text-gray-600 font-semibold py-2 px-4 rounded-full transition-colors hover:bg-gray-100"
-        >
-          Sign In
-        </button>
-        <button
-          onClick={() => onNavigateToAuth("signup")}
-          className="bg-brand-blue text-white py-2 px-5 rounded-full font-semibold transition-transform hover:scale-105"
-        >
-          Sign Up for Free
-        </button>
+const LandingHeader: React.FC<LandingPageProps> = ({ onNavigateToAuth }) => {
+  const [signedIn, setSignedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (mounted) setSignedIn(!!data.session);
+    })();
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setSignedIn(!!session);
+    });
+    return () => {
+      mounted = false;
+      sub.subscription?.unsubscribe();
+    };
+  }, []);
+
+  return (
+    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-brand-blue">Driving Mastery</h1>
+        <div className="flex items-center space-x-2">
+          {signedIn ? (
+            <button
+              onClick={async () => {
+                await supabase.auth.signOut();
+                onNavigateToAuth("signin");
+              }}
+              className="text-gray-600 font-semibold py-2 px-4 rounded-full transition-colors hover:bg-gray-100"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => onNavigateToAuth("signin")}
+                className="text-gray-600 font-semibold py-2 px-4 rounded-full transition-colors hover:bg-gray-100"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => onNavigateToAuth("signup")}
+                className="bg-brand-blue text-white py-2 px-5 rounded-full font-semibold transition-transform hover:scale-105"
+              >
+                Sign Up for Free
+              </button>
+            </>
+          )}
+        </div>
       </div>
-    </div>
-  </header>
-);
+    </header>
+  );
+};
 
 const FeatureCard: React.FC<{
   icon: React.ReactNode;

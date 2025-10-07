@@ -1,6 +1,6 @@
-import { UserAnswer } from '../types';
+import { UserAnswer } from "../types";
 
-const WRONG_ANSWERS_KEY = 'driving_mastery_wrong_answers';
+const WRONG_ANSWERS_KEY = "driving_mastery_wrong_answers";
 
 // Interface for storing wrong answers by module slug
 interface WrongAnswersByModule {
@@ -15,43 +15,41 @@ export const storeWrongAnswers = (wrongAnswers: UserAnswer[]): void => {
   try {
     // Get existing wrong answers
     const existingData = localStorage.getItem(WRONG_ANSWERS_KEY);
-    const existingWrongAnswers: WrongAnswersByModule = existingData ? JSON.parse(existingData) : {};
-    
+    const existingWrongAnswers: WrongAnswersByModule = existingData
+      ? JSON.parse(existingData)
+      : {};
+
     // Group new wrong answers by module slug
     const newWrongAnswersByModule: WrongAnswersByModule = {};
-    
-    wrongAnswers.forEach(answer => {
+
+    wrongAnswers.forEach((answer) => {
       if (!answer.moduleSlug) return;
-      
-      if (!newWrongAnswersByModule[answer.moduleSlug]) {
-        newWrongAnswersByModule[answer.moduleSlug] = [];
-      }
-      
-      newWrongAnswersByModule[answer.moduleSlug].push(answer);
+
+      // Ensure array initialized before pushing
+      (newWrongAnswersByModule[answer.moduleSlug] ||= []).push(answer);
     });
-    
+
     // Merge with existing data
     const mergedData: WrongAnswersByModule = { ...existingWrongAnswers };
-    
-    Object.keys(newWrongAnswersByModule).forEach(moduleSlug => {
-      if (!mergedData[moduleSlug]) {
-        mergedData[moduleSlug] = [];
-      }
-      
+
+    Object.keys(newWrongAnswersByModule).forEach((moduleSlug) => {
+      const target = mergedData[moduleSlug] ?? (mergedData[moduleSlug] = []);
+
       // Add new wrong answers, avoiding duplicates by questionId
-      const existingIds = new Set(mergedData[moduleSlug].map(a => a.questionId));
-      
-      newWrongAnswersByModule[moduleSlug].forEach(answer => {
+      const existingIds = new Set((target ?? []).map((a) => a.questionId));
+
+      const newList = newWrongAnswersByModule[moduleSlug] ?? [];
+      newList.forEach((answer) => {
         if (!existingIds.has(answer.questionId)) {
-          mergedData[moduleSlug].push(answer);
+          target.push(answer);
         }
       });
     });
-    
+
     // Store back to localStorage
     localStorage.setItem(WRONG_ANSWERS_KEY, JSON.stringify(mergedData));
   } catch (e) {
-    console.error('[wrongAnswers] Error storing wrong answers:', e);
+    console.error("[wrongAnswers] Error storing wrong answers:", e);
   }
 };
 
@@ -64,11 +62,11 @@ export const getWrongAnswersForModule = (moduleSlug: string): UserAnswer[] => {
   try {
     const data = localStorage.getItem(WRONG_ANSWERS_KEY);
     if (!data) return [];
-    
+
     const wrongAnswersByModule: WrongAnswersByModule = JSON.parse(data);
     return wrongAnswersByModule[moduleSlug] || [];
   } catch (e) {
-    console.error('[wrongAnswers] Error getting wrong answers:', e);
+    console.error("[wrongAnswers] Error getting wrong answers:", e);
     return [];
   }
 };
@@ -81,14 +79,17 @@ export const clearWrongAnswersForModule = (moduleSlug: string): void => {
   try {
     const data = localStorage.getItem(WRONG_ANSWERS_KEY);
     if (!data) return;
-    
+
     const wrongAnswersByModule: WrongAnswersByModule = JSON.parse(data);
     if (wrongAnswersByModule[moduleSlug]) {
       delete wrongAnswersByModule[moduleSlug];
-      localStorage.setItem(WRONG_ANSWERS_KEY, JSON.stringify(wrongAnswersByModule));
+      localStorage.setItem(
+        WRONG_ANSWERS_KEY,
+        JSON.stringify(wrongAnswersByModule),
+      );
     }
   } catch (e) {
-    console.error('[wrongAnswers] Error clearing wrong answers:', e);
+    console.error("[wrongAnswers] Error clearing wrong answers:", e);
   }
 };
 
@@ -99,6 +100,6 @@ export const clearAllWrongAnswers = (): void => {
   try {
     localStorage.removeItem(WRONG_ANSWERS_KEY);
   } catch (e) {
-    console.error('[wrongAnswers] Error clearing all wrong answers:', e);
+    console.error("[wrongAnswers] Error clearing all wrong answers:", e);
   }
 };
