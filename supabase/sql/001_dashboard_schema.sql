@@ -13,17 +13,34 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
-create policy if not exists profiles_select_own on public.profiles
-for select to authenticated
-using (auth.uid() = id);
+do $$ begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'profiles' and policyname = 'profiles_select_own'
+  ) then
+    create policy profiles_select_own on public.profiles
+      for select to authenticated
+      using (auth.uid() = id);
+  end if;
 
-create policy if not exists profiles_update_own on public.profiles
-for update to authenticated
-using (auth.uid() = id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'profiles' and policyname = 'profiles_update_own'
+  ) then
+    create policy profiles_update_own on public.profiles
+      for update to authenticated
+      using (auth.uid() = id);
+  end if;
 
-create policy if not exists profiles_insert_self on public.profiles
-for insert to authenticated
-with check (auth.uid() = id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'profiles' and policyname = 'profiles_insert_self'
+  ) then
+    create policy profiles_insert_self on public.profiles
+      for insert to authenticated
+      with check (auth.uid() = id);
+  end if;
+end $$;
 
 -- Trigger: create profile on new auth user
 create or replace function public.handle_new_user()
@@ -59,17 +76,34 @@ create table if not exists public.quiz_attempts (
 
 alter table public.quiz_attempts enable row level security;
 
-create policy if not exists attempts_select_own on public.quiz_attempts
-for select to authenticated
-using (auth.uid() = user_id);
+do $$ begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='quiz_attempts' and policyname='attempts_select_own'
+  ) then
+    create policy attempts_select_own on public.quiz_attempts
+      for select to authenticated
+      using (auth.uid() = user_id);
+  end if;
 
-create policy if not exists attempts_insert_own on public.quiz_attempts
-for insert to authenticated
-with check (auth.uid() = user_id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='quiz_attempts' and policyname='attempts_insert_own'
+  ) then
+    create policy attempts_insert_own on public.quiz_attempts
+      for insert to authenticated
+      with check (auth.uid() = user_id);
+  end if;
 
-create policy if not exists attempts_update_own on public.quiz_attempts
-for update to authenticated
-using (auth.uid() = user_id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='quiz_attempts' and policyname='attempts_update_own'
+  ) then
+    create policy attempts_update_own on public.quiz_attempts
+      for update to authenticated
+      using (auth.uid() = user_id);
+  end if;
+end $$;
 
 -- 3) quiz_answers
 create table if not exists public.quiz_answers (
@@ -84,13 +118,25 @@ create table if not exists public.quiz_answers (
 
 alter table public.quiz_answers enable row level security;
 
-create policy if not exists answers_select_own on public.quiz_answers
-for select to authenticated
-using (auth.uid() = user_id);
+do $$ begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='quiz_answers' and policyname='answers_select_own'
+  ) then
+    create policy answers_select_own on public.quiz_answers
+      for select to authenticated
+      using (auth.uid() = user_id);
+  end if;
 
-create policy if not exists answers_insert_own on public.quiz_answers
-for insert to authenticated
-with check (auth.uid() = user_id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='quiz_answers' and policyname='answers_insert_own'
+  ) then
+    create policy answers_insert_own on public.quiz_answers
+      for insert to authenticated
+      with check (auth.uid() = user_id);
+  end if;
+end $$;
 
 -- 4) module_mastery
 create table if not exists public.module_mastery (
@@ -104,13 +150,25 @@ create table if not exists public.module_mastery (
 
 alter table public.module_mastery enable row level security;
 
-create policy if not exists mastery_select_own on public.module_mastery
-for select to authenticated
-using (auth.uid() = user_id);
+do $$ begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='module_mastery' and policyname='mastery_select_own'
+  ) then
+    create policy mastery_select_own on public.module_mastery
+      for select to authenticated
+      using (auth.uid() = user_id);
+  end if;
 
-create policy if not exists mastery_insert_own on public.module_mastery
-for insert to authenticated
-with check (auth.uid() = user_id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='module_mastery' and policyname='mastery_insert_own'
+  ) then
+    create policy mastery_insert_own on public.module_mastery
+      for insert to authenticated
+      with check (auth.uid() = user_id);
+  end if;
+end $$;
 
 -- 5) study_plan_state
 create table if not exists public.study_plan_state (
@@ -124,17 +182,34 @@ create table if not exists public.study_plan_state (
 
 alter table public.study_plan_state enable row level security;
 
-create policy if not exists plan_select_own on public.study_plan_state
-for select to authenticated
-using (auth.uid() = user_id);
+do $$ begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='study_plan_state' and policyname='plan_select_own'
+  ) then
+    create policy plan_select_own on public.study_plan_state
+      for select to authenticated
+      using (auth.uid() = user_id);
+  end if;
 
-create policy if not exists plan_upsert_own on public.study_plan_state
-for insert to authenticated
-with check (auth.uid() = user_id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='study_plan_state' and policyname='plan_upsert_own'
+  ) then
+    create policy plan_upsert_own on public.study_plan_state
+      for insert to authenticated
+      with check (auth.uid() = user_id);
+  end if;
 
-create policy if not exists plan_update_own on public.study_plan_state
-for update to authenticated
-using (auth.uid() = user_id);
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='study_plan_state' and policyname='plan_update_own'
+  ) then
+    create policy plan_update_own on public.study_plan_state
+      for update to authenticated
+      using (auth.uid() = user_id);
+  end if;
+end $$;
 
 -- 6) helper view for dashboard (category performance)
 create or replace view public.v_category_performance as

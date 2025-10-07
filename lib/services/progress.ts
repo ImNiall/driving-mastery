@@ -8,7 +8,9 @@ async function getToken(): Promise<string> {
 }
 
 async function callFn<T>(name: string, init?: RequestInit): Promise<T> {
-  const token = await getToken();
+  const { data, error } = await supabase.auth.getSession();
+  if (error || !data.session?.access_token) throw new Error("No session");
+  const token = data.session.access_token;
   const res = await fetch(`/.netlify/functions/${name}`, {
     ...(init || {}),
     headers: {
@@ -24,7 +26,7 @@ async function callFn<T>(name: string, init?: RequestInit): Promise<T> {
 
 export const ProgressService = {
   startAttempt: (source: "mock" | "mini" | "module" = "module") =>
-    callFn<{ attemptId: string; startedAt: string }>("attempt.start", {
+    callFn<{ attemptId: string; startedAt: string }>("attempt-start", {
       method: "POST",
       body: JSON.stringify({ source }),
     }),
@@ -35,7 +37,7 @@ export const ProgressService = {
     category: string;
     isCorrect: boolean;
   }) =>
-    callFn<{ ok: true }>("answer.record", {
+    callFn<{ ok: true }>("answer-record", {
       method: "POST",
       body: JSON.stringify(payload),
     }),
@@ -46,14 +48,14 @@ export const ProgressService = {
       correct: number;
       score_percent: number;
       duration_sec: number;
-    }>("attempt.finish", {
+    }>("attempt-finish", {
       method: "POST",
       body: JSON.stringify({ attemptId }),
     }),
 
   recordMastery: (category: string, points: number = 0) =>
     callFn<{ category: string; points: number; mastered_at: string }>(
-      "mastery.record",
+      "mastery-record",
       {
         method: "POST",
         body: JSON.stringify({ category, points }),
@@ -66,5 +68,14 @@ export const ProgressService = {
       attempts: any[];
       masteryPoints: number;
       studyPlan: any;
-    }>("progress.overview", { method: "GET" }),
+    }>("progress-overview", { method: "GET" }),
+
+  saveStudyPlan: (payload: { planKey: string; steps: any[] }) =>
+    callFn<{ plan_key: string; steps: any[]; updated_at: string }>(
+      "studyplan-save",
+      {
+        method: "POST",
+        body: JSON.stringify(payload),
+      },
+    ),
 };
