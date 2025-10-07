@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import type { LearningModule, Category } from "../types";
+import { ProgressService } from "@/lib/services/progress";
 
 interface MiniQuizWrapperProps {
   module: LearningModule;
@@ -19,7 +20,14 @@ export default function MiniQuizWrapper({
       </p>
       <button
         className="mt-3 inline-flex items-center rounded-full bg-brand-blue px-4 py-2 text-white text-sm font-semibold hover:opacity-90"
-        onClick={() => onModuleMastery(module.category)}
+        onClick={async () => {
+          try {
+            await ProgressService.recordMastery(module.category, 50);
+          } catch (e) {
+            console.error("recordMastery failed", e);
+          }
+          onModuleMastery(module.category);
+        }}
       >
         Mark as Mastered
       </button>
