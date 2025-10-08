@@ -7,6 +7,7 @@ import type { StudyPlan as StudyPlanType } from "@/types";
 import { useRouter } from "next/navigation";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
+import { QuizIcon, BookOpenIcon, ChatIcon } from "@/components/icons";
 
 // Minimal local progress shape. Replace with real persisted data when available.
 function useLocalProgress(): QuizResult[] {
@@ -152,6 +153,43 @@ export default function DashboardPage() {
               Mastery Points:{" "}
               <span className="font-semibold">{masteryPoints}</span>
             </p>
+            {progress.some((p) => p.total > 0) &&
+              (() => {
+                const weakest = [...progress]
+                  .filter((p) => p.total > 0)
+                  .sort((a, b) => a.correct / a.total - b.correct / b.total)[0];
+                if (!weakest) return null;
+                return (
+                  <div className="mt-6">
+                    <h4 className="font-semibold mb-2 text-gray-700">
+                      Recommended Focus Area
+                    </h4>
+                    <p className="text-sm text-gray-600 mb-3">
+                      Your results suggest focusing on{" "}
+                      <span className="font-bold">{weakest.category}</span>.
+                    </p>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => {
+                          // quick path: start a mock test selection prefilled is not wired; take user to mock test
+                          window.location.href = "/mock-test";
+                        }}
+                        className="w-full bg-brand-blue-light text-brand-blue font-semibold py-2 px-4 rounded-md hover:bg-blue-200 transition-colors"
+                      >
+                        Practice Topic
+                      </button>
+                      <button
+                        onClick={() => {
+                          window.location.href = "/modules";
+                        }}
+                        className="w-full bg-slate-100 text-slate-700 font-semibold py-2 px-4 rounded-md hover:bg-slate-200 transition-colors"
+                      >
+                        Study Module
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
           </div>
           <div className="mt-6 grid grid-cols-1 gap-2">
             <button
@@ -167,6 +205,64 @@ export default function DashboardPage() {
               Browse Modules
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Action cards */}
+      <div className="grid md:grid-cols-3 gap-6">
+        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+          <div className="mx-auto">
+            <QuizIcon className="w-12 h-12 text-brand-blue" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-800 mt-4">
+            Mock Theory Test
+          </h3>
+          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
+            Simulate the official DVSA test with a randomly selected set of
+            questions from all topics.
+          </p>
+          <button
+            onClick={() => router.push("/mock-test")}
+            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
+          >
+            Start Quiz
+          </button>
+        </div>
+        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+          <div className="mx-auto">
+            <BookOpenIcon className="w-12 h-12 text-brand-blue" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-800 mt-4">
+            DVSA Topic Revision
+          </h3>
+          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
+            Study detailed guides covering all 14 official DVSA categories to
+            build your knowledge.
+          </p>
+          <button
+            onClick={() => router.push("/modules")}
+            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
+          >
+            Browse Modules
+          </button>
+        </div>
+        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+          <div className="mx-auto">
+            <ChatIcon className="w-12 h-12 text-brand-blue" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-800 mt-4">
+            Ask the AI Mentor
+          </h3>
+          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
+            Get instant help and explanations on any topic from your personal AI
+            study partner.
+          </p>
+          <button
+            onClick={() => router.push("/mentor")}
+            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
+          >
+            Open Chat
+          </button>
         </div>
       </div>
 
