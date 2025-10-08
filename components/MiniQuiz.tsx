@@ -51,7 +51,7 @@ export default function MiniQuiz({
         // Start mini attempt
         const qs = pickModuleQuestions(module.category, 5);
         setQuestions(qs);
-        const s = await ProgressService.startAttempt("mini");
+        const s = await ProgressService.startAttempt("mini", module.slug);
         setAttemptId(s.attemptId);
         await ProgressService.saveProgress({
           attemptId: s.attemptId,

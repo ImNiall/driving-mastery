@@ -25,10 +25,13 @@ async function callFn<T>(name: string, init?: RequestInit): Promise<T> {
 }
 
 export const ProgressService = {
-  startAttempt: (source: "mock" | "mini" | "module" = "module") =>
+  startAttempt: (
+    source: "mock" | "mini" | "module" = "module",
+    moduleSlug?: string,
+  ) =>
     callFn<{ attemptId: string; startedAt: string }>("attempt-start", {
       method: "POST",
-      body: JSON.stringify({ source }),
+      body: JSON.stringify({ source, moduleSlug }),
     }),
 
   recordAnswer: (payload: {
