@@ -35,11 +35,20 @@ export default function MockTestPage() {
     { qid: number; choice: string; correct: boolean; category: Category }[]
   >([]);
   const [finished, setFinished] = React.useState(false);
+  const [results, setResults] = React.useState<{
+    total: number;
+    correct: number;
+    score_percent: number;
+  } | null>(null);
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [count, setCount] = React.useState<10 | 25 | 50 | null>(null);
   const [stage, setStage] = React.useState<"select" | "quiz">("select");
   const [flagged, setFlagged] = React.useState<number[]>([]);
+  const [recommended, setRecommended] = React.useState<
+    { category: string; scorePct: number }[]
+  >([]);
+  const [mpEarned, setMpEarned] = React.useState<number>(0);
 
   // auto-resume: check latest unfinished attempt for mock
   React.useEffect(() => {
@@ -120,6 +129,13 @@ export default function MockTestPage() {
     return m;
   }, [answers]);
 
+  const unansweredCount = React.useMemo(() => {
+    return questions.reduce((acc, q) => (userAnswers[q.id] ? acc : acc + 1), 0);
+  }, [questions, userAnswers]);
+  const flaggedCount = flagged.length;
+  const correctCount = answers.filter((a) => a.correct).length;
+  const incorrectCount = answers.length - correctCount;
+
   const handleSelect = async (choice: string) => {
     if (!current || !attemptId) return;
     setSelected(choice);
@@ -187,21 +203,34 @@ export default function MockTestPage() {
           perCat[k].total += 1;
           if (a.correct) perCat[k].correct += 1;
         }
+        // build recommended (two weakest categories with at least one attempt)
+        const weakest = Object.entries(perCat)
+          .filter(([, v]) => v.total > 0)
+          .map(([cat, v]) => ({
+            category: cat,
+            scorePct: (v.correct / v.total) * 100,
+          }))
+          .sort((a, b) => a.scorePct - b.scorePct)
+          .slice(0, 2);
+        setRecommended(weakest);
+        let mpSum = 0;
         await Promise.all(
           Object.entries(perCat).map(async ([cat, v]) => {
             const pct = v.total ? (v.correct / v.total) * 100 : 0;
             const pts = v.correct * 10 + (pct >= 86 ? 25 : 0);
             if (pts > 0)
               await ProgressService.recordMastery(cat, Math.round(pts));
+            mpSum += Math.max(0, Math.round(pts));
           }),
         );
+        setMpEarned(mpSum);
       } catch {}
+      setResults({
+        total: res.total,
+        correct: res.correct,
+        score_percent: res.score_percent,
+      });
       setFinished(true);
-      // simple results page inline
-      alert(
-        `Mock test finished. Score: ${res.correct}/${res.total} (${res.score_percent}%).`,
-      );
-      router.push("/dashboard");
     } catch (e: any) {
       setError(e?.message || "Failed to finish attempt");
     } finally {
@@ -310,6 +339,115 @@ export default function MockTestPage() {
     );
   }
 
+  if (finished && results) {
+    const pct = results.score_percent;
+    const passed = pct >= 86;
+    return (
+      <main className="mx-auto max-w-4xl p-6 space-y-8">
+        <div className="bg-white p-6 md:p-8 rounded-lg shadow-xl text-center">
+          <div className="mx-auto mb-2 text-3xl font-bold {passed ? 'text-yellow-500' : 'text-blue-500'}"></div>
+          <h2 className="text-3xl font-bold text-gray-800 mt-2">
+            {passed
+              ? "Congratulations, you passed!"
+              : "Good Effort, Keep Practicing!"}
+          </h2>
+          <p className="text-lg text-gray-600 mt-2">You scored:</p>
+          <p
+            className={`text-7xl font-bold my-4 ${passed ? "text-brand-green" : "text-brand-red"}`}
+          >
+            {pct}%
+          </p>
+          <p className="text-gray-500 text-lg">
+            ({results.correct} out of {results.total} correct)
+          </p>
+          <hr className="my-6" />
+          <div className="text-center">
+            <p className="text-sm text-gray-600">Mastery Points Earned</p>
+            <p className="text-2xl font-extrabold text-yellow-500">
+              +{mpEarned} MP
+            </p>
+            <button
+              onClick={() => router.push("/leaderboard")}
+              className="text-brand-blue text-sm font-semibold mt-1 hover:underline"
+            >
+              Check your new rank →
+            </button>
+          </div>
+          <div className="mt-8 grid sm:grid-cols-2 gap-4">
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="w-full bg-gray-600 text-white py-3 px-4 rounded-md hover:bg-gray-700 transition-colors font-semibold text-lg"
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full bg-brand-blue text-white py-3 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold text-lg"
+            >
+              Restart Quiz
+            </button>
+          </div>
+        </div>
+
+        {recommended.length > 0 && (
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">
+              Recommended Study
+            </h3>
+            <div className="space-y-3">
+              {recommended.map((r) => (
+                <div
+                  key={r.category}
+                  className="flex items-center justify-between bg-slate-50 px-4 py-3 rounded-md border border-slate-200"
+                >
+                  <div>
+                    <p className="font-semibold capitalize">{r.category}</p>
+                    <p className="text-sm text-gray-600">
+                      Your score: {Math.round(r.scorePct)}%
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => router.push("/modules")}
+                    className="bg-white border border-gray-300 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-gray-50"
+                  >
+                    Study Now
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-2 pt-6">
+          <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
+            Review Your Answers
+          </h3>
+          <div className="space-y-6">
+            {questions.map((q, i) => {
+              const ans = answers.find((a) => a.qid === q.id);
+              return (
+                <div key={q.id}>
+                  <p className="font-bold text-gray-700 mb-2">
+                    Question {i + 1}
+                  </p>
+                  <QuestionCard
+                    question={q}
+                    isReviewMode={true}
+                    userAnswer={ans?.choice || null}
+                    isFlagged={flagged.includes(q.id)}
+                    selectedOption={null}
+                    onOptionSelect={() => {}}
+                    isAnswered={true}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   if (!current) {
     return (
       <main className="mx-auto max-w-3xl p-6">
@@ -357,83 +495,108 @@ export default function MockTestPage() {
         isAnswered={selected !== null}
       />
 
-      <div className="grid lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 flex items-center justify-between gap-2">
-          <button
-            className="flex items-center bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50"
-            onClick={goPrev}
-            disabled={isFirst}
-          >
-            <ArrowLeftIcon className="w-5 h-5 mr-2" /> Previous
-          </button>
-          <div className="ml-auto flex gap-2">
-            {!isLast && (
-              <button
-                disabled={selected === null}
-                onClick={goNext}
-                className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-600 disabled:bg-gray-300"
-              >
-                Next <ArrowRightIcon className="w-5 h-5 ml-2" />
-              </button>
-            )}
-            {isLast && (
-              <button
-                disabled={submitting || selected === null}
-                onClick={finishAttempt}
-                className="flex items-center bg-brand-green text-white font-semibold py-2 px-4 rounded-lg shadow-sm disabled:bg-gray-300"
-              >
-                Submit
-              </button>
-            )}
-          </div>
+      {/* Controls row (bottom of card) */}
+      <div className="flex items-center justify-between gap-2">
+        <button
+          className="flex items-center bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50"
+          onClick={goPrev}
+          disabled={isFirst}
+        >
+          <ArrowLeftIcon className="w-5 h-5 mr-2" /> Previous
+        </button>
+        <div className="ml-auto flex gap-2">
+          {!isLast && (
+            <button
+              disabled={selected === null}
+              onClick={goNext}
+              className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-600 disabled:bg-gray-300"
+            >
+              Next <ArrowRightIcon className="w-5 h-5 ml-2" />
+            </button>
+          )}
+          {isLast && (
+            <button
+              disabled={submitting || selected === null}
+              onClick={finishAttempt}
+              className="flex items-center bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg shadow-sm cursor-not-allowed"
+            >
+              Submit
+            </button>
+          )}
         </div>
+      </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="font-bold text-lg mb-4">Your Progress</h3>
-          <div className="flex flex-wrap gap-2 mb-2">
-            {questions.map((q, i) => {
-              const answered = Object.prototype.hasOwnProperty.call(
-                userAnswers,
-                q.id,
-              );
-              const isActive = i === index;
-              const isFlagged = flagged.includes(q.id);
-              let btn =
-                "border-2 rounded-md h-8 w-8 flex items-center justify-center font-semibold text-sm transition-colors relative ";
-              if (isActive)
-                btn +=
-                  "bg-brand-blue text-white border-brand-blue ring-2 ring-offset-1 ring-blue-400";
-              else if (answered)
-                btn +=
-                  "bg-blue-100 text-brand-blue border-blue-200 hover:bg-blue-200";
-              else
-                btn +=
-                  "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200";
-              return (
-                <button
-                  key={q.id}
-                  onClick={() => setIndex(i)}
-                  className={btn}
-                  aria-label={`Go to question ${i + 1}`}
-                >
-                  {answered ? <CheckIcon className="w-4 h-4" /> : i + 1}
-                  {isFlagged && (
-                    <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full border border-white"></div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-          <div className="text-xs text-gray-600 flex items-center gap-4 pt-2 border-t border-gray-200">
-            <span className="flex items-center gap-1">
-              <span className="inline-block h-3 w-3 rounded bg-blue-200" />{" "}
-              Answered
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="inline-block h-3 w-3 rounded bg-gray-200" /> Not
-              answered
-            </span>
-          </div>
+      {/* Bottom progress card with counts and Finish Test */}
+      <div className="bg-white p-4 rounded-lg shadow-md">
+        <div className="flex flex-wrap gap-2 mb-4">
+          {questions.map((q, i) => {
+            const answered = Object.prototype.hasOwnProperty.call(
+              userAnswers,
+              q.id,
+            );
+            const isActive = i === index;
+            const isFlag = flagged.includes(q.id);
+            let btn =
+              "border-2 rounded-md h-8 w-8 flex items-center justify-center font-semibold text-sm transition-colors relative ";
+            if (isActive)
+              btn +=
+                "bg-brand-blue text-white border-brand-blue ring-2 ring-offset-1 ring-blue-400";
+            else if (answered)
+              btn +=
+                "bg-blue-100 text-brand-blue border-blue-200 hover:bg-blue-200";
+            else
+              btn +=
+                "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200";
+            return (
+              <button
+                key={q.id}
+                onClick={() => setIndex(i)}
+                className={btn}
+                aria-label={`Go to question ${i + 1}`}
+              >
+                {answered ? <CheckIcon className="w-4 h-4" /> : i + 1}
+                {isFlag && (
+                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full border border-white"></div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex items-center gap-6 text-sm text-gray-700 border-t border-gray-200 pt-3">
+          <span className="flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 rounded-full bg-green-500"></span>{" "}
+            Correct: {correctCount}
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500"></span>{" "}
+            Incorrect: {incorrectCount}
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="inline-block w-2.5 h-2.5 rounded-full bg-yellow-400"></span>{" "}
+            Flagged: {flaggedCount}
+          </span>
+        </div>
+        <div className="mt-4">
+          <button
+            onClick={async () => {
+              if (finished || submitting) return;
+              const msgParts = [] as string[];
+              if (unansweredCount > 0)
+                msgParts.push(`${unansweredCount} unanswered`);
+              if (flaggedCount > 0)
+                msgParts.push(`${flaggedCount} flagged for review`);
+              const warn = msgParts.length
+                ? `You still have ${msgParts.join(" and ")}.\n\nAre you sure you want to finish the test now?`
+                : `Are you sure you want to finish the test now?`;
+              const ok = window.confirm(warn);
+              if (!ok) return;
+              await finishAttempt();
+            }}
+            className="w-full mt-2 bg-brand-green text-white font-semibold py-3 px-4 rounded-md hover:bg-green-600 disabled:bg-gray-300"
+            disabled={submitting || finished}
+          >
+            Finish Test
+          </button>
         </div>
       </div>
     </main>
