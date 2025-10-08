@@ -101,8 +101,6 @@ const TestimonialCard: React.FC<{ quote: string; author: string }> = ({
 const LandingPage: React.FC<LandingPageProps> = ({ onNavigateToAuth }) => {
   return (
     <div className="bg-slate-50 text-gray-800 animate-fade-in">
-      <LandingHeader onNavigateToAuth={onNavigateToAuth} />
-
       {/* Hero Section */}
       <section className="text-center py-20 px-4 bg-white">
         <div className="container mx-auto">
