@@ -58,7 +58,6 @@ export default function AppNav() {
                 );
               })}
             </ul>
-            <div className="text-xs text-gray-500 hidden sm:block">Beta</div>
             {signedIn ? (
               <button
                 onClick={async () => {
