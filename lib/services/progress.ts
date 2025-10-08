@@ -73,6 +73,19 @@ export const ProgressService = {
       body: JSON.stringify(payload),
     }),
 
+  latestAttempt: (source: "mock" | "mini" | "module") =>
+    callFn<{
+      attemptId: string;
+      source: string;
+      started_at: string;
+      current_index: number;
+      questions: Array<{ id: number; category: string }> | null;
+      finished: boolean;
+    } | null>("attempt-latest", {
+      method: "POST",
+      body: JSON.stringify({ source }),
+    }),
+
   getOverview: () =>
     callFn<{
       categories: { category: string; correct: number; total: number }[];

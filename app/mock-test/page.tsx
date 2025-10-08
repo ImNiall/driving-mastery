@@ -34,6 +34,37 @@ export default function MockTestPage() {
   const [count, setCount] = React.useState<10 | 25 | 50 | null>(null);
   const [stage, setStage] = React.useState<"select" | "quiz">("select");
 
+  // auto-resume: check latest unfinished attempt for mock
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const latest = await ProgressService.latestAttempt("mock");
+        if (
+          latest &&
+          !latest.finished &&
+          latest.questions &&
+          latest.questions.length > 0
+        ) {
+          setAttemptId(latest.attemptId);
+          // map questions by id from QUESTION_BANK to preserve full objects
+          const byId = new Map(QUESTION_BANK.map((q) => [q.id, q] as const));
+          const qs: Question[] = [];
+          for (const q of latest.questions) {
+            const full = byId.get(q.id);
+            if (full) qs.push(full);
+          }
+          if (qs.length > 0) {
+            setQuestions(qs);
+            setIndex(latest.current_index || 0);
+            setStage("quiz");
+          }
+        }
+      } catch (_) {
+        // ignore; user will start a new attempt via selection
+      }
+    })();
+  }, []);
+
   // start after user selects count
   const startMock = async (qty: 10 | 25 | 50) => {
     try {

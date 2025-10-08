@@ -2,7 +2,7 @@ import React from "react";
 import { LearningModule, FinalQuizResults, Category } from "../types";
 import { LEARNING_MODULES } from "../constants";
 import ErrorBoundary from "./ErrorBoundary";
-import MiniQuizWrapper from "./MiniQuizWrapper";
+import MiniQuiz from "./MiniQuiz";
 import ModuleCardV2 from "./ModuleCardV2";
 import {
   getWrongAnswersForModule,
@@ -92,10 +92,7 @@ const ModuleDetailView: React.FC<{
               </div>
             }
           >
-            <MiniQuizWrapper
-              module={module}
-              onModuleMastery={onModuleMastery}
-            />
+            <MiniQuiz module={module} onModuleMastery={onModuleMastery} />
           </ErrorBoundary>
         </div>
         <p className="text-gray-500 text-sm">
