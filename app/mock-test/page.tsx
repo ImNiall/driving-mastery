@@ -191,33 +191,91 @@ export default function MockTestPage() {
 
   if (stage === "select") {
     return (
-      <main className="mx-auto max-w-3xl p-6 space-y-4">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h1 className="text-xl font-bold text-gray-800 mb-2">
-            Start a Mock Test
-          </h1>
-          <p className="text-gray-600 mb-4">
-            Choose how many questions you want to practice.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => startMock(10)}
-              className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200"
-            >
-              10 Questions
-            </button>
-            <button
-              onClick={() => startMock(25)}
-              className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200"
-            >
-              25 Questions
-            </button>
-            <button
-              onClick={() => startMock(50)}
-              className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200"
-            >
-              50 Questions
-            </button>
+      <main className="mx-auto max-w-5xl p-6">
+        <div className="max-w-4xl mx-auto animate-fade-in">
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="text-brand-blue font-semibold mb-6"
+          >
+            &larr; Back to Dashboard
+          </button>
+
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-800">
+              Configure Your Mock Test
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Select a test length to begin. The full mock test simulates the
+              official DVSA exam.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 mt-8">
+            {[
+              {
+                len: 10,
+                title: "Quick Practice",
+                desc: "A brief 10-question quiz to quickly assess your knowledge.",
+              },
+              {
+                len: 25,
+                title: "Standard Mock Test",
+                desc: "A comprehensive 25-question practice test covering a range of topics.",
+              },
+              {
+                len: 50,
+                title: "Official Mock Test",
+                desc: "A full-length 50-question test that mirrors the format of the official DVSA exam.",
+              },
+            ].map(({ len, title, desc }) => (
+              <div
+                key={len}
+                onClick={() => startMock(len as 10 | 25 | 50)}
+                className="group bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:shadow-xl hover:-translate-y-1 hover:border-brand-blue active:scale-95 active:bg-blue-50 transition-all duration-300 ease-in-out cursor-pointer flex flex-col text-center"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    startMock(len as 10 | 25 | 50);
+                }}
+                aria-label={`Start a ${len} question test titled ${title}`}
+              >
+                <h3 className="text-5xl font-bold text-brand-blue group-hover:scale-110 transition-transform duration-300 ease-in-out">
+                  {len}
+                </h3>
+                <p className="text-lg font-semibold text-gray-800 mt-2">
+                  {title}
+                </p>
+                <p className="text-sm text-gray-600 mt-2 mb-4 flex-grow">
+                  {desc}
+                </p>
+
+                <div className="my-4 pt-4 border-t border-gray-200">
+                  <div className="text-sm text-gray-500 py-4">
+                    No attempts yet.
+                  </div>
+                </div>
+
+                <div className="mt-auto font-semibold text-brand-blue transition-colors group-hover:text-blue-600 flex items-center justify-center">
+                  <span>Start Test</span>
+                  <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-300 ease-in-out ml-1">
+                    &rarr;
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12">
+            <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
+              Your Test History
+            </h3>
+            <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
+              <p>You haven&apos;t completed any quizzes yet.</p>
+              <p className="text-sm mt-1">
+                Your history will appear here once you do!
+              </p>
+            </div>
           </div>
         </div>
       </main>

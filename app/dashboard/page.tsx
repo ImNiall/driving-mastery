@@ -102,7 +102,9 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <main className="mx-auto max-w-6xl p-6">
-        <p className="text-gray-600">Loading dashboard...</p>
+        <div className="bg-white rounded-xl border border-gray-200/70 shadow-sm p-6">
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
       </main>
     );
   }
@@ -117,27 +119,29 @@ export default function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-6xl p-6 space-y-8">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800">Your Dashboard</h1>
+      <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm">
+        <h1 className="text-2xl font-bold text-gray-900">Your Dashboard</h1>
         <p className="text-gray-600 mt-1">
           Review your progress and get help from your AI Mentor.
         </p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">
+        <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
             Your Progress Breakdown
           </h3>
-          <ProgressChart data={progress} />
+          <div className="min-h-[220px] flex items-center justify-center">
+            <ProgressChart data={progress} />
+          </div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between">
+        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col justify-between">
           <div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
               Overall Score
             </h3>
             <p
-              className={`text-5xl font-bold ${overall >= 86 ? "text-brand-green" : "text-brand-blue"}`}
+              className={`text-5xl font-extrabold ${overall >= 86 ? "text-brand-green" : "text-brand-blue"}`}
             >
               {overall}%
             </p>
@@ -149,18 +153,18 @@ export default function DashboardPage() {
               <span className="font-semibold">{masteryPoints}</span>
             </p>
           </div>
-          <div className="mt-6 space-y-2">
-            <button
-              onClick={() => router.push("/modules")}
-              className="w-full bg-brand-blue text-white font-semibold py-2 px-4 rounded-md hover:opacity-90 transition"
-            >
-              Browse Modules
-            </button>
+          <div className="mt-6 grid grid-cols-1 gap-2">
             <button
               onClick={() => router.push("/mock-test")}
-              className="w-full bg-slate-100 text-slate-700 font-semibold py-2 px-4 rounded-md hover:bg-slate-200 transition"
+              className="w-full rounded-md bg-brand-blue text-white font-semibold py-2 px-4 hover:opacity-90 transition"
             >
-              Start Mock Test
+              Start Quiz
+            </button>
+            <button
+              onClick={() => router.push("/modules")}
+              className="w-full rounded-md bg-brand-blue/10 text-brand-blue font-semibold py-2 px-4 hover:bg-brand-blue/20 transition"
+            >
+              Browse Modules
             </button>
           </div>
         </div>

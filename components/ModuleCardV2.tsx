@@ -1,6 +1,6 @@
-import React from 'react';
-import { LearningModule } from '../types';
-import { SafeText } from '../utils/markdown';
+import React from "react";
+import { LearningModule } from "../types";
+import { SafeText } from "../utils/markdown";
 
 interface ModuleCardV2Props {
   module: LearningModule;
@@ -9,9 +9,9 @@ interface ModuleCardV2Props {
 
 const ModuleCardV2: React.FC<ModuleCardV2Props> = ({ module, onSelect }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
+    <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between">
       <div>
-        <span className="text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
+        <span className="inline-block text-xs font-semibold bg-brand-blue-light text-brand-blue py-1 px-2 rounded-full">
           <SafeText value={module.category} />
         </span>
         <h3 className="text-lg font-bold text-gray-800 mt-3">
@@ -23,9 +23,9 @@ const ModuleCardV2: React.FC<ModuleCardV2Props> = ({ module, onSelect }) => {
       </div>
       <button
         onClick={() => onSelect(module)}
-        className="mt-4 self-start bg-brand-blue text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-700"
+        className="mt-4 self-start text-brand-blue text-sm font-semibold hover:underline inline-flex items-center gap-1"
       >
-        Open
+        Start Learning <span aria-hidden>→</span>
       </button>
     </div>
   );

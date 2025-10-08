@@ -144,14 +144,22 @@ const ModuleListView: React.FC<{
   }, [searchTerm, filter, recommendedCategories]);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <h1 className="text-2xl font-bold text-gray-800">Modules (v2)</h1>
+    <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm">
+      <div className="text-center mb-6">
+        <h2 className="text-3xl font-bold text-gray-800">
+          DVSA Learning Modules
+        </h2>
+        <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+          Browse all 14 official categories. Each module contains key
+          information and a mini-quiz to test your understanding.
+        </p>
+      </div>
       <div className="max-w-2xl mx-auto mt-3 flex items-center justify-center space-x-2">
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors ${filter === "all" ? "bg-brand-blue text-white shadow" : "bg-white text-gray-600 hover:bg-gray-100"}`}
         >
-          All
+          All Modules
         </button>
         {recommendedCategories.length > 0 && (
           <button
