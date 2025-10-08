@@ -6,6 +6,12 @@ import type { Question, Category } from "@/types";
 import QuestionCard from "@/components/QuestionCard";
 import QuizTimer from "@/components/QuizTimer";
 import { ProgressService } from "@/lib/services/progress";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  FlagIcon,
+  CheckIcon,
+} from "@/components/icons";
 
 function pickMockQuestions(all: Question[], count = 50): Question[] {
   // mix across categories, basic shuffle then slice
@@ -33,6 +39,7 @@ export default function MockTestPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [count, setCount] = React.useState<10 | 25 | 50 | null>(null);
   const [stage, setStage] = React.useState<"select" | "quiz">("select");
+  const [flagged, setFlagged] = React.useState<number[]>([]);
 
   // auto-resume: check latest unfinished attempt for mock
   React.useEffect(() => {
@@ -88,9 +95,30 @@ export default function MockTestPage() {
     }
   };
 
+  const goPrev = () => {
+    setSelected(null);
+    setIndex((i) => (i > 0 ? i - 1 : i));
+  };
+
+  const toggleFlag = () => {
+    if (!current) return;
+    setFlagged((prev) =>
+      prev.includes(current.id)
+        ? prev.filter((id) => id !== current.id)
+        : [...prev, current.id],
+    );
+  };
+
   const current: Question | null = questions[index] ?? null;
   const total = questions.length;
   const isLast = index === total - 1;
+  const isFirst = index === 0;
+
+  const userAnswers: Record<number, string> = React.useMemo(() => {
+    const m: Record<number, string> = {};
+    for (const a of answers) m[a.qid] = a.choice;
+    return m;
+  }, [answers]);
 
   const handleSelect = async (choice: string) => {
     if (!current || !attemptId) return;
@@ -291,7 +319,7 @@ export default function MockTestPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl p-4 sm:p-6 space-y-4">
+    <main className="mx-auto max-w-4xl p-4 sm:p-6 space-y-4">
       <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-gray-800">Mock Test</h1>
@@ -299,11 +327,26 @@ export default function MockTestPage() {
             Question {index + 1} of {total}
           </p>
         </div>
-        <div className="w-48">
-          <QuizTimer
-            initialMinutes={count === 10 ? 12 : count === 25 ? 30 : 57}
-            onTimeUp={onTimeUp}
-          />
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleFlag}
+            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+              flagged.includes(current.id)
+                ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            <FlagIcon className="w-4 h-4" />
+            <span>
+              {flagged.includes(current.id) ? "Flagged" : "Flag for Review"}
+            </span>
+          </button>
+          <div className="w-48">
+            <QuizTimer
+              initialMinutes={count === 10 ? 12 : count === 25 ? 30 : 57}
+              onTimeUp={onTimeUp}
+            />
+          </div>
         </div>
       </div>
 
@@ -314,33 +357,83 @@ export default function MockTestPage() {
         isAnswered={selected !== null}
       />
 
-      <div className="flex items-center justify-between gap-2">
-        <button
-          className="px-4 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200"
-          onClick={() => router.push("/dashboard")}
-        >
-          Exit
-        </button>
+      <div className="grid lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 flex items-center justify-between gap-2">
+          <button
+            className="flex items-center bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50"
+            onClick={goPrev}
+            disabled={isFirst}
+          >
+            <ArrowLeftIcon className="w-5 h-5 mr-2" /> Previous
+          </button>
+          <div className="ml-auto flex gap-2">
+            {!isLast && (
+              <button
+                disabled={selected === null}
+                onClick={goNext}
+                className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-600 disabled:bg-gray-300"
+              >
+                Next <ArrowRightIcon className="w-5 h-5 ml-2" />
+              </button>
+            )}
+            {isLast && (
+              <button
+                disabled={submitting || selected === null}
+                onClick={finishAttempt}
+                className="flex items-center bg-brand-green text-white font-semibold py-2 px-4 rounded-lg shadow-sm disabled:bg-gray-300"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </div>
 
-        <div className="ml-auto flex gap-2">
-          {!isLast && (
-            <button
-              disabled={selected === null}
-              onClick={goNext}
-              className="px-4 py-2 rounded-md bg-brand-blue text-white disabled:bg-gray-300"
-            >
-              Next
-            </button>
-          )}
-          {isLast && (
-            <button
-              disabled={submitting || selected === null}
-              onClick={finishAttempt}
-              className="px-4 py-2 rounded-md bg-brand-green text-white disabled:bg-gray-300"
-            >
-              Submit
-            </button>
-          )}
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <h3 className="font-bold text-lg mb-4">Your Progress</h3>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {questions.map((q, i) => {
+              const answered = Object.prototype.hasOwnProperty.call(
+                userAnswers,
+                q.id,
+              );
+              const isActive = i === index;
+              const isFlagged = flagged.includes(q.id);
+              let btn =
+                "border-2 rounded-md h-8 w-8 flex items-center justify-center font-semibold text-sm transition-colors relative ";
+              if (isActive)
+                btn +=
+                  "bg-brand-blue text-white border-brand-blue ring-2 ring-offset-1 ring-blue-400";
+              else if (answered)
+                btn +=
+                  "bg-blue-100 text-brand-blue border-blue-200 hover:bg-blue-200";
+              else
+                btn +=
+                  "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200";
+              return (
+                <button
+                  key={q.id}
+                  onClick={() => setIndex(i)}
+                  className={btn}
+                  aria-label={`Go to question ${i + 1}`}
+                >
+                  {answered ? <CheckIcon className="w-4 h-4" /> : i + 1}
+                  {isFlagged && (
+                    <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full border border-white"></div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          <div className="text-xs text-gray-600 flex items-center gap-4 pt-2 border-t border-gray-200">
+            <span className="flex items-center gap-1">
+              <span className="inline-block h-3 w-3 rounded bg-blue-200" />{" "}
+              Answered
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="inline-block h-3 w-3 rounded bg-gray-200" /> Not
+              answered
+            </span>
+          </div>
         </div>
       </div>
     </main>
