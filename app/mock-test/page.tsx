@@ -187,6 +187,20 @@ export default function MockTestPage() {
     if (!attemptId || submitting || finished) return;
     setSubmitting(true);
     try {
+      // Ensure all answers are persisted before aggregation
+      try {
+        await ProgressService.answersBulk({
+          attemptId,
+          answers: answers.map((a) => ({
+            qid: a.qid,
+            choice: a.choice,
+            correct: a.correct,
+            category: a.category as unknown as string,
+          })),
+        });
+      } catch (_) {
+        // continue; per-answer events may have already been recorded
+      }
       // mark finished with last index
       await ProgressService.saveProgress({
         attemptId,

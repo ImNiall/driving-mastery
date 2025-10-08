@@ -45,6 +45,20 @@ export const ProgressService = {
       body: JSON.stringify(payload),
     }),
 
+  answersBulk: (payload: {
+    attemptId: string;
+    answers: Array<{
+      qid: number;
+      choice: string;
+      correct: boolean;
+      category: string;
+    }>;
+  }) =>
+    callFn<{ ok: true; count: number }>("answers-bulk", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
   finishAttempt: (attemptId: string) =>
     callFn<{
       total: number;
