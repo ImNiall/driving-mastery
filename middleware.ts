@@ -1,16 +1,31 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const CSP = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "connect-src 'self' https://*.supabase.co https://*.supabase.in",
-  "img-src 'self' data:",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' data: https://fonts.gstatic.com",
-  "frame-src 'self'",
-  "frame-ancestors 'self'",
-].join("; ");
+// Build a CSP that is strict in production but allows eval in development
+function buildCSP() {
+  const isDev = process.env.NODE_ENV !== "production";
+  const scriptSrc = ["'self'", "'unsafe-inline'"];
+  if (isDev) scriptSrc.push("'unsafe-eval'"); // needed for React Refresh / dev tooling
+
+  const connectSrc = [
+    "'self'",
+    "https://*.supabase.co",
+    "https://*.supabase.in",
+  ];
+  if (isDev)
+    connectSrc.push("ws:", "http://localhost:3000", "http://localhost:8888");
+
+  return [
+    "default-src 'self'",
+    `script-src ${scriptSrc.join(" ")}`,
+    `connect-src ${connectSrc.join(" ")}`,
+    "img-src 'self' data:",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "frame-src 'self'",
+    "frame-ancestors 'self'",
+  ].join("; ");
+}
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -30,7 +45,7 @@ export function middleware(req: NextRequest) {
     "Cache-Control",
     "no-store, no-cache, must-revalidate, max-age=0",
   );
-  res.headers.set("Content-Security-Policy", CSP);
+  res.headers.set("Content-Security-Policy", buildCSP());
   res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   res.headers.set("X-Content-Type-Options", "nosniff");
   res.headers.set(

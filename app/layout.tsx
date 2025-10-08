@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 import "./globals.css";
 import SWKillRegister from "./sw-kill-register";
+import AppNav from "@/components/AppNav";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.drivingmastery.co.uk"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.drivingmastery.co.uk",
+  ),
   title: "Driving Mastery — Pass Your UK Driving Theory",
   description:
     "AI-powered practice tests, micro-learning, and hazard perception training for the UK DVSA theory test.",
@@ -23,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <SWKillRegister />
+        <AppNav />
         {children}
       </body>
     </html>

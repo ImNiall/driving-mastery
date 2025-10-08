@@ -62,6 +62,17 @@ export const ProgressService = {
       },
     ),
 
+  saveProgress: (payload: {
+    attemptId: string;
+    currentIndex: number;
+    state?: "active" | "finished" | "idle";
+    questions?: Array<{ id: number; category: string }>;
+  }) =>
+    callFn<{ ok: true }>("attempt-save-progress", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
   getOverview: () =>
     callFn<{
       categories: { category: string; correct: number; total: number }[];
@@ -69,7 +80,6 @@ export const ProgressService = {
       masteryPoints: number;
       studyPlan: any;
     }>("progress-overview", { method: "GET" }),
-
   saveStudyPlan: (payload: { planKey: string; steps: any[] }) =>
     callFn<{ plan_key: string; steps: any[]; updated_at: string }>(
       "studyplan-save",
