@@ -74,6 +74,36 @@ BEGIN
   END IF;
 END $$;
 
+-- === quiz_attempts.id default: ensure UUID default exists ===
+DO $$
+BEGIN
+  -- Try to enable gen_random_uuid() (pgcrypto) if available; ignore if not permitted
+  BEGIN
+    EXECUTE 'CREATE EXTENSION IF NOT EXISTS pgcrypto';
+  EXCEPTION WHEN OTHERS THEN
+    -- ignore
+    NULL;
+  END;
+
+  -- If id column exists but has no default to gen_random_uuid(), set it
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema='public' AND table_name='quiz_attempts' AND column_name='id'
+  ) THEN
+    IF NOT EXISTS (
+      SELECT 1
+      FROM pg_attrdef d
+      JOIN pg_class t ON d.adrelid = t.oid
+      JOIN pg_namespace n ON n.oid = t.relnamespace
+      WHERE n.nspname='public'
+        AND t.relname='quiz_attempts'
+        AND pg_get_expr(d.adbin, d.adrelid) ILIKE '%gen_random_uuid%'
+    ) THEN
+      ALTER TABLE public.quiz_attempts ALTER COLUMN id SET DEFAULT gen_random_uuid();
+    END IF;
+  END IF;
+END $$;
+
 -- === quiz_answers: ensure required columns (user_id, category, is_correct) ===
 DO $$
 BEGIN
