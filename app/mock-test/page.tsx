@@ -49,6 +49,37 @@ export default function MockTestPage() {
     { category: string; scorePct: number }[]
   >([]);
   const [mpEarned, setMpEarned] = React.useState<number>(0);
+  const [attemptInitializing, setAttemptInitializing] = React.useState(false);
+  const startRequestRef = React.useRef<symbol | null>(null);
+  const attemptIdRef = React.useRef<string | null>(attemptId);
+  const pendingAttemptOps = React.useRef<Array<(attempt: string) => void>>([]);
+
+  React.useEffect(() => {
+    attemptIdRef.current = attemptId;
+    if (attemptId) {
+      const queued = pendingAttemptOps.current;
+      pendingAttemptOps.current = [];
+      queued.forEach((task) => {
+        try {
+          task(attemptId);
+        } catch (err) {
+          console.warn("queued attempt op failed", err);
+        }
+      });
+    }
+  }, [attemptId]);
+
+  const runWhenAttemptReady = React.useCallback(
+    (task: (attempt: string) => void) => {
+      const id = attemptIdRef.current;
+      if (id) {
+        task(id);
+      } else {
+        pendingAttemptOps.current.push(task);
+      }
+    },
+    [],
+  );
 
   // auto-resume: check latest unfinished attempt for mock
   React.useEffect(() => {
@@ -82,26 +113,56 @@ export default function MockTestPage() {
   }, []);
 
   // start after user selects count
-  const startMock = async (qty: 10 | 25 | 50) => {
-    try {
-      setCount(qty);
-      const qs = pickMockQuestions(QUESTION_BANK, qty);
-      setQuestions(qs);
-      const s = await ProgressService.startAttempt("mock");
-      setAttemptId(s.attemptId);
-      await ProgressService.saveProgress({
-        attemptId: s.attemptId,
+  const startMock = (qty: 10 | 25 | 50) => {
+    setError(null);
+    setSubmitting(false);
+    setFinished(false);
+    setResults(null);
+    setRecommended([]);
+    setMpEarned(0);
+    setCount(qty);
+    setIndex(0);
+    setSelected(null);
+    setAnswers([]);
+    setFlagged([]);
+    const qs = pickMockQuestions(QUESTION_BANK, qty);
+    setQuestions(qs);
+    setStage("quiz");
+    pendingAttemptOps.current = [];
+    attemptIdRef.current = null;
+    setAttemptId(null);
+    setAttemptInitializing(true);
+    const startToken = Symbol("startAttempt");
+    startRequestRef.current = startToken;
+    runWhenAttemptReady((id) => {
+      ProgressService.saveProgress({
+        attemptId: id,
         currentIndex: 0,
         state: "active",
         questions: qs.map((q) => ({
           id: q.id,
           category: q.category as unknown as string,
         })),
+      }).catch((e) => console.warn("saveProgress failed", e));
+    });
+    ProgressService.startAttempt("mock")
+      .then((s) => {
+        if (startRequestRef.current !== startToken) return;
+        startRequestRef.current = null;
+        setAttemptId(s.attemptId);
+        setAttemptInitializing(false);
+      })
+      .catch((e: any) => {
+        if (startRequestRef.current !== startToken) return;
+        startRequestRef.current = null;
+        console.error("Failed to start attempt", e);
+        pendingAttemptOps.current = [];
+        setAttemptInitializing(false);
+        setStage("select");
+        setCount(null);
+        setQuestions([]);
+        setError(e?.message || "Failed to start attempt");
       });
-      setStage("quiz");
-    } catch (e: any) {
-      setError(e?.message || "Failed to start attempt");
-    }
   };
 
   const goPrev = () => {
@@ -137,7 +198,7 @@ export default function MockTestPage() {
   const incorrectCount = answers.length - correctCount;
 
   const handleSelect = async (choice: string) => {
-    if (!current || !attemptId) return;
+    if (!current) return;
     setSelected(choice);
     const correct = !!current.options.find(
       (o) => o.text === choice && o.isCorrect,
@@ -159,12 +220,14 @@ export default function MockTestPage() {
     });
     // fire-and-forget record
     // Fire-and-forget to avoid UI lag on selection
-    ProgressService.recordAnswer({
-      attemptId,
-      questionId: current.id,
-      category: current.category as unknown as string,
-      isCorrect: correct,
-    }).catch((e) => console.warn("recordAnswer failed", e));
+    runWhenAttemptReady((id) => {
+      ProgressService.recordAnswer({
+        attemptId: id,
+        questionId: current.id,
+        category: current.category as unknown as string,
+        isCorrect: correct,
+      }).catch((e) => console.warn("recordAnswer failed", e));
+    });
   };
 
   const goNext = () => {
@@ -172,14 +235,14 @@ export default function MockTestPage() {
     if (isLast) return;
     setIndex((i) => {
       const next = i + 1;
-      if (attemptId) {
-        // fire-and-forget save of progress
+      // fire-and-forget save of progress
+      runWhenAttemptReady((id) => {
         ProgressService.saveProgress({
-          attemptId,
+          attemptId: id,
           currentIndex: next,
           state: "active",
         }).catch(() => {});
-      }
+      });
       return next;
     });
   };
@@ -189,13 +252,14 @@ export default function MockTestPage() {
   };
 
   const finishAttempt = async () => {
-    if (!attemptId || submitting || finished) return;
+    const activeAttemptId = attemptIdRef.current;
+    if (!activeAttemptId || submitting || finished) return;
     setSubmitting(true);
     try {
       // Ensure all answers are persisted before aggregation
       try {
         await ProgressService.answersBulk({
-          attemptId,
+          attemptId: activeAttemptId,
           answers: answers.map((a) => ({
             qid: a.qid,
             choice: a.choice,
@@ -208,16 +272,16 @@ export default function MockTestPage() {
       }
       // mark finished with last index
       await ProgressService.saveProgress({
-        attemptId,
+        attemptId: activeAttemptId,
         currentIndex: index,
         state: "finished",
       });
-      let res = await ProgressService.finishAttempt(attemptId);
+      let res = await ProgressService.finishAttempt(activeAttemptId);
       // Retry path: if server totals are zero but we have local answers, bulk-send then finalize again
       if (res.total === 0 && answers.length > 0) {
         try {
           await ProgressService.answersBulk({
-            attemptId,
+            attemptId: activeAttemptId,
             answers: answers.map((a) => ({
               qid: a.qid,
               choice: a.choice,
@@ -225,7 +289,7 @@ export default function MockTestPage() {
               category: a.category as unknown as string,
             })),
           });
-          res = await ProgressService.finishAttempt(attemptId);
+          res = await ProgressService.finishAttempt(activeAttemptId);
         } catch (e) {
           console.warn("answersBulk retry failed", e);
         }
@@ -502,6 +566,11 @@ export default function MockTestPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          {attemptInitializing && (
+            <span className="text-xs text-gray-500 animate-pulse">
+              Syncing attempt...
+            </span>
+          )}
           <button
             onClick={toggleFlag}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${

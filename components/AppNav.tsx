@@ -31,6 +31,13 @@ export default function AppNav() {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (typeof router.prefetch !== "function") return;
+    tabs.forEach((t) => {
+      void router.prefetch(t.href).catch(() => {});
+    });
+  }, [router]);
+
   return (
     <nav className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-gray-200">
       <div className="mx-auto max-w-6xl px-4">
@@ -46,6 +53,7 @@ export default function AppNav() {
                   <li key={t.href}>
                     <Link
                       href={t.href}
+                      prefetch
                       className={`px-3 py-2 rounded-md text-sm font-semibold transition-colors ${
                         active
                           ? "bg-brand-blue text-white"
