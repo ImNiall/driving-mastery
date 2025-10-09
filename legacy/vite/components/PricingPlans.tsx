@@ -9,6 +9,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Seo from "./Seo";
+codex/audit-project-for-quality-rating
+import { SITE_URL } from "../../../config/seo";
 import { SITE_URL } from "../../config/seo";
 
 /*

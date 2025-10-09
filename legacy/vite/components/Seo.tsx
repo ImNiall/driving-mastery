@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
+codex/audit-project-for-quality-rating
+import { SITE_URL, DEFAULT_OG } from "../../../config/seo";
 import { SITE_URL, DEFAULT_OG } from "../../config/seo";
+main
 import { assertString } from "../utils/assertString";
 
 type Props = {
