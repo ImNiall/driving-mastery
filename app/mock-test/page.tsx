@@ -25,15 +25,20 @@ function pickMockQuestions(all: Question[], count = 50): Question[] {
   return arr.slice(0, Math.min(count, arr.length));
 }
 
+type AnswerEntry = {
+  qid: number;
+  choice: string;
+  correct: boolean;
+  category: Category;
+};
+
 export default function MockTestPage() {
   const router = useRouter();
   const [attemptId, setAttemptId] = React.useState<string | null>(null);
   const [questions, setQuestions] = React.useState<Question[]>([]);
   const [index, setIndex] = React.useState(0);
   const [selected, setSelected] = React.useState<string | null>(null);
-  const [answers, setAnswers] = React.useState<
-    { qid: number; choice: string; correct: boolean; category: Category }[]
-  >([]);
+  const [answers, setAnswers] = React.useState<AnswerEntry[]>([]);
   const [finished, setFinished] = React.useState(false);
   const [results, setResults] = React.useState<{
     total: number;
@@ -49,37 +54,9 @@ export default function MockTestPage() {
     { category: string; scorePct: number }[]
   >([]);
   const [mpEarned, setMpEarned] = React.useState<number>(0);
-  const [attemptInitializing, setAttemptInitializing] = React.useState(false);
-  const startRequestRef = React.useRef<symbol | null>(null);
-  const attemptIdRef = React.useRef<string | null>(attemptId);
-  const pendingAttemptOps = React.useRef<Array<(attempt: string) => void>>([]);
-
-  React.useEffect(() => {
-    attemptIdRef.current = attemptId;
-    if (attemptId) {
-      const queued = pendingAttemptOps.current;
-      pendingAttemptOps.current = [];
-      queued.forEach((task) => {
-        try {
-          task(attemptId);
-        } catch (err) {
-          console.warn("queued attempt op failed", err);
-        }
-      });
-    }
-  }, [attemptId]);
-
-  const runWhenAttemptReady = React.useCallback(
-    (task: (attempt: string) => void) => {
-      const id = attemptIdRef.current;
-      if (id) {
-        task(id);
-      } else {
-        pendingAttemptOps.current.push(task);
-      }
-    },
-    [],
-  );
+  const [reviewFilter, setReviewFilter] = React.useState<
+    "all" | "correct" | "incorrect"
+  >("all");
 
   // auto-resume: check latest unfinished attempt for mock
   React.useEffect(() => {
@@ -113,56 +90,26 @@ export default function MockTestPage() {
   }, []);
 
   // start after user selects count
-  const startMock = (qty: 10 | 25 | 50) => {
-    setError(null);
-    setSubmitting(false);
-    setFinished(false);
-    setResults(null);
-    setRecommended([]);
-    setMpEarned(0);
-    setCount(qty);
-    setIndex(0);
-    setSelected(null);
-    setAnswers([]);
-    setFlagged([]);
-    const qs = pickMockQuestions(QUESTION_BANK, qty);
-    setQuestions(qs);
-    setStage("quiz");
-    pendingAttemptOps.current = [];
-    attemptIdRef.current = null;
-    setAttemptId(null);
-    setAttemptInitializing(true);
-    const startToken = Symbol("startAttempt");
-    startRequestRef.current = startToken;
-    runWhenAttemptReady((id) => {
-      ProgressService.saveProgress({
-        attemptId: id,
+  const startMock = async (qty: 10 | 25 | 50) => {
+    try {
+      setCount(qty);
+      const qs = pickMockQuestions(QUESTION_BANK, qty);
+      setQuestions(qs);
+      const s = await ProgressService.startAttempt("mock");
+      setAttemptId(s.attemptId);
+      await ProgressService.saveProgress({
+        attemptId: s.attemptId,
         currentIndex: 0,
         state: "active",
         questions: qs.map((q) => ({
           id: q.id,
           category: q.category as unknown as string,
         })),
-      }).catch((e) => console.warn("saveProgress failed", e));
-    });
-    ProgressService.startAttempt("mock")
-      .then((s) => {
-        if (startRequestRef.current !== startToken) return;
-        startRequestRef.current = null;
-        setAttemptId(s.attemptId);
-        setAttemptInitializing(false);
-      })
-      .catch((e: any) => {
-        if (startRequestRef.current !== startToken) return;
-        startRequestRef.current = null;
-        console.error("Failed to start attempt", e);
-        pendingAttemptOps.current = [];
-        setAttemptInitializing(false);
-        setStage("select");
-        setCount(null);
-        setQuestions([]);
-        setError(e?.message || "Failed to start attempt");
       });
+      setStage("quiz");
+    } catch (e: any) {
+      setError(e?.message || "Failed to start attempt");
+    }
   };
 
   const goPrev = () => {
@@ -190,6 +137,20 @@ export default function MockTestPage() {
     return m;
   }, [answers]);
 
+  const answerDetails: Record<number, AnswerEntry> = React.useMemo(() => {
+    const record: Record<number, AnswerEntry> = {};
+    for (const a of answers) record[a.qid] = a;
+    return record;
+  }, [answers]);
+
+  const questionOrder = React.useMemo(() => {
+    const order: Record<number, number> = {};
+    questions.forEach((q, idx) => {
+      order[q.id] = idx + 1;
+    });
+    return order;
+  }, [questions]);
+
   const unansweredCount = React.useMemo(() => {
     return questions.reduce((acc, q) => (userAnswers[q.id] ? acc : acc + 1), 0);
   }, [questions, userAnswers]);
@@ -197,8 +158,26 @@ export default function MockTestPage() {
   const correctCount = answers.filter((a) => a.correct).length;
   const incorrectCount = answers.length - correctCount;
 
+  const filteredReviewQuestions = React.useMemo(() => {
+    if (reviewFilter === "all") return questions;
+    return questions.filter((q) => {
+      const ans = answerDetails[q.id];
+      if (!ans) return false;
+      return reviewFilter === "correct" ? ans.correct : !ans.correct;
+    });
+  }, [questions, reviewFilter, answerDetails]);
+
+  const reviewFilterOptions = React.useMemo(
+    () => [
+      { key: "all" as const, label: `All (${questions.length})` },
+      { key: "correct" as const, label: `Correct (${correctCount})` },
+      { key: "incorrect" as const, label: `Incorrect (${incorrectCount})` },
+    ],
+    [questions.length, correctCount, incorrectCount],
+  );
+
   const handleSelect = async (choice: string) => {
-    if (!current) return;
+    if (!current || !attemptId) return;
     setSelected(choice);
     const correct = !!current.options.find(
       (o) => o.text === choice && o.isCorrect,
@@ -220,14 +199,12 @@ export default function MockTestPage() {
     });
     // fire-and-forget record
     // Fire-and-forget to avoid UI lag on selection
-    runWhenAttemptReady((id) => {
-      ProgressService.recordAnswer({
-        attemptId: id,
-        questionId: current.id,
-        category: current.category as unknown as string,
-        isCorrect: correct,
-      }).catch((e) => console.warn("recordAnswer failed", e));
-    });
+    ProgressService.recordAnswer({
+      attemptId,
+      questionId: current.id,
+      category: current.category as unknown as string,
+      isCorrect: correct,
+    }).catch((e) => console.warn("recordAnswer failed", e));
   };
 
   const goNext = () => {
@@ -235,14 +212,14 @@ export default function MockTestPage() {
     if (isLast) return;
     setIndex((i) => {
       const next = i + 1;
-      // fire-and-forget save of progress
-      runWhenAttemptReady((id) => {
+      if (attemptId) {
+        // fire-and-forget save of progress
         ProgressService.saveProgress({
-          attemptId: id,
+          attemptId,
           currentIndex: next,
           state: "active",
         }).catch(() => {});
-      });
+      }
       return next;
     });
   };
@@ -252,14 +229,25 @@ export default function MockTestPage() {
   };
 
   const finishAttempt = async () => {
-    const activeAttemptId = attemptIdRef.current;
-    if (!activeAttemptId || submitting || finished) return;
+    if (!attemptId || submitting || finished) return;
     setSubmitting(true);
     try {
+      const localTotals = answers.reduce(
+        (acc, entry) => {
+          acc.total += 1;
+          if (entry.correct) acc.correct += 1;
+          return acc;
+        },
+        { total: 0, correct: 0 },
+      );
+      const localScorePercent =
+        localTotals.total > 0
+          ? Math.round((localTotals.correct / localTotals.total) * 100)
+          : 0;
       // Ensure all answers are persisted before aggregation
       try {
         await ProgressService.answersBulk({
-          attemptId: activeAttemptId,
+          attemptId,
           answers: answers.map((a) => ({
             qid: a.qid,
             choice: a.choice,
@@ -272,16 +260,16 @@ export default function MockTestPage() {
       }
       // mark finished with last index
       await ProgressService.saveProgress({
-        attemptId: activeAttemptId,
+        attemptId,
         currentIndex: index,
         state: "finished",
       });
-      let res = await ProgressService.finishAttempt(activeAttemptId);
+      let res = await ProgressService.finishAttempt(attemptId);
       // Retry path: if server totals are zero but we have local answers, bulk-send then finalize again
       if (res.total === 0 && answers.length > 0) {
         try {
           await ProgressService.answersBulk({
-            attemptId: activeAttemptId,
+            attemptId,
             answers: answers.map((a) => ({
               qid: a.qid,
               choice: a.choice,
@@ -289,10 +277,18 @@ export default function MockTestPage() {
               category: a.category as unknown as string,
             })),
           });
-          res = await ProgressService.finishAttempt(activeAttemptId);
+          res = await ProgressService.finishAttempt(attemptId);
         } catch (e) {
           console.warn("answersBulk retry failed", e);
         }
+      }
+      if (res.total === 0 && localTotals.total > 0) {
+        res = {
+          ...res,
+          total: localTotals.total,
+          correct: localTotals.correct,
+          score_percent: localScorePercent,
+        };
       }
       // award mastery points per-category simple heuristic
       try {
@@ -326,9 +322,12 @@ export default function MockTestPage() {
         setMpEarned(mpSum);
       } catch {}
       setResults({
-        total: res.total,
-        correct: res.correct,
-        score_percent: res.score_percent,
+        total: res.total || localTotals.total,
+        correct: res.correct || localTotals.correct,
+        score_percent:
+          res.total === 0 && localTotals.total > 0
+            ? localScorePercent
+            : res.score_percent,
       });
       setFinished(true);
     } catch (e: any) {
@@ -522,26 +521,64 @@ export default function MockTestPage() {
           <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
             Review Your Answers
           </h3>
+          <div className="flex justify-center mb-6">
+            <div
+              className="inline-flex rounded-md shadow-sm overflow-hidden"
+              role="group"
+              aria-label="Filter reviewed questions"
+            >
+              {reviewFilterOptions.map(({ key, label }) => {
+                const isActive = reviewFilter === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setReviewFilter(key)}
+                    className={`px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-blue ${
+                      isActive
+                        ? "bg-brand-blue text-white"
+                        : "bg-white text-gray-700 hover:bg-gray-100"
+                    } ${
+                      key === "all"
+                        ? "rounded-l-md"
+                        : key === "incorrect"
+                          ? "rounded-r-md"
+                          : ""
+                    }`}
+                    type="button"
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <div className="space-y-6">
-            {questions.map((q, i) => {
-              const ans = answers.find((a) => a.qid === q.id);
-              return (
-                <div key={q.id}>
-                  <p className="font-bold text-gray-700 mb-2">
-                    Question {i + 1}
-                  </p>
-                  <QuestionCard
-                    question={q}
-                    isReviewMode={true}
-                    userAnswer={ans?.choice || null}
-                    isFlagged={flagged.includes(q.id)}
-                    selectedOption={null}
-                    onOptionSelect={() => {}}
-                    isAnswered={true}
-                  />
-                </div>
-              );
-            })}
+            {filteredReviewQuestions.length === 0 ? (
+              <p className="text-center text-gray-500">
+                No answers match this filter yet.
+              </p>
+            ) : (
+              filteredReviewQuestions.map((q) => {
+                const ans = answerDetails[q.id];
+                const questionNumber = questionOrder[q.id] ?? 0;
+                return (
+                  <div key={q.id}>
+                    <p className="font-bold text-gray-700 mb-2">
+                      Question {questionNumber}
+                    </p>
+                    <QuestionCard
+                      question={q}
+                      isReviewMode={true}
+                      userAnswer={ans?.choice || null}
+                      isFlagged={flagged.includes(q.id)}
+                      selectedOption={null}
+                      onOptionSelect={() => {}}
+                      isAnswered={!!ans}
+                    />
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </main>
@@ -566,11 +603,6 @@ export default function MockTestPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          {attemptInitializing && (
-            <span className="text-xs text-gray-500 animate-pulse">
-              Syncing attempt...
-            </span>
-          )}
           <button
             onClick={toggleFlag}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
