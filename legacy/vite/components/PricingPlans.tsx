@@ -9,7 +9,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Seo from "./Seo";
-import { SITE_URL } from "../../config/seo";
+import { SITE_URL } from "../../../config/seo";
 
 /*
   Pricing UI – fixed & interactive
