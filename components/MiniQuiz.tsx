@@ -66,7 +66,7 @@ export default function MiniQuiz({
         setError(e?.message || "Failed to start mini quiz");
       }
     })();
-  }, [module.category]);
+  }, [module.category, module.slug]);
 
   const current = questions[index] ?? null;
   const isLast = index === questions.length - 1;

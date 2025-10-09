@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist, createJSONStorage, StateStorage } from "zustand/middleware";
 
 type Answer = { qid: string; choice: string };
 
@@ -19,6 +19,16 @@ type Actions = {
   reset: () => void;
 };
 
+const noopStorage: StateStorage = {
+  getItem: () => null,
+  setItem: () => undefined,
+  removeItem: () => undefined,
+};
+
+const storage = createJSONStorage(() =>
+  typeof window === "undefined" ? noopStorage : window.localStorage,
+);
+
 export const useQuizStore = create<State & Actions>()(
   persist(
     (set, get) => ({
@@ -26,13 +36,29 @@ export const useQuizStore = create<State & Actions>()(
       currentIndex: 0,
       answers: {},
       startedAt: null,
-      start: (quizId) => set({ quizId, currentIndex: 0, answers: {}, startedAt: new Date().toISOString() }),
+      start: (quizId) =>
+        set({
+          quizId,
+          currentIndex: 0,
+          answers: {},
+          startedAt: new Date().toISOString(),
+        }),
       goto: (i) => set({ currentIndex: Math.max(0, i) }),
       next: () => set({ currentIndex: get().currentIndex + 1 }),
       prev: () => set({ currentIndex: Math.max(0, get().currentIndex - 1) }),
-      answer: (qid, choice) => set({ answers: { ...get().answers, [qid]: { qid, choice } } }),
-      reset: () => set({ currentIndex: 0, answers: {}, startedAt: new Date().toISOString() }),
+      answer: (qid, choice) =>
+        set({ answers: { ...get().answers, [qid]: { qid, choice } } }),
+      reset: () =>
+        set({
+          currentIndex: 0,
+          answers: {},
+          startedAt: new Date().toISOString(),
+        }),
     }),
-    { name: 'quiz-state' }
-  )
+    {
+      name: "quiz-state",
+      storage,
+      skipHydration: typeof window === "undefined",
+    },
+  ),
 );
