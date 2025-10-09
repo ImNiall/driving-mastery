@@ -25,17 +25,19 @@ export default function AppNav() {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       setSignedIn(!!session);
     });
+    if (typeof router.prefetch === "function") {
+      tabs.forEach((t) => {
+        try {
+          router.prefetch(t.href);
+        } catch (_) {
+          // ignore prefetch errors; navigation still works without cache
+        }
+      });
+    }
     return () => {
       mounted = false;
       sub.subscription?.unsubscribe();
     };
-  }, []);
-
-  React.useEffect(() => {
-    if (typeof router.prefetch !== "function") return;
-    tabs.forEach((t) => {
-      void router.prefetch(t.href).catch(() => {});
-    });
   }, [router]);
 
   return (
