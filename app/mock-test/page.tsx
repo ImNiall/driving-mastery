@@ -148,18 +148,23 @@ export default function MockTestPage() {
       correct,
       category: current.category as Category,
     };
-    setAnswers((prev) => [...prev, entry]);
+    setAnswers((prev) => {
+      const existingIndex = prev.findIndex((a) => a.qid === current.id);
+      if (existingIndex >= 0) {
+        const next = [...prev];
+        next[existingIndex] = entry;
+        return next;
+      }
+      return [...prev, entry];
+    });
     // fire-and-forget record
-    try {
-      await ProgressService.recordAnswer({
-        attemptId,
-        questionId: current.id,
-        category: current.category as unknown as string,
-        isCorrect: correct,
-      });
-    } catch (e) {
-      // swallow to avoid blocking UX; server will still tally most events
-    }
+    // Fire-and-forget to avoid UI lag on selection
+    ProgressService.recordAnswer({
+      attemptId,
+      questionId: current.id,
+      category: current.category as unknown as string,
+      isCorrect: correct,
+    }).catch((e) => console.warn("recordAnswer failed", e));
   };
 
   const goNext = () => {
@@ -207,7 +212,24 @@ export default function MockTestPage() {
         currentIndex: index,
         state: "finished",
       });
-      const res = await ProgressService.finishAttempt(attemptId);
+      let res = await ProgressService.finishAttempt(attemptId);
+      // Retry path: if server totals are zero but we have local answers, bulk-send then finalize again
+      if (res.total === 0 && answers.length > 0) {
+        try {
+          await ProgressService.answersBulk({
+            attemptId,
+            answers: answers.map((a) => ({
+              qid: a.qid,
+              choice: a.choice,
+              correct: a.correct,
+              category: a.category as unknown as string,
+            })),
+          });
+          res = await ProgressService.finishAttempt(attemptId);
+        } catch (e) {
+          console.warn("answersBulk retry failed", e);
+        }
+      }
       // award mastery points per-category simple heuristic
       try {
         const perCat: Record<string, { correct: number; total: number }> = {};

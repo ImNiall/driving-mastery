@@ -28,7 +28,9 @@ exports.handler = async (event) => {
       is_correct: isCorrect,
     };
 
-    const { error } = await admin.from('quiz_answers').insert(insert);
+    const { error } = await admin
+      .from('quiz_answers')
+      .upsert(insert, { onConflict: 'attempt_id,question_id' });
     if (error) return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
