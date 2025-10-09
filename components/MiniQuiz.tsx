@@ -3,8 +3,11 @@ import React from "react";
 import type { LearningModule, Category, Question } from "@/types";
 import { QUESTION_BANK } from "@/constants";
 import { ProgressService } from "@/lib/services/progress";
-import QuestionCard from "@/components/QuestionCard";
-import { ArrowLeftIcon, ArrowRightIcon, FlagIcon } from "@/components/icons";
+import { ArrowLeftIcon, FlagIcon } from "@/components/icons";
+import ModuleProgress from "@/components/modules/ModuleProgress";
+import QuizCard from "@/components/modules/QuizCard";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 function pickModuleQuestions(category: Category, count = 5): Question[] {
   const filtered = QUESTION_BANK.filter(
@@ -164,110 +167,142 @@ export default function MiniQuiz({
   };
 
   if (error) {
-    return <div className="p-4 bg-red-50 text-red-600 rounded">{error}</div>;
+    return (
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-700">
+        {error}
+      </div>
+    );
   }
 
   if (finished && results) {
     const passed = results.pct >= 80;
     return (
-      <div className="bg-white p-6 rounded-lg shadow-xl">
-        <div className="text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mt-2">
+      <div className="space-y-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-md">
+        <ModuleProgress value={100} />
+        <div className="text-center space-y-3">
+          <h3 className="text-2xl font-bold text-gray-800">
             {passed ? "Excellent Work!" : "Good Effort! Review & Retry."}
           </h3>
-          <p className="text-gray-600 mt-1">You scored</p>
+          <p className="text-gray-600">You scored</p>
           <p
-            className={`font-bold my-2 ${passed ? "text-brand-green" : "text-brand-red"}`}
+            className={cn(
+              "font-bold text-5xl",
+              passed ? "text-green-600" : "text-red-600",
+            )}
           >
-            <span className="text-6xl">{results.correct}</span>
-            <span className="text-4xl text-gray-500"> / {results.total}</span>
+            {results.correct}
+            <span className="ml-1 text-3xl text-gray-500">
+              / {results.total}
+            </span>
           </p>
-          <div className="mt-6 grid sm:grid-cols-2 gap-3">
-            <button
-              onClick={() => {
-                setFinished(false);
-                setIndex(0);
-                setSelected(null);
-                setAnswers([]);
-              }}
-              className="w-full bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-black transition-colors font-semibold"
-            >
-              Try Again
-            </button>
-            <button
-              onClick={() => onModuleMastery(module.category)}
-              className="w-full bg-brand-blue text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold"
-            >
-              Back to Module
-            </button>
-          </div>
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setFinished(false);
+              setIndex(0);
+              setSelected(null);
+              setAnswers([]);
+              setResults(null);
+              setFlagged([]);
+            }}
+          >
+            Try Again
+          </Button>
+          <Button onClick={() => onModuleMastery(module.category)}>
+            Back to Module
+          </Button>
         </div>
       </div>
     );
   }
 
   if (!current) {
-    return <div className="p-4 text-gray-600">Preparing mini quiz…</div>;
+    return (
+      <div className="rounded-2xl border border-gray-100 bg-white p-8 text-gray-600 shadow-md">
+        Preparing mini quiz…
+      </div>
+    );
   }
 
+  const selectedIndex = current.options.findIndex(
+    (option) => option.text === selected,
+  );
+  const progressValue = questions.length
+    ? Math.round((answers.length / questions.length) * 100)
+    : 0;
+
   return (
-    <div className="bg-slate-50 p-4 rounded-lg space-y-4">
-      <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-600">
-            Question {index + 1} of {questions.length}
-          </p>
-        </div>
-        <button
+    <div className="space-y-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-md">
+      <ModuleProgress value={progressValue} />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm font-medium text-gray-600">
+          Question {index + 1} of {questions.length}
+        </p>
+        <Button
+          variant="outline"
           onClick={toggleFlag}
-          className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+          className={cn(
+            "gap-2 px-4 py-2 text-sm font-semibold",
             flagged.includes(current.id)
-              ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
+              ? "border-yellow-300 bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+              : "text-gray-700",
+          )}
+          aria-pressed={flagged.includes(current.id)}
         >
-          <FlagIcon className="w-4 h-4" />
+          <FlagIcon className="h-4 w-4" />
           <span>
             {flagged.includes(current.id) ? "Flagged" : "Flag for Review"}
           </span>
-        </button>
+        </Button>
       </div>
 
-      <QuestionCard
-        question={current}
-        selectedOption={selected}
-        isAnswered={selected !== null}
-        onOptionSelect={select}
+      <QuizCard
+        index={index + 1}
+        total={questions.length}
+        question={current.question}
+        options={current.options.map((option) => option.text)}
+        selectedIndex={selectedIndex >= 0 ? selectedIndex : undefined}
+        onSelect={(optionIndex) => {
+          const choice = current.options[optionIndex];
+          if (choice) {
+            select(choice.text);
+          }
+        }}
+        onNext={() => {
+          if (isLast) {
+            finish();
+          } else {
+            next();
+          }
+        }}
+        isNextDisabled={
+          selected === null || (isLast && (submitting || selected === null))
+        }
+        nextLabel={
+          isLast
+            ? submitting
+              ? "Submitting…"
+              : "Submit Quiz \u2192"
+            : "Next \u2192"
+        }
       />
 
-      <div className="flex items-center justify-between gap-2">
-        <button
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Button
+          variant="outline"
           onClick={prev}
           disabled={isFirst}
-          className="flex items-center bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 disabled:opacity-50"
+          className="gap-2"
         >
-          <ArrowLeftIcon className="w-5 h-5 mr-2" /> Previous
-        </button>
-        <div className="ml-auto flex gap-2">
-          {!isLast && (
-            <button
-              disabled={selected === null}
-              onClick={next}
-              className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-600 disabled:bg-gray-300"
-            >
-              Next <ArrowRightIcon className="w-5 h-5 ml-2" />
-            </button>
-          )}
-          {isLast && (
-            <button
-              disabled={selected === null || submitting}
-              onClick={finish}
-              className="flex items-center bg-brand-green text-white font-semibold py-2 px-4 rounded-lg shadow-sm disabled:bg-gray-300"
-            >
-              Submit
-            </button>
-          )}
-        </div>
+          <ArrowLeftIcon className="h-4 w-4" /> Previous
+        </Button>
+        {isLast ? (
+          <span className="ml-auto text-sm text-gray-500">
+            Submit after selecting an answer to finish.
+          </span>
+        ) : null}
       </div>
     </div>
   );
