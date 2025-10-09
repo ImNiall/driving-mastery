@@ -1,16 +1,57 @@
 "use client";
 import { supabase } from "@/lib/supabase/client";
 
-async function getToken(): Promise<string> {
+const TOKEN_BUFFER_MS = 30_000;
+const FALLBACK_TTL_MS = 5 * 60 * 1000;
+
+let cachedToken: { value: string; expiresAt: number } | null = null;
+let inFlightToken: Promise<string> | null = null;
+
+async function fetchToken(): Promise<string> {
   const { data, error } = await supabase.auth.getSession();
-  if (error || !data.session?.access_token) throw new Error("No session");
-  return data.session.access_token;
+  if (error || !data.session?.access_token) {
+    throw new Error("No session");
+  }
+  const expiresAt = data.session.expires_at
+    ? data.session.expires_at * 1000 - TOKEN_BUFFER_MS
+    : Date.now() + FALLBACK_TTL_MS;
+  cachedToken = {
+    value: data.session.access_token,
+    expiresAt,
+  };
+  return cachedToken.value;
 }
 
-async function callFn<T>(name: string, init?: RequestInit): Promise<T> {
-  const { data, error } = await supabase.auth.getSession();
-  if (error || !data.session?.access_token) throw new Error("No session");
-  const token = data.session.access_token;
+async function getToken(): Promise<string> {
+  const now = Date.now();
+  if (cachedToken && now < cachedToken.expiresAt) {
+    return cachedToken.value;
+  }
+
+  if (!inFlightToken) {
+    inFlightToken = fetchToken().finally(() => {
+      inFlightToken = null;
+    });
+  }
+
+  try {
+    return await inFlightToken;
+  } catch (err) {
+    cachedToken = null;
+    throw err;
+  }
+}
+
+function clearTokenCache() {
+  cachedToken = null;
+}
+
+async function callFn<T>(
+  name: string,
+  init?: RequestInit,
+  attempt = 0,
+): Promise<T> {
+  const token = await getToken();
   const res = await fetch(`/.netlify/functions/${name}`, {
     ...(init || {}),
     headers: {
@@ -20,7 +61,16 @@ async function callFn<T>(name: string, init?: RequestInit): Promise<T> {
     },
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(await res.text());
+
+  if (res.status === 401 && attempt === 0) {
+    clearTokenCache();
+    return callFn<T>(name, init, 1);
+  }
+
+  if (!res.ok) {
+    throw new Error(await res.text());
+  }
+
   return (await res.json()) as T;
 }
 
