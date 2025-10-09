@@ -1,1 +1,1 @@
-export * from "../../config/seo";
+export * from "../../../config/seo";

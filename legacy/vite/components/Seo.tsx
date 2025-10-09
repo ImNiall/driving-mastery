@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SITE_URL, DEFAULT_OG } from "../../config/seo";
+import { SITE_URL, DEFAULT_OG } from "../../../config/seo";
 import { assertString } from "../utils/assertString";
 
 type Props = {
