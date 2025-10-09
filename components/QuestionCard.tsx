@@ -23,6 +23,24 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   userAnswer = null,
   isFlagged = false,
 }) => {
+  // Stable shuffle of options per question to prevent pattern learning
+  const shuffledOptions = React.useMemo(() => {
+    const arr = [...question.options];
+    // Fisher-Yates with seed from question.id for stability within a render lifecycle
+    let seed = typeof question.id === "number" ? question.id : 1;
+    const rand = () => {
+      // simple LCG
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    };
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      const tmp = arr[i]!;
+      arr[i] = arr[j]!;
+      arr[j] = tmp;
+    }
+    return arr;
+  }, [question.id, question.options]);
   const getOptionClass = (optionText: string) => {
     const isCorrect = question.options.find(
       (o) => o.text === optionText,
@@ -102,14 +120,22 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       </h2>
 
       <div className="space-y-3">
-        {question.options.map((option, index) => (
+        {shuffledOptions.map((option, index) => (
           <button
             key={index}
             disabled={isAnswered || isReviewMode}
             onClick={() => onOptionSelect(option.text)}
-            className={`w-full text-left p-3 rounded-lg border-2 transition-all duration-150 flex justify-between items-center text-sm ${getOptionClass(String(option.text))}`}
+            className={`w-full text-left p-3 rounded-lg border-2 transition-all duration-150 flex justify-between items-start text-sm min-h-[56px] ${getOptionClass(String(option.text))}`}
           >
-            <span className="flex-grow pr-4">
+            <span
+              className="flex-grow pr-4 leading-snug"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
               <SafeText value={option.text} />
             </span>
             {showFeedbackIcons(option.text)}

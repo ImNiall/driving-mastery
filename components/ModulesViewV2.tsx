@@ -3,6 +3,7 @@ import { LearningModule, FinalQuizResults, Category } from "../types";
 import { LEARNING_MODULES } from "../constants";
 import ErrorBoundary from "./ErrorBoundary";
 import MiniQuiz from "./MiniQuiz";
+import Markdown from "./Markdown";
 import ModuleCardV2 from "./ModuleCardV2";
 import {
   getWrongAnswersForModule,
@@ -74,7 +75,7 @@ const ModuleDetailView: React.FC<{
         )}
 
         <div className="mt-6">
-          <div className="prose max-w-none">{module.content}</div>
+          <Markdown content={module.content} className="prose max-w-none" />
         </div>
         <div className="mt-8 pt-8 border-t-2 border-gray-100">
           <div className="text-center mb-6">

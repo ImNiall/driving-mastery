@@ -5,6 +5,7 @@ import StudyPlan from "@/components/StudyPlan";
 import { STUDY_PLANS } from "@/constants";
 import type { StudyPlan as StudyPlanType } from "@/types";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
 import { QuizIcon, BookOpenIcon, ChatIcon } from "@/components/icons";
@@ -70,7 +71,20 @@ export default function DashboardPage() {
     let cancelled = false;
     (async () => {
       try {
-        const o = await ProgressService.getOverview();
+        // Ensure we have an auth session before hitting the API
+        const { data: sess } = await supabase.auth.getSession();
+        if (!sess.session?.access_token) {
+          throw new Error(
+            "Not signed in. Please sign in to see your dashboard.",
+          );
+        }
+        const timeout = new Promise((_, rej) =>
+          setTimeout(() => rej(new Error("Timeout loading overview")), 10000),
+        );
+        const o = (await Promise.race([
+          ProgressService.getOverview(),
+          timeout,
+        ])) as Awaited<ReturnType<typeof ProgressService.getOverview>>;
         if (cancelled) return;
         const pr: QuizResult[] = (o.categories || []).map((c: any) => ({
           category: c.category as Category,
@@ -90,7 +104,10 @@ export default function DashboardPage() {
           });
         }
       } catch (e: any) {
-        setError(e?.message || "Failed to load overview");
+        const msg = (e?.message || "Failed to load overview").toString();
+        // Common causes: not authenticated ("No session"), 401 from function, or DB objects missing
+        console.error("Dashboard overview error:", msg);
+        setError(msg);
       } finally {
         setLoading(false);
       }
@@ -113,7 +130,33 @@ export default function DashboardPage() {
   if (error) {
     return (
       <main className="mx-auto max-w-6xl p-6">
-        <p className="text-red-600">{error}</p>
+        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded">
+          <p className="font-semibold">We couldn&apos;t load your dashboard.</p>
+          <p className="text-sm mt-1 break-all">{error}</p>
+          <div className="mt-3 flex gap-2">
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-red-600 text-white px-3 py-1.5 rounded text-sm"
+            >
+              Retry
+            </button>
+            <button
+              onClick={async () => {
+                await supabase.auth.signOut();
+                window.location.href = "/";
+              }}
+              className="bg-white border border-gray-300 px-3 py-1.5 rounded text-sm"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => (window.location.href = "/mock-test")}
+              className="bg-white border border-gray-300 px-3 py-1.5 rounded text-sm"
+            >
+              Go to Mock Test
+            </button>
+          </div>
+        </div>
       </main>
     );
   }
