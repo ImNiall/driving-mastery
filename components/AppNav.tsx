@@ -25,11 +25,20 @@ export default function AppNav() {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       setSignedIn(!!session);
     });
+    if (typeof router.prefetch === "function") {
+      tabs.forEach((t) => {
+        try {
+          router.prefetch(t.href);
+        } catch (_) {
+          // ignore prefetch errors; navigation still works without cache
+        }
+      });
+    }
     return () => {
       mounted = false;
       sub.subscription?.unsubscribe();
     };
-  }, []);
+  }, [router]);
 
   return (
     <nav className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-gray-200">
@@ -46,6 +55,7 @@ export default function AppNav() {
                   <li key={t.href}>
                     <Link
                       href={t.href}
+                      prefetch
                       className={`px-3 py-2 rounded-md text-sm font-semibold transition-colors ${
                         active
                           ? "bg-brand-blue text-white"

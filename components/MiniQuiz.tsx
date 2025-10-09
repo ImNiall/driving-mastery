@@ -72,29 +72,33 @@ export default function MiniQuiz({
   const isLast = index === questions.length - 1;
   const isFirst = index === 0;
 
-  const select = async (choice: string) => {
+  const select = (choice: string) => {
     if (!current || !attemptId) return;
     setSelected(choice);
     const correct = !!current.options.find(
       (o) => o.text === choice && o.isCorrect,
     );
-    setAnswers((prev) => [
-      ...prev,
-      {
-        qid: current.id,
-        choice,
-        correct,
-        category: current.category as Category,
-      },
-    ]);
-    try {
-      await ProgressService.recordAnswer({
-        attemptId,
-        questionId: current.id,
-        category: current.category as unknown as string,
-        isCorrect: correct,
-      });
-    } catch {}
+    const entry = {
+      qid: current.id,
+      choice,
+      correct,
+      category: current.category as Category,
+    };
+    setAnswers((prev) => {
+      const existingIndex = prev.findIndex((a) => a.qid === current.id);
+      if (existingIndex >= 0) {
+        const next = [...prev];
+        next[existingIndex] = entry;
+        return next;
+      }
+      return [...prev, entry];
+    });
+    void ProgressService.recordAnswer({
+      attemptId,
+      questionId: current.id,
+      category: current.category as unknown as string,
+      isCorrect: correct,
+    }).catch(() => {});
   };
 
   const next = () => {
