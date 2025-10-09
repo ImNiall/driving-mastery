@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import ModulePageClient from "./ModulePageClient";
 import { LEARNING_MODULES } from "@/constants";
-import type { Category } from "@/types";
 
 export function generateStaticParams() {
   return LEARNING_MODULES.map((lesson) => ({ slug: lesson.slug }));
@@ -15,11 +14,5 @@ export default function ModuleDetailPage({ params }: Params) {
     notFound();
   }
 
-  const handleModuleMastery = (category: Category) => {
-    console.warn("Module mastered:", category);
-  };
-
-  return (
-    <ModulePageClient module={lesson} onModuleMastery={handleModuleMastery} />
-  );
+  return <ModulePageClient module={lesson} />;
 }
