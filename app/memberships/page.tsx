@@ -71,10 +71,10 @@ const MEMBERSHIPS: Membership[] = [
 
 export default function MembershipsPage() {
   const [activeTab, setActiveTab] = React.useState<MembershipKey>("pro");
-  const membership = React.useMemo(
-    () => MEMBERSHIPS.find((m) => m.key === activeTab) ?? MEMBERSHIPS[0],
-    [activeTab],
-  );
+  const membership = React.useMemo<Membership>(() => {
+    const match = MEMBERSHIPS.find((m) => m.key === activeTab);
+    return match ?? MEMBERSHIPS[0];
+  }, [activeTab]);
 
   const Icon = membership.icon;
 
