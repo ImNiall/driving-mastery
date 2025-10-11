@@ -14,26 +14,44 @@ function AuthInner() {
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [notice, setNotice] = React.useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setNotice(null);
+    setLoading(true);
     try {
       if (mode === "signup") {
-        const { error: err } = await supabase.auth.signUp({
+        const { data, error: err } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/dashboard` },
         });
         if (err) throw err;
-        router.push("/dashboard");
+        if (data.session) {
+          router.replace("/dashboard");
+          return;
+        }
+        setNotice(
+          "Check your inbox for a confirmation link. Once your email is verified you can sign in.",
+        );
+        setEmail("");
+        setPassword("");
       } else {
-        const { error: err } = await supabase.auth.signInWithPassword({
+        const { data, error: err } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (err) throw err;
-        router.push("/dashboard");
+        if (!data.session) {
+          setError(
+            "We couldn't establish a session. Please confirm your email and try again.",
+          );
+          return;
+        }
+        await supabase.auth.getSession();
+        router.replace("/dashboard");
       }
     } catch (err: any) {
       setError(err?.message || "Authentication failed");
@@ -87,6 +105,11 @@ function AuthInner() {
         {error && (
           <p className="text-sm text-red-600" role="alert">
             {error}
+          </p>
+        )}
+        {notice && (
+          <p className="text-sm text-brand-blue" role="status">
+            {notice}
           </p>
         )}
         <button

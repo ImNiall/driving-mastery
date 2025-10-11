@@ -74,9 +74,8 @@ export default function DashboardPage() {
         // Ensure we have an auth session before hitting the API
         const { data: sess } = await supabase.auth.getSession();
         if (!sess.session?.access_token) {
-          throw new Error(
-            "Not signed in. Please sign in to see your dashboard.",
-          );
+          router.replace("/auth?mode=signin");
+          return;
         }
         const timeout = new Promise((_, rej) =>
           setTimeout(() => rej(new Error("Timeout loading overview")), 10000),
@@ -105,9 +104,8 @@ export default function DashboardPage() {
         }
       } catch (e: any) {
         const msg = (e?.message || "Failed to load overview").toString();
-        // Common causes: not authenticated ("No session"), 401 from function, or DB objects missing
         console.error("Dashboard overview error:", msg);
-        setError(msg);
+        setError("We ran into a problem loading your overview. Please retry.");
       } finally {
         setLoading(false);
       }
@@ -115,7 +113,7 @@ export default function DashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [router]);
 
   if (loading) {
     return (
