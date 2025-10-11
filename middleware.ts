@@ -15,6 +15,8 @@ function buildCSP() {
   if (isDev)
     connectSrc.push("ws:", "http://localhost:3000", "http://localhost:8888");
 
+  const frameSrc = ["'self'", "https://app.netlify.com"];
+
   return [
     "default-src 'self'",
     `script-src ${scriptSrc.join(" ")}`,
@@ -22,7 +24,7 @@ function buildCSP() {
     "img-src 'self' data:",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "frame-src 'self'",
+    `frame-src ${frameSrc.join(" ")}`,
     "frame-ancestors 'self'",
   ].join("; ");
 }

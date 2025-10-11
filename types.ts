@@ -12,7 +12,7 @@ export enum Category {
   ROAD_AND_TRAFFIC_SIGNS = "Road and traffic signs",
   DOCUMENTS = "Documents",
   INCIDENTS_ACCIDENTS_EMERGENCIES = "Incidents, accidents and emergencies",
-  VEHICLE_LOADING = "Vehicle loading"
+  VEHICLE_LOADING = "Vehicle loading",
 }
 
 export interface Answer {
@@ -70,18 +70,24 @@ export interface LearningModule {
   category: Category;
   summary: string;
   content: string; // Markdown content
+  tags?: string[];
+  estimatedDuration?: string;
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
+  learningObjectives?: string[];
+  lastReviewed?: string;
+  sourceVersion?: string;
 }
 
 export interface QuizAction {
-    type: 'start_quiz';
-    categories: Category[];
-    questionCount: number;
+  type: "start_quiz";
+  categories: Category[];
+  questionCount: number;
 }
 
 export interface ChatMessage {
-    role: 'user' | 'model';
-    text: string;
-    action?: QuizAction;
+  role: "user" | "model";
+  text: string;
+  action?: QuizAction;
 }
 
 export interface FinalQuizResults {
@@ -100,4 +106,13 @@ export interface LeaderboardEntry {
   masteryPoints: number;
 }
 
-export type View = 'dashboard' | 'quiz-start' | 'quiz' | 'modules' | 'chat' | 'quiz-results' | 'leaderboard' | 'auth' | 'pricing';
+export type View =
+  | "dashboard"
+  | "quiz-start"
+  | "quiz"
+  | "modules"
+  | "chat"
+  | "quiz-results"
+  | "leaderboard"
+  | "auth"
+  | "pricing";

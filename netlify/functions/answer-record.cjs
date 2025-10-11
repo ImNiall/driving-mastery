@@ -15,22 +15,44 @@ exports.handler = async (event) => {
     if (userErr || !userData?.user) return { statusCode: 401, body: 'Unauthorized' };
 
     const body = JSON.parse(event.body || '{}');
-    const { attemptId, questionId, category, isCorrect } = body;
-    if (!attemptId || typeof questionId !== 'number' || !category || typeof isCorrect !== 'boolean') {
+    const { attemptId, questionId, category, isCorrect, qIndex } = body;
+    if (!attemptId) {
       return { statusCode: 400, body: 'Invalid payload' };
     }
+
+    const resolvedQuestionId = typeof questionId === 'number' ? questionId : null;
+    const resolvedIndex =
+      Number.isInteger(qIndex) && qIndex >= 0
+        ? qIndex
+        : typeof resolvedQuestionId === 'number'
+          ? resolvedQuestionId
+          : null;
+    if (resolvedIndex === null) {
+      return { statusCode: 400, body: 'Invalid payload' };
+    }
+
+    const answerPayload =
+      body.answer && typeof body.answer === 'object'
+        ? body.answer
+        : {
+            choice: body.choice ?? null,
+            correct: typeof isCorrect === 'boolean' ? isCorrect : null,
+            questionId: resolvedQuestionId,
+          };
 
     const insert = {
       attempt_id: attemptId,
       user_id: userData.user.id,
-      question_id: questionId,
-      category,
-      is_correct: isCorrect,
+      q_index: resolvedIndex,
+      question_id: resolvedQuestionId,
+      category: category ?? null,
+      is_correct: typeof isCorrect === 'boolean' ? isCorrect : null,
+      answer: answerPayload,
     };
 
     const { error } = await admin
       .from('quiz_answers')
-      .upsert(insert, { onConflict: 'attempt_id,question_id' });
+      .upsert(insert, { onConflict: 'attempt_id,q_index' });
     if (error) return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };

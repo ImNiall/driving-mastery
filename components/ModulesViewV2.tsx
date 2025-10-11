@@ -34,6 +34,16 @@ export default function ModulesViewV2({
   return (
     <div className="mx-auto max-w-5xl grid xl:grid-cols-[1fr_260px] gap-8 p-6">
       <div className="space-y-8">
+        <div className="flex items-center justify-between">
+          <a
+            href="/modules"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue hover:text-brand-blue/80"
+          >
+            <span aria-hidden="true">&larr;</span>
+            Back to Modules
+          </a>
+          <p className="text-sm text-gray-500 capitalize">{module.category}</p>
+        </div>
         {sections.map((section) => (
           <SectionCard key={section.id} id={section.id} title={section.title}>
             <ModuleContent content={decodeEntities(section.content)} />
