@@ -205,165 +205,242 @@ function AuthInner() {
           : "Enter and confirm your new password.";
 
   return (
-    <main className="mx-auto max-w-md p-6">
-      <button className="text-brand-blue" onClick={() => router.push("/")}>
-        {"<-"} Back
-      </button>
-      <h1 className="text-3xl font-bold mt-4">{heading}</h1>
-      <p className="text-gray-600 mt-2">{description}</p>
-      <form
-        onSubmit={handleSubmit}
-        className="mt-6 space-y-4"
-        aria-label={`${view} form`}
-      >
-        {(view === "signin" || view === "signup" || view === "forgot") && (
-          <label className="block">
-            <span className="sr-only">Email</span>
-            <input
-              type="email"
-              required
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3"
-              autoComplete="email"
-            />
-          </label>
-        )}
-        {(view === "signin" || view === "signup") && (
-          <label className="block">
-            <span className="sr-only">Password</span>
-            <input
-              type="password"
-              required
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3"
-              autoComplete={
-                view === "signup" ? "new-password" : "current-password"
-              }
-            />
-          </label>
-        )}
-        {view === "reset" && (
-          <>
-            <label className="block">
-              <span className="sr-only">New password</span>
-              <input
-                type="password"
-                required
-                placeholder="New password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3"
-                autoComplete="new-password"
-              />
-            </label>
-            <label className="block">
-              <span className="sr-only">Confirm new password</span>
-              <input
-                type="password"
-                required
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3"
-                autoComplete="new-password"
-              />
-            </label>
-          </>
-        )}
-        {error && (
-          <p className="text-sm text-red-600" role="alert">
-            {error}
-          </p>
-        )}
-        {notice && (
-          <p className="text-sm text-brand-blue" role="status">
-            {notice}
-          </p>
-        )}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-full bg-brand-blue text-white px-4 py-3 font-semibold disabled:opacity-60"
-        >
-          {loading
-            ? view === "signup"
-              ? "Creating account..."
-              : view === "signin"
-                ? "Signing in..."
-                : view === "forgot"
-                  ? "Sending reset link..."
-                  : "Updating password..."
-            : view === "signup"
-              ? "Sign up"
-              : view === "signin"
-                ? "Sign in"
-                : view === "forgot"
-                  ? "Send reset link"
-                  : "Update password"}
-        </button>
-      </form>
-      <div className="mt-4 text-sm text-gray-600 space-y-2">
-        {view === "signin" && (
-          <button
-            type="button"
-            onClick={() => {
-              setView("forgot");
-              setError(null);
-              setNotice(null);
-            }}
-            className="text-brand-blue font-semibold"
-          >
-            Forgot your password?
-          </button>
-        )}
-        {view === "signup" && (
-          <p>
-            Have an account?{" "}
+    <main className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-100">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-32 -left-24 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,#1e3a8a_0%,rgba(30,58,138,0)_70%)] opacity-70 blur-3xl" />
+        <div className="absolute bottom-[-120px] right-[-80px] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,#2563eb_0%,rgba(37,99,235,0)_70%)] opacity-70 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-950 to-slate-950" />
+      </div>
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-16">
+        <div className="grid w-full max-w-5xl grid-cols-1 gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <section className="rounded-3xl bg-white/95 p-8 shadow-2xl shadow-blue-900/30 backdrop-blur-sm lg:p-12">
             <button
               type="button"
-              onClick={() => {
-                setView("signin");
-                router.replace("/auth?mode=signin");
-              }}
-              className="text-brand-blue font-semibold"
+              onClick={() => router.push("/")}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue hover:text-blue-700"
             >
-              Sign in
+              <span aria-hidden="true">{"←"}</span> Back home
             </button>
-          </p>
-        )}
-        {view === "signin" && (
-          <p>
-            Need an account?{" "}
-            <button
-              type="button"
-              onClick={() => {
-                setView("signup");
-                router.replace("/auth?mode=signup");
-              }}
-              className="text-brand-blue font-semibold"
+            <div className="mt-6 flex flex-col gap-4">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-blue-light px-4 py-1 text-xs font-semibold uppercase tracking-wide text-brand-blue">
+                Driving Mastery
+              </span>
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 lg:text-4xl">
+                  {heading}
+                </h1>
+                <p className="mt-2 text-base text-slate-600">{description}</p>
+              </div>
+            </div>
+            <div className="mt-6 space-y-3">
+              {error && (
+                <div
+                  className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"
+                  role="alert"
+                >
+                  {error}
+                </div>
+              )}
+              {notice && (
+                <div
+                  className="rounded-2xl border border-brand-blue/30 bg-brand-blue-light px-4 py-3 text-sm text-brand-blue"
+                  role="status"
+                >
+                  {notice}
+                </div>
+              )}
+            </div>
+            <form
+              onSubmit={handleSubmit}
+              className="mt-6 space-y-4"
+              aria-label={`${view} form`}
             >
-              Sign up
-            </button>
-          </p>
-        )}
-        {(view === "forgot" || view === "reset") && (
-          <button
-            type="button"
-            onClick={() => {
-              setView("signin");
-              router.replace("/auth?mode=signin");
-              setNotice(null);
-              setError(null);
-            }}
-            className="text-brand-blue font-semibold"
-          >
-            Back to sign in
-          </button>
-        )}
+              {(view === "signin" ||
+                view === "signup" ||
+                view === "forgot") && (
+                <label className="block text-sm font-medium text-slate-700">
+                  Email
+                  <input
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/70"
+                    autoComplete="email"
+                  />
+                </label>
+              )}
+              {(view === "signin" || view === "signup") && (
+                <label className="block text-sm font-medium text-slate-700">
+                  Password
+                  <input
+                    type="password"
+                    required
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/70"
+                    autoComplete={
+                      view === "signup" ? "new-password" : "current-password"
+                    }
+                  />
+                </label>
+              )}
+              {view === "reset" && (
+                <>
+                  <label className="block text-sm font-medium text-slate-700">
+                    New password
+                    <input
+                      type="password"
+                      required
+                      placeholder="Choose a secure password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/70"
+                      autoComplete="new-password"
+                    />
+                  </label>
+                  <label className="block text-sm font-medium text-slate-700">
+                    Confirm new password
+                    <input
+                      type="password"
+                      required
+                      placeholder="Re-enter the password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/70"
+                      autoComplete="new-password"
+                    />
+                  </label>
+                </>
+              )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-2 w-full rounded-2xl bg-brand-blue px-5 py-3 text-base font-semibold text-white shadow-lg shadow-blue-500/40 transition hover:bg-brand-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading
+                  ? view === "signup"
+                    ? "Creating your account…"
+                    : view === "signin"
+                      ? "Signing you in…"
+                      : view === "forgot"
+                        ? "Sending reset link…"
+                        : "Updating password…"
+                  : view === "signup"
+                    ? "Create account"
+                    : view === "signin"
+                      ? "Sign in"
+                      : view === "forgot"
+                        ? "Send reset link"
+                        : "Update password"}
+              </button>
+            </form>
+            <div className="mt-6 space-y-4 text-sm text-slate-600">
+              {view === "signin" && (
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setView("forgot");
+                      setError(null);
+                      setNotice(null);
+                    }}
+                    className="font-semibold text-brand-blue hover:text-blue-700"
+                  >
+                    Forgot your password?
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setView("signup");
+                      router.replace("/auth?mode=signup");
+                    }}
+                    className="font-semibold text-brand-blue hover:text-blue-700"
+                  >
+                    Create an account
+                  </button>
+                </div>
+              )}
+              {view === "signup" && (
+                <p>
+                  Already have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setView("signin");
+                      router.replace("/auth?mode=signin");
+                    }}
+                    className="font-semibold text-brand-blue hover:text-blue-700"
+                  >
+                    Sign in
+                  </button>
+                </p>
+              )}
+              {(view === "forgot" || view === "reset") && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setView("signin");
+                    router.replace("/auth?mode=signin");
+                    setNotice(null);
+                    setError(null);
+                  }}
+                  className="font-semibold text-brand-blue hover:text-blue-700"
+                >
+                  Back to sign in
+                </button>
+              )}
+            </div>
+          </section>
+          <aside className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#2563eb] p-10 text-slate-100">
+            <div className="absolute -top-24 right-10 h-60 w-60 rounded-full bg-[radial-gradient(circle_at_top,#38bdf8_0%,rgba(56,189,248,0)_70%)] opacity-60 blur-2xl" />
+            <div className="absolute bottom-10 right-10 h-32 w-32 rounded-full border border-white/20" />
+            <div className="relative flex h-full flex-col justify-between gap-12">
+              <div className="space-y-4">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-white/80">
+                  What our learners say
+                </span>
+                <blockquote className="space-y-4 text-lg font-semibold leading-relaxed">
+                  <p>
+                    “The mock tests and bite-sized lessons helped me pass my
+                    driving test on the first try.”
+                  </p>
+                  <footer className="text-sm font-normal text-white/70">
+                    Aisling O&rsquo;Connell · Dublin
+                  </footer>
+                </blockquote>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-2xl font-bold">
+                  Your journey to driving confidence starts here.
+                </h3>
+                <p className="text-white/70">
+                  Access structured modules, mini quizzes, and progress tracking
+                  designed for Irish learner drivers. Join thousands mastering
+                  the rules of the road.
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-semibold text-white">
+                      DM
+                    </span>
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-semibold text-white">
+                      AB
+                    </span>
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm font-semibold text-white">
+                      KC
+                    </span>
+                  </div>
+                  <p className="text-sm text-white/70">
+                    Trusted by the Driving Mastery community.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
       </div>
     </main>
   );

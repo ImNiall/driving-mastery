@@ -1,6 +1,9 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import React from "react";
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 
@@ -12,7 +15,7 @@ function parseHashParams() {
   return new URLSearchParams(hash);
 }
 
-export default function ChangePasswordPage() {
+function ChangePasswordInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -238,5 +241,19 @@ export default function ChangePasswordPage() {
         </button>
       </form>
     </main>
+  );
+}
+
+export default function ChangePasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="mx-auto max-w-md p-6">
+          <p>Loading…</p>
+        </main>
+      }
+    >
+      <ChangePasswordInner />
+    </Suspense>
   );
 }
