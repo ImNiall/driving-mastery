@@ -120,8 +120,10 @@ function AuthInner() {
           );
           return;
         }
-        await supabase.auth.getSession();
-        router.replace("/dashboard");
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData.session) {
+          router.replace("/dashboard");
+        }
       } else if (view === "forgot") {
         const { error: err } = await supabase.auth.resetPasswordForEmail(
           email,
