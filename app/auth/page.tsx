@@ -10,6 +10,8 @@ function AuthInner() {
   const router = useRouter();
 
   const initialMode = React.useMemo<AuthView>(() => {
+    const type = sp.get("type");
+    if (type === "recovery") return "reset";
     const mode = sp.get("mode");
     if (mode === "signup") return "signup";
     if (mode === "reset") return "reset";
@@ -24,10 +26,49 @@ function AuthInner() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [notice, setNotice] = React.useState<string | null>(null);
+  const handledRecovery = React.useRef(false);
 
   React.useEffect(() => {
     setView(initialMode);
   }, [initialMode]);
+
+  React.useEffect(() => {
+    if (handledRecovery.current) return;
+    const type = sp.get("type");
+    if (type !== "recovery") return;
+    handledRecovery.current = true;
+    const accessToken = sp.get("access_token");
+    const refreshToken = sp.get("refresh_token");
+    if (!accessToken || !refreshToken) {
+      setError("Reset link is invalid or expired. Request a new email.");
+      setView("signin");
+      router.replace("/auth?mode=signin");
+      return;
+    }
+    setLoading(true);
+    supabase.auth
+      .setSession({ access_token: accessToken, refresh_token: refreshToken })
+      .then(({ error: sessionError }) => {
+        if (sessionError) {
+          setError(
+            sessionError.message ||
+              "We couldn't validate your reset link. Please request a new email.",
+          );
+          setView("signin");
+          router.replace("/auth?mode=signin");
+          return;
+        }
+        setNotice(
+          "Enter a new password below to finish resetting your account.",
+        );
+        setError(null);
+        setView("reset");
+        router.replace("/auth?mode=reset");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [router, sp]);
 
   React.useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
