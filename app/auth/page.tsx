@@ -27,6 +27,7 @@ function AuthInner() {
   const [error, setError] = React.useState<string | null>(null);
   const [notice, setNotice] = React.useState<string | null>(null);
   const handledRecovery = React.useRef(false);
+  const resetNoticeHandled = React.useRef(false);
 
   React.useEffect(() => {
     setView(initialMode);
@@ -34,11 +35,17 @@ function AuthInner() {
 
   React.useEffect(() => {
     if (handledRecovery.current) return;
-    const type = sp.get("type");
+    const hashParams =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.hash.replace(/^#/, ""))
+        : new URLSearchParams();
+    const getParam = (key: string) => sp.get(key) ?? hashParams.get(key);
+    const type = getParam("type");
     if (type !== "recovery") return;
+
     handledRecovery.current = true;
-    const accessToken = sp.get("access_token");
-    const refreshToken = sp.get("refresh_token");
+    const accessToken = getParam("access_token");
+    const refreshToken = getParam("refresh_token");
     if (!accessToken || !refreshToken) {
       setError("Reset link is invalid or expired. Request a new email.");
       setView("signin");
@@ -56,14 +63,10 @@ function AuthInner() {
           );
           setView("signin");
           router.replace("/auth?mode=signin");
+          handledRecovery.current = false;
           return;
         }
-        setNotice(
-          "Enter a new password below to finish resetting your account.",
-        );
-        setError(null);
-        setView("reset");
-        router.replace("/auth?mode=reset");
+        router.replace("/auth/change-password");
       })
       .finally(() => {
         setLoading(false);
@@ -71,14 +74,27 @@ function AuthInner() {
   }, [router, sp]);
 
   React.useEffect(() => {
+    if (resetNoticeHandled.current) return;
+    if (sp.get("reset") !== "success") return;
+    resetNoticeHandled.current = true;
+    setNotice(
+      "Password updated. You can now sign in with your new credentials.",
+    );
+    setError(null);
+    setView("signin");
+    router.replace("/auth?mode=signin");
+  }, [router, sp]);
+
+  React.useEffect(() => {
+    if (sp.get("mode") === "reset") {
+      router.replace("/auth/change-password");
+    }
+  }, [router, sp]);
+
+  React.useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
-        setNotice(
-          "Enter a new password below to finish resetting your account.",
-        );
-        setError(null);
-        setView("reset");
-        router.replace("/auth?mode=reset");
+        router.replace("/auth/change-password");
       }
     });
     return () => {
@@ -128,7 +144,7 @@ function AuthInner() {
         const { error: err } = await supabase.auth.resetPasswordForEmail(
           email,
           {
-            redirectTo: `${window.location.origin}/auth?mode=reset`,
+            redirectTo: `${window.location.origin}/auth/change-password`,
           },
         );
         if (err) throw err;
