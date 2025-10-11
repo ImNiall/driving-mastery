@@ -32,6 +32,17 @@ type AnswerEntry = {
   category: Category;
 };
 
+type MockAttempt = {
+  id: string;
+  source: string | null;
+  total: number | null;
+  correct: number | null;
+  score_percent: number | null;
+  started_at: string | null;
+  finished_at: string | null;
+  duration_sec: number | null;
+};
+
 export default function MockTestPage() {
   const router = useRouter();
   const [attemptId, setAttemptId] = React.useState<string | null>(null);
@@ -57,6 +68,18 @@ export default function MockTestPage() {
   const [reviewFilter, setReviewFilter] = React.useState<
     "all" | "correct" | "incorrect"
   >("all");
+  const [history, setHistory] = React.useState<MockAttempt[]>([]);
+
+  const loadHistory = React.useCallback(async () => {
+    try {
+      const overview = await ProgressService.getOverview();
+      const attempts = (overview?.attempts || []) as MockAttempt[];
+      const mockAttempts = attempts.filter((a) => a?.source === "mock");
+      setHistory(mockAttempts);
+    } catch (e) {
+      console.warn("Failed to load mock test history", e);
+    }
+  }, []);
 
   // auto-resume: check latest unfinished attempt for mock
   React.useEffect(() => {
@@ -88,6 +111,10 @@ export default function MockTestPage() {
       }
     })();
   }, []);
+
+  React.useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   // start after user selects count
   const startMock = async (qty: 10 | 25 | 50) => {
@@ -150,6 +177,62 @@ export default function MockTestPage() {
     });
     return order;
   }, [questions]);
+
+  const completedHistory = React.useMemo(
+    () =>
+      history
+        .filter((attempt) => (attempt?.total ?? 0) > 0 && attempt.finished_at)
+        .sort((a, b) => {
+          const da = a.finished_at ? new Date(a.finished_at).getTime() : 0;
+          const db = b.finished_at ? new Date(b.finished_at).getTime() : 0;
+          return db - da;
+        }),
+    [history],
+  );
+
+  const historySummary = React.useMemo(() => {
+    const template = {
+      10: { attempts: 0, last: null as MockAttempt | null },
+      25: { attempts: 0, last: null as MockAttempt | null },
+      50: { attempts: 0, last: null as MockAttempt | null },
+    } satisfies Record<
+      10 | 25 | 50,
+      { attempts: number; last: MockAttempt | null }
+    >;
+    for (const attempt of completedHistory) {
+      const total = attempt.total ?? 0;
+      if (!template[total as 10 | 25 | 50]) continue;
+      const entry = template[total as 10 | 25 | 50];
+      entry.attempts += 1;
+      if (!entry.last) {
+        entry.last = attempt;
+        continue;
+      }
+      const prevDate = entry.last.finished_at
+        ? new Date(entry.last.finished_at).getTime()
+        : 0;
+      const currentDate = attempt.finished_at
+        ? new Date(attempt.finished_at).getTime()
+        : 0;
+      if (currentDate > prevDate) {
+        entry.last = attempt;
+      }
+    }
+    return template;
+  }, [completedHistory]);
+
+  const formatDate = React.useCallback((iso?: string | null) => {
+    if (!iso) return "";
+    try {
+      return new Intl.DateTimeFormat("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }).format(new Date(iso));
+    } catch {
+      return "";
+    }
+  }, []);
 
   const unansweredCount = React.useMemo(() => {
     return questions.reduce((acc, q) => (userAnswers[q.id] ? acc : acc + 1), 0);
@@ -408,7 +491,30 @@ export default function MockTestPage() {
 
                 <div className="my-4 pt-4 border-t border-gray-200">
                   <div className="text-sm text-gray-500 py-4">
-                    No attempts yet.
+                    {historySummary[len as 10 | 25 | 50].attempts > 0 ? (
+                      <div className="space-y-1">
+                        <p className="font-semibold text-gray-700">
+                          {historySummary[len as 10 | 25 | 50].attempts} attempt
+                          {historySummary[len as 10 | 25 | 50].attempts === 1
+                            ? ""
+                            : "s"}
+                        </p>
+                        {historySummary[len as 10 | 25 | 50].last && (
+                          <p className="text-xs text-gray-500">
+                            Last score:{" "}
+                            {historySummary[len as 10 | 25 | 50].last
+                              ?.score_percent ?? 0}
+                            % on{" "}
+                            {formatDate(
+                              historySummary[len as 10 | 25 | 50].last
+                                ?.finished_at,
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    ) : (
+                      <span>No attempts yet.</span>
+                    )}
                   </div>
                 </div>
 
@@ -426,12 +532,61 @@ export default function MockTestPage() {
             <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
               Your Test History
             </h3>
-            <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
-              <p>You haven&apos;t completed any quizzes yet.</p>
-              <p className="text-sm mt-1">
-                Your history will appear here once you do!
-              </p>
-            </div>
+            {completedHistory.length === 0 ? (
+              <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
+                <p>You haven&apos;t completed any quizzes yet.</p>
+                <p className="text-sm mt-1">
+                  Your history will appear here once you do!
+                </p>
+              </div>
+            ) : (
+              <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-3xl mx-auto">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-gray-50 text-gray-600 uppercase tracking-wide text-xs">
+                    <tr>
+                      <th className="px-4 py-3">Completed</th>
+                      <th className="px-4 py-3">Length</th>
+                      <th className="px-4 py-3">Score</th>
+                      <th className="px-4 py-3">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {completedHistory.map((attempt) => {
+                      const total = attempt.total ?? 0;
+                      const passed = (attempt.score_percent ?? 0) >= 86;
+                      return (
+                        <tr
+                          key={attempt.id}
+                          className="border-t border-gray-100"
+                        >
+                          <td className="px-4 py-3 whitespace-nowrap text-gray-700">
+                            {formatDate(attempt.finished_at)}
+                          </td>
+                          <td className="px-4 py-3 text-gray-600">
+                            {total} questions
+                          </td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`font-semibold ${passed ? "text-brand-green" : "text-brand-red"}`}
+                            >
+                              {attempt.score_percent ?? 0}%
+                            </span>
+                            <span className="text-gray-500 text-xs ml-2">
+                              ({attempt.correct ?? 0}/{total})
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-gray-600">
+                            {attempt.duration_sec != null
+                              ? `${Math.floor(attempt.duration_sec / 60)}m ${attempt.duration_sec % 60}s`
+                              : "--"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
       </main>

@@ -66,6 +66,22 @@ export default function DashboardPage() {
   );
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [attempts, setAttempts] = React.useState<
+    Array<{
+      id: string;
+      source: string;
+      total: number | null;
+      correct: number | null;
+      score_percent: number | null;
+      started_at: string | null;
+      finished_at: string | null;
+    }>
+  >([]);
+
+  const hasAttempts = React.useMemo(
+    () => attempts.some((a) => (a?.total ?? 0) > 0),
+    [attempts],
+  );
 
   React.useEffect(() => {
     let cancelled = false;
@@ -85,13 +101,32 @@ export default function DashboardPage() {
           timeout,
         ])) as Awaited<ReturnType<typeof ProgressService.getOverview>>;
         if (cancelled) return;
+        const attemptList = Array.isArray(o.attempts) ? o.attempts : [];
+        setAttempts(attemptList);
         const pr: QuizResult[] = (o.categories || []).map((c: any) => ({
           category: c.category as Category,
           correct: c.correct || 0,
           total: c.total || 0,
         }));
-        const total = pr.reduce((a, b) => a + b.total, 0);
-        const correct = pr.reduce((a, b) => a + b.correct, 0);
+        let total = pr.reduce((a, b) => a + b.total, 0);
+        let correct = pr.reduce((a, b) => a + b.correct, 0);
+        if (total === 0 && attemptList.length > 0) {
+          const aggregate = attemptList.reduce(
+            (acc, attempt) => {
+              const t = attempt?.total ?? 0;
+              const c = attempt?.correct ?? 0;
+              return {
+                total: acc.total + (t > 0 ? t : 0),
+                correct: acc.correct + (c > 0 ? c : 0),
+              };
+            },
+            { total: 0, correct: 0 },
+          );
+          if (aggregate.total > 0) {
+            total = aggregate.total;
+            correct = aggregate.correct;
+          }
+        }
         setProgress(pr);
         setTotals({ total, correct });
         setOverall(total > 0 ? Math.round((correct / total) * 100) : 0);
@@ -174,7 +209,7 @@ export default function DashboardPage() {
             Your Progress Breakdown
           </h3>
           <div className="min-h-[220px] flex items-center justify-center">
-            <ProgressChart data={progress} />
+            <ProgressChart data={progress} hasAttempts={hasAttempts} />
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col justify-between">
