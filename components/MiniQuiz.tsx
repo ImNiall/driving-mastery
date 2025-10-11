@@ -36,7 +36,13 @@ export default function MiniQuiz({
   const [index, setIndex] = React.useState(0);
   const [selected, setSelected] = React.useState<string | null>(null);
   const [answers, setAnswers] = React.useState<
-    { qid: number; choice: string; correct: boolean; category: Category }[]
+    {
+      qid: number;
+      qIndex: number;
+      choice: string;
+      correct: boolean;
+      category: Category;
+    }[]
   >([]);
   const [submitting, setSubmitting] = React.useState(false);
   const [finished, setFinished] = React.useState(false);
@@ -120,6 +126,7 @@ export default function MiniQuiz({
     );
     const entry = {
       qid: current.id,
+      qIndex: index,
       choice,
       correct,
       category: current.category as Category,
@@ -135,8 +142,10 @@ export default function MiniQuiz({
     });
     void ProgressService.recordAnswer({
       attemptId,
+      qIndex: index,
       questionId: current.id,
       category: current.category as unknown as string,
+      choice,
       isCorrect: correct,
     }).catch(() => {});
   };

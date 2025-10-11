@@ -27,6 +27,7 @@ function pickMockQuestions(all: Question[], count = 50): Question[] {
 
 type AnswerEntry = {
   qid: number;
+  qIndex: number;
   choice: string;
   correct: boolean;
   category: Category;
@@ -265,8 +266,13 @@ export default function MockTestPage() {
     const correct = !!current.options.find(
       (o) => o.text === choice && o.isCorrect,
     );
+    const qIndex =
+      questionOrder[current.id] != null
+        ? questionOrder[current.id]! - 1
+        : index;
     const entry = {
       qid: current.id,
+      qIndex,
       choice,
       correct,
       category: current.category as Category,
@@ -284,8 +290,10 @@ export default function MockTestPage() {
     // Fire-and-forget to avoid UI lag on selection
     ProgressService.recordAnswer({
       attemptId,
+      qIndex,
       questionId: current.id,
       category: current.category as unknown as string,
+      choice,
       isCorrect: correct,
     }).catch((e) => console.warn("recordAnswer failed", e));
   };
@@ -332,7 +340,8 @@ export default function MockTestPage() {
         await ProgressService.answersBulk({
           attemptId,
           answers: answers.map((a) => ({
-            qid: a.qid,
+            questionId: a.qid,
+            qIndex: a.qIndex,
             choice: a.choice,
             correct: a.correct,
             category: a.category as unknown as string,
@@ -354,7 +363,8 @@ export default function MockTestPage() {
           await ProgressService.answersBulk({
             attemptId,
             answers: answers.map((a) => ({
-              qid: a.qid,
+              questionId: a.qid,
+              qIndex: a.qIndex,
               choice: a.choice,
               correct: a.correct,
               category: a.category as unknown as string,

@@ -86,27 +86,54 @@ export const ProgressService = {
 
   recordAnswer: (payload: {
     attemptId: string;
-    questionId: number;
-    category: string;
+    qIndex: number;
+    questionId?: number | null;
+    category?: string | null;
+    choice: string;
     isCorrect: boolean;
   }) =>
     callFn<{ ok: true }>("answer-record", {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        attemptId: payload.attemptId,
+        qIndex: payload.qIndex,
+        questionId: payload.questionId ?? null,
+        category: payload.category ?? null,
+        isCorrect: payload.isCorrect,
+        answer: {
+          choice: payload.choice,
+          correct: payload.isCorrect,
+          questionId: payload.questionId ?? null,
+        },
+      }),
     }),
 
   answersBulk: (payload: {
     attemptId: string;
     answers: Array<{
-      qid: number;
+      qIndex: number;
+      questionId?: number | null;
       choice: string;
       correct: boolean;
-      category: string;
+      category?: string | null;
     }>;
   }) =>
     callFn<{ ok: true; count: number }>("answers-bulk", {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        attemptId: payload.attemptId,
+        answers: payload.answers.map((answer) => ({
+          qIndex: answer.qIndex,
+          questionId: answer.questionId ?? null,
+          category: answer.category ?? null,
+          isCorrect: answer.correct,
+          answer: {
+            choice: answer.choice,
+            correct: answer.correct,
+            questionId: answer.questionId ?? null,
+          },
+        })),
+      }),
     }),
 
   finishAttempt: (attemptId: string) =>
