@@ -96,18 +96,18 @@ export default function MembershipsPage() {
               return (
                 <article
                   key={membership.key}
-                  className={`flex h-full flex-col overflow-hidden rounded-3xl border bg-white ${
+                  className={`group flex h-full flex-col overflow-hidden rounded-3xl border-0 bg-white transition duration-200 ease-out hover:-translate-y-1 ${
                     isFeatured
-                      ? "border-brand-blue/60 shadow-2xl"
-                      : "border-gray-100 shadow-lg"
+                      ? "shadow-[0_25px_50px_-15px_rgba(59,130,246,0.4)] hover:shadow-[0_35px_70px_-20px_rgba(59,130,246,0.55)]"
+                      : "shadow-lg hover:shadow-xl hover:shadow-brand-blue/20"
                   }`}
                 >
                   <div className="flex flex-col items-center gap-4 px-8 pt-10 text-center">
                     <span
-                      className={`inline-flex items-center justify-center rounded-full p-4 ${
+                      className={`inline-flex items-center justify-center rounded-full p-4 transition-colors duration-200 ${
                         isFeatured
-                          ? "bg-brand-blue-light text-brand-blue"
-                          : "bg-gray-100 text-gray-500"
+                          ? "bg-brand-blue-light text-brand-blue group-hover:bg-brand-blue group-hover:text-white"
+                          : "bg-gray-100 text-gray-500 group-hover:bg-brand-blue-light group-hover:text-brand-blue"
                       }`}
                     >
                       <Icon className="h-7 w-7" />
@@ -129,8 +129,10 @@ export default function MembershipsPage() {
                     </div>
                     {membership.highlight && (
                       <p
-                        className={`text-sm font-semibold ${
-                          isFeatured ? "text-brand-blue" : "text-gray-700"
+                        className={`text-sm font-semibold transition-colors duration-200 ${
+                          isFeatured
+                            ? "text-brand-blue group-hover:text-brand-blue/80"
+                            : "text-gray-700 group-hover:text-brand-blue"
                         }`}
                       >
                         {membership.highlight}
@@ -139,7 +141,7 @@ export default function MembershipsPage() {
 
                     <button
                       type="button"
-                      className={`mt-4 inline-flex w-full max-w-xs justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                      className={`mt-4 inline-flex w-full max-w-xs justify-center rounded-full px-6 py-3 text-sm font-semibold transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
                         isFeatured
                           ? "bg-brand-blue text-white hover:bg-brand-blue/90 focus-visible:outline-brand-blue"
                           : "bg-white text-brand-blue ring-1 ring-inset ring-brand-blue hover:bg-brand-blue/5 focus-visible:outline-brand-blue"
@@ -149,25 +151,23 @@ export default function MembershipsPage() {
                     </button>
                   </div>
 
-                  <div className="mt-8 border-t border-gray-100 px-8 pb-10 pt-8">
-                    <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-                      What&apos;s included
-                    </h3>
+                  <div className="mt-8 border-t border-gray-100 px-8 pb-10 pt-8 transition-colors duration-200 group-hover:border-brand-blue/30">
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500"></h3>
                     <ul className="mt-4 space-y-4 text-sm">
                       {membership.features.map((feature) => (
                         <li
                           key={feature.label}
-                          className="flex items-start gap-3"
+                          className="flex items-start gap-3 transition-transform duration-200 group-hover:translate-x-1"
                         >
                           <span
-                            className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-full ${
+                            className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-full transition-colors duration-200 ${
                               feature.available
                                 ? "bg-brand-blue-light text-brand-blue"
                                 : "bg-red-50 text-brand-red"
                             }`}
                           >
                             {feature.available ? (
-                              <CheckIcon className="h-4 w-4" />
+                              <CheckIcon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
                             ) : (
                               <XCircleIcon className="h-4 w-4" />
                             )}
