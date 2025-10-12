@@ -1,9 +1,6 @@
 "use client";
 import React from "react";
 import ProgressChart from "@/components/ProgressChart";
-import StudyPlan from "@/components/StudyPlan";
-import { STUDY_PLANS } from "@/constants";
-import type { StudyPlan as StudyPlanType } from "@/types";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, QuizResult } from "@/types";
@@ -32,26 +29,6 @@ function useLocalProgress(): QuizResult[] {
   return categories.map((c) => ({ category: c, correct: 0, total: 0 }));
 }
 
-// Fallback plan used when there is no persisted plan
-const fallbackPlan: StudyPlanType = {
-  name: "Starter Plan",
-  description: "A quick start plan to begin your theory prep.",
-  steps: [
-    {
-      title: "Get Started",
-      description: "Open your first module and read for 15 minutes.",
-      duration: "15 min",
-      isCompleted: false,
-    },
-    {
-      title: "Do a Mini Quiz",
-      description: "Answer 10 mixed questions to gauge your baseline.",
-      duration: "10 min",
-      isCompleted: false,
-    },
-  ],
-};
-
 export default function DashboardPage() {
   const router = useRouter();
   const [progress, setProgress] = React.useState<QuizResult[]>([]);
@@ -61,9 +38,6 @@ export default function DashboardPage() {
     correct: number;
   }>({ total: 0, correct: 0 });
   const [masteryPoints, setMasteryPoints] = React.useState(0);
-  const [plan, setPlan] = React.useState<StudyPlanType>(
-    STUDY_PLANS[0] ?? fallbackPlan,
-  );
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [attempts, setAttempts] = React.useState<
@@ -131,12 +105,6 @@ export default function DashboardPage() {
         setTotals({ total, correct });
         setOverall(total > 0 ? Math.round((correct / total) * 100) : 0);
         setMasteryPoints(o.masteryPoints || 0);
-        if (o.studyPlan?.steps) {
-          setPlan({
-            ...(STUDY_PLANS[0] ?? fallbackPlan),
-            steps: o.studyPlan.steps,
-          });
-        }
       } catch (e: any) {
         const msg = (e?.message || "Failed to load overview").toString();
         console.error("Dashboard overview error:", msg);
@@ -341,8 +309,6 @@ export default function DashboardPage() {
           </button>
         </div>
       </div>
-
-      <StudyPlan plan={plan} />
     </main>
   );
 }
