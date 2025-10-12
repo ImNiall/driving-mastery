@@ -406,6 +406,136 @@ const ALERTNESS_QUESTIONS: Question[] = [
     explanation:
       "Clear planning prevents sudden route changes that could increase workload and reduce concentration (Highway Code Rule 160).",
   },
+  {
+    id: 1016,
+    category: Category.ALERTNESS,
+    question:
+      "You’re approaching a queue on a dual carriageway and notice brake lights appearing ahead. What should you do first?",
+    options: [
+      {
+        text: "Check your mirrors and ease off the accelerator early",
+        isCorrect: true,
+      },
+      {
+        text: "Sound your horn to warn traffic behind",
+        isCorrect: false,
+      },
+      {
+        text: "Switch on main beam to alert other drivers",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate to clear the hazard before the queue builds",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Mirrors and early deceleration give following drivers time to react, preventing harsh braking and collisions (Highway Code Rule 126).",
+  },
+  {
+    id: 1017,
+    category: Category.ALERTNESS,
+    question:
+      "Driving through a town centre, you see a ball bounce into the road from the left between parked cars. What should you anticipate?",
+    options: [
+      {
+        text: "A child may follow, so slow immediately and be prepared to stop",
+        isCorrect: true,
+      },
+      {
+        text: "The ball will roll clear, so maintain your speed",
+        isCorrect: false,
+      },
+      {
+        text: "Other drivers will block the lane behind you",
+        isCorrect: false,
+      },
+      {
+        text: "Pedestrians will shout if anyone is approaching",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Loose toys or animals often signal hidden hazards; reducing speed protects vulnerable pedestrians (Highway Code Rule 205).",
+  },
+  {
+    id: 1018,
+    category: Category.ALERTNESS,
+    question:
+      "How should you use your mirrors when towing a trailer on a single carriageway?",
+    options: [
+      {
+        text: "Check them more frequently to monitor the trailer and following traffic",
+        isCorrect: true,
+      },
+      {
+        text: "Avoid them unless you intend to overtake",
+        isCorrect: false,
+      },
+      {
+        text: "Only use the rear-view mirror because door mirrors give distorted views",
+        isCorrect: false,
+      },
+      {
+        text: "Rely solely on the trailer’s indicator repeaters",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Towing reduces visibility and acceleration; frequent mirror checks help anticipate overtakes and keep the outfit stable (Highway Code Rule 160).",
+  },
+  {
+    id: 1019,
+    category: Category.ALERTNESS,
+    question:
+      "On a smart motorway, you see a red ‘X’ displayed over the left lane you’re in. What must you do?",
+    options: [
+      {
+        text: "Move promptly to another lane before reaching the red ‘X’",
+        isCorrect: true,
+      },
+      {
+        text: "Stay put until an enforcement camera flashes",
+        isCorrect: false,
+      },
+      {
+        text: "Only change lanes if you can see an obstruction ahead",
+        isCorrect: false,
+      },
+      {
+        text: "Ignore the sign unless there’s debris present",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "A red ‘X’ means the lane is closed ahead; you must leave it as soon as it’s safe (Motorways Regulations and Highway Code Rule 258).",
+  },
+  {
+    id: 1020,
+    category: Category.ALERTNESS,
+    question:
+      "When approaching a mini-roundabout with pedestrians waiting at the adjacent zebra crossing, how should you plan your observations?",
+    options: [
+      {
+        text: "Look for traffic on the roundabout and be ready to stop for pedestrians once you exit",
+        isCorrect: true,
+      },
+      {
+        text: "Focus only on traffic approaching from the right",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate quickly to clear both junction and crossing together",
+        isCorrect: false,
+      },
+      {
+        text: "Ignore the crossing because priority lies with roundabout users",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Mini-roundabouts demand 360° observation while zebra crossings still take priority for pedestrians. Plan a smooth exit ready to stop (Highway Code Rules 146, 195).",
+  },
 ];
 const ATTITUDE_QUESTIONS: Question[] = [
   {
@@ -794,6 +924,136 @@ const ATTITUDE_QUESTIONS: Question[] = [
     explanation:
       "Horses can be startled easily. Approach slowly and pass wide to protect riders (Highway Code Rule 215).",
   },
+  {
+    id: 1116,
+    category: Category.ATTITUDE,
+    question:
+      "You are driving at night on a residential street where a driver ahead is struggling to reverse into a space. How should you respond?",
+    options: [
+      {
+        text: "Hold back patiently with dipped headlights to avoid dazzling them",
+        isCorrect: true,
+      },
+      {
+        text: "Sound your horn and drive close to make them hurry",
+        isCorrect: false,
+      },
+      {
+        text: "Switch to full beam to give them more light",
+        isCorrect: false,
+      },
+      {
+        text: "Overtake immediately, even if you must cross solid lines",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Considerate drivers stay patient and avoid dazzling others, especially in built-up areas at night (Highway Code Rules 114, 147).",
+  },
+  {
+    id: 1117,
+    category: Category.ATTITUDE,
+    question:
+      "A learner driver stalls at green traffic lights in front of you. What is the best course of action?",
+    options: [
+      {
+        text: "Give them time to restart and keep a safe distance",
+        isCorrect: true,
+      },
+      {
+        text: "Drive around them using the oncoming lane immediately",
+        isCorrect: false,
+      },
+      {
+        text: "Use your horn repeatedly until they move",
+        isCorrect: false,
+      },
+      {
+        text: "Flash your headlights aggressively",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Learners need encouragement, not pressure; patience helps them recover safely (Highway Code Rule 150).",
+  },
+  {
+    id: 1118,
+    category: Category.ATTITUDE,
+    question:
+      "Why is it unhelpful to signal other drivers to proceed at junctions when you have priority?",
+    options: [
+      {
+        text: "They might rely on your judgment and collide with unseen hazards",
+        isCorrect: true,
+      },
+      {
+        text: "It is illegal to signal anyone else at a junction",
+        isCorrect: false,
+      },
+      {
+        text: "Signals can damage your indicator stalk",
+        isCorrect: false,
+      },
+      {
+        text: "It always confuses automated traffic lights",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Each driver must make independent decisions; waving others through can create misunderstanding and danger (Highway Code Rule 171).",
+  },
+  {
+    id: 1119,
+    category: Category.ATTITUDE,
+    question:
+      "How can car-sharing or taking public transport demonstrate a positive driving attitude?",
+    options: [
+      {
+        text: "It reduces congestion and pollution for all road users",
+        isCorrect: true,
+      },
+      {
+        text: "It guarantees priority at every junction",
+        isCorrect: false,
+      },
+      {
+        text: "It means you no longer need valid insurance",
+        isCorrect: false,
+      },
+      {
+        text: "It allows you to ignore speed limits when you do drive",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Considering the wider impact of journeys helps the environment and improves traffic for everyone (Highway Code introduction to attitude).",
+  },
+  {
+    id: 1120,
+    category: Category.ATTITUDE,
+    question:
+      "While waiting at roadworks controlled by portable lights, a driver behind repeatedly sounds their horn. What should you do?",
+    options: [
+      {
+        text: "Remain calm and obey the signal sequence when it turns green",
+        isCorrect: true,
+      },
+      {
+        text: "Move through the red light to placate them",
+        isCorrect: false,
+      },
+      {
+        text: "Exit the queue onto the pavement to let them pass",
+        isCorrect: false,
+      },
+      {
+        text: "Leave the car and confront the driver immediately",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Keeping composure and following the signals maintains safety; retaliating can escalate conflict (Highway Code Rule 110, 174).",
+  },
 ];
 const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
   {
@@ -1145,6 +1405,135 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
     explanation:
       "A POWERS-style inspection ensures your vehicle is legal and ready for high-speed travel (Highway Code Rule 160).",
   },
+  {
+    id: 1216,
+    category: Category.SAFETY_AND_YOUR_VEHICLE,
+    question:
+      "When should you replace windscreen wiper blades to maintain safety?",
+    options: [
+      {
+        text: "As soon as they smear or leave un-wiped areas",
+        isCorrect: true,
+      },
+      {
+        text: "Only when the MOT tester advises",
+        isCorrect: false,
+      },
+      {
+        text: "When the rubber colour fades",
+        isCorrect: false,
+      },
+      {
+        text: "Every five years regardless of condition",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Clear vision is essential. Replace blades as soon as they smear so you comply with Road Vehicles regulations (Highway Code Rule 229).",
+  },
+  {
+    id: 1217,
+    category: Category.SAFETY_AND_YOUR_VEHICLE,
+    question: "How can carrying unnecessary roof loads affect your vehicle?",
+    options: [
+      {
+        text: "It raises fuel consumption and increases body roll",
+        isCorrect: true,
+      },
+      {
+        text: "It improves tyre grip in wet conditions",
+        isCorrect: false,
+      },
+      {
+        text: "It makes braking distances shorter",
+        isCorrect: false,
+      },
+      {
+        text: "It guarantees better traction when accelerating",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Extra weight and drag reduce efficiency and stability; remove unused loads (Highway Code Rule 98).",
+  },
+  {
+    id: 1218,
+    category: Category.SAFETY_AND_YOUR_VEHICLE,
+    question:
+      "What is the safest way to check brake lights are working if you are alone?",
+    options: [
+      {
+        text: "Reverse near a reflective surface and press the pedal",
+        isCorrect: true,
+      },
+      {
+        text: "Switch on hazard lights while driving",
+        isCorrect: false,
+      },
+      {
+        text: "Flash headlights and assume the brakes are similar",
+        isCorrect: false,
+      },
+      {
+        text: "Pull the handbrake repeatedly to check",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Use reflections or ask someone to help so you can verify brake lights before driving (vehicle safety checks).",
+  },
+  {
+    id: 1219,
+    category: Category.SAFETY_AND_YOUR_VEHICLE,
+    question:
+      "How often should you test your car’s parking brake effectiveness?",
+    options: [
+      {
+        text: "During routine maintenance and whenever it feels weak",
+        isCorrect: true,
+      },
+      {
+        text: "Only immediately after leaving an MOT test",
+        isCorrect: false,
+      },
+      {
+        text: "Never, because it is self-adjusting",
+        isCorrect: false,
+      },
+      {
+        text: "Only if you plan to tow a trailer",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Frequent checks ensure the handbrake secures the vehicle when parked, preventing roll-away incidents (Highway Code Rule 252).",
+  },
+  {
+    id: 1220,
+    category: Category.SAFETY_AND_YOUR_VEHICLE,
+    question:
+      "Why should you keep your vehicle’s exhaust system in good condition?",
+    options: [
+      {
+        text: "It prevents harmful fumes entering the cabin and reduces noise",
+        isCorrect: true,
+      },
+      {
+        text: "It allows you to carry heavier loads",
+        isCorrect: false,
+      },
+      {
+        text: "It means you can legally remove the catalytic converter",
+        isCorrect: false,
+      },
+      {
+        text: "It increases engine power dramatically",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "A sound exhaust keeps emissions legal and stops fumes entering the cabin, aiding health and compliance (Construction & Use Regulations).",
+  },
 ];
 const SAFETY_MARGINS_QUESTIONS: Question[] = [
   {
@@ -1367,158 +1756,290 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
       "Motorcyclists can be affected by crosswinds, so leave extra room for them to stabilise (Highway Code Rule 232).",
   },
   {
-    id: 1310,
-    category: Category.SAFETY_MARGINS,
-    question: "What is the main risk of coasting downhill in neutral?",
-    options: [
-      {
-        text: "You lose engine braking and steering control becomes less stable",
-        isCorrect: true,
-      },
-      {
-        text: "It increases engine temperature rapidly",
-        isCorrect: false,
-      },
-      {
-        text: "It improves ABS performance",
-        isCorrect: false,
-      },
-      {
-        text: "It automatically applies the parking brake",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Coasting reduces control over speed and steering because engine braking is lost (Highway Code Rule 122).",
-  },
-  {
-    id: 1311,
-    category: Category.SAFETY_MARGINS,
-    question:
-      "When towing a trailer, what should you do to maintain safe margins?",
-    options: [
-      {
-        text: "Allow more time and distance for overtaking and braking",
-        isCorrect: true,
-      },
-      {
-        text: "Travel above the speed limit to clear traffic quickly",
-        isCorrect: false,
-      },
-      {
-        text: "Use the hard shoulder to let faster vehicles pass",
-        isCorrect: false,
-      },
-      {
-        text: "Keep to the right-hand lane on dual carriageways",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Towing increases stopping distances and reduces acceleration; plan manoeuvres with extra space (Highway Code Rule 98).",
-  },
-  {
-    id: 1312,
-    category: Category.SAFETY_MARGINS,
-    question:
-      "How should you brake on a slippery road if your vehicle is not equipped with ABS?",
-    options: [
-      {
-        text: "Brake gently and progressively to avoid wheel lock",
-        isCorrect: true,
-      },
-      {
-        text: "Brake as hard as possible to stop quickly",
-        isCorrect: false,
-      },
-      {
-        text: "Apply the handbrake sharply",
-        isCorrect: false,
-      },
-      {
-        text: "Turn off the engine before braking",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Gentle pressure prevents skids when ABS is absent. Sudden braking will lock wheels (Highway Code Rule 119).",
-  },
-  {
-    id: 1313,
-    category: Category.SAFETY_MARGINS,
-    question: "What should you do when overtaking a cyclist in windy weather?",
-    options: [
-      {
-        text: "Give them more room than usual in case they are blown sideways",
-        isCorrect: true,
-      },
-      {
-        text: "Pass closely to shelter them from the wind",
-        isCorrect: false,
-      },
-      {
-        text: "Sound your horn to help them balance",
-        isCorrect: false,
-      },
-      {
-        text: "Speed up so you pass them before the gust hits",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Cyclists can suddenly deviate in gusts, so leave at least 1.5 metres and more in high winds (Highway Code Rule 163).",
-  },
-  {
-    id: 1314,
-    category: Category.SAFETY_MARGINS,
-    question:
-      "Why is it important to keep a larger gap at night even on dry roads?",
-    options: [
-      {
-        text: "Reduced visibility makes it harder to judge speed and distance",
-        isCorrect: true,
-      },
-      {
-        text: "Brakes overheat more quickly in the dark",
-        isCorrect: false,
-      },
-      {
-        text: "Tyres lose grip when headlights are on",
-        isCorrect: false,
-      },
-      {
-        text: "Engines produce more power, so you need extra space",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Night driving reduces depth perception, so extra distance keeps you safe (Highway Code Rule 227).",
-  },
-  {
     id: 1315,
     category: Category.SAFETY_MARGINS,
     question:
-      "How should you test your brakes after driving through deep water?",
+      "What is the safest way to control your speed on a steep downhill gradient?",
     options: [
       {
-        text: "Press the pedal gently while driving slowly to dry them out",
+        text: "Select a lower gear early so the engine helps with braking",
         isCorrect: true,
       },
       {
-        text: "Park immediately and leave the brakes untouched",
+        text: "Keep the clutch down and coast to avoid brake wear",
         isCorrect: false,
       },
       {
-        text: "Apply the handbrake fully while moving fast",
+        text: "Apply the handbrake intermittently while holding the clutch",
         isCorrect: false,
       },
       {
-        text: "Reverse quickly and brake hard several times",
+        text: "Shift into neutral and rely on the footbrake only",
         isCorrect: false,
       },
     ],
     explanation:
-      "Light braking while moving dries the pads and confirms they still work effectively (Highway Code Rule 211).",
+      "Using engine braking by selecting a lower gear prevents overheating the brakes and maintains steering control (Highway Code Rule 160).",
+  },
+  {
+    id: 1316,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "When following a large vehicle that blocks your view ahead, what should you do to maintain a safe margin?",
+    options: [
+      {
+        text: "Drop further back to improve your view and stopping distance",
+        isCorrect: true,
+      },
+      {
+        text: "Move closer so you can use their slipstream",
+        isCorrect: false,
+      },
+      {
+        text: "Stay level with their rear wheels to overtake immediately",
+        isCorrect: false,
+      },
+      {
+        text: "Flash headlights repeatedly to warn them you are there",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Increasing the gap restores your view and gives more time to react to hazards beyond the large vehicle (Highway Code Rule 151).",
+  },
+  {
+    id: 1317,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "How should you adapt your driving when passing through standing water across the road?",
+    options: [
+      {
+        text: "Slow to a crawl and check your brakes afterwards",
+        isCorrect: true,
+      },
+      {
+        text: "Accelerate quickly to clear the water before it splashes pedestrians",
+        isCorrect: false,
+      },
+      {
+        text: "Drive in the centre of the road at normal speed",
+        isCorrect: false,
+      },
+      {
+        text: "Switch off ABS to prevent wheel lock",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Slowing reduces the risk of aquaplaning and protects pedestrians; testing brakes afterwards ensures they still work (Highway Code Rule 228).",
+  },
+  {
+    id: 1318,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "What gap should you leave when stopping behind another vehicle in traffic?",
+    options: [
+      {
+        text: "Enough space to pull out if it breaks down",
+        isCorrect: true,
+      },
+      {
+        text: "Less than half a car length",
+        isCorrect: false,
+      },
+      {
+        text: "No gap, to discourage others from cutting in",
+        isCorrect: false,
+      },
+      {
+        text: "A full bus length regardless of vehicle size",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Holding back leaves an escape route if the vehicle ahead stalls and prevents rear-end collisions (Highway Code Rule 151).",
+  },
+  {
+    id: 1319,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "Why should you avoid driving in another vehicle’s blind spot on a multi-lane road?",
+    options: [
+      {
+        text: "They may change lanes without seeing you, reducing your safety margin",
+        isCorrect: true,
+      },
+      {
+        text: "It increases your fuel consumption slightly",
+        isCorrect: false,
+      },
+      {
+        text: "It prevents you from using dipped headlights",
+        isCorrect: false,
+      },
+      {
+        text: "It guarantees you will be splashed by surface water",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Staying out of blind spots gives you space if others move unexpectedly (Highway Code Rule 268).",
+  },
+  {
+    id: 1320,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "In icy conditions, how should you increase your stopping margin?",
+    options: [
+      {
+        text: "By driving at a slow speed in the highest gear possible",
+        isCorrect: true,
+      },
+      {
+        text: "By braking harshly to test the road surface",
+        isCorrect: false,
+      },
+      {
+        text: "By following closely so others shield you from the wind",
+        isCorrect: false,
+      },
+      {
+        text: "By using cruise control to maintain speed",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Low gears and gentle inputs reduce wheel spin while large gaps provide time to stop on slippery surfaces (Highway Code Rule 230).",
+  },
+  {
+    id: 1321,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "What should you do if spray from a lorry ahead reduces your visibility?",
+    options: [
+      {
+        text: "Drop back until the spray clears and use dipped headlights",
+        isCorrect: true,
+      },
+      {
+        text: "Speed up to pass the lorry immediately",
+        isCorrect: false,
+      },
+      {
+        text: "Switch to rear fog lights to warn drivers behind",
+        isCorrect: false,
+      },
+      {
+        text: "Turn on full beam to cut through the spray",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Dropping back restores forward vision and prevents spray covering your windscreen (Highway Code Rule 229).",
+  },
+  {
+    id: 1322,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "When overtaking a cyclist in windy conditions, what margin should you allow?",
+    options: [
+      {
+        text: "At least 1.5 metres and even more if they could be blown sideways",
+        isCorrect: true,
+      },
+      {
+        text: "Half a metre is sufficient in strong winds",
+        isCorrect: false,
+      },
+      {
+        text: "No gap is needed if you accelerate quickly",
+        isCorrect: false,
+      },
+      {
+        text: "Drive close to shield them from gusts",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Passing wide protects cyclists from sudden gusts and keeps them stable (Highway Code Rule 163).",
+  },
+  {
+    id: 1323,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "Why is it important to keep your tyres correctly inflated before a long motorway trip?",
+    options: [
+      {
+        text: "Correct pressures maximise grip and prevent overheating at speed",
+        isCorrect: true,
+      },
+      {
+        text: "Under-inflation allows quicker acceleration",
+        isCorrect: false,
+      },
+      {
+        text: "Over-inflation improves ride comfort in traffic",
+        isCorrect: false,
+      },
+      {
+        text: "Over-inflation keeps the speedometer accurate",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Correct tyre pressures keep the contact patch effective and stop overheating on long high-speed journeys (Highway Code Rule 229).",
+  },
+  {
+    id: 1324,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "How can you maintain a safety margin when being overtaken on a dual carriageway?",
+    options: [
+      {
+        text: "Keep a steady speed and stay left while monitoring mirrors",
+        isCorrect: true,
+      },
+      {
+        text: "Speed up to help the overtaking driver pass sooner",
+        isCorrect: false,
+      },
+      {
+        text: "Move right to give them more room",
+        isCorrect: false,
+      },
+      {
+        text: "Brake sharply to make them abort the manoeuvre",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Holding a constant speed and position lets the other driver pass safely while you watch for hazards (Highway Code Rule 168).",
+  },
+  {
+    id: 1325,
+    category: Category.SAFETY_MARGINS,
+    question:
+      "When joining a motorway from a slip road, how do you create a safe merging gap?",
+    options: [
+      {
+        text: "Match the speed of motorway traffic and adjust position smoothly",
+        isCorrect: true,
+      },
+      {
+        text: "Stop at the end of the slip road before entering",
+        isCorrect: false,
+      },
+      {
+        text: "Sound your horn to force a space",
+        isCorrect: false,
+      },
+      {
+        text: "Use hazard lights so drivers move across",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Using the slip road to match speed and merge smoothly maintains a safe margin without disrupting motorway traffic (Highway Code Rule 259).",
   },
 ];
 const HAZARD_AWARENESS_QUESTIONS: Question[] = [
@@ -1526,389 +2047,521 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
     id: 1401,
     category: Category.HAZARD_AWARENESS,
     question:
-      "What is a developing hazard when driving through a residential area?",
+      "You’re approaching the brow of a narrow country lane. What’s the safest way to deal with this hazard?",
     options: [
       {
-        text: "A child running towards a parked ice cream van",
+        text: "Keep to the left, ease off the accelerator, and be ready to stop",
         isCorrect: true,
       },
       {
-        text: "A stationary rubbish bin on the pavement",
+        text: "Flash your headlights repeatedly to warn oncoming traffic",
         isCorrect: false,
       },
       {
-        text: "A clear road with no junctions",
+        text: "Sound your horn and continue at the same speed",
         isCorrect: false,
       },
       {
-        text: "A lamp post beside the footpath",
+        text: "Move towards the centre line so you can see further ahead",
         isCorrect: false,
       },
     ],
     explanation:
-      "The child may enter the road suddenly, so treat it as a developing hazard (Highway Code Rule 205).",
+      "Blind summits hide oncoming traffic. Keep left and slow so you can stop safely if needed (Highway Code Rule 154).",
   },
   {
     id: 1402,
     category: Category.HAZARD_AWARENESS,
     question:
-      "You see a ball bounce into the road ahead. What should you anticipate?",
+      "A ball suddenly bounces into the road ahead between parked cars. What should you do?",
     options: [
       {
-        text: "A child or person may follow the ball into the road",
+        text: "Maintain your speed to clear the area quickly",
+        isCorrect: false,
+      },
+      {
+        text: "Brake in good time and be prepared for a child to follow",
         isCorrect: true,
       },
       {
-        text: "The ball will always roll back to the pavement",
+        text: "Swerve around the ball while accelerating away",
         isCorrect: false,
       },
       {
-        text: "The road surface will become slippery",
-        isCorrect: false,
-      },
-      {
-        text: "Street lighting will improve immediately",
+        text: "Use the horn continuously to warn others",
         isCorrect: false,
       },
     ],
     explanation:
-      "Objects entering the road often mean people will follow, so slow down and be ready to stop (defensive driving principle).",
+      "Children often chase after toys. Slow or stop so you can avoid them emerging from between parked cars (Highway Code Rule 205).",
   },
   {
     id: 1403,
     category: Category.HAZARD_AWARENESS,
     question:
-      "What should you do if your view of a junction is obstructed by parked vehicles?",
+      "Many windscreens on parked cars are still covered in frost during a cold morning. Why is this a potential hazard?",
     options: [
       {
-        text: "Move forward slowly until you can see clearly",
+        text: "It means the road surface will stay dry for longer",
+        isCorrect: false,
+      },
+      {
+        text: "The vehicles are less likely to be driven that day",
+        isCorrect: false,
+      },
+      {
+        text: "Drivers may pull away without fully clearing their vision",
         isCorrect: true,
       },
       {
-        text: "Sound your horn continuously and proceed",
-        isCorrect: false,
-      },
-      {
-        text: "Accelerate sharply to clear the junction quickly",
-        isCorrect: false,
-      },
-      {
-        text: "Reverse back and take a different route immediately",
+        text: "It guarantees the owners are still sitting inside",
         isCorrect: false,
       },
     ],
     explanation:
-      "Creeping forward improves the view while staying in control and ready to stop (Highway Code Rule 170).",
+      "Poorly cleared windscreens limit drivers’ vision, so they might not see you when moving off (Highway Code Rules 229, 97).",
   },
   {
     id: 1404,
     category: Category.HAZARD_AWARENESS,
     question:
-      "Why is it especially important to scan the pavements in busy town centres?",
+      "You’re following a high-sided lorry on a dual carriageway and cannot see past it. What should you do?",
     options: [
       {
-        text: "Pedestrians can step into the road without warning",
+        text: "Switch on full beam headlights to improve your view",
+        isCorrect: false,
+      },
+      {
+        text: "Move closer so you can see round the vehicle",
+        isCorrect: false,
+      },
+      {
+        text: "Start to overtake immediately without signalling",
+        isCorrect: false,
+      },
+      {
+        text: "Drop back to regain a clear view of the road ahead",
         isCorrect: true,
-      },
-      {
-        text: "Road signs are less important in town centres",
-        isCorrect: false,
-      },
-      {
-        text: "There are never any vehicles reversing",
-        isCorrect: false,
-      },
-      {
-        text: "You must always drive faster to keep traffic flowing",
-        isCorrect: false,
       },
     ],
     explanation:
-      "High pedestrian activity increases the chance of unexpected movement. Observation helps avoid collisions (Highway Code Rule 205).",
+      "Falling back opens up your forward vision and increases reaction time (Highway Code Rule 151).",
   },
   {
     id: 1405,
     category: Category.HAZARD_AWARENESS,
-    question: "What could a flashing amber light on a school bus mean?",
+    question:
+      "You’re turning left at a junction where a cycle lane continues across the mouth of the side road. What should you do?",
     options: [
       {
-        text: "Children are boarding or leaving the bus nearby",
+        text: "Check mirrors, signal early, and give way to any cyclists",
         isCorrect: true,
       },
       {
-        text: "The bus is reversing towards you",
+        text: "Cut across quickly before cyclists can reach the junction",
         isCorrect: false,
       },
       {
-        text: "The bus is a long vehicle",
+        text: "Hug the kerb and keep your signal off until you turn",
         isCorrect: false,
       },
       {
-        text: "The driver is asking to overtake you",
+        text: "Stop on the cycle lane and wait for a larger gap",
         isCorrect: false,
       },
     ],
     explanation:
-      "Flashing amber lights on school buses warn of children in the area; slow down and stay alert (Highway Code Rule 96).",
+      "Cyclists have priority when lanes continue through the junction. Check carefully and allow them to pass (Highway Code Rules 72, 182).",
   },
   {
     id: 1406,
     category: Category.HAZARD_AWARENESS,
     question:
-      "You see horse riders ahead on a narrow country road. What should you do?",
+      "While driving at night on a rural road, you notice reflective studs zig-zagging sharply ahead. What should this alert you to?",
     options: [
       {
-        text: "Slow right down and pass only when it is safe and wide enough",
+        text: "A steep downhill gradient",
+        isCorrect: false,
+      },
+      {
+        text: "A sharp bend that requires you to slow down",
         isCorrect: true,
       },
       {
-        text: "Sound your horn to warn them you are there",
+        text: "A series of speed humps",
         isCorrect: false,
       },
       {
-        text: "Speed up to pass before they reach a junction",
-        isCorrect: false,
-      },
-      {
-        text: "Get very close so they pull into the verge",
+        text: "A level crossing with barriers",
         isCorrect: false,
       },
     ],
     explanation:
-      "Horses can be startled easily. A cautious approach prevents a hazard from developing (Highway Code Rule 215).",
+      "Reflective studs and chevron markers warn of sharp deviations. Reduce speed and adjust position (Highway Code Rule 264).",
   },
   {
     id: 1407,
     category: Category.HAZARD_AWARENESS,
-    question: "How can reflective road studs help you at night on a motorway?",
+    question:
+      "What’s the main danger of overtaking a slow-moving vehicle as you approach a pedestrian refuge island?",
     options: [
       {
-        text: "They indicate lane and carriageway boundaries",
+        text: "You might block the right-hand lane",
+        isCorrect: false,
+      },
+      {
+        text: "The refuge narrows the road, leaving little room to pass safely",
         isCorrect: true,
       },
       {
-        text: "They measure the depth of surface water",
+        text: "Pedestrians will be unable to see your number plate",
         isCorrect: false,
       },
       {
-        text: "They warn of approaching level crossings",
-        isCorrect: false,
-      },
-      {
-        text: "They show the direction to the nearest services",
+        text: "Traffic lights always change to red near refuges",
         isCorrect: false,
       },
     ],
     explanation:
-      "Different coloured studs show lanes, hard shoulders, and slip roads, helping you anticipate junctions (Highway Code Rule 301).",
+      "Refuges restrict the road width. Overtaking at that point risks clipping the refuge or oncoming traffic (Highway Code Rule 167).",
   },
   {
     id: 1408,
     category: Category.HAZARD_AWARENESS,
     question:
-      "Why should you be cautious when driving past queues of stationary traffic at a pedestrian crossing?",
+      "In which situation are you most likely to be affected by crosswinds?",
     options: [
       {
-        text: "Pedestrians may cross between the vehicles into your path",
+        text: "When emerging from a long tunnel onto an exposed bridge",
         isCorrect: true,
       },
       {
-        text: "Your car will always stall in the middle of the road",
+        text: "When travelling slowly through city traffic",
         isCorrect: false,
       },
       {
-        text: "The traffic lights will stay green for longer",
+        text: "When driving behind tall hedges on calm days",
         isCorrect: false,
       },
       {
-        text: "Other drivers will reverse to let you through",
+        text: "When parking facing downhill",
         isCorrect: false,
       },
     ],
     explanation:
-      "Hidden pedestrians are a developing hazard, so pass slowly and be ready to stop (Highway Code Rule 195).",
+      "Exposed areas such as bridges create sudden gusts that can push you sideways (Highway Code Rule 232).",
   },
   {
     id: 1409,
     category: Category.HAZARD_AWARENESS,
     question:
-      "How should you react to a parked vehicle with its reverse lights on?",
+      "You’re driving through slow-moving traffic and notice brake lights several vehicles ahead. How should you react?",
     options: [
       {
-        text: "Be prepared to stop because the vehicle may move back suddenly",
+        text: "Sound your horn to warn the driver in front",
+        isCorrect: false,
+      },
+      {
+        text: "Change lanes immediately to maintain speed",
+        isCorrect: false,
+      },
+      {
+        text: "Ease off the accelerator early and prepare to stop smoothly",
         isCorrect: true,
       },
       {
-        text: "Assume it will stay still until you pass",
-        isCorrect: false,
-      },
-      {
-        text: "Flash your headlights to tell the driver to stop",
-        isCorrect: false,
-      },
-      {
-        text: "Accelerate quickly to get past first",
+        text: "Accelerate to close the gap before traffic stops",
         isCorrect: false,
       },
     ],
     explanation:
-      "Reverse lights warn that a vehicle might move. Slow down and be ready to stop (Highway Code Rule 202).",
+      "Observing brake lights ahead lets you slow early, reducing the risk of harsh braking (Highway Code Rule 126).",
   },
   {
     id: 1410,
     category: Category.HAZARD_AWARENESS,
     question:
-      "What is the hazard of driving towards a bridge with a height restriction sign?",
+      "Why is it especially important to check your mirrors after passing a hazard such as a parked car?",
     options: [
       {
-        text: "Your vehicle or load may be too tall and could strike the bridge",
+        text: "To make sure your signal has cancelled",
+        isCorrect: false,
+      },
+      {
+        text: "To confirm the hazard hasn’t moved",
+        isCorrect: false,
+      },
+      {
+        text: "To assess how following drivers are reacting",
         isCorrect: true,
       },
       {
-        text: "The road surface will always be icy",
-        isCorrect: false,
-      },
-      {
-        text: "You are required to stop and sound your horn",
-        isCorrect: false,
-      },
-      {
-        text: "You will be forced to reverse long distances",
+        text: "To ensure your headlights remain on",
         isCorrect: false,
       },
     ],
     explanation:
-      "Height restrictions warn of limited clearance. Check your vehicle height to avoid collisions (Highway Code Rule 221).",
+      "Checking mirrors shows whether following drivers have altered speed or position, helping you plan the next hazard (Highway Code Rule 161).",
   },
   {
     id: 1411,
     category: Category.HAZARD_AWARENESS,
     question:
-      "When approaching a concealed level crossing on a rural road, what is the main hazard?",
+      "A tractor ahead is signalling right but appears to pull slightly left first. Why might this happen?",
     options: [
       {
-        text: "A train may arrive suddenly with little warning",
+        text: "The driver is unsure which direction to take",
+        isCorrect: false,
+      },
+      {
+        text: "Tractors often swing left to make wide right turns",
         isCorrect: true,
       },
       {
-        text: "Your sat-nav will stop working",
+        text: "The indicator relay is faulty",
         isCorrect: false,
       },
       {
-        text: "The road surface will always be flooded",
-        isCorrect: false,
-      },
-      {
-        text: "The gradient changes to a steep hill",
+        text: "They want you to overtake on the right",
         isCorrect: false,
       },
     ],
     explanation:
-      "Concealed crossings require extra caution because trains are fast and quiet. Obey warning signs (Highway Code Rule 294).",
+      "Large vehicles sometimes steer the opposite way first to negotiate turns. Hold back and give them room (Highway Code Rule 221).",
   },
   {
     id: 1412,
     category: Category.HAZARD_AWARENESS,
     question:
-      "What should you do if you encounter slow-moving maintenance vehicles on a dual carriageway?",
+      "Why should you avoid driving over spilt diesel on the road surface?",
     options: [
       {
-        text: "Reduce speed and only pass when it is safe with a clear view",
+        text: "It greatly reduces tyre grip and increases the risk of skidding",
         isCorrect: true,
       },
       {
-        text: "Drive on the hard shoulder to get around quickly",
+        text: "It can clog the windscreen washers",
         isCorrect: false,
       },
       {
-        text: "Flash your headlights so they speed up",
+        text: "It damages catalytic converters immediately",
         isCorrect: false,
       },
       {
-        text: "Sound your horn and stay close behind",
+        text: "It falsely triggers speed cameras",
         isCorrect: false,
       },
     ],
     explanation:
-      "Maintenance vehicles may have workers nearby. Pass with caution and only when safe (Highway Code Rule 288).",
+      "Diesel spillage makes the surface slippery like ice; give it a wide berth or reduce speed significantly (Highway Code Rule 130).",
   },
   {
     id: 1413,
     category: Category.HAZARD_AWARENESS,
     question:
-      "How should you treat a junction obscured by high hedges on a country lane?",
+      "How can you reduce the risk from drivers emerging from driveways hidden by tall hedges?",
     options: [
       {
-        text: "Approach slowly, use the horn cautiously, and be ready to stop",
+        text: "Drive in the centre of the road to be more visible",
+        isCorrect: false,
+      },
+      {
+        text: "Sound the horn continuously as you pass",
+        isCorrect: false,
+      },
+      {
+        text: "Slow down and be prepared for vehicles pulling out",
         isCorrect: true,
       },
       {
-        text: "Drive in the centre of the road for a better view",
-        isCorrect: false,
-      },
-      {
-        text: "Ignore it and maintain your normal speed",
-        isCorrect: false,
-      },
-      {
-        text: "Rely on sat-nav warnings rather than observation",
+        text: "Increase speed to clear the area quickly",
         isCorrect: false,
       },
     ],
     explanation:
-      "Blind junctions require very low speed and readiness to stop because hazards cannot be seen early (Highway Code Rule 130).",
+      "Restricted views mean others may not see you. Reduce speed and anticipate emerging traffic (Highway Code Rule 201).",
   },
   {
     id: 1414,
     category: Category.HAZARD_AWARENESS,
     question:
-      "You see warning signs for deer crossing on a rural road. How should you respond?",
+      "Why should you avoid coasting downhill in neutral when assessing hazards?",
     options: [
       {
-        text: "Be prepared to slow down suddenly if animals appear",
+        text: "It reduces your control because the engine isn’t helping with braking",
         isCorrect: true,
       },
       {
-        text: "Ignore the sign because deer only travel at night",
+        text: "It increases engine temperature dramatically",
         isCorrect: false,
       },
       {
-        text: "Sound your horn continuously to scare animals away",
+        text: "It automatically turns off your headlights",
         isCorrect: false,
       },
       {
-        text: "Increase speed to pass through the area quickly",
+        text: "It stops the speedometer working",
         isCorrect: false,
       },
     ],
     explanation:
-      "Wild animals may enter the road without warning. Staying alert gives time to react safely (Highway Code Rule 214).",
+      "Staying in gear gives better speed control and quicker power response if hazards appear (Highway Code Rule 122).",
   },
   {
     id: 1415,
     category: Category.HAZARD_AWARENESS,
     question:
-      "How can early use of mirrors help when approaching a hazard such as a queue of stopped cars?",
+      "When planning an overtake, why is it important to consider junctions on either side of the road?",
     options: [
       {
-        text: "It lets you check if following drivers are aware so you can slow gradually",
+        text: "Vehicles might emerge, turning across your path mid-overtake",
         isCorrect: true,
       },
       {
-        text: "It allows you to judge the height of the vehicles ahead",
+        text: "It’s illegal to pass a junction at any time",
         isCorrect: false,
       },
       {
-        text: "It proves that the hazard is not serious",
+        text: "Junctions always have speed bumps to slow you down",
         isCorrect: false,
       },
       {
-        text: "It ensures your indicator bulbs are working",
+        text: "You must sound the horn near every junction",
         isCorrect: false,
       },
     ],
     explanation:
-      "Observing behind helps warn following drivers and avoid sudden braking, reducing the risk of rear-end collisions (Highway Code Rule 161).",
+      "Emerging vehicles create serious conflicts. Avoid overtaking near junctions (Highway Code Rule 167).",
+  },
+  {
+    id: 1416,
+    category: Category.HAZARD_AWARENESS,
+    question:
+      "How should you react when approaching a level crossing whose warning lights begin flashing as you arrive?",
+    options: [
+      {
+        text: "Stop at the stop line and wait until the lights go out",
+        isCorrect: true,
+      },
+      {
+        text: "Accelerate quickly to clear the crossing before the barriers lower",
+        isCorrect: false,
+      },
+      {
+        text: "Reverse back without checking mirrors",
+        isCorrect: false,
+      },
+      {
+        text: "Sound your horn and proceed cautiously",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Flashing red signals mean you must stop; trains can approach rapidly (Highway Code Rule 293).",
+  },
+  {
+    id: 1417,
+    category: Category.HAZARD_AWARENESS,
+    question:
+      "What’s the main hazard when passing stationary buses at a bus stop?",
+    options: [
+      {
+        text: "Passengers might step into the road unexpectedly",
+        isCorrect: true,
+      },
+      {
+        text: "The bus may roll backwards when leaving",
+        isCorrect: false,
+      },
+      {
+        text: "Your speedometer stops working near buses",
+        isCorrect: false,
+      },
+      {
+        text: "The bus headlights can dazzle you",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Passengers, especially children, can appear suddenly in front of the bus. Pass slowly and be prepared to stop (Highway Code Rule 223).",
+  },
+  {
+    id: 1418,
+    category: Category.HAZARD_AWARENESS,
+    question:
+      "Why can keeping windows mist-free be a key part of hazard awareness?",
+    options: [
+      {
+        text: "Clear windows maximise your ability to spot developing hazards",
+        isCorrect: true,
+      },
+      {
+        text: "It reduces the need to use headlights",
+        isCorrect: false,
+      },
+      {
+        text: "It prevents air entering the vehicle",
+        isCorrect: false,
+      },
+      {
+        text: "It means you can drive faster in fog",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Good visibility is essential to observe hazards early. Use demisters and air conditioning as needed (Highway Code Rule 229).",
+  },
+  {
+    id: 1419,
+    category: Category.HAZARD_AWARENESS,
+    question:
+      "On a smart motorway, overhead signs show a red ‘X’ over the lane you’re in. What hazard does this indicate?",
+    options: [
+      {
+        text: "The lane is closed due to an incident or obstruction ahead",
+        isCorrect: true,
+      },
+      {
+        text: "There’s no hazard; it’s only for advisory purposes",
+        isCorrect: false,
+      },
+      {
+        text: "You may continue if traffic is light",
+        isCorrect: false,
+      },
+      {
+        text: "It indicates a compulsory speed increase",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "A red X means the lane is closed. Move out promptly; ignoring it risks lives and carries penalties (Highway Code Rule 258).",
+  },
+  {
+    id: 1420,
+    category: Category.HAZARD_AWARENESS,
+    question:
+      "While queuing in slow traffic, you see pedestrians waiting at a pelican crossing with flashing amber lights. What should you do?",
+    options: [
+      {
+        text: "Give way to pedestrians still on the crossing",
+        isCorrect: true,
+      },
+      {
+        text: "Drive through immediately because the lights are flashing",
+        isCorrect: false,
+      },
+      {
+        text: "Sound your horn to hurry them across",
+        isCorrect: false,
+      },
+      {
+        text: "Wave other drivers across before you move",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Flashing amber means you may proceed only if the crossing is clear; allow pedestrians to finish crossing (Highway Code Rule 196).",
   },
 ];
 const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
@@ -1916,377 +2569,521 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
     id: 1501,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "What clearance should you give when overtaking a cyclist at up to 30 mph?",
+      "Why should you give extra time and space to older pedestrians crossing the road?",
     options: [
-      { text: "At least 1.5 metres", isCorrect: true },
-      { text: "At least 0.5 metres", isCorrect: false },
-      { text: "At least 3 metres", isCorrect: false },
-      { text: "At least 5 metres", isCorrect: false },
+      {
+        text: "They may take longer to cross and might not judge your speed accurately",
+        isCorrect: true,
+      },
+      {
+        text: "They must legally wave you across before you proceed",
+        isCorrect: false,
+      },
+      {
+        text: "They always have right of way only on motorways",
+        isCorrect: false,
+      },
+      {
+        text: "They are required to cross diagonally",
+        isCorrect: false,
+      },
     ],
     explanation:
-      "The Highway Code states you should leave at least 1.5 metres when passing cyclists at speeds up to 30 mph (Rule 163).",
+      "Older people may be slower or have limited vision and hearing. Allow extra time and be prepared to stop (Highway Code Rule 207).",
   },
   {
     id: 1502,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "Why should you slow down near schools during opening or closing times?",
+      "You’re approaching a zebra crossing where a pedestrian with a white cane is waiting. What should you do?",
     options: [
       {
-        text: "Children may run into the road unexpectedly",
+        text: "Stop and let them cross the road",
         isCorrect: true,
       },
       {
-        text: "Teachers often wave cars through quickly",
+        text: "Sound the horn lightly to guide them across",
         isCorrect: false,
       },
       {
-        text: "Parking rules are suspended at these times",
+        text: "Flash your headlights and continue",
         isCorrect: false,
       },
       {
-        text: "Speed bumps are switched off in the afternoon",
+        text: "Wave them to wait until traffic behind has passed",
         isCorrect: false,
       },
     ],
     explanation:
-      "Children are unpredictable and may suddenly step into the road. Slow speeds reduce risk (Highway Code Rule 205).",
+      "Drivers must give way to pedestrians on zebra crossings, especially those with visual impairments (Highway Code Rule 195).",
   },
   {
     id: 1503,
     category: Category.VULNERABLE_ROAD_USERS,
-    question: "How should you pass horse riders on a country road?",
+    question:
+      "How should you pass a group of cyclists riding two abreast on a country road?",
     options: [
       {
-        text: "At no more than 10 mph, giving at least 2 metres of space",
+        text: "Wait until it’s safe, then overtake leaving at least 1.5 metres clearance",
         isCorrect: true,
       },
       {
-        text: "At 30 mph to avoid startling the horse",
+        text: "Drive between them to encourage single file",
         isCorrect: false,
       },
       {
-        text: "Very close to prevent the horse from moving sideways",
+        text: "Use the horn and overtake closely to save time",
         isCorrect: false,
       },
       {
-        text: "By sounding the horn to warn the rider",
+        text: "Follow them in a low gear until they pull over",
         isCorrect: false,
       },
     ],
     explanation:
-      "Horses can be startled; pass slowly and give wide clearance, as advised in the 2022 Highway Code update (Rule 215).",
+      "Give cyclists plenty of room, ideally 1.5 metres at up to 30 mph, and overtake only when safe (Highway Code Rule 163).",
   },
   {
     id: 1504,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "Why should you give way to pedestrians already crossing a side road when you turn in?",
+      "When approaching a pelican crossing with pedestrians already crossing, what should you do if the lights change to flashing amber?",
     options: [
       {
-        text: "The Highway Code hierarchy gives them priority",
+        text: "Give way until the crossing is clear",
         isCorrect: true,
       },
       {
-        text: "Because pedestrians must always cross diagonally",
+        text: "Proceed immediately before more pedestrians step out",
         isCorrect: false,
       },
       {
-        text: "Because they have right of way only at night",
+        text: "Sound your horn to make pedestrians hurry",
         isCorrect: false,
       },
       {
-        text: "Because your vehicle will automatically stop",
+        text: "Drive onto the crossing and stop there",
         isCorrect: false,
       },
     ],
     explanation:
-      "Drivers should give way to pedestrians crossing or waiting to cross side roads (Highway Code Rule H2).",
+      "Flashing amber means you must give way to pedestrians already on the crossing (Highway Code Rule 196).",
   },
   {
     id: 1505,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "How can you reduce risk to motorcyclists when changing lanes on a dual carriageway?",
+      "Why should you be particularly cautious around children playing near parked cars?",
     options: [
       {
-        text: "Check mirrors and blind spots carefully before moving",
+        text: "They may suddenly run into the road without looking",
         isCorrect: true,
       },
       {
-        text: "Signal only after moving to surprise them",
+        text: "They always wear high-visibility clothing",
         isCorrect: false,
       },
       {
-        text: "Accelerate quickly without signalling",
+        text: "They can legally direct traffic at any time",
         isCorrect: false,
       },
       {
-        text: "Rely solely on your rear-view mirror",
+        text: "They are required to stay behind the parked cars",
         isCorrect: false,
       },
     ],
     explanation:
-      "Motorcycles are small and easily hidden; a lifesaver check prevents collisions (Highway Code Rule 211).",
+      "Children are unpredictable and may dash into the road; reduce speed and be ready to stop (Highway Code Rule 206).",
   },
   {
     id: 1506,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "Why must you not park on the zigzag lines by a pedestrian crossing?",
+      "How should you respond when a horse rider signals you to slow down on a narrow lane?",
     options: [
       {
-        text: "You would obstruct drivers' and pedestrians’ views",
+        text: "Reduce speed, pass wide and slowly when it’s safe",
         isCorrect: true,
       },
       {
-        text: "You could legally park there for three minutes only",
+        text: "Rev the engine gently to show you’re in control",
         isCorrect: false,
       },
       {
-        text: "Your car would automatically be clamped",
+        text: "Sound the horn to warn the horse you’re approaching",
         isCorrect: false,
       },
       {
-        text: "It helps pedestrians cross more quickly",
+        text: "Accelerate quickly to avoid frightening the horse",
         isCorrect: false,
       },
     ],
     explanation:
-      "Parking on zigzag markings severely reduces visibility and is illegal (Highway Code Rule 191).",
+      "Pass horses slowly, giving at least 2 metres clearance, and be prepared to stop (Highway Code Rule 215).",
   },
   {
     id: 1507,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "How should you treat people using mobility scooters on the road?",
+      "You see a school crossing patrol (lollipop person) stepping into the road with a stop sign. What must you do?",
     options: [
       {
-        text: "Give them plenty of room and be prepared for low speeds",
+        text: "Stop and wait until the patrol signals for you to proceed",
         isCorrect: true,
       },
       {
-        text: "Pass closely because they are very stable",
+        text: "Wave the children across but continue driving",
         isCorrect: false,
       },
       {
-        text: "Sound the horn so they know you are coming",
+        text: "Drive past slowly as long as no children are present",
         isCorrect: false,
       },
       {
-        text: "Drive behind them with main beam headlights on",
+        text: "Only stop if the patrol sounds a whistle",
         isCorrect: false,
       },
     ],
     explanation:
-      "Mobility scooters are slow and may be unstable; treat them as vulnerable users (Highway Code Rule 214).",
+      "School crossing patrols can stop traffic. You must obey their instructions (Highway Code Rule 210).",
   },
   {
     id: 1508,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "When approaching a pelican crossing with a flashing amber light, what should you do?",
+      "Why do motorcyclists need particular consideration at junctions?",
     options: [
       {
-        text: "Give way to pedestrians on the crossing",
+        text: "They can be hard to spot because of their narrow profile",
         isCorrect: true,
       },
       {
-        text: "Accelerate if the crossing is clear",
+        text: "They always have priority over cars",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to alert pedestrians",
+        text: "They never use mirrors when turning",
         isCorrect: false,
       },
       {
-        text: "Ignore the light because it is advisory",
+        text: "They must legally stop at every junction",
         isCorrect: false,
       },
     ],
     explanation:
-      "Flashing amber means you can proceed only if the crossing is clear; pedestrians already on it have priority (Highway Code Rule 192).",
+      "Motorcyclists are easily hidden by blind spots; look carefully and use mirrors before pulling out (Highway Code Rule 211).",
   },
   {
     id: 1509,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "Why should you avoid revving the engine while waiting near cyclists at traffic lights?",
+      "Why should you avoid blocking advanced stop lines (bike boxes) at traffic lights?",
     options: [
       {
-        text: "It can startle them and cause them to wobble",
+        text: "They provide cyclists with a visible and safe starting position",
         isCorrect: true,
       },
       {
-        text: "It saves fuel compared to idling quietly",
+        text: "Cyclists are not allowed to use other lanes",
         isCorrect: false,
       },
       {
-        text: "It keeps your brakes warmer",
+        text: "It is the only place motorcyclists may wait",
         isCorrect: false,
       },
       {
-        text: "It makes them move off faster",
+        text: "Buses need the space to turn left",
         isCorrect: false,
       },
     ],
     explanation:
-      "Noise and sudden movement can unsettle cyclists and lead to loss of balance (Highway Code Rule 178).",
+      "Advanced stop lines improve cyclist visibility. You must stay behind the first stop line (Highway Code Rule 178).",
   },
   {
     id: 1510,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "What is the safest way to open a car door when parked on a busy street?",
+      "You’re approaching a junction where a pedestrian wearing a reflective armband is waiting to cross at night. What should you do?",
     options: [
       {
-        text: "Use the hand opposite the door to perform the 'Dutch reach'",
+        text: "Slow down and be prepared to stop to let them cross",
         isCorrect: true,
       },
       {
-        text: "Open it quickly without looking",
+        text: "Switch to main beam headlights to highlight them",
         isCorrect: false,
       },
       {
-        text: "Push it fully open and wait for cyclists to stop",
+        text: "Speed up before they step onto the road",
         isCorrect: false,
       },
       {
-        text: "Open the door halfway and leave it there",
+        text: "Wave at them to cross behind you",
         isCorrect: false,
       },
     ],
     explanation:
-      "Using the far hand forces you to look over your shoulder, helping spot cyclists (Highway Code Rule 239).",
+      "Pedestrians may misjudge your speed, especially in the dark. Approach carefully (Highway Code Rule 170).",
   },
   {
     id: 1511,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "How should you approach a zebra crossing with an elderly person waiting to cross?",
+      "Why should you take extra care when you see ice cream vans stopped by the kerb?",
     options: [
       {
-        text: "Stop and allow them extra time to cross safely",
+        text: "Children may run out from the van unexpectedly",
         isCorrect: true,
       },
       {
-        text: "Drive through quickly before they step out",
+        text: "The van’s refrigeration can cause fog",
         isCorrect: false,
       },
       {
-        text: "Signal right to show you are not stopping",
+        text: "Parking is always prohibited near them",
         isCorrect: false,
       },
       {
-        text: "Flash your headlights to urge them to hurry",
+        text: "The driver must reverse without warning",
         isCorrect: false,
       },
     ],
     explanation:
-      "Pedestrians have priority at zebra crossings once they step onto the crossing; allow extra time for vulnerable users (Highway Code Rule 195).",
+      "Children often run across the road towards ice cream vans; slow down and look carefully (Highway Code Rule 205).",
   },
   {
     id: 1512,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "Why must you check for people on foot when reversing into a side road?",
+      "A pedestrian with a guide dog steps onto the crossing as the light turns green for you. How should you react?",
     options: [
       {
-        text: "Pedestrians may be walking behind your vehicle out of sight",
+        text: "Wait patiently until they have crossed safely",
         isCorrect: true,
       },
       {
-        text: "Zebra crossings are always hidden there",
+        text: "Proceed slowly, expecting them to move faster",
         isCorrect: false,
       },
       {
-        text: "Pedestrians are not allowed on side roads",
+        text: "Sound the horn once to alert them",
         isCorrect: false,
       },
       {
-        text: "Your reversing lights automatically alert them",
+        text: "Flash headlights to show you intend to move",
         isCorrect: false,
       },
     ],
     explanation:
-      "Pedestrians can appear unexpectedly, so look carefully and reverse slowly (Highway Code Rule 202).",
+      "People with guide dogs need time; the green signal doesn’t override their priority on the crossing (Highway Code Rule 195).",
   },
   {
     id: 1513,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "What should you do when approaching a bus that has signalled to leave its stop?",
+      "Why should you not park opposite or within 10 metres of a junction?",
     options: [
       {
-        text: "Give way if it is safe to do so",
+        text: "It obstructs visibility for drivers and pedestrians crossing",
         isCorrect: true,
       },
       {
-        text: "Pass immediately before it moves off",
+        text: "It makes it easier for buses to turn",
         isCorrect: false,
       },
       {
-        text: "Use your horn to make the driver wait",
+        text: "It improves access for delivery vehicles",
         isCorrect: false,
       },
       {
-        text: "Drive on the pavement to get by quickly",
+        text: "It reduces tyre wear on your car",
         isCorrect: false,
       },
     ],
     explanation:
-      "Buses need space to rejoin traffic; giving way helps protect passengers and maintains flow (Highway Code Rule 223).",
+      "Parking too close to junctions makes it harder for others, including pedestrians, to see hazards (Highway Code Rule 243).",
   },
   {
     id: 1514,
     category: Category.VULNERABLE_ROAD_USERS,
     question:
-      "Why is it dangerous to overtake a cyclist just before turning left?",
+      "When must you use dipped headlights to help vulnerable road users in poor daylight?",
     options: [
       {
-        text: "They might continue straight on and you could cut across them",
+        text: "Whenever visibility is seriously reduced",
         isCorrect: true,
       },
       {
-        text: "Cyclists must always stop behind left-turning traffic",
+        text: "Only when driving above 40 mph",
         isCorrect: false,
       },
       {
-        text: "Cyclists should dismount when traffic turns left",
+        text: "Only when following another vehicle closely",
         isCorrect: false,
       },
       {
-        text: "You will automatically receive a fine",
+        text: "Only if cyclists are present",
         isCorrect: false,
       },
     ],
     explanation:
-      "Cyclists often go straight ahead at junctions; overtaking then turning left can cause a collision (Highway Code Rule 182).",
+      "Dipped headlights help others see you during poor visibility such as heavy rain or fog (Highway Code Rule 226).",
   },
   {
     id: 1515,
     category: Category.VULNERABLE_ROAD_USERS,
-    question: "How should you treat guide dogs and their owners at crossings?",
+    question:
+      "How should you approach a peloton of racing cyclists escorted by a vehicle displaying a flashing amber beacon?",
     options: [
       {
-        text: "Be patient and allow them to cross without rushing them",
+        text: "Treat it as a slow-moving convoy and overtake only when safe",
         isCorrect: true,
       },
       {
-        text: "Expect the dog to stop so you can drive through",
+        text: "Use the horn repeatedly to warn the cyclists",
         isCorrect: false,
       },
       {
-        text: "Use your horn so they know you are waiting",
+        text: "Force your way through the group quickly",
         isCorrect: false,
       },
       {
-        text: "Drive close behind to encourage them to speed up",
+        text: "Overtake immediately, ignoring the escort vehicle",
         isCorrect: false,
       },
     ],
     explanation:
-      "Guide dogs assist visually impaired people who may need more time to cross safely (Highway Code Rule 207).",
+      "Flashing amber beacons warn of slow-moving or escorted vehicles; proceed with caution and pass safely (Highway Code Rule 108).",
+  },
+  {
+    id: 1516,
+    category: Category.VULNERABLE_ROAD_USERS,
+    question:
+      "What’s the best way to protect pedestrians on a shared-use path when you’re emerging from a driveway?",
+    options: [
+      {
+        text: "Stop at the end, look both ways, and move off slowly",
+        isCorrect: true,
+      },
+      {
+        text: "Rely on pedestrians to give way because you’re on private land",
+        isCorrect: false,
+      },
+      {
+        text: "Sound the horn continuously while emerging",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate quickly to clear the path",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Drivers must give way to pedestrians and cyclists when emerging onto footpaths (Highway Code Rule 202).",
+  },
+  {
+    id: 1517,
+    category: Category.VULNERABLE_ROAD_USERS,
+    question:
+      "Why must you check for motorcyclists before changing lanes in slow-moving traffic?",
+    options: [
+      {
+        text: "They may filter between lanes and be in your blind spots",
+        isCorrect: true,
+      },
+      {
+        text: "They can’t ride in bus lanes legally",
+        isCorrect: false,
+      },
+      {
+        text: "They must always ride in the centre of a lane",
+        isCorrect: false,
+      },
+      {
+        text: "They have priority over buses only",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Filtering motorcycles can appear suddenly. Mirror and shoulder checks are vital (Highway Code Rule 160).",
+  },
+  {
+    id: 1518,
+    category: Category.VULNERABLE_ROAD_USERS,
+    question:
+      "A pedestrian pushing a wheelchair is about to cross a side road you’re turning into. What should you do?",
+    options: [
+      {
+        text: "Wait until they’ve crossed safely",
+        isCorrect: true,
+      },
+      {
+        text: "Drive through quickly so they can cross behind you",
+        isCorrect: false,
+      },
+      {
+        text: "Stop in the middle of the side road",
+        isCorrect: false,
+      },
+      {
+        text: "Flash your headlights to tell them to wait",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Pedestrians, including those pushing wheelchairs, have priority when you’re turning into a side road (Highway Code Rule 170).",
+  },
+  {
+    id: 1519,
+    category: Category.VULNERABLE_ROAD_USERS,
+    question:
+      "How should you position your vehicle when waiting at traffic lights alongside a lorry?",
+    options: [
+      {
+        text: "Stay well back so the driver can see you in their mirrors",
+        isCorrect: true,
+      },
+      {
+        text: "Pull right up beside the cab so you can move off first",
+        isCorrect: false,
+      },
+      {
+        text: "Stop directly under the lorry’s mirror arms",
+        isCorrect: false,
+      },
+      {
+        text: "Move into the blind spot to save space behind",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Large vehicles have big blind spots. Keeping back makes you visible and avoids being cut off when they turn (Highway Code Rule 221).",
+  },
+  {
+    id: 1520,
+    category: Category.VULNERABLE_ROAD_USERS,
+    question:
+      "What’s the safest way to deal with a mobility scooter user crossing slowly at a toucan crossing?",
+    options: [
+      {
+        text: "Remain stopped until they have crossed completely",
+        isCorrect: true,
+      },
+      {
+        text: "Drive around them because they are moving slowly",
+        isCorrect: false,
+      },
+      {
+        text: "Rev the engine to encourage them to hurry",
+        isCorrect: false,
+      },
+      {
+        text: "Flash headlights to claim priority",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Mobility scooter users are vulnerable; wait patiently and allow them to clear the crossing (Highway Code Rule 178).",
   },
 ];
 const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
@@ -2294,627 +3091,524 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
     id: 1601,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "What should you do if a long vehicle is turning left at a junction ahead of you?",
+      "Why should you allow extra space when following a tram on wet rails?",
     options: [
       {
-        text: "Stay well back because it may swing wide or need extra room",
+        text: "Trams can take longer to stop and may spray debris onto the road",
         isCorrect: true,
       },
       {
-        text: "Overtake on the right immediately",
+        text: "Trams must stop at every junction without warning",
         isCorrect: false,
       },
       {
-        text: "Drive up the inside to pass quickly",
+        text: "Tram drivers rely on your lights as guidance",
         isCorrect: false,
       },
       {
-        text: "Sound your horn so it finishes the turn sooner",
+        text: "Wet rails make trams accelerate uncontrollably",
         isCorrect: false,
       },
     ],
     explanation:
-      "Large vehicles often occupy more than one lane when turning. Keeping back avoids being trapped (Highway Code Rule 221).",
+      "Trams run on rails and need longer to stop, especially in the wet. Keep back and watch for spray or slippery rails (Highway Code Rule 302).",
   },
   {
     id: 1602,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "Why do buses and coaches need additional space when pulling away from stops?",
+      "When you see a bus at a bus stop indicating to pull out, what should you do?",
     options: [
       {
-        text: "They are long and may swing out into traffic",
+        text: "Give way when safe to do so",
         isCorrect: true,
       },
       {
-        text: "They accelerate faster than cars",
+        text: "Accelerate past before it moves off",
         isCorrect: false,
       },
       {
-        text: "Passengers lean sideways to signal other drivers",
+        text: "Sound the horn to warn the driver",
         isCorrect: false,
       },
       {
-        text: "Their brakes are less effective at low speed",
+        text: "Drive onto the opposite carriageway immediately",
         isCorrect: false,
       },
     ],
     explanation:
-      "Due to size and passenger safety, you should allow them space to rejoin traffic (Highway Code Rule 223).",
+      "Where possible, allow buses to rejoin the flow as they may be carrying many passengers (Highway Code Rule 223).",
   },
   {
     id: 1603,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "How should you approach a tram stop where passengers are boarding from the road?",
+      "Why must you take care when overtaking long vehicles that are turning left?",
     options: [
       {
-        text: "Stop if necessary and give way to passengers",
+        text: "They may need to swing wide to complete the turn",
         isCorrect: true,
       },
       {
-        text: "Drive through quickly to avoid holding up traffic",
+        text: "They always stop mid-turn to let you pass",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to warn people to move aside",
+        text: "They only use indicators when parked",
         isCorrect: false,
       },
       {
-        text: "Flash your headlights so the tram leaves sooner",
+        text: "They must reverse before turning",
         isCorrect: false,
       },
     ],
     explanation:
-      "Passengers may step into the road; you must stop and let them board safely (Highway Code Rule 300).",
+      "Large vehicles often move to the right before turning left. Stay behind and give them space (Highway Code Rule 221).",
   },
   {
     id: 1604,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "Why is it dangerous to overtake a HGV that is reversing into a side road?",
+      "Why should you avoid driving in the space alongside HGVs on multilane roads?",
     options: [
       {
-        text: "The driver may not see you and the vehicle could swing out",
+        text: "You may be in the driver’s blind spot and at risk if they change lane",
         isCorrect: true,
       },
       {
-        text: "The HGV will automatically stop as you pass",
+        text: "HGVs emit fumes that damage tyres instantly",
         isCorrect: false,
       },
       {
-        text: "Your vehicle will fail its MOT if you wait",
+        text: "HGVs are not allowed to change lanes",
         isCorrect: false,
       },
       {
-        text: "The reversing lights mean you must overtake quickly",
+        text: "Speed limits are lower beside HGVs",
         isCorrect: false,
       },
     ],
     explanation:
-      "Reversing HGVs have large blind spots. Wait patiently until the manoeuvre is complete (Highway Code Rule 201).",
+      "Blind spots alongside large vehicles are extensive. Avoid lingering there (Highway Code Rule 151).",
   },
   {
     id: 1605,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "What extra hazard do large goods vehicles present in wet weather?",
+      "How should you approach a vehicle displaying an amber flashing beacon on a dual carriageway?",
     options: [
       {
-        text: "They can throw up spray that reduces your visibility",
+        text: "Slow down and be prepared for it to travel slowly or stop",
         isCorrect: true,
       },
       {
-        text: "They always skid more than cars when braking",
+        text: "Overtake immediately without observing",
         isCorrect: false,
       },
       {
-        text: "They cannot use dipped headlights",
+        text: "Accelerate and follow closely to clear the hazard",
         isCorrect: false,
       },
       {
-        text: "They never signal before changing lanes",
+        text: "Use your horn until it speeds up",
         isCorrect: false,
       },
     ],
     explanation:
-      "Spray from large vehicles can obscure your view; use wipers, dipped headlights, and keep back (Highway Code Rule 227).",
+      "Amber beacons warn of slow-moving or stopped vehicles such as gritters or recovery trucks (Highway Code Rule 108).",
   },
   {
     id: 1606,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "How should you adapt when driving near a vehicle carrying hazardous goods displaying orange plates?",
+      "Why should you give extra room to tanker lorries carrying hazardous loads?",
     options: [
       {
-        text: "Keep well back and avoid using cruise control nearby",
+        text: "Spillage or fumes can be dangerous in a collision",
         isCorrect: true,
       },
       {
-        text: "Follow closely to read the plate clearly",
+        text: "They have priority at roundabouts",
         isCorrect: false,
       },
       {
-        text: "Overtake immediately to stay ahead of it",
+        text: "They always travel above the speed limit",
         isCorrect: false,
       },
       {
-        text: "Flash your headlights to check the driver is alert",
+        text: "They are exempt from signalling requirements",
         isCorrect: false,
       },
     ],
     explanation:
-      "Hazardous loads need extra space. Staying back reduces risk if the vehicle has to stop suddenly (ADR regulations referenced in Highway Code Rule 282).",
+      "Hazard placards indicate dangerous goods. Keep well back and avoid sudden braking near them (ADR regulations, Highway Code Rule 97).",
   },
   {
     id: 1607,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "What should you expect from slow-moving agricultural vehicles on rural roads?",
+      "What should you do if you’re following an articulated lorry reversing into a side road?",
     options: [
       {
-        text: "They may turn into fields or side roads without warning",
+        text: "Wait patiently, giving the driver plenty of room to manoeuvre",
         isCorrect: true,
       },
       {
-        text: "They are limited to motorways only",
+        text: "Drive alongside to guide them with hand signals",
         isCorrect: false,
       },
       {
-        text: "They always travel faster than the speed limit",
+        text: "Sound your horn to make them stop",
         isCorrect: false,
       },
       {
-        text: "They give way to cars at every junction",
+        text: "Overtake quickly before they finish reversing",
         isCorrect: false,
       },
     ],
     explanation:
-      "Farm vehicles can make wide or sudden turns. Be prepared to slow down and only overtake if safe (Highway Code Rule 215).",
+      "Large vehicles may need to shunt back and forth. Hold back and let them complete the manoeuvre safely (Highway Code Rule 221).",
   },
   {
     id: 1608,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "Why should you avoid passing a tram on the inside where there is a shared lane?",
+      "Why do long vehicles sometimes straddle lanes on mini-roundabouts?",
     options: [
       {
-        text: "Passengers may step out and trams cannot steer away",
+        text: "Their length requires more space to negotiate the turn safely",
         isCorrect: true,
       },
       {
-        text: "Trams always stop immediately if overtaken",
+        text: "They are exempt from using indicators",
         isCorrect: false,
       },
       {
-        text: "You will be prosecuted for speeding",
+        text: "They must always take the right-hand lane",
         isCorrect: false,
       },
       {
-        text: "Trams have priority over emergency vehicles",
+        text: "They intend to park on the roundabout",
         isCorrect: false,
       },
     ],
     explanation:
-      "Trams run on fixed rails so pass with caution and never squeeze between the tram and kerb (Highway Code Rule 305).",
+      "Large vehicles may need both lanes to clear the centre. Allow them room and avoid overtaking (Highway Code Rule 188).",
   },
   {
     id: 1609,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "What is a particular hazard when you follow a large lorry at night?",
+      "How should you react to a slow-moving agricultural vehicle turning into a field ahead?",
     options: [
       {
-        text: "Your headlights may be masked, making it harder to see ahead",
+        text: "Slow down and be ready to stop as it may swing wide",
         isCorrect: true,
       },
       {
-        text: "The lorry will always brake more sharply than you",
+        text: "Overtake immediately on the left",
         isCorrect: false,
       },
       {
-        text: "The lorry's exhaust emissions increase",
+        text: "Drive as close as possible to help it turn",
         isCorrect: false,
       },
       {
-        text: "Your anti-lock brakes stop working",
+        text: "Expect it to speed up once off the main road",
         isCorrect: false,
       },
     ],
     explanation:
-      "Large vehicles block your view. Drop back so you can see the road and be seen by other drivers (Highway Code Rule 222).",
+      "Farm vehicles may swing across the road to enter gateways. Stay back and wait (Highway Code Rule 163).",
   },
   {
     id: 1610,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "How should you react to a vehicle displaying a flashing amber beacon on the motorway?",
+      "Why is it important to avoid splashing pedestrians when passing through standing water?",
     options: [
       {
-        text: "Be aware it is a slow-moving or abnormal load and approach with caution",
+        text: "It’s unsafe and can constitute careless driving",
         isCorrect: true,
       },
       {
-        text: "Ignore it because it is only for decoration",
+        text: "It cools the brakes too quickly",
         isCorrect: false,
       },
       {
-        text: "Overtake immediately regardless of conditions",
+        text: "Pedestrians must dry the road afterwards",
         isCorrect: false,
       },
       {
-        text: "Follow closely to benefit from the beacon's light",
+        text: "It damages the road markings immediately",
         isCorrect: false,
       },
     ],
     explanation:
-      "Amber beacons warn of slow or wide vehicles. Give them space and be ready to slow down (Highway Code Rule 219).",
+      "Driving without due consideration for other road users, such as drenching pedestrians, can lead to prosecution (Highway Code Rule 147).",
   },
   {
     id: 1611,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "Why must you not overtake a bus on the approach to a pedestrian crossing?",
+      "What’s the main risk of overtaking an electric tram at a stop in the city centre?",
     options: [
       {
-        text: "Pedestrians may be crossing in front of the bus",
+        text: "Passengers may step into the road from the tram",
         isCorrect: true,
       },
       {
-        text: "Your vehicle will automatically stall",
+        text: "The tram will reverse suddenly",
         isCorrect: false,
       },
       {
-        text: "Buses accelerate slowly from crossings",
+        text: "You’ll be fined for exceeding the speed limit",
         isCorrect: false,
       },
       {
-        text: "It is legal only if you sound the horn",
+        text: "It’s illegal to pass any stationary vehicle",
         isCorrect: false,
       },
     ],
     explanation:
-      "The bus may hide pedestrians. Overtaking in this situation is highly dangerous (Highway Code Rule 167).",
+      "Passengers often cross in front of or behind trams. Approach slowly and be ready to stop (Highway Code Rule 307).",
   },
   {
     id: 1612,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "What should you consider when following a tanker carrying liquid loads?",
+      "How do high-sided vehicles affect you when driving on exposed motorway sections?",
     options: [
       {
-        text: "The load may surge, causing the vehicle to brake unevenly",
+        text: "They can be blown sideways, creating sudden hazards",
         isCorrect: true,
       },
       {
-        text: "The tanker has no brake lights",
+        text: "They always stay in the left lane regardless of wind",
         isCorrect: false,
       },
       {
-        text: "It will never enter the left lane",
+        text: "They cannot use hazard warning lights",
         isCorrect: false,
       },
       {
-        text: "It emits steam that cleans your windscreen",
+        text: "They provide shelter, so you should follow closely",
         isCorrect: false,
       },
     ],
     explanation:
-      "Liquid loads can shift, affecting stability and stopping distances. Leave extra room (Highway Code Rule 246 context).",
+      "Crosswinds can push high-sided vehicles off course. Give them extra room and be prepared for sudden movements (Highway Code Rule 232).",
   },
   {
     id: 1613,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "What should you do if a large vehicle coming towards you positions in the middle of a narrow bridge?",
+      "What should you do if a tram lane is marked by a white line and sign showing a tram symbol?",
     options: [
       {
-        text: "Wait and allow it to clear the bridge before you proceed",
+        text: "Keep out unless signs allow other vehicles to use it",
         isCorrect: true,
       },
       {
-        text: "Force your way through quickly",
+        text: "Drive in it to avoid congestion",
         isCorrect: false,
       },
       {
-        text: "Flash headlights aggressively until it stops",
+        text: "Use it as a parking area when waiting",
         isCorrect: false,
       },
       {
-        text: "Drive onto the pavement to get past",
+        text: "Cross it diagonally whenever you like",
         isCorrect: false,
       },
     ],
     explanation:
-      "Large vehicles may need the full width. Waiting avoids a collision and respects their limitations (Highway Code Rule 152).",
+      "Tram lanes may be restricted. Only enter if permitted; otherwise stay clear (Highway Code Rule 305).",
   },
   {
     id: 1614,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "Why should you be cautious when overtaking electric buses that use overhead lines?",
+      "Why should you avoid driving too close to vehicles carrying live animals?",
     options: [
       {
-        text: "They can draw in close to the kerb without steering",
-        isCorrect: false,
-      },
-      {
-        text: "They may stop frequently and occupants may step into the road",
+        text: "Animal movement can shift the load and affect vehicle stability",
         isCorrect: true,
       },
       {
-        text: "They travel only in the right-hand lane",
+        text: "They have the right of way at crossings",
         isCorrect: false,
       },
       {
-        text: "They are forbidden to use mirrors",
+        text: "They always travel at over 60 mph",
+        isCorrect: false,
+      },
+      {
+        text: "They are exempt from using brake lights",
         isCorrect: false,
       },
     ],
     explanation:
-      "Trolleybuses or electric buses stop often; expect passengers and plan to pass carefully (Highway Code Rule 223).",
+      "Live loads can move unpredictably, affecting handling. Give them space in case of sudden changes (Highway Code Rule 120).",
   },
   {
     id: 1615,
     category: Category.OTHER_TYPES_OF_VEHICLE,
     question:
-      "When following a convoy of military vehicles, what rules should you observe?",
+      "How should you deal with a recovery truck loading a broken-down vehicle on the hard shoulder?",
     options: [
       {
-        text: "Do not overtake unless you can pass the entire convoy safely",
+        text: "Slow down and move to another lane if safe",
         isCorrect: true,
       },
       {
-        text: "Sound your horn to signal them to pull over",
+        text: "Continue at the same speed using the hard shoulder briefly",
         isCorrect: false,
       },
       {
-        text: "Drive between vehicles to reduce your journey time",
+        text: "Flash your headlights continuously",
         isCorrect: false,
       },
       {
-        text: "Rely on the convoy to show you the speed limit",
+        text: "Stop and offer assistance in the live lane",
         isCorrect: false,
       },
     ],
     explanation:
-      "Convoys keep specific spacing. Only overtake if you can clear the whole group safely (Highway Code Rule 219).",
+      "Protect people working at the roadside by slowing and changing lanes where possible (Highway Code Rule 264).",
+  },
+  {
+    id: 1616,
+    category: Category.OTHER_TYPES_OF_VEHICLE,
+    question:
+      "Why should you avoid overtaking near the rear of a long vehicle that’s signalling right?",
+    options: [
+      {
+        text: "It may conceal a smaller vehicle or junction into which it’s turning",
+        isCorrect: true,
+      },
+      {
+        text: "Long vehicles cannot have working indicators",
+        isCorrect: false,
+      },
+      {
+        text: "They must reverse before turning right",
+        isCorrect: false,
+      },
+      {
+        text: "They’re about to stop and let you pass",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Large vehicles may hide other road users or side roads. Wait until the manoeuvre is complete (Highway Code Rule 170).",
+  },
+  {
+    id: 1617,
+    category: Category.OTHER_TYPES_OF_VEHICLE,
+    question:
+      "What is the main hazard when following a refuse collection lorry on a residential street?",
+    options: [
+      {
+        text: "Crew members may step into the road without warning",
+        isCorrect: true,
+      },
+      {
+        text: "The lorry cannot reverse in narrow streets",
+        isCorrect: false,
+      },
+      {
+        text: "Refuse lorries automatically scatter debris",
+        isCorrect: false,
+      },
+      {
+        text: "The lorry cannot use mirrors",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Collection crews regularly enter the carriageway. Drive slowly and be ready to stop (Highway Code Rule 113).",
+  },
+  {
+    id: 1618,
+    category: Category.OTHER_TYPES_OF_VEHICLE,
+    question:
+      "How can you help a tram pass safely if traffic is queuing at a junction in front of you?",
+    options: [
+      {
+        text: "Keep the tracks clear by stopping short of the junction",
+        isCorrect: true,
+      },
+      {
+        text: "Block the tracks because trams must stop",
+        isCorrect: false,
+      },
+      {
+        text: "Move onto the crossing to create more space",
+        isCorrect: false,
+      },
+      {
+        text: "Sound your horn to warn the tram driver",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Never block tram lines or junctions. Leave space so trams can continue safely (Highway Code Rule 306).",
+  },
+  {
+    id: 1619,
+    category: Category.OTHER_TYPES_OF_VEHICLE,
+    question:
+      "When should you expect slow-moving vehicles like gritters to operate?",
+    options: [
+      {
+        text: "During winter weather or when freezing conditions are forecast",
+        isCorrect: true,
+      },
+      {
+        text: "Only during summer bank holidays",
+        isCorrect: false,
+      },
+      {
+        text: "Only at motorway service areas",
+        isCorrect: false,
+      },
+      {
+        text: "Only when traffic levels are very low at night",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Gritters treat roads during cold spells. Expect them at lower speeds and give them room (Highway Code Rule 97).",
+  },
+  {
+    id: 1620,
+    category: Category.OTHER_TYPES_OF_VEHICLE,
+    question:
+      "What should you do when meeting a horse-drawn vehicle on a narrow road?",
+    options: [
+      {
+        text: "Slow right down and be prepared to stop if necessary",
+        isCorrect: true,
+      },
+      {
+        text: "Use your horn repeatedly to warn the horse",
+        isCorrect: false,
+      },
+      {
+        text: "Pass closely to give them shelter",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate past quickly to reduce noise",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Horse-drawn vehicles move slowly. Give them ample room and be prepared to stop (Highway Code Rule 215).",
   },
 ];
 const VEHICLE_HANDLING_QUESTIONS: Question[] = [
-  {
-    id: 1701,
-    category: Category.VEHICLE_HANDLING,
-    question: "What should you do if your rear wheels begin to skid on a bend?",
-    options: [
-      {
-        text: "Steer gently in the direction of the skid and ease off the accelerator",
-        isCorrect: true,
-      },
-      {
-        text: "Brake hard and steer against the skid",
-        isCorrect: false,
-      },
-      {
-        text: "Accelerate sharply to regain traction",
-        isCorrect: false,
-      },
-      {
-        text: "Apply the parking brake immediately",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Correcting a skid requires easing off the accelerator and steering into it to regain grip smoothly (Highway Code Rule 119).",
-  },
-  {
-    id: 1702,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "How should you control your speed when driving down a steep hill?",
-    options: [
-      {
-        text: "Select a lower gear and use engine braking",
-        isCorrect: true,
-      },
-      {
-        text: "Coast in neutral to save fuel",
-        isCorrect: false,
-      },
-      {
-        text: "Use the clutch pedal to slow the car",
-        isCorrect: false,
-      },
-      {
-        text: "Switch off the engine and rely on the brakes",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Engine braking helps control speed and prevents brake fade on steep descents (Highway Code Rule 160).",
-  },
-  {
-    id: 1703,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "When should you use the parking brake while stationary in traffic?",
-    options: [
-      {
-        text: "When you are stopped in neutral to secure the vehicle",
-        isCorrect: true,
-      },
-      {
-        text: "Only when parked overnight",
-        isCorrect: false,
-      },
-      {
-        text: "Never, because it increases fuel use",
-        isCorrect: false,
-      },
-      {
-        text: "Whenever you want to flash your brake lights",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Using the parking brake keeps the vehicle secure and prevents brake lights dazzling drivers behind (Highway Code Rule 114).",
-  },
-  {
-    id: 1704,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "How should you handle the vehicle when entering a contraflow system on a motorway?",
-    options: [
-      {
-        text: "Reduce speed, obey temporary limits, and keep your distance",
-        isCorrect: true,
-      },
-      {
-        text: "Speed up to match traffic in the normal lanes",
-        isCorrect: false,
-      },
-      {
-        text: "Drive on the hard shoulder to avoid narrow lanes",
-        isCorrect: false,
-      },
-      {
-        text: "Ignore the cones when the road looks clear",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Contraflow lanes may be narrower and have no hard shoulder. Follow limits and keep a safe gap (Highway Code Rule 303).",
-  },
-  {
-    id: 1705,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "Why should you avoid braking harshly when driving on loose gravel?",
-    options: [
-      {
-        text: "It can cause locking and loss of steering control",
-        isCorrect: true,
-      },
-      {
-        text: "It improves tyre grip on the loose surface",
-        isCorrect: false,
-      },
-      {
-        text: "It automatically engages four-wheel drive",
-        isCorrect: false,
-      },
-      {
-        text: "It keeps dust away from the brakes",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Loose surfaces reduce traction. Harsh braking can lock wheels and cause a skid (defensive driving principle).",
-  },
-  {
-    id: 1706,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "How can you reduce wheelspin when starting off on a slippery surface?",
-    options: [
-      {
-        text: "Use higher gear and release the clutch gently",
-        isCorrect: true,
-      },
-      {
-        text: "Accelerate hard with the clutch fully depressed",
-        isCorrect: false,
-      },
-      {
-        text: "Select neutral and rev the engine",
-        isCorrect: false,
-      },
-      {
-        text: "Apply the handbrake slightly while moving off",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Higher gears reduce torque at the wheels, helping maintain traction on slippery surfaces (Highway Code Rule 228).",
-  },
-  {
-    id: 1707,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "What steering technique keeps steering smooth when negotiating tight bends?",
-    options: [
-      {
-        text: "Use the pull-push method for controlled movement",
-        isCorrect: true,
-      },
-      {
-        text: "Cross your hands quickly to turn faster",
-        isCorrect: false,
-      },
-      {
-        text: "Grip the wheel loosely at the bottom only",
-        isCorrect: false,
-      },
-      {
-        text: "Use one hand to steer and the other for the gear lever",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "The pull-push method keeps hands on opposite sides and maintains fine control (Driver and Vehicle Standards Agency guidance).",
-  },
-  {
-    id: 1708,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "What effect can carrying a heavy roof load have on your vehicle?",
-    options: [
-      {
-        text: "It raises the centre of gravity and affects handling",
-        isCorrect: true,
-      },
-      {
-        text: "It automatically stiffens the suspension",
-        isCorrect: false,
-      },
-      {
-        text: "It improves traction in wet weather",
-        isCorrect: false,
-      },
-      {
-        text: "It makes the brakes more powerful",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "High loads make the vehicle less stable in bends and gusts. Drive more gently (Highway Code Rule 98).",
-  },
-  {
-    id: 1709,
-    category: Category.VEHICLE_HANDLING,
-    question:
-      "When should you use lower gears while towing a caravan downhill?",
-    options: [
-      {
-        text: "To control speed and avoid the caravan pushing the car",
-        isCorrect: true,
-      },
-      {
-        text: "Only when you are overtaking",
-        isCorrect: false,
-      },
-      {
-        text: "To make the caravan sway intentionally",
-        isCorrect: false,
-      },
-      {
-        text: "To save fuel by coasting",
-        isCorrect: false,
-      },
-    ],
-    explanation:
-      "Lower gears use engine braking to keep the outfit stable downhill (Highway Code Rule 98).",
-  },
   {
     id: 1710,
     category: Category.VEHICLE_HANDLING,
@@ -3068,6 +3762,369 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
     ],
     explanation:
       "Riding the clutch can lead to slipping and loss of precise control, especially on hills (Highway Code Rule 159).",
+  },
+  {
+    id: 1716,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "If your vehicle begins to understeer on a bend, what is the first action you should take?",
+    options: [
+      {
+        text: "Ease off the accelerator and allow the front tyres to regain grip",
+        isCorrect: true,
+      },
+      {
+        text: "Brake sharply while holding the steering straight",
+        isCorrect: false,
+      },
+      {
+        text: "Increase the steering angle dramatically",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate harder to transfer weight to the rear",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Understeer is corrected by gently reducing speed so the front tyres can grip again; harsh inputs worsen the skid (Highway Code Rule 118).",
+  },
+  {
+    id: 1717,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "When the rear of your car starts to slide outward (oversteer), how should you respond?",
+    options: [
+      {
+        text: "Steer gently in the same direction as the skid and ease off the accelerator",
+        isCorrect: true,
+      },
+      {
+        text: "Steer sharply opposite to the skid and brake hard",
+        isCorrect: false,
+      },
+      {
+        text: "Apply the parking brake immediately",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate to straighten the car",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Correcting oversteer requires smooth steering into the skid while reducing speed so grip returns (Highway Code Rule 118).",
+  },
+  {
+    id: 1718,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "Before a tight bend, when should you complete most of your braking to maintain balance?",
+    options: [
+      {
+        text: "Before entering the bend so the car is stable as you steer",
+        isCorrect: true,
+      },
+      {
+        text: "Halfway through the bend",
+        isCorrect: false,
+      },
+      {
+        text: "While accelerating out of the bend",
+        isCorrect: false,
+      },
+      {
+        text: "Only after you exit the bend",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Braking in a straight line keeps the vehicle balanced, reducing the risk of skidding as you turn (Highway Code Rule 160).",
+  },
+  {
+    id: 1719,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "Which steering technique gives the best control for low-speed manoeuvres like junction turns?",
+    options: [
+      {
+        text: "Using the pull-push method with both hands on the wheel",
+        isCorrect: true,
+      },
+      {
+        text: "Crossing your arms quickly while steering",
+        isCorrect: false,
+      },
+      {
+        text: "Steering with one hand at the top of the wheel",
+        isCorrect: false,
+      },
+      {
+        text: "Holding the wheel loosely with fingertips",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Pull-push steering keeps both hands in control and avoids arm tangle during manoeuvres (Highway Code Rule 160).",
+  },
+  {
+    id: 1720,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "Why should you avoid coasting in neutral while cornering downhill?",
+    options: [
+      {
+        text: "You lose engine braking and the vehicle can run wide",
+        isCorrect: true,
+      },
+      {
+        text: "It improves fuel economy but reduces tyre wear",
+        isCorrect: false,
+      },
+      {
+        text: "It allows the ABS to work more effectively",
+        isCorrect: false,
+      },
+      {
+        text: "It keeps the power steering operating at higher pressure",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Keeping the car in gear maintains engine braking and better control through bends (Highway Code Rule 160).",
+  },
+  {
+    id: 1721,
+    category: Category.VEHICLE_HANDLING,
+    question: "How can you move off smoothly on a slippery uphill slope?",
+    options: [
+      {
+        text: "Select second gear, release the clutch gently, and apply minimal throttle",
+        isCorrect: true,
+      },
+      {
+        text: "Use first gear with high revs to gain speed quickly",
+        isCorrect: false,
+      },
+      {
+        text: "Release the clutch immediately and rely on traction control",
+        isCorrect: false,
+      },
+      {
+        text: "Keep the handbrake off and let the car roll backwards first",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Using a higher gear and gentle inputs reduces wheelspin on slippery inclines (Highway Code Rule 228).",
+  },
+  {
+    id: 1722,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "What should you do if the traction control warning light flashes while cornering?",
+    options: [
+      {
+        text: "Ease off the accelerator slightly and keep steering smoothly",
+        isCorrect: true,
+      },
+      {
+        text: "Switch the traction control off to regain power",
+        isCorrect: false,
+      },
+      {
+        text: "Brake sharply to reset the system",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate harder to override the system",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Traction systems work best when you keep inputs smooth and reduce power slightly to regain grip (Highway Code Rule 118).",
+  },
+  {
+    id: 1723,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "In an automatic car, how can you maintain control on a long downhill descent?",
+    options: [
+      {
+        text: "Select a lower gear or manual mode to use engine braking",
+        isCorrect: true,
+      },
+      {
+        text: "Keep the selector in Drive and coast in neutral intermittently",
+        isCorrect: false,
+      },
+      {
+        text: "Apply the parking brake lightly throughout the descent",
+        isCorrect: false,
+      },
+      {
+        text: "Switch off overdrive and accelerate to maintain speed",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Lower gears give additional engine braking so the brakes do not overheat on long descents (Highway Code Rule 160).",
+  },
+  {
+    id: 1724,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "How should you negotiate a long sweeping bend on a dual carriageway?",
+    options: [
+      {
+        text: "Plan your speed early and steer with smooth, progressive inputs",
+        isCorrect: true,
+      },
+      {
+        text: "Brake sharply in the middle of the bend to tighten your line",
+        isCorrect: false,
+      },
+      {
+        text: "Hug the inside lane marker regardless of traffic",
+        isCorrect: false,
+      },
+      {
+        text: "Accelerate hard before you can see the exit",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Smooth steering and planned speed changes keep the vehicle stable through fast bends (Highway Code Rule 160).",
+  },
+  {
+    id: 1725,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "When should you begin to accelerate out of a bend to maintain stability?",
+    options: [
+      {
+        text: "When you can see the exit and start to straighten the steering",
+        isCorrect: true,
+      },
+      {
+        text: "While still applying heavy steering input",
+        isCorrect: false,
+      },
+      {
+        text: "Before entering the bend to keep the speed constant",
+        isCorrect: false,
+      },
+      {
+        text: "Only once you are completely back on a straight road",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Apply power progressively as the steering unwinds so the tyres share grip evenly (Highway Code Rule 118).",
+  },
+  {
+    id: 1726,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "Where should you position your hands on the steering wheel for the best control at speed?",
+    options: [
+      {
+        text: "At roughly quarter to three with a firm grip",
+        isCorrect: true,
+      },
+      {
+        text: "At twelve o'clock with one hand for relaxation",
+        isCorrect: false,
+      },
+      {
+        text: "At the bottom of the wheel to reduce effort",
+        isCorrect: false,
+      },
+      {
+        text: "Changing hand positions frequently to stay comfortable",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Keeping both hands in the quarter-to-three position gives maximum leverage and control (Highway Code Rule 160).",
+  },
+  {
+    id: 1727,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "How should you drive over a series of speed humps to protect your suspension?",
+    options: [
+      {
+        text: "Slow right down and keep steering and braking smooth",
+        isCorrect: true,
+      },
+      {
+        text: "Accelerate between each hump to maintain progress",
+        isCorrect: false,
+      },
+      {
+        text: "Straddle the humps with one wheel on the kerb",
+        isCorrect: false,
+      },
+      {
+        text: "Brake sharply at the crest of each hump",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Traffic-calming features should be taken slowly and smoothly to stay in control (Highway Code Rule 152).",
+  },
+  {
+    id: 1728,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "When reversing with a restricted view, how can you maintain the best control?",
+    options: [
+      {
+        text: "Reverse slowly using clutch control and look all around continuously",
+        isCorrect: true,
+      },
+      {
+        text: "Rely solely on mirrors and reverse quickly",
+        isCorrect: false,
+      },
+      {
+        text: "Open the door and lean out while coasting backwards",
+        isCorrect: false,
+      },
+      {
+        text: "Look only through the rear window without checking blind spots",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Reverse at walking pace with constant observations to stay in full control (Highway Code Rule 202).",
+  },
+  {
+    id: 1729,
+    category: Category.VEHICLE_HANDLING,
+    question:
+      "How should you rejoin a paved road from a loose gravel driveway to maintain traction?",
+    options: [
+      {
+        text: "Straighten the wheels and accelerate gently until grip increases",
+        isCorrect: true,
+      },
+      {
+        text: "Spin the wheels quickly to clear the gravel",
+        isCorrect: false,
+      },
+      {
+        text: "Turn sharply while accelerating hard",
+        isCorrect: false,
+      },
+      {
+        text: "Apply the handbrake briefly to steady the car",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Gentle acceleration and straight steering help tyres transition from loose to firm surfaces (Highway Code Rule 228).",
   },
 ];
 const MOTORWAY_RULES_QUESTIONS: Question[] = [
@@ -3440,6 +4497,136 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
     explanation:
       "Use hazard lights briefly to warn following drivers of danger ahead (Highway Code Rule 116).",
   },
+  {
+    id: 1816,
+    category: Category.MOTORWAY_RULES,
+    question:
+      "What should you do if you miss your exit on a motorway with a hard shoulder?",
+    options: [
+      {
+        text: "Continue to the next junction and replan your route there",
+        isCorrect: true,
+      },
+      {
+        text: "Reverse carefully along the hard shoulder",
+        isCorrect: false,
+      },
+      {
+        text: "Stop on the hard shoulder and wait for a gap",
+        isCorrect: false,
+      },
+      {
+        text: "Make a U-turn when traffic is clear",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Never reverse or turn on a motorway. Leave at the next exit (Highway Code Rule 270).",
+  },
+  {
+    id: 1817,
+    category: Category.MOTORWAY_RULES,
+    question:
+      "On a smart motorway, what does a mandatory speed limit displayed on a red-ringed sign above the lane mean?",
+    options: [
+      {
+        text: "You must not exceed that speed while the signal is displayed",
+        isCorrect: true,
+      },
+      {
+        text: "It’s advisory only if the road looks clear",
+        isCorrect: false,
+      },
+      {
+        text: "It applies only to heavy vehicles",
+        isCorrect: false,
+      },
+      {
+        text: "You may ignore it after overtaking",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Red-ringed speed limits on smart motorways are legally enforceable (Highway Code Rule 258).",
+  },
+  {
+    id: 1818,
+    category: Category.MOTORWAY_RULES,
+    question:
+      "Why should you plan regular breaks when driving long distances on the motorway?",
+    options: [
+      {
+        text: "To avoid fatigue and maintain concentration",
+        isCorrect: true,
+      },
+      {
+        text: "To keep within motorway toll regulations",
+        isCorrect: false,
+      },
+      {
+        text: "To ensure the catalytic converter cools down",
+        isCorrect: false,
+      },
+      {
+        text: "To allow others to overtake you more easily",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Regular breaks help prevent tiredness and maintain alertness (Highway Code Rule 91).",
+  },
+  {
+    id: 1819,
+    category: Category.MOTORWAY_RULES,
+    question:
+      "Where can you find the reference number to give breakdown services when stopped on a motorway?",
+    options: [
+      {
+        text: "On the nearest driver location sign or marker post",
+        isCorrect: true,
+      },
+      {
+        text: "Only on your vehicle log book",
+        isCorrect: false,
+      },
+      {
+        text: "Painted on the central reservation",
+        isCorrect: false,
+      },
+      {
+        text: "Displayed inside the glovebox",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Driver location signs and marker posts show the precise location for emergency services (Highway Code Rule 275).",
+  },
+  {
+    id: 1820,
+    category: Category.MOTORWAY_RULES,
+    question:
+      "What’s the safest way to rejoin the motorway after stopping in an emergency refuge area on an all-lane-running section?",
+    options: [
+      {
+        text: "Wait for a safe gap and rejoin when the overhead signals allow",
+        isCorrect: true,
+      },
+      {
+        text: "Move straight out without checking mirrors",
+        isCorrect: false,
+      },
+      {
+        text: "Drive along the refuge lane to build up speed",
+        isCorrect: false,
+      },
+      {
+        text: "Reverse back to the previous junction",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Check the signals, build up speed, and merge when it’s safe (Highway Code smart motorway guidance).",
+  },
 ];
 const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
   {
@@ -3803,6 +4990,136 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
     ],
     explanation:
       "School crossing patrols have authority to stop traffic. Obey their signal (Highway Code Rule 210).",
+  },
+  {
+    id: 1916,
+    category: Category.RULES_OF_THE_ROAD,
+    question:
+      "What does a single yellow line along the kerb with an upright sign showing times indicate?",
+    options: [
+      {
+        text: "Waiting restrictions apply only during the times shown",
+        isCorrect: true,
+      },
+      {
+        text: "Parking is prohibited for residents only",
+        isCorrect: false,
+      },
+      {
+        text: "Loading is banned at all times",
+        isCorrect: false,
+      },
+      {
+        text: "The road is for buses and taxis only",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Single yellow lines restrict waiting during stated times. Check nearby plates (Highway Code Rule 238).",
+  },
+  {
+    id: 1917,
+    category: Category.RULES_OF_THE_ROAD,
+    question:
+      "When may you cross a continuous double white line down the centre of the road?",
+    options: [
+      {
+        text: "To pass a stationary vehicle, cyclist, or road maintenance vehicle travelling at 10 mph or less",
+        isCorrect: true,
+      },
+      {
+        text: "To overtake if the road ahead is clear for 100 metres",
+        isCorrect: false,
+      },
+      {
+        text: "To turn left into a side road",
+        isCorrect: false,
+      },
+      {
+        text: "Whenever traffic behind is queuing",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Cross solid white lines only for specific reasons such as passing slow or stationary road users (Highway Code Rule 129).",
+  },
+  {
+    id: 1918,
+    category: Category.RULES_OF_THE_ROAD,
+    question:
+      "What is the national speed limit for cars towing trailers on dual carriageways?",
+    options: [
+      {
+        text: "60 mph",
+        isCorrect: true,
+      },
+      {
+        text: "50 mph",
+        isCorrect: false,
+      },
+      {
+        text: "70 mph",
+        isCorrect: false,
+      },
+      {
+        text: "55 mph",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Cars towing trailers are limited to 60 mph on dual carriageways (Highway Code speed limits).",
+  },
+  {
+    id: 1919,
+    category: Category.RULES_OF_THE_ROAD,
+    question:
+      "Before entering a box junction to go straight ahead, what must you ensure?",
+    options: [
+      {
+        text: "That your exit road is clear so you won’t block the junction",
+        isCorrect: true,
+      },
+      {
+        text: "That you can cross before the lights change",
+        isCorrect: false,
+      },
+      {
+        text: "That you sound the horn to warn others",
+        isCorrect: false,
+      },
+      {
+        text: "That you increase speed to clear it quickly",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Only enter box junctions if your exit is clear, preventing obstruction (Highway Code Rule 174).",
+  },
+  {
+    id: 1920,
+    category: Category.RULES_OF_THE_ROAD,
+    question:
+      "What is the national speed limit for cars on single carriageway roads?",
+    options: [
+      {
+        text: "60 mph",
+        isCorrect: true,
+      },
+      {
+        text: "50 mph",
+        isCorrect: false,
+      },
+      {
+        text: "70 mph",
+        isCorrect: false,
+      },
+      {
+        text: "40 mph",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Unless signs show otherwise, the national limit on single carriageways is 60 mph (Highway Code speed limits).",
   },
 ];
 const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
@@ -4194,6 +5511,135 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
     explanation:
       "Bus lane signs show when restrictions apply; obey the times to avoid penalties (Highway Code Rule 104).",
   },
+  {
+    id: 2016,
+    category: Category.ROAD_AND_TRAFFIC_SIGNS,
+    question: "What does a red circular sign with a white horizontal bar mean?",
+    options: [
+      {
+        text: "No entry for vehicular traffic",
+        isCorrect: true,
+      },
+      {
+        text: "End of one-way street",
+        isCorrect: false,
+      },
+      {
+        text: "No overtaking",
+        isCorrect: false,
+      },
+      {
+        text: "Give way ahead",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "This sign indicates no entry for vehicles; do not proceed beyond it (Highway Code signs).",
+  },
+  {
+    id: 2017,
+    category: Category.ROAD_AND_TRAFFIC_SIGNS,
+    question:
+      "A rectangular blue sign with a white 'P' above a wheelchair symbol indicates what?",
+    options: [
+      {
+        text: "Parking reserved for Blue Badge holders",
+        isCorrect: true,
+      },
+      {
+        text: "Pedestrian priority zone",
+        isCorrect: false,
+      },
+      {
+        text: "No stopping except to load",
+        isCorrect: false,
+      },
+      {
+        text: "Multi-storey car park ahead",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Blue information signs with a wheelchair symbol indicate facilities for disabled users (Highway Code signs).",
+  },
+  {
+    id: 2018,
+    category: Category.ROAD_AND_TRAFFIC_SIGNS,
+    question:
+      "What does a triangular sign with a red border and children holding hands warn you about?",
+    options: [
+      {
+        text: "A school nearby; expect children crossing",
+        isCorrect: true,
+      },
+      {
+        text: "A pedestrian zone where vehicles are banned",
+        isCorrect: false,
+      },
+      {
+        text: "Only cyclists ahead",
+        isCorrect: false,
+      },
+      {
+        text: "Play street where driving is prohibited",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "This warning sign indicates a school or children likely to cross. Slow down and be prepared to stop (Highway Code signs).",
+  },
+  {
+    id: 2019,
+    category: Category.ROAD_AND_TRAFFIC_SIGNS,
+    question:
+      "What is indicated by a blue circular sign showing a white pedestrian and bicycle symbol side by side?",
+    options: [
+      {
+        text: "A segregated route shared by pedestrians and cyclists",
+        isCorrect: true,
+      },
+      {
+        text: "Cyclists must dismount",
+        isCorrect: false,
+      },
+      {
+        text: "End of cycle lane",
+        isCorrect: false,
+      },
+      {
+        text: "Pedestrians prohibited",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Blue mandatory signs indicate shared or segregated routes for pedestrians and cyclists (Highway Code signs).",
+  },
+  {
+    id: 2020,
+    category: Category.ROAD_AND_TRAFFIC_SIGNS,
+    question:
+      "What does a yellow-backed rectangular sign showing a motorway junction number help drivers with?",
+    options: [
+      {
+        text: "Advance information about the next junction",
+        isCorrect: true,
+      },
+      {
+        text: "A compulsory stop for toll payment",
+        isCorrect: false,
+      },
+      {
+        text: "An emergency refuge area",
+        isCorrect: false,
+      },
+      {
+        text: "The end of motorway regulations",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Yellow-backed signs give advance notice of motorway exits to aid route planning (Highway Code motorway signs).",
+  },
 ];
 const DOCUMENTS_QUESTIONS: Question[] = [
   {
@@ -4554,6 +6000,132 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     ],
     explanation:
       "Under the New Drivers Act, accumulating six points revokes the licence, requiring you to retake both tests.",
+  },
+  {
+    id: 2116,
+    category: Category.DOCUMENTS,
+    question: "Which document confirms the registered keeper of a vehicle?",
+    options: [
+      {
+        text: "The V5C registration certificate",
+        isCorrect: true,
+      },
+      {
+        text: "The MOT test certificate",
+        isCorrect: false,
+      },
+      {
+        text: "The vehicle service book",
+        isCorrect: false,
+      },
+      {
+        text: "A driving licence counterpart",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "The V5C records the registered keeper and must be kept up to date (DVLA guidance).",
+  },
+  {
+    id: 2117,
+    category: Category.DOCUMENTS,
+    question: "When must you notify the DVLA about a change of address?",
+    options: [
+      {
+        text: "As soon as you permanently move home",
+        isCorrect: true,
+      },
+      {
+        text: "Only when your insurance renews",
+        isCorrect: false,
+      },
+      {
+        text: "Within five years of moving",
+        isCorrect: false,
+      },
+      {
+        text: "When your vehicle reaches three years old",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Keeping the DVLA informed ensures your licence and vehicle records remain valid (DVLA requirements).",
+  },
+  {
+    id: 2118,
+    category: Category.DOCUMENTS,
+    question: "What is a Statutory Off Road Notification (SORN)?",
+    options: [
+      {
+        text: "A declaration that a vehicle isn’t used on public roads",
+        isCorrect: true,
+      },
+      {
+        text: "Permission to exceed speed limits temporarily",
+        isCorrect: false,
+      },
+      {
+        text: "A record of penalty points on a licence",
+        isCorrect: false,
+      },
+      {
+        text: "A receipt for annual road tax",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Declaring SORN means the vehicle doesn’t need tax or insurance while kept off road (DVLA).",
+  },
+  {
+    id: 2119,
+    category: Category.DOCUMENTS,
+    question: "What does a valid MOT certificate confirm?",
+    options: [
+      {
+        text: "The vehicle met minimum safety standards at the time of the test",
+        isCorrect: true,
+      },
+      {
+        text: "The vehicle is insured for another year",
+        isCorrect: false,
+      },
+      {
+        text: "The vehicle can carry unlimited passengers",
+        isCorrect: false,
+      },
+      {
+        text: "The driver has no penalty points",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "An MOT confirms roadworthiness at the time of test; maintenance remains the owner’s responsibility (DVSA).",
+  },
+  {
+    id: 2120,
+    category: Category.DOCUMENTS,
+    question:
+      "When buying a used car, which document should you check to confirm a valid MOT history?",
+    options: [
+      {
+        text: "The GOV.UK MOT history service or MOT certificate",
+        isCorrect: true,
+      },
+      {
+        text: "The seller’s driving licence",
+        isCorrect: false,
+      },
+      {
+        text: "The vehicle’s fuel receipts",
+        isCorrect: false,
+      },
+      {
+        text: "The previous owner’s insurance schedule",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Check MOT status using official records to ensure the vehicle is legally compliant (DVSA guidance).",
   },
 ];
 const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
@@ -4942,6 +6514,136 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
     explanation:
       "Clear information helps emergency services respond quickly and appropriately (Highway Code Rule 283).",
   },
+  {
+    id: 2216,
+    category: Category.INCIDENTS_ACCIDENTS_EMERGENCIES,
+    question:
+      "What should you do first if you discover a casualty who is unconscious but breathing?",
+    options: [
+      {
+        text: "Check their airway is open and place them in the recovery position",
+        isCorrect: true,
+      },
+      {
+        text: "Give them food and drink",
+        isCorrect: false,
+      },
+      {
+        text: "Move them into your vehicle",
+        isCorrect: false,
+      },
+      {
+        text: "Remove their shoes to cool them down",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Maintaining an open airway by placing the casualty in the recovery position helps them breathe (Highway Code first aid).",
+  },
+  {
+    id: 2217,
+    category: Category.INCIDENTS_ACCIDENTS_EMERGENCIES,
+    question:
+      "How should you assist a casualty with severe bleeding from an arm?",
+    options: [
+      {
+        text: "Apply firm pressure to the wound using a clean pad",
+        isCorrect: true,
+      },
+      {
+        text: "Remove any embedded objects immediately",
+        isCorrect: false,
+      },
+      {
+        text: "Give them a hot drink to prevent shock",
+        isCorrect: false,
+      },
+      {
+        text: "Apply a tourniquet above the wound without medical advice",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Pressure controls bleeding; leave embedded objects and seek medical help (Highway Code first aid).",
+  },
+  {
+    id: 2218,
+    category: Category.INCIDENTS_ACCIDENTS_EMERGENCIES,
+    question:
+      "If you see a vehicle involved in a collision leaking fuel, what is the safest action?",
+    options: [
+      {
+        text: "Keep people away, switch off engines, and call the emergency services",
+        isCorrect: true,
+      },
+      {
+        text: "Light a flare beside the vehicle to warn others",
+        isCorrect: false,
+      },
+      {
+        text: "Collect the fuel in a container",
+        isCorrect: false,
+      },
+      {
+        text: "Push the vehicle to the side of the road yourself",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Fuel leaks create fire risk; keep clear and alert emergency services (Highway Code Rule 283).",
+  },
+  {
+    id: 2219,
+    category: Category.INCIDENTS_ACCIDENTS_EMERGENCIES,
+    question:
+      "What’s the safest way to assist casualties if traffic is still moving past the scene of an incident?",
+    options: [
+      {
+        text: "Warn other drivers by switching on hazard lights and placing a warning triangle if safe",
+        isCorrect: true,
+      },
+      {
+        text: "Stand in the live lane waving your arms",
+        isCorrect: false,
+      },
+      {
+        text: "Direct traffic without wearing high-visibility clothing",
+        isCorrect: false,
+      },
+      {
+        text: "Leave your vehicle blocking the carriageway",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Warn approaching drivers using hazard lights and triangles (not on motorways) to protect the scene (Highway Code Rule 274).",
+  },
+  {
+    id: 2220,
+    category: Category.INCIDENTS_ACCIDENTS_EMERGENCIES,
+    question:
+      "When contacting emergency services from a motorway emergency phone, what additional information should you provide?",
+    options: [
+      {
+        text: "The number shown on the phone or marker post so they know your exact location",
+        isCorrect: true,
+      },
+      {
+        text: "Your tyre pressures and fuel level",
+        isCorrect: false,
+      },
+      {
+        text: "Your vehicle’s service history",
+        isCorrect: false,
+      },
+      {
+        text: "The full names of all your passengers",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Location numbers help services reach you quickly. Emergency phones automatically connect to control rooms (Highway Code Rule 275).",
+  },
 ];
 const VEHICLE_LOADING_QUESTIONS: Question[] = [
   {
@@ -5324,6 +7026,133 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     ],
     explanation:
       "Extra weight means you need more time to halt safely. Increase following distances accordingly (Highway Code Rule 98).",
+  },
+  {
+    id: 2316,
+    category: Category.VEHICLE_LOADING,
+    question: "Before loading roof bars, what should you check first?",
+    options: [
+      {
+        text: "The maximum permissible roof load in the vehicle handbook",
+        isCorrect: true,
+      },
+      {
+        text: "That the tyres are under-inflated",
+        isCorrect: false,
+      },
+      {
+        text: "Whether the rear fog lights are working",
+        isCorrect: false,
+      },
+      {
+        text: "That passengers are wearing seat belts",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Manufacturers specify a roof load limit. Exceeding it can affect stability (vehicle handbook guidance).",
+  },
+  {
+    id: 2317,
+    category: Category.VEHICLE_LOADING,
+    question: "How should you secure loose tools inside a van?",
+    options: [
+      {
+        text: "Store them in locked compartments or strapped-down containers",
+        isCorrect: true,
+      },
+      {
+        text: "Leave them on the floor for easy access",
+        isCorrect: false,
+      },
+      {
+        text: "Pile them near the rear doors",
+        isCorrect: false,
+      },
+      {
+        text: "Place them on the dashboard",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Unsecured tools become projectiles in a collision; keep them tied down (Highway Code Rule 98).",
+  },
+  {
+    id: 2318,
+    category: Category.VEHICLE_LOADING,
+    question:
+      "When towing, why is it important to ensure the coupling is correctly attached and locked?",
+    options: [
+      {
+        text: "To prevent the trailer from detaching while in motion",
+        isCorrect: true,
+      },
+      {
+        text: "To reduce fuel consumption",
+        isCorrect: false,
+      },
+      {
+        text: "To improve radio reception",
+        isCorrect: false,
+      },
+      {
+        text: "To avoid checking lights",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "A secure coupling keeps the trailer safely connected; always double-check before moving off (Highway Code Rule 98).",
+  },
+  {
+    id: 2319,
+    category: Category.VEHICLE_LOADING,
+    question: "How can incorrect nose weight affect a trailer’s stability?",
+    options: [
+      {
+        text: "Too little can cause snaking; too much can overload the towbar",
+        isCorrect: true,
+      },
+      {
+        text: "It improves cornering ability",
+        isCorrect: false,
+      },
+      {
+        text: "It makes the trailer shorter",
+        isCorrect: false,
+      },
+      {
+        text: "It only affects tyre wear",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "Correct nose weight keeps the trailer stable and the towbar within limits (Highway Code Rule 98).",
+  },
+  {
+    id: 2320,
+    category: Category.VEHICLE_LOADING,
+    question:
+      "What routine check should you make on a trailer’s breakaway cable?",
+    options: [
+      {
+        text: "Ensure it’s correctly clipped to a secure point on the towing vehicle",
+        isCorrect: true,
+      },
+      {
+        text: "Wrap it around the towbar several times",
+        isCorrect: false,
+      },
+      {
+        text: "Tie it in a knot to shorten it",
+        isCorrect: false,
+      },
+      {
+        text: "Leave it hanging loose for flexibility",
+        isCorrect: false,
+      },
+    ],
+    explanation:
+      "A properly secured breakaway cable activates the trailer brakes if it becomes detached (towing safety guidance).",
   },
 ];
 
