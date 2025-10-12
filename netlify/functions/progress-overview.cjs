@@ -1,9 +1,6 @@
 'use strict';
 const { getSupabaseAdmin } = require('./_supabase.js');
 
-const CACHE_TTL_MS = 15 * 1000; // short-lived cache to smooth repeat loads
-const cache = new Map();
-
 exports.handler = async (event) => {
   try {
     if (event.httpMethod !== 'GET') return { statusCode: 405, body: 'Method Not Allowed' };
@@ -16,12 +13,6 @@ exports.handler = async (event) => {
     const { data: userData, error: userErr } = await admin.auth.getUser(token);
     if (userErr || !userData?.user) return { statusCode: 401, body: 'Unauthorized' };
     const userId = userData.user.id;
-
-    const now = Date.now();
-    const cached = cache.get(userId);
-    if (cached && cached.expiresAt > now) {
-      return { statusCode: 200, body: JSON.stringify(cached.payload) };
-    }
 
     const [
       { data: cats, error: catsErr },
@@ -64,8 +55,6 @@ exports.handler = async (event) => {
       masteryPoints,
       studyPlan: plan || null,
     };
-
-    cache.set(userId, { payload, expiresAt: now + CACHE_TTL_MS });
 
     return {
       statusCode: 200,
