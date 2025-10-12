@@ -575,6 +575,8 @@ export default function QuizByCategoryPage() {
     const correctQuestionIds = new Set(
       answers.filter((a) => a.correct).map((a) => a.qid),
     );
+    const correctCount = results.correct;
+    const incorrectCount = Math.max(0, results.total - results.correct);
     return (
       <main className="mx-auto max-w-4xl space-y-6 px-4 py-10">
         <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
@@ -588,6 +590,14 @@ export default function QuizByCategoryPage() {
           <p className="mt-1 text-lg font-semibold text-brand-blue">
             Score: {results.score_percent}%
           </p>
+          <div className="mt-4 flex flex-wrap gap-3 text-sm">
+            <div className="flex items-center rounded-full bg-green-50 px-3 py-1 font-semibold text-green-700">
+              Correct answers: {correctCount}
+            </div>
+            <div className="flex items-center rounded-full bg-red-50 px-3 py-1 font-semibold text-red-700">
+              Incorrect answers: {incorrectCount}
+            </div>
+          </div>
           <div className="mt-4 flex gap-3">
             <button
               onClick={startAgain}

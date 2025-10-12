@@ -574,6 +574,27 @@ export default function MockTestPage() {
             ))}
           </div>
 
+          <div className="mt-10">
+            <div className="rounded-2xl border border-brand-blue/20 bg-brand-blue/5 p-6 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900">
+                  Prefer focused practice?
+                </h3>
+                <p className="text-sm text-gray-600 mt-1 max-w-2xl">
+                  Jump into a 10-question quiz for a single DVSA category.
+                  Perfect for revising trouble topics and tracking your
+                  category-specific progress.
+                </p>
+              </div>
+              <button
+                onClick={() => router.push("/quiz-by-category")}
+                className="inline-flex items-center justify-center rounded-full bg-brand-blue px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/40 transition hover:bg-brand-blue-700"
+              >
+                Start category quiz
+              </button>
+            </div>
+          </div>
+
           <div className="mt-12">
             <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
               Your Test History

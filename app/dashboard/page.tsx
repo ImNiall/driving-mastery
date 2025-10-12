@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
-import { QuizIcon, BookOpenIcon, ChatIcon } from "@/components/icons";
+import { QuizIcon, BookOpenIcon } from "@/components/icons";
 
 // Minimal local progress shape. Replace with real persisted data when available.
 function useLocalProgress(): QuizResult[] {
@@ -338,24 +338,6 @@ export default function DashboardPage() {
             className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
           >
             Choose Category
-          </button>
-        </div>
-        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-          <div className="mx-auto">
-            <ChatIcon className="w-12 h-12 text-brand-blue" />
-          </div>
-          <h3 className="text-lg font-bold text-gray-800 mt-4">
-            Ask the AI Mentor
-          </h3>
-          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
-            Get instant help and explanations on any topic from your personal AI
-            study partner.
-          </p>
-          <button
-            onClick={() => router.push("/mentor")}
-            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
-          >
-            Open Chat
           </button>
         </div>
       </div>
