@@ -18,7 +18,7 @@
       "@/*": ["./*"]
     },
     "noEmit": true,
-    "types": ["node"],
+    "types": ["node", "vitest", "@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"

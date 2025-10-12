@@ -76,12 +76,17 @@ async function callFn<T>(
 
 export const ProgressService = {
   startAttempt: (
-    source: "mock" | "mini" | "module" = "module",
-    moduleSlug?: string,
+    source: "mock" | "mini" | "module" | "category" = "module",
+    moduleSlug?: string | null,
+    dvsaCategory?: string | null,
   ) =>
     callFn<{ attemptId: string; startedAt: string }>("attempt-start", {
       method: "POST",
-      body: JSON.stringify({ source, moduleSlug }),
+      body: JSON.stringify({
+        source,
+        moduleSlug,
+        dvsaCategory: dvsaCategory ?? null,
+      }),
     }),
 
   recordAnswer: (payload: {
@@ -167,7 +172,7 @@ export const ProgressService = {
       body: JSON.stringify(payload),
     }),
 
-  latestAttempt: (source: "mock" | "mini" | "module") =>
+  latestAttempt: (source: "mock" | "mini" | "module" | "category") =>
     callFn<{
       attemptId: string;
       source: string;
@@ -175,6 +180,7 @@ export const ProgressService = {
       current_index: number;
       questions: Array<{ id: number; category: string }> | null;
       finished: boolean;
+      dvsa_category?: string | null;
     } | null>("attempt-latest", {
       method: "POST",
       body: JSON.stringify({ source }),

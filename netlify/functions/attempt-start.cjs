@@ -17,6 +17,7 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body || '{}');
     const source = body.source || 'module';
     const moduleSlug = body.moduleSlug || null;
+    const dvsaCategory = body.dvsaCategory || null;
 
     // Generate id to avoid relying on DB default
     const id = (globalThis.crypto && globalThis.crypto.randomUUID)
@@ -25,7 +26,13 @@ exports.handler = async (event) => {
 
     const { data, error } = await admin
       .from('quiz_attempts')
-      .insert({ id, user_id: userData.user.id, source, module_slug: moduleSlug })
+      .insert({
+        id,
+        user_id: userData.user.id,
+        source,
+        module_slug: moduleSlug,
+        dvsa_category: dvsaCategory,
+      })
       .select('id, started_at')
       .single();
     if (error) return { statusCode: 500, body: JSON.stringify({ error: error.message }) };

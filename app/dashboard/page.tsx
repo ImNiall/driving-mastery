@@ -324,6 +324,24 @@ export default function DashboardPage() {
         </div>
         <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
           <div className="mx-auto">
+            <QuizIcon className="w-12 h-12 text-brand-blue" />
+          </div>
+          <h3 className="text-lg font-bold text-gray-800 mt-4">
+            Quiz by Category
+          </h3>
+          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
+            Target a single topic with a focused 10-question quiz designed to
+            sharpen your weakest area.
+          </p>
+          <button
+            onClick={() => router.push("/quiz-by-category")}
+            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
+          >
+            Choose Category
+          </button>
+        </div>
+        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+          <div className="mx-auto">
             <ChatIcon className="w-12 h-12 text-brand-blue" />
           </div>
           <h3 className="text-lg font-bold text-gray-800 mt-4">

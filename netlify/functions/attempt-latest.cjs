@@ -20,7 +20,7 @@ exports.handler = async (event) => {
 
     const { data, error } = await admin
       .from('quiz_attempts')
-      .select('id, source, started_at, finished_at, current_index, questions')
+      .select('id, source, started_at, finished_at, current_index, questions, dvsa_category')
       .eq('user_id', userData.user.id)
       .eq('source', source)
       .order('started_at', { ascending: false })
@@ -41,6 +41,7 @@ exports.handler = async (event) => {
         current_index: data.current_index ?? 0,
         questions: data.questions || null,
         finished,
+        dvsa_category: data.dvsa_category ?? null,
       }),
     };
   } catch (e) {
