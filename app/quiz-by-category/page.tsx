@@ -419,13 +419,10 @@ export default function QuizByCategoryPage() {
                     }
                   }}
                   aria-pressed={isSelected}
-                  aria-label={`Select ${category} category (${count} questions)`}
+                  aria-label={`Select ${category} category`}
                   className={`rounded-2xl border p-4 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-blue ${isSelected ? "border-brand-blue bg-brand-blue/10 text-brand-blue" : "border-slate-200 bg-white hover:border-brand-blue/60"}`}
                 >
                   <p className="text-lg font-semibold">{category}</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    {count} questions available
-                  </p>
                 </button>
               );
             })}
