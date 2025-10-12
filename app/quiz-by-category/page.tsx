@@ -420,9 +420,11 @@ export default function QuizByCategoryPage() {
                   }}
                   aria-pressed={isSelected}
                   aria-label={`Select ${category} category`}
-                  className={`rounded-2xl border p-4 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-blue ${isSelected ? "border-brand-blue bg-brand-blue/10 text-brand-blue" : "border-slate-200 bg-white hover:border-brand-blue/60"}`}
+                  className={`w-full rounded-2xl border px-4 py-5 text-left transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 ${isSelected ? "border-brand-blue bg-brand-blue/5" : "border-slate-200 bg-white hover:-translate-y-0.5 hover:border-brand-blue/60 hover:shadow-md"}`}
                 >
-                  <p className="text-lg font-semibold">{category}</p>
+                  <span className="block text-base font-semibold capitalize text-slate-900">
+                    {category}
+                  </span>
                 </button>
               );
             })}
