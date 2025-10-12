@@ -41,12 +41,9 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { data, error } = await supabase.rpc<WeakestCategory>(
-    "get_weakest_category",
-    {
-      user_uuid: userUuid,
-    },
-  );
+  const { data, error } = await supabase.rpc("get_weakest_category", {
+    user_uuid: userUuid,
+  });
 
   if (error) {
     return new Response(JSON.stringify({ error: error.message }), {
@@ -55,7 +52,10 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const payload = data || { dvsa_category: null, average_score: null };
+  const payload = (data as WeakestCategory) || {
+    dvsa_category: null,
+    average_score: null,
+  };
 
   return new Response(JSON.stringify(payload), {
     status: 200,
