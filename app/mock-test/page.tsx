@@ -13,16 +13,43 @@ import {
   CheckIcon,
 } from "@/components/icons";
 
-function pickMockQuestions(all: Question[], count = 50): Question[] {
-  // mix across categories, basic shuffle then slice
-  const arr = [...all];
+function shuffle<T>(items: T[]): T[] {
+  const arr = [...items];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const tmp = arr[i]!;
-    arr[i] = arr[j]!;
-    arr[j] = tmp;
+    [arr[i], arr[j]] = [arr[j]!, arr[i]!];
   }
-  return arr.slice(0, Math.min(count, arr.length));
+  return arr;
+}
+
+function sampleUnique<T extends { id: number }>(
+  source: T[],
+  count: number,
+  exclude: Set<number>,
+): T[] {
+  const pool = source.filter((item) => !exclude.has(item.id));
+  return shuffle(pool).slice(0, Math.max(0, Math.min(count, pool.length)));
+}
+
+function pickMockQuestions(
+  all: Question[],
+  count: number,
+  missed: Question[] = [],
+): Question[] {
+  const uniqueMissed = new Map<number, Question>();
+  for (const q of missed) {
+    if (!uniqueMissed.has(q.id)) uniqueMissed.set(q.id, q);
+  }
+  const prioritized = shuffle(Array.from(uniqueMissed.values()));
+  const targetMissed = prioritized.slice(
+    0,
+    Math.min(count, prioritized.length),
+  );
+  const exclude = new Set(targetMissed.map((q) => q.id));
+  const remaining = count - targetMissed.length;
+  const fillers = remaining > 0 ? sampleUnique(all, remaining, exclude) : [];
+  const combined = [...targetMissed, ...fillers];
+  return shuffle(combined).slice(0, Math.min(count, combined.length));
 }
 
 type AnswerEntry = {
@@ -121,7 +148,16 @@ export default function MockTestPage() {
   const startMock = async (qty: 10 | 25 | 50) => {
     try {
       setCount(qty);
-      const qs = pickMockQuestions(QUESTION_BANK, qty);
+      const { questions: missed } = await ProgressService.getMissedQuestions();
+      const missedQuestions: Question[] = [];
+      if (Array.isArray(missed) && missed.length > 0) {
+        const byId = new Map(QUESTION_BANK.map((q) => [q.id, q] as const));
+        for (const entry of missed) {
+          const q = byId.get(entry.questionId);
+          if (q) missedQuestions.push(q);
+        }
+      }
+      const qs = pickMockQuestions(QUESTION_BANK, qty, missedQuestions);
       setQuestions(qs);
       const s = await ProgressService.startAttempt("mock");
       setAttemptId(s.attemptId);

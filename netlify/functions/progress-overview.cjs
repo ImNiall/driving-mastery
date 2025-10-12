@@ -1,6 +1,9 @@
 'use strict';
 const { getSupabaseAdmin } = require('./_supabase.js');
 
+const CACHE_TTL_MS = 15 * 1000; // short-lived cache to smooth repeat loads
+const cache = new Map();
+
 exports.handler = async (event) => {
   try {
     if (event.httpMethod !== 'GET') return { statusCode: 405, body: 'Method Not Allowed' };
@@ -14,43 +17,59 @@ exports.handler = async (event) => {
     if (userErr || !userData?.user) return { statusCode: 401, body: 'Unauthorized' };
     const userId = userData.user.id;
 
-    // Category performance
-    const { data: cats, error: catsErr } = await admin
-      .from('v_category_performance')
-      .select('category, correct, total')
-      .eq('user_id', userId);
+    const now = Date.now();
+    const cached = cache.get(userId);
+    if (cached && cached.expiresAt > now) {
+      return { statusCode: 200, body: JSON.stringify(cached.payload) };
+    }
+
+    const [
+      { data: cats, error: catsErr },
+      { data: attempts, error: attemptsErr },
+      { data: masteryAgg, error: masteryErr },
+      { data: plan, error: planErr },
+    ] = await Promise.all([
+      admin
+        .from('v_category_performance')
+        .select('category, correct, total')
+        .eq('user_id', userId),
+      admin
+        .from('quiz_attempts')
+        .select('id, started_at, finished_at, total, correct, score_percent, duration_sec, source')
+        .eq('user_id', userId)
+        .order('started_at', { ascending: false })
+        .limit(20),
+      admin
+        .from('module_mastery')
+        .select('points')
+        .eq('user_id', userId),
+      admin
+        .from('study_plan_state')
+        .select('plan_key, steps, updated_at')
+        .eq('user_id', userId)
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
+
     if (catsErr) return { statusCode: 500, body: JSON.stringify({ error: catsErr.message }) };
-
-    // Attempts summary (last 20)
-    const { data: attempts, error: attemptsErr } = await admin
-      .from('quiz_attempts')
-      .select('id, started_at, finished_at, total, correct, score_percent, duration_sec, source')
-      .eq('user_id', userId)
-      .order('started_at', { ascending: false })
-      .limit(20);
     if (attemptsErr) return { statusCode: 500, body: JSON.stringify({ error: attemptsErr.message }) };
-
-    // Mastery points
-    const { data: masteryAgg, error: masteryErr } = await admin
-      .from('module_mastery')
-      .select('points')
-      .eq('user_id', userId);
     if (masteryErr) return { statusCode: 500, body: JSON.stringify({ error: masteryErr.message }) };
-    const masteryPoints = (masteryAgg || []).reduce((a, b) => a + (b.points || 0), 0);
-
-    // Study plan latest
-    const { data: plan, error: planErr } = await admin
-      .from('study_plan_state')
-      .select('plan_key, steps, updated_at')
-      .eq('user_id', userId)
-      .order('updated_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
     if (planErr) return { statusCode: 500, body: JSON.stringify({ error: planErr.message }) };
+
+    const masteryPoints = (masteryAgg || []).reduce((a, b) => a + (b.points || 0), 0);
+    const payload = {
+      categories: cats || [],
+      attempts: attempts || [],
+      masteryPoints,
+      studyPlan: plan || null,
+    };
+
+    cache.set(userId, { payload, expiresAt: now + CACHE_TTL_MS });
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ categories: cats || [], attempts: attempts || [], masteryPoints, studyPlan: plan || null })
+      body: JSON.stringify(payload)
     };
   } catch (e) {
     return { statusCode: 500, body: JSON.stringify({ error: e.message }) };

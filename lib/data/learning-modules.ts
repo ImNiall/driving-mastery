@@ -6,48 +6,55 @@ export const LEARNING_MODULES: LearningModule[] = [
     title: "Alertness: Staying Focused on the Road",
     category: Category.ALERTNESS,
     summary:
-      "Master the core principles of observation, anticipation, and concentration to prevent accidents.",
-    estimatedDuration: "15 min",
+      "Sharpen the observation, anticipation, and concentration skills you need to spot hazards early and drive proactively.",
+    estimatedDuration: "20 min",
     difficulty: "Beginner",
-    tags: ["observation", "anticipation", "concentration"],
+    tags: ["observation", "scanning", "distractions"],
     learningObjectives: [
-      "Use mirror routines and scanning techniques to maintain 360° awareness",
-      "Anticipate hazards by applying “what if” thinking to developing situations",
-      "Identify and manage common distractions, fatigue, and impairment risks",
+      "Apply a repeatable observation routine that keeps a 360° view of developing hazards",
+      "Anticipate how road, traffic, and weather clues affect other road users’ behaviour",
+      "Manage distractions, fatigue, alcohol, and medication so you remain legally and physically fit to drive",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Alertness is actively paying attention to your surroundings. Observation, anticipation, and concentration work together to keep you ahead of hazards.
+Alertness is the foundation of safe driving. The DVSA expects you to gather information continuously, predict what could happen next, and react early enough to stay in full control. You must prove this at the theory test, on the hazard perception clips, and during every practical driving lesson.
 
-## Observation and Scanning
-Good observation is a continuous process of gathering information and interpreting it quickly.
+## DVSA Essentials
+- **Mirror–Signal–Manoeuvre (MSM) and Mirror–Signal–Position–Speed–Look (MSPSL)** must be used before any change of speed or direction.
+- Rule 90 & 91: Take planned rest stops, do not drive tired, and never use alcohol or drugs that impair alertness.
+- Rule 148: Avoid distractions – mobile phone use (hand-held or hands-free) must not divert your full attention.
 
-### Effective Scanning Technique
-* **Scan constantly:** Move your eyes every few seconds. Look far ahead, then near, then mirrors.
-* **Mirror routine:** Use **Mirror-Signal-Manoeuvre (MSM)** before every change of speed or direction.
-* **Blind spot check:** Always perform a lifesaver shoulder glance before moving off, lane changes, and turns.
+## Skills to Master
+### 1. Continuous Observation
+- Scan near, middle, and far distance plus mirrors every 5–8 seconds.
+- Check blind spots before moving off, changing lanes, or turning right.
+- Note pedestrian behaviour, parked vehicles, brake lights, road markings, and weather changes.
 
-## Anticipation
-Anticipation means reading clues and predicting what might happen next.
-* **Ask "What if?":** Imagine doors opening, children chasing balls, or sudden braking. Have a response ready.
-* **Read the road:** Watch brake lights, indicators, pedestrian behaviour, and road furniture that signal hidden hazards.
+### 2. Anticipation and Planning
+- Ask yourself *“What if?”* at every developing hazard (children near crossings, cyclists swerving to avoid drains, vehicles emerging from side roads).
+- Adjust position and speed early. For example, ease off the accelerator when brake lights appear several vehicles ahead.
+- Use road signs, temporary signals, and road surface clues to predict upcoming bends, junctions, or diversions.
 
-## Concentration and Distractions
-> **Highway Code, Rule 148:** "Safe driving and riding needs concentration. Avoid distractions..."
-* **Tiredness:** Build in breaks of **15 minutes every 2 hours** on longer trips. Micro-sleeps can occur without warning.
-* **Distractions:** Phones, infotainment systems, eating, or conversations divert focus.
->W Using a hand-held phone while driving is illegal and dangerously distracting; even hands-free can impair judgement.
-* **Alcohol & drugs:** Slow reactions and narrow vision. Check medication labels for drowsiness warnings.
+### 3. Managing Distractions and Impairment
+- Silence phones or store them in the glove box. Set sat-nav routes before moving.
+- Recognise early fatigue signs: yawning, blinking, drifting from lane centre. Stop in a safe place at the earliest opportunity.
+- Check medication leaflets for warning statements. Never drive if drowsy or impaired.
 
-## Key Takeaways
-- Keep eyes moving and mirrors checked to maintain full awareness.
-- Always plan for unexpected behaviour from others.
-- Remove or minimise distractions before setting off; rest if fatigue appears.
+## Common Mistakes and How to Avoid Them
+- **Fixating on one point:** Break tunnel vision with regular mirror checks.
+- **Late hazard response:** If you frequently brake harshly, you are reacting instead of anticipating. Reduce speed sooner.
+- **Driving while upset or rushed:** Build extra journey time and take time-outs if emotions affect judgment.
 
-## Practice Prompt
->! On your next drive, count how many times you perform MSM checks in a 10-minute period. Aim to increase the frequency while keeping movements smooth before taking the quiz.
+## Ready-for-Test Checklist
+- I automatically carry out MSM / MSPSL sequences.
+- I plan my speed and position based on early hazard clues.
+- My mirrors, windows, and lights are kept clean to support good visibility.
+- I know personal triggers for fatigue or distraction and have strategies to manage them.
+
+## Practice Task
+>! During your next supervised drive, narrate what you can see, what might happen, and what you plan to do. This commentary driving technique trains the DVSA-standard anticipation they expect in both tests.
 `,
   },
   {
@@ -55,691 +62,727 @@ Anticipation means reading clues and predicting what might happen next.
     title: "Attitude: Responsible and Safe Driving",
     category: Category.ATTITUDE,
     summary:
-      "Understand the mindset required for safe driving, including patience, consideration, and avoiding road rage.",
-    estimatedDuration: "15 min",
+      "Adopt the considerate, patient, and law-abiding mindset that keeps traffic flowing smoothly and protects vulnerable people.",
+    estimatedDuration: "18 min",
     difficulty: "Beginner",
-    tags: ["road rage", "patience", "sharing the road"],
+    tags: ["courtesy", "road rage", "safe distances"],
     learningObjectives: [
-      "Demonstrate courteous behaviour toward vulnerable road users and emergency vehicles",
-      "Maintain safe following distances in varied conditions",
-      "De-escalate stressful driving encounters without breaking traffic laws",
+      "Demonstrate calm, cooperative behaviour with a range of road users including emergency vehicles",
+      "Maintain legal speed, safe gaps, and appropriate positioning even when pressured by others",
+      "Use conflict management techniques to prevent or defuse road rage situations",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Your attitude underpins every decision on the road. Patience, consideration, and rule-following prevent conflict and keep traffic safe.
+Your attitude influences every driving decision. DVSA examiners look for calm, considerate behaviour that prioritises safety over convenience. Aggression, impatience, or ignoring rules is a fast route to faults or collisions.
 
-## Key Attitude Principles
-* **Plan time:** Allow enough travel time to remove pressure to rush.
-* **Consider others:** Vulnerable users and professional drivers need space and respect.
-* **Follow rules:** Speed limits, signals, and markings exist for everyone’s safety.
+## DVSA Essentials
+- Rule 147: Be patient and courteous to other road users.
+- Rule 126: Keep at least a two-second gap; increase to four seconds in the wet.
+- Rule 219–221: Give emergency vehicles priority without breaking road laws.
 
-### Tailgating and Safe Distances
->W Tailgating intimidates others and shortens your reaction window—it is a traffic offence.
-* Maintain a **two-second gap** in dry weather, **four seconds** in rain, up to **ten seconds** on ice.
-* If someone tailgates you, ease off the accelerator to increase the gap ahead and give them space to pass safely.
+## Skills to Master
+### 1. Planning and Time Management
+- Leave earlier than necessary to avoid feeling rushed.
+- Use traffic reports or smart motorway signs to anticipate hold-ups.
+- Accept that arriving late is better than taking risks.
 
-## Responding to Other Road Users
-* **Emergency vehicles:** Indicate, check mirrors, and move aside when safe without breaking laws or entering bus lanes illegally.
-* **Buses and HGVs:** Allow them to pull out or turn; they often need extra space.
-* **Headlight flashing & horn:** Flash only to let others know you are there. Use the horn as a warning, not an expression of frustration.
+### 2. Sharing Space Considerately
+- Give vulnerable road users (pedestrians, cyclists, horse riders) wide clearances and do not rev or sound the horn unnecessarily.
+- Allow buses and heavy goods vehicles extra room to turn or manoeuvre.
+- Hold back when a driver is reversing into a space instead of squeezing past.
 
-## Managing Stress and Road Rage
-* Breathe and count to three before reacting to another driver’s mistake.
-* Avoid eye contact with aggressive drivers; stay in your vehicle with doors locked if threatened.
-* Pull over safely for a short break if emotions are running high.
+### 3. Managing Stress and Road Rage
+- Control your breathing and keep hands relaxed on the steering wheel.
+- Avoid eye contact or gestures if another driver is aggressive; do not retaliate.
+- If you feel unsafe, keep doors locked, stay in your vehicle, and call the police if needed.
 
-## Key Takeaways
-- Patience and respect reduce risky behaviour.
-- Safe gaps buy you reaction time in all conditions.
-- Stay calm and lawful when others make mistakes.
+## Common Mistakes and How to Avoid Them
+- **Tailgating:** Reduce speed gently to rebuild a safe gap if someone pressures you from behind.
+- **Speeding to “keep up”:** Speed limits are maximums, not targets. Drive at a speed that fits the conditions.
+- **Using headlights or horn aggressively:** Flash headlights only to warn others of your presence. Sound the horn briefly to warn, not to complain.
 
-## Practice Prompt
->! On your next drive, note three moments where you showed consideration (e.g., giving way, holding back). Reflect on how it influenced the situation before attempting the quiz.
+## Ready-for-Test Checklist
+- I keep calm under pressure and avoid retaliatory driving.
+- I know the correct response when emergency vehicles approach.
+- I leave enough time for every journey and never rely on aggressive shortcuts.
+- I adapt my driving to protect vulnerable users every time I share the road.
+
+## Practice Task
+>! List three stressful scenarios you have experienced (for example, being cut up or being tailgated). For each, write the calm DVSA-approved response you will use next time. Review the list before your next drive.
 `,
   },
   {
     slug: "safety-and-your-vehicle",
-    title: "Safety and Your Vehicle",
+    title: "Safety and Your Vehicle: Keeping Your Car Roadworthy",
     category: Category.SAFETY_AND_YOUR_VEHICLE,
     summary:
-      "Learn essential vehicle safety checks and understand the features that keep you safe on the road.",
-    estimatedDuration: "18 min",
+      "Learn the daily, weekly, and seasonal checks that make your vehicle safe, legal, and ready for the DVSA test.",
+    estimatedDuration: "22 min",
     difficulty: "Beginner",
-    tags: ["vehicle checks", "maintenance", "safety systems"],
+    tags: ["vehicle checks", "maintenance", "legal requirements"],
     learningObjectives: [
-      "Complete the POWERS pre-drive safety routine",
-      "Identify legal tyre, light, and fluid requirements",
-      "Recognise warning signs that require professional inspection",
+      "Carry out DVSA POWDER (POWERS) pre-journey checks with confidence",
+      "Explain legal requirements for tyres, lights, seat belts, and child restraints",
+      "Spot warning lights or defects early and take the correct action",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Keeping your vehicle roadworthy is a legal requirement and a foundation for safe driving. Weekly checks catch problems before they become dangerous.
+Safe driving starts with a safe vehicle. DVSA examiners expect you to understand essential maintenance, legal requirements, and dashboard warnings. Neglecting these can lead to fines, penalty points, or failed MOTs.
 
-## Pre-Drive Checks (POWERS)
-> **Highway Code, Annex 6:** You MUST ensure your vehicle complies with construction and lighting regulations.
-* **P – Petrol:** Ensure you have enough fuel for the journey; running dry is hazardous and may cause obstruction.
-* **O – Oil:** Check levels on level ground with the engine cold. Low oil risks engine failure.
-* **W – Water:** Top up washer fluid and verify coolant sits between min/max marks.
-* **E – Electrics:** Test lights, indicators, horn, and wipers. Ask someone to confirm brake lights.
-* **R – Rubber:** Inspect tyre tread and pressures when cold; look for damage or embedded objects.
+## DVSA Essentials
+- Conduct regular **POWDER (Fuel, Oil, Water, Damage, Electrics, Rubber)** checks.
+- Legal tyre tread minimum is **1.6 mm** across the centre three-quarters of the tyre.
+- Seat belts must be worn and child seats must be compatible and correctly fitted (Rules 99–102).
 
-## Tyres and Safety Components
-* **Tread depth:** Minimum **1.6 mm** across the central three-quarters of the tyre. Less grip means longer stopping distances.
->W Driving on defective tyres is illegal and can attract fines and penalty points.
-* **Pressures:** Check manufacturer values (door pillar or handbook). Under-inflation affects braking; over-inflation reduces grip.
-* **Brakes & steering:** Spongy pedals or pulling to one side needs immediate inspection. ABS lights should extinguish shortly after start-up.
-* **Head restraints:** Align with the top of your ears and close to the head to reduce whiplash.
+## Skills to Master
+### 1. Pre-Journey Checks
+- Inspect tyres for tread depth, damage, and correct pressure (use the vehicle manual or door-pillar sticker).
+- Confirm fluid levels: engine oil, coolant, brake fluid, and screenwash.
+- Check lights, indicators, horn, wipers, and washers all work correctly.
 
-## Lights and Visibility
-* Use dipped headlights in darkness or poor weather. Switch to main beam only on unlit roads when no one is ahead.
-* Fog lights are for visibility below **100 metres**; turn them off as conditions improve.
-* Keep windscreens clean inside and out; remove stickers that block sight lines.
+### 2. Understanding Dashboard Warnings
+- **Red lights** mean stop as soon as it’s safe; serious faults or safety risks.
+- **Amber lights** signal an issue needing attention soon (e.g., engine management, ABS, low fuel).
+- **Blue/green lights** indicate systems in use (e.g., high beam).
 
-## Key Takeaways
-- Run the POWERS checklist weekly and before long journeys.
-- Tyre condition and fluid levels directly influence safety and legal compliance.
-- Treat dashboard warning lights as urgent investigations.
+### 3. Keeping Occupants Safe
+- Adjust head restraints so the top aligns with the top of your ears and sits close to the back of your head.
+- Secure loose items in the cabin or boot; in a collision they can cause serious injury.
+- Fit child seats to the manufacturer’s instructions and never place a rear-facing seat in front of an active airbag.
 
-## Practice Prompt
->! Schedule a calendar reminder for a weekly POWERS check. Record any issues you discover before taking the quiz.
+## Common Mistakes and How to Avoid Them
+- **Ignoring warning lights:** Read the manual and address faults promptly.
+- **Incorrect tyre pressures:** Check before long journeys or when carrying extra passengers/luggage.
+- **Dirty glass or lights:** Reduces visibility; clean them regularly.
+
+## Ready-for-Test Checklist
+- I can demonstrate the “Show Me, Tell Me” safety questions.
+- I schedule regular vehicle checks and record issues.
+- I know when to seek professional help (MOT, servicing, brake or steering faults).
+- I understand eco-driving basics: smooth acceleration, correct gear use, and avoiding excessive idling.
+
+## Practice Task
+>! Create a weekly checklist using the POWDER routine. Complete it before your next lesson and note anything that needs fixing so you can discuss it with your instructor.
 `,
   },
   {
     slug: "safety-margins",
-    title: "Safety Margins: Keeping Your Distance",
+    title: "Safety Margins: Space and Stopping Distances",
     category: Category.SAFETY_MARGINS,
     summary:
-      "Learn how to maintain safe distances from other vehicles in various conditions to ensure you have time to react.",
-    estimatedDuration: "17 min",
+      "Control your speed and space to leave enough time to react, brake, and stop safely in all conditions.",
+    estimatedDuration: "20 min",
     difficulty: "Beginner",
-    tags: ["following distance", "braking", "stopping distances"],
+    tags: ["stopping distance", "following gap", "weather"],
     learningObjectives: [
-      "Maintain appropriate following gaps in dry, wet, and icy conditions",
-      "Calculate stopping distances using thinking and braking components",
-      "Recognise factors that increase stopping distance and adjust speed accordingly",
+      "Use time-based following gaps and adjust them for different road and weather conditions",
+      "Calculate thinking, braking, and overall stopping distances at common speeds",
+      "Recognise grip-reducing hazards (rain, ice, mud, loose chippings) and adapt accordingly",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Safety margins create space to react. Adjusting your gap to conditions prevents rear-end collisions and keeps you out of the danger zone.
+Safety margins give you room to deal with mistakes—yours and everyone else’s. Understanding how stopping distances change keeps you out of the “no time to react” danger zone.
 
-## Following Distance: The Two-Second Rule
->! In good, dry conditions, keep at least a **two-second** gap.
-Choose a roadside marker. When the vehicle ahead passes it, say "Only a fool breaks the two-second rule." If you arrive before finishing, drop back.
+## DVSA Essentials
+- Two-second gap in dry conditions; double to four seconds in the wet; extend to ten seconds on ice or in snow.
+- Rule 126: Drive at a speed that allows you to stop within the distance you can see to be clear.
+- Increase space when following large vehicles, motorcycles, or when towing.
 
-## Adjusting for Conditions
-* **Wet roads:** Double the gap to **four seconds**; tyres need more time to clear water.
-* **Snow/ice:** Leave up to **ten seconds**; braking distance can increase tenfold.
-* **Large vehicles:** Hang back to see past them and avoid spray.
-* **Night/tunnels:** Depth perception drops—add extra space.
+## Skills to Master
+### 1. Time-Based Gap Judging
+- Use the “Only a fool breaks the two-second rule” phrase as you pass a roadside marker.
+- Add more time at higher speeds, at night, or when carrying a heavy load.
+- Move back if visibility is reduced by spray or glare.
 
-## Stopping Distances Explained
-* **Thinking distance:** Time from spotting a hazard to pressing the brake.
-* **Braking distance:** Time from brake application to a full stop.
-**Overall stopping distance = thinking + braking.**
-> **Highway Code, Rule 126:** "Drive at a speed that will allow you to stop well within the distance you can see to be clear."
+### 2. Understanding Stopping Distances
+- Thinking distance roughly equals 1 foot per mph (e.g., 30 mph ≈ 30 feet).
+- Braking distance increases with the square of speed (doubling speed quadruples braking distance).
+- Practice recalling the Highway Code stopping distance chart for theory test questions.
 
-### Factors Affecting Stopping Distance
-* **Speed:** Braking distance increases with the square of speed—double speed, quadruple braking distance.
-* **Driver state:** Fatigue, alcohol, or distractions slow reactions.
-* **Vehicle condition:** Worn tyres or brakes, heavy loads, or towing increase stopping distances.
-* **Road gradient and weather:** Downhill grades and slippery surfaces both extend stopping.
+### 3. Adapting to Hazards
+- Reduce speed before bends, dips, or humps where vision is limited.
+- Watch for wet leaves, diesel spills, mud from farm vehicles, or loose gravel—all reduce grip.
+- Anticipate aquaplaning in heavy rain; ease off the accelerator and avoid steering sharply.
 
-## Key Takeaways
-- Count time-based gaps, not car lengths.
-- Reduce speed and increase following distance as grip drops.
-- Understand how thinking distance adds to braking—plan for the total.
+## Common Mistakes and How to Avoid Them
+- **Following at car-lengths:** Use time gaps, not physical distance.
+- **Late braking downhill:** Select a lower gear early and use engine braking.
+- **Ignoring weather warnings:** If signs show reduced speed limits or fog, respond immediately.
 
-## Practice Prompt
->! On your next journey, time the gap to the vehicle ahead in dry, then wet conditions. Note the difference and adjust before taking the quiz.
+## Ready-for-Test Checklist
+- I can state the Highway Code stopping distances from memory.
+- I automatically increase my following gap in poor conditions.
+- I ease off accelerator and cover the brake when hazards appear ahead.
+- I understand how speed, load, and road surface affect stopping distance.
+
+## Practice Task
+>! On a supervised drive, ask your instructor to quiz you on stopping distances at 20, 30, 40, 50, 60, and 70 mph while you maintain the appropriate gap. This strengthens both memory and real-world application.
 `,
   },
   {
     slug: "hazard-awareness",
-    title: "Hazard Awareness: Spotting Dangers Early",
+    title: "Hazard Awareness: Spotting Problems Early",
     category: Category.HAZARD_AWARENESS,
     summary:
-      "Develop the skill of spotting developing hazards and learn how to react safely and in good time.",
+      "Build the habits that let you recognise static and developing hazards quickly so you can plan safely.",
     estimatedDuration: "20 min",
     difficulty: "Intermediate",
-    tags: ["hazard perception", "defensive driving"],
+    tags: ["hazards", "anticipation", "planning"],
     learningObjectives: [
-      "Classify hazards as static, developing, or changing conditions",
-      "Apply MSM and PSL routines to manage emerging risks",
-      "Adapt hazard perception to urban, rural, and night scenarios",
+      "Differentiate between static, moving, and developing hazards on any road",
+      "Use information from signs, road markings, and other vehicles to predict risks",
+      "Apply the DVSA hazard drill: mirrors, signal, positioning, speed and observation",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Hazard awareness means spotting dangers early and responding smoothly. Defensive driving is seeing, understanding, and acting in good time.
+Hazard awareness is knowing what could change and how it will affect you. The DVSA hazard perception test rewards early recognition, and examiners rely on it to judge your forward planning on lessons and test day.
 
-## Types of Hazards
-* **Static:** Fixed features—junctions, roundabouts, parked cars, roadworks.
-* **Developing:** Moving users—pedestrians, cyclists, vehicles changing lanes.
-* **Changing conditions:** Weather, road surface, lighting.
+## DVSA Essentials
+- Classify hazards: static (roundabouts, pedestrian crossings), moving (vehicles, cyclists), and developing (anything about to cause you to change speed or direction).
+- Use **Mirrors → Signal → Manoeuvre (Position–Speed–Look)** every time you respond to a hazard.
+- The sooner you spot a hazard, the smoother and safer your manoeuvre.
 
-## Using MSM & PSL Routines
-* **MSM (Mirror-Signal-Manoeuvre):** Check mirrors, signal intentions, then manoeuvre.
-* **PSL (Position-Speed-Look):** Position your car, adjust speed, and look again before committing.
-These routines ensure hazards are considered before every action.
+## Skills to Master
+### 1. Reading the Road
+- Watch for clues: brake lights, reflections in shop windows, exhaust fumes, wheel movements, and pedestrians looking over shoulders.
+- Scan pavements, verges, and junctions for hidden hazards (children, dogs, delivery drivers, farm traffic).
+- Interpret temporary traffic signs, cones, and flashing amber lights early.
 
-## Common Hazards and Responses
-* **Pedestrians:** Children near buses or ice cream vans may emerge suddenly—cover the brake.
-* **Cyclists:** Give at least **1.5 metres** clearance; watch for swerves around potholes.
-* **Junctions:** Treat limited-visibility junctions with caution—creep forward while scanning.
-* **Parked vehicles:** Look for brake lights or driver movement indicating departure.
->W Rural roads may hide animals, mud, or sharp bends. Reduce speed and extend your observation distance.
+### 2. Using Speed Wisely
+- Ease off the accelerator when vision is limited; gentle deceleration gives you time.
+- Cover the brake near schools, pedestrian crossings, narrow streets, and when overtaking cyclists.
+- Avoid coasting in neutral; stay in gear for engine braking and better control.
 
-### Night and Weather Adjustments
-* Reduce speed in rain or fog; reflections and glare hide hazards.
-* Use dipped headlights and clear windscreens to maximise visibility.
+### 3. Prioritising Vulnerable Road Users
+- Give extra time and space to pedestrians stepping out, people with visual or hearing impairments, wheelchair users, and horse riders.
+- Expect cyclists to move away from the kerb near potholes or drain covers.
+- Be ready for motorcyclists filtering through traffic or emerging from blind spots.
 
-## Key Takeaways
-- Categorise hazards quickly to choose the right response.
-- Run MSM/PSL automatically before every manoeuvre.
-- Adapt to environment—urban clutter, rural blind bends, or night glare all demand tailored speed and observation.
+## Common Mistakes and How to Avoid Them
+- **Late mirror checks:** Build mirror checks into every hazard response.
+- **Over-reliance on sat-nav:** Always confirm the road is clear before following instructions.
+- **Failing to plan an escape route:** At traffic lights or junctions, leave space to manoeuvre if vehicles behind approach too fast.
 
-## Practice Prompt
->! Spend five minutes watching a dashcam hazard perception clip. Pause after each developing hazard and describe the correct MSM/PSL response before attempting the quiz.
+## Ready-for-Test Checklist
+- I can explain what makes a hazard “developing.”
+- I instinctively carry out well-timed mirror and signal routines before reacting.
+- I plan early for schools, crossings, parked cars, and rural hazards.
+- I understand how weather and time of day increase hazard likelihood.
+
+## Practice Task
+>! Watch two DVSA hazard perception clips. Note the moment you would click and explain what clues prompted your decision. Then practise narrating developing hazards on a real drive.
 `,
   },
   {
     slug: "vulnerable-road-users",
-    title: "Vulnerable Road Users",
+    title: "Vulnerable Road Users: Protecting Those at Greater Risk",
     category: Category.VULNERABLE_ROAD_USERS,
     summary:
-      "Learn the correct procedures and attitudes for interacting safely with pedestrians, cyclists, and motorcyclists.",
+      "Learn how to share the road with pedestrians, cyclists, motorcyclists, horse riders, and others who need extra protection.",
     estimatedDuration: "18 min",
     difficulty: "Intermediate",
-    tags: [
-      "hierarchy of road users",
-      "pedestrians",
-      "cyclists",
-      "motorcyclists",
-    ],
+    tags: ["pedestrians", "cyclists", "horse riders"],
     learningObjectives: [
-      "Apply the Highway Code hierarchy when interacting with vulnerable road users",
-      "Adapt observation and positioning techniques in day, night, and shared-space environments",
-      "Use safe passing distances and speeds for pedestrians, riders, and two-wheelers",
+      "Apply Highway Code hierarchy of road users to prioritise those who are most at risk",
+      "Give correct passing distances and speeds for cyclists, horse riders, and pedestrians",
+      "Anticipate typical vulnerable road user behaviour in urban and rural environments",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "Highway Code hierarchy update 2024",
     content: `
 ## Overview
-Vulnerable road users are most likely to suffer serious injury in a collision. The 2022 Highway Code hierarchy states that drivers of heavier vehicles carry the greatest duty to reduce that danger.
+The Highway Code now emphasises a hierarchy: those who can do the greatest harm have the greatest responsibility to reduce risk. Drivers must be proactive in protecting people who are more exposed.
 
-## Pedestrians
-> **Highway Code, Rule H2:**
-> "At a junction you should give way to pedestrians crossing or waiting to cross a road into which or from which you are turning."
-* **Crossings:** Zebra, pelican, puffin, toucan, and equestrian crossings all demand patience—slow early, scan both pavements, and avoid blocking tactile paving.
-* **Children & mobility-impaired users:** Expect slower movement and sudden changes of direction. A white cane with a red band indicates the person is both deaf and blind—give extra time.
+## DVSA Essentials
+- Give cyclists at least **1.5 metres** when overtaking up to 30 mph, more at higher speeds.
+- Pass horse riders at no more than **10 mph** and leave at least **2 metres**.
+- Be prepared to stop for pedestrians waiting to cross at junctions or zebra crossings (Rules 170 & 195).
 
-### Night and Low-Light Scenarios
-* Reduce speed on unlit streets and widen your scanning arc; reflective clothing is not guaranteed.
-* Avoid using main beam near pedestrians—it can dazzle and hide hazards beyond them.
+## Skills to Master
+### 1. Urban Awareness
+- Approach crossings slowly and be ready to stop; scan both sides of the road for pedestrians, especially children.
+- At night, expect poorly lit clothing or mobility scooters to be harder to spot.
+- Watch for cyclists filtering through traffic or using advanced stop lines (bike boxes).
 
-## Cyclists
-> **Highway Code, Rule 163:** Give cyclists, motorcyclists, and horse riders at least as much room as you would a car.
-* **Passing distance:** Minimum **1.5 metres** up to 30 mph, **2 metres** at higher speeds. Wait behind if there is no safe gap.
-* **Left turns:** Check mirrors and blind spots for cyclists on your nearside before turning. Signal early and adjust speed gradually.
+### 2. Rural and Suburban Considerations
+- Anticipate horses, walkers, or farm vehicles. Slow early, give wide space, and avoid sudden noises.
+- Look for cyclists on narrow country lanes; be patient until the road widens.
+- Expect school children or buses around village centres at peak times.
 
-### Shared Spaces and Cycle Streets
-* In low-speed shared zones, plan to keep below 15 mph and communicate intentions with early signalling and hand gestures.
-* Watch for advanced stop lines (ASLs) at junctions; do not encroach on the cycle box when lights are red.
+### 3. Supporting Disabled and Older Road Users
+- Give people with white sticks, guide dogs, wheelchairs, or walking aids extra time.
+- Be patient with drivers who have disability badges; allow them more time to manoeuvre.
+- Never park on dropped kerbs; they are vital crossing points for wheelchair users.
 
-## Motorcyclists
->W Motorcyclists are narrow and accelerate quickly. They vanish easily in blind spots—double-check before lane changes.
-* **Filtering awareness:** Expect motorcycles between lanes in congestion. Hold a straight course and give room when possible.
-* **Weather impact:** Spray, crosswinds, or manhole covers can destabilise riders. Allow a wider buffer and avoid sudden speed changes nearby.
+## Common Mistakes and How to Avoid Them
+- **Squeezing past cyclists:** Hold back until you can overtake with the correct gap.
+- **Using the horn near horses:** Only if necessary and well in advance. Otherwise pass wide and slow.
+- **Blocking crossings:** Stop lines exist so pedestrians and cyclists have space—never encroach.
 
-## Horse Riders
-* Slow to **10 mph or less**, give **2 metres** of lateral space, and keep engine noise low.
-* Look for rider hand signals—which may ask you to stop completely if the horse is nervous.
+## Ready-for-Test Checklist
+- I apply the hierarchy of road users automatically.
+- I know minimum passing distances for cyclists, horse riders, and pedestrians.
+- I anticipate vulnerable users at every junction, crossing, and in rural settings.
+- I show patience, even if it delays my journey.
 
-## Key Takeaways
-- Prioritise the most vulnerable: slow early, yield, and maintain generous gaps.
-- Adapt for environment—night streets and shared spaces demand extra anticipation.
-- Provide consistent, predictable positioning so others can read your intentions.
-
-## Practice Prompt
->! Spend two minutes listing three local locations where you regularly meet pedestrians, cyclists, or riders. Note the hazards you should anticipate at each before taking the mini quiz.
+## Practice Task
+>! On your next drive, make a tally of each vulnerable road user you encounter. Note how you adapted your speed, position, and communication for each situation to discuss with your instructor.
 `,
   },
   {
     slug: "other-types-of-vehicle",
-    title: "Other Types of Vehicle",
+    title: "Other Types of Vehicle: Sharing Roads with Specialist Traffic",
     category: Category.OTHER_TYPES_OF_VEHICLE,
     summary:
-      "Understand the challenges posed by large vehicles, buses, trams, and agricultural vehicles.",
-    estimatedDuration: "20 min",
+      "Understand how to drive safely around large, slow, wide, or unusual vehicles and road users.",
+    estimatedDuration: "16 min",
     difficulty: "Intermediate",
-    tags: ["sharing the road", "vehicle types", "spatial awareness"],
+    tags: ["HGVs", "trams", "slow vehicles"],
     learningObjectives: [
-      "Identify blind spots, stopping distances, and turning paths for heavy and long vehicles",
-      "Adjust positioning and speed when travelling in urban streets or rural single-track roads",
-      "Follow safe overtaking strategies for public transport, trams, and agricultural machinery",
+      "Recognise the limitations and blind spots of large goods vehicles, buses, trams, and agricultural machinery",
+      "Adjust your positioning when meeting powered two-wheelers, trams, and high-sided vehicles",
+      "Explain legal responsibilities when overtaking or meeting vehicles that need extra space",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-You will share the road with a wide mix of vehicles. Each behaves differently: some accelerate slowly, some cannot swerve, and others have huge blind spots. Spot these traits early to keep everyone safe.
+Not every vehicle behaves like a family car. Some swing wide to turn, some cannot stop quickly, and others operate on specialist infrastructure like tram lines. The DVSA wants you to know how to keep them – and yourself – safe.
 
-### Quick Reference Table
-| Vehicle type | Key risk | Safe response |
-| --- | --- | --- |
-| Articulated lorry | Blind spots, long stopping distance | Stay back until you see both mirrors; give wide space when turning |
-| Bus/coach | Frequent stops, hidden pedestrians | Anticipate late signals; leave 20 m gap approaching stops |
-| Tram | Fixed rails, silent approach | Keep rails clear; obey dedicated signals and markings |
-| Agricultural vehicle | Slow speed, mud/debris | Pass only with 200 m sight line; plan for reduced grip |
+## DVSA Essentials
+- Large vehicles have extensive blind spots; if you cannot see the driver’s mirrors, they probably cannot see you.
+- High-sided vehicles are susceptible to crosswinds; allow more room, especially on exposed roads or bridges.
+- Trams and trolleybuses follow fixed paths and have priority; keep clear of tram lanes unless signs allow entry.
 
-## Large and Long Vehicles
->! **Mirror check:** If you cannot see a heavy goods vehicle's mirrors, the driver cannot see you.
-* Leave a generous following distance to avoid spray and gain a clearer view of traffic ahead.
-* Expect wide turning arcs. Hold back when a long vehicle straddles lanes at tight junctions.
-* When overtaking on dual carriageways, build speed early, complete the pass decisively, and allow for side winds.
+## Skills to Master
+### 1. Heavy Goods Vehicles (HGVs) and Buses
+- Stay back at junctions so you can see their mirrors and give them room to swing.
+- Never drive between an HGV and the kerb at junctions.
+- Expect spray and turbulence in wet weather; increase following distance.
 
-### Urban Scenario
-* Large vehicles may block multiple lanes to navigate roundabouts. Do not squeeze into the space beside them.
-* Check bus-lane operating times. Some open to taxis, motorcycles, or cyclists; entering illegally can incur fines and endanger others.
-* Near depots or shops, look for reversing lights and be ready to pause while loading vehicles manoeuvre.
+### 2. Agricultural Vehicles and Road Maintenance Plant
+- They may travel slowly and can make wide turns into fields. Be patient and only overtake when it’s legal, safe, and you can see well ahead.
+- Watch for mud on the road surface – it reduces grip and lengthens stopping distances.
+- If escort vehicles accompany abnormal loads, obey their signals.
 
-### Rural Scenario
-* At harvest time, expect combine harvesters or trailers occupying the centre line. Slow early and prepare to stop.
-* Mud, gravel, or straw on the carriageway reduces grip. Increase following distance and avoid sudden braking or steering.
-* On single-track roads, identify passing places before you need them. Use them proactively rather than waiting for oncoming drivers to reverse.
+### 3. Trams, Motorcycles, and Powered Wheelchairs
+- Cross tram tracks at a right angle to avoid tyre slip.
+- Look twice for motorcycles; they can accelerate quickly and are easily hidden.
+- Mobility scooters and powered wheelchairs can use pavements, crossings, and sometimes the road. Keep speed down and patience high.
 
-## Public Transport and Trams
-* Buses often signal late when leaving stops. Mirror-signal-manoeuvre early and yield if it is safe.
-* A stopped bus may hide pedestrians running across the road—cover the brake and pass slowly.
-* Trams cannot deviate from rails. Respect \`TRAM ONLY\` markings and dedicated signals; never stop on the tracks, even briefly.
->W Blocking tram rails risks derailment, heavy fines, and licence points.
+## Common Mistakes and How to Avoid Them
+- **Cutting in after overtaking a lorry:** Build a large gap before moving back in.
+- **Driving on tram rails:** They are slippery, especially in wet weather. Follow road markings and signage carefully.
+- **Misjudging wide loads:** If signs or escort vehicles warn of reduced width, prepare to stop and wait as directed.
 
-## Agricultural and Slow-Moving Vehicles
-* Flashing amber beacons warn that a vehicle is travelling below 25 mph or is oversized.
-* Before overtaking, check for bends, junctions, or hill crests ahead. If in doubt, hold back.
-* Muddy sections reduce braking effectiveness—gently test your brakes after passing through.
+## Ready-for-Test Checklist
+- I can explain how to approach large vehicles at junctions and roundabouts.
+- I know the unique hazards of trams, tankers, buses, and slow-moving vehicles.
+- I always leave extra space for vehicles that need room to manoeuvre.
+- I remain patient when following specialist vehicles.
 
-## Key Takeaways
-- Maintain space so you can see mirrors, signals, and road surface changes.
-- Separate urban and rural strategies: city driving needs patience around stops; rural roads demand long sight lines and passing places.
-- Treat tram tracks, farm mud, and long vehicles' turning arcs as active hazards requiring early planning.
-
-## Practice Prompt
->! Sketch the blind spots for a lorry and a bus, then note at least two defensive actions for each situation before attempting the mini quiz.
+## Practice Task
+>! Observe a busy road for five minutes. List how many different vehicle types you see and note one safety consideration for each. Then plan how you would legally and safely overtake or follow them.
 `,
   },
   {
     slug: "vehicle-handling",
-    title: "Vehicle Handling: Control in All Conditions",
+    title: "Vehicle Handling: Smooth Control in Every Condition",
     category: Category.VEHICLE_HANDLING,
     summary:
-      "Learn how weather affects your vehicle and master techniques for safe braking, steering, and driving in adverse conditions.",
-    estimatedDuration: "19 min",
+      "Practise the steering, braking, and gear-use techniques that keep the car stable on bends, hills, and slippery roads.",
+    estimatedDuration: "20 min",
     difficulty: "Intermediate",
-    tags: ["control", "skidding", "adverse weather"],
+    tags: ["cornering", "skids", "vehicle control"],
     learningObjectives: [
-      "Apply smooth steering, braking, and acceleration techniques in varying grip levels",
-      "Recover safely from understeer or oversteer situations",
-      "Adjust driving strategy for rain, ice, fog, and strong winds",
+      "Select the right gear and speed before bends, junctions, and hazards",
+      "Use braking and acceleration techniques that maintain stability and traction",
+      "Recover safely from skids and understand how ABS, ESC, and traction control assist you",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Vehicle handling is managing speed, steering, and balance so the tyres keep grip. Smooth inputs keep you in control regardless of conditions.
+Vehicle handling is about planning ahead so your inputs are smooth and controlled. The DVSA expects you to understand what keeps the car stable – and what can make it skid – on every type of road.
 
-## Steering and Braking Basics
-* **Push-pull steering** keeps hands on the wheel and avoids crossing arms.
-* **Progressive braking**—light initial pressure, firmer as weight transfers forward.
-* **ABS use:** In an emergency stop, brake firmly and hold pressure; ABS prevents lock-up.
+## DVSA Essentials
+- Slow down before corners, not during them. Brake in a straight line, steer, then accelerate gently out.
+- Rule 160: Drive with both hands on the wheel where possible; steer smoothly using pull-push.
+- Anti-lock braking systems (ABS) allow you to steer while braking firmly, but you should still brake progressively.
 
-## Understanding Skids
-* **Causes:** Excessive speed, harsh braking/acceleration, or sudden steering on low grip.
-* **Correction:** Steer gently into the skid direction and ease off pedals.
-* **Prevention:** Smooth inputs and appropriate speeds for conditions.
+## Skills to Master
+### 1. Speed, Gear, and Position Planning
+- Use MSPSL: check mirrors, signal if needed, position appropriately, adjust speed, and look into the new road.
+- Select a gear that provides enough engine braking when descending hills.
+- Position the vehicle to maximise vision on bends without crossing centre lines.
 
-## Adverse Weather Techniques
-* **Rain:** Stopping distances double. If aquaplaning occurs, ease off the accelerator without braking until grip returns.
-* **Ice & snow:** Expect tenfold stopping distances. Pull away in 2nd gear, make every control input gentle.
-* **Fog:** Use dipped headlights; fog lights only below **100 m** visibility. Reduce speed early.
-* **Strong winds:** Grip the wheel firmly, expect gusts on bridges, give cyclists and motorcyclists extra room.
+### 2. Grip and Stability Management
+- Accelerate and brake progressively; sudden inputs upset balance and reduce grip.
+- Avoid harsh steering when roads are wet, icy, or covered in gravel.
+- If wheels start to lose traction, ease off accelerator and avoid sharp steering corrections.
 
-## Key Takeaways
-- Smooth, progressive inputs maintain traction.
-- Recognise early signs of losing grip and respond calmly.
-- Tailor speed and spacing to weather and road surface.
+### 3. Handling Emergencies
+- If ABS activates, keep pressing the pedal firmly and steer to safety.
+- In a rear-wheel skid, steer in the direction of the skid (towards where the rear is sliding) to regain control.
+- On flooded roads, drive slowly in low gear; test brakes gently afterwards.
 
-## Practice Prompt
->! In an empty car park, practise progressive braking from 20 mph to feel weight transfer. Note the difference in stopping distance when braking more gently versus harshly before taking the quiz.
+## Common Mistakes and How to Avoid Them
+- **Braking mid-corner:** Plan speed before the bend to keep the car balanced.
+- **Riding the clutch:** Reduces control and increases wear. Use clutch only for gear changes or very low-speed manoeuvres.
+- **Coasting in neutral:** Removes engine braking and reduces steering response. Stay in gear except in specific manoeuvres.
+
+## Ready-for-Test Checklist
+- I always plan speed and gear before hazards.
+- I know how ABS and other driver aids feel when they activate.
+- I maintain smooth steering and avoid sudden pedal inputs.
+- I can describe skid prevention and recovery techniques confidently.
+
+## Practice Task
+>! On a quiet supervised route, practise approach routines for a series of bends: mirrors, signal, position, speed, and gear before the bend, then a gentle acceleration out. Note how smooth planning keeps the car stable.
 `,
   },
   {
     slug: "motorway-rules",
-    title: "Motorway Rules: Driving on High-Speed Roads",
+    title: "Motorway Rules: Confident High-Speed Driving",
     category: Category.MOTORWAY_RULES,
     summary:
-      "Master the specific rules for motorway driving, including joining, leaving, lane discipline, and speed limits.",
+      "Master the rules for joining, using, and leaving motorways and smart motorways – including breakdown and emergency procedures.",
     estimatedDuration: "22 min",
     difficulty: "Intermediate",
     tags: ["motorways", "smart motorways", "lane discipline"],
     learningObjectives: [
-      "Join and leave motorways smoothly using slip roads and countdown markers",
-      "Maintain correct lane discipline and legal overtaking strategies",
-      "Respond safely to smart motorway signage, breakdowns, and Red X closures",
+      "Join, use, and leave motorways safely with correct lane discipline and signalling",
+      "Interpret smart motorway signs, red X closures, and variable speed limits",
+      "Follow correct breakdown, collision, and emergency refuge protocols",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Smart Motorway Guidance 2024",
     content: `
 ## Overview
-Motorways are generally safe, but the speeds involved mean small mistakes have large consequences. Knowing how to join, position, and react to signals keeps traffic flowing and reduces risk.
+Motorways are statistically the safest roads, but high speeds demand precise observation and discipline. You must know the rules even before you drive on one, because questions appear in both theory and practical tests.
 
-### Quick Planning Checklist
-- Build speed on the slip road and merge into a suitable gap.
-- Cruise in the left lane whenever it is clear.
-- Watch gantry signs for lane closures or variable speeds.
-- Know where the next service area or emergency area is located.
+## DVSA Essentials
+- Use the slip road to match traffic speed, signal, and merge when safe.
+- Keep left unless overtaking. Use middle and right lanes only as long as needed.
+- Obey variable speed limits and **never drive under a red “X”** – the lane is closed.
 
-## Joining and Leaving the Motorway
-* **Joining:** Use the acceleration lane to match left-lane traffic. Signal early, check mirrors and blind spots, and merge only when a safe gap exists. Do not stop unless traffic is at a standstill.
-* **Leaving:** Move to the left lane in plenty of time. Signal left about 300 yards out, guided by countdown markers (3-2-1 bars). Use the deceleration lane to slow down, not the carriageway.
+## Skills to Master
+### 1. Joining and Leaving
+- On the slip road, check mirrors and blind spots, build up speed, and find a safe gap.
+- Signal early when leaving; move into the left lane in plenty of time and enter the deceleration lane at the start of the solid white line.
+- If you miss your exit, carry on to the next one – never reverse or turn on the hard shoulder.
 
-## Lane Discipline
-> **Highway Code, Rule 264:** Always use the left-hand lane when the road ahead is clear.
-* The middle and right lanes are for overtaking only. Return left once the manoeuvre is complete.
-* **Middle-lane hogging** or tailgating can attract penalty points and creates dangerous frustration in following traffic.
+### 2. Lane Discipline and Smart Motorways
+- Maintain a two-second gap (more in poor weather) at all speeds.
+- Follow overhead gantry instructions: amber flashing lights warn of hazards, red X means the lane is closed.
+- On all-lane-running motorways without a permanent hard shoulder, use emergency refuge areas (ERAs) for breakdowns.
 
-## Overtaking and Speed Management
-* Overtake on the right. Only undertake if lanes are moving queuing traffic and the right-hand lane is slower.
-* The national limit is **70 mph** for cars, unless lower limits display on gantries or in roadworks.
->! Mandatory limits show in red circles. Advisory limits appear without a circle; adjust speed accordingly but expect hazards ahead.
+### 3. Emergencies and Breakdowns
+- If you break down, exit left when possible, use an ERA, and face oncoming traffic while waiting behind the barrier.
+- Call National Highways from the roadside emergency phone. If you must stay in your vehicle (e.g., mobility issues), keep seatbelts on and dial 999.
+- Re-join carefully once the lane is reopened or assistance arrives.
 
-## Smart Motorways and the Red X
-Smart motorways use technology to manage traffic.
-* **Red X:** Move out of a closed lane immediately. Ignoring a Red X carries fines and three penalty points.
-* **Variable speeds:** Adjust promptly; average-speed cameras commonly enforce them.
-* **Emergency areas:** Bright orange bays spaced every 0.75–1.5 miles on all-lane running sections. Use only for genuine emergencies and exit as soon as safe.
+## Common Mistakes and How to Avoid Them
+- **Lane hogging:** Staying unnecessarily in the middle or right lane can lead to penalties.
+- **Stopping on the hard shoulder without emergency:** Only stop if instructed or in genuine emergencies.
+- **Ignoring smart motorway signals:** They are legally enforceable – fines and points apply.
 
-### Breakdown Decision Guide
-1. **Vehicle still moves?** Signal, move left, and exit at the next junction or service area.
-2. **No hard shoulder?** Steer into an emergency area or leave at the nearest refuge. Activate hazard lights at once.
-3. **Trapped in live lane?** Keep belts on, switch on hazards, exit via passenger door if safe, stand behind the barrier, and call **999** and **Highways England** via SOS phone.
+## Ready-for-Test Checklist
+- I understand motorway speed limits for different vehicles.
+- I know what to do if I miss an exit or encounter congestion.
+- I can explain red X, variable speed limits, and emergency refuge procedures.
+- I maintain safe following distances and anticipate high-speed hazards.
 
-## Key Takeaways
-- Plan merges and exits early—anticipation prevents harsh braking.
-- Hold the left lane when clear, and respect Red X lane closures instantly.
-- Memorise the breakdown sequence so you act fast under pressure.
-
-## Practice Prompt
->! Note the next three motorway journeys you take. Record one point where you saw a variable speed limit, a Red X, or a driver misusing lanes, and describe the correct response before attempting the quiz.
+## Practice Task
+>! Watch a Highways England smart motorway briefing or practice video. Make notes on what each gantry symbol means, then quiz yourself using motorway-themed theory questions.
 `,
   },
   {
     slug: "rules-of-the-road",
-    title: "Rules of the Road: Understanding Priority",
+    title: "Rules of the Road: Priority, Position, and Compliance",
     category: Category.RULES_OF_THE_ROAD,
     summary:
-      "Learn the fundamental laws of driving, including parking, overtaking, and rules at junctions and roundabouts.",
-    estimatedDuration: "25 min",
+      "Refresh the fundamental Highway Code rules covering priorities, speed limits, junctions, and lane discipline.",
+    estimatedDuration: "24 min",
     difficulty: "Intermediate",
-    tags: ["priority", "junctions", "parking", "overtaking"],
+    tags: ["speed limits", "priority", "junctions"],
     learningObjectives: [
-      "Decide priority correctly at junctions, roundabouts, and box junctions",
-      "Apply safe overtaking and signalling routines in varied road layouts",
-      "Recall parking restrictions and night-time parking requirements",
+      "Recall national speed limits and identify when lower limits apply",
+      "Give correct priority at junctions, roundabouts, crossings, and one-way systems",
+      "Use lanes, signals, and road markings to position the vehicle legally and safely",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Highway Code 2024",
     content: `
 ## Overview
-Priority rules keep traffic flowing and prevent collisions. Know who goes first, where you can overtake, and where you must never stop.
+The rules of the road combine legal requirements and best practice guidance. Missing a sign or misjudging priority causes most theory test mistakes. A DVSA driving examiner will expect you to apply these rules without prompting.
 
-### Memory Aid: "M-S-C"
-- **Markings:** Look for painted arrows, lines, and box junction grids.
-- **Signs:** Check for priority (triangle), give-way, or lane-use signs as early as possible.
-- **Context:** Consider pedestrian activity, bus lanes, and school zones that alter usual rules.
+## DVSA Essentials
+- Know speed limits: 30 mph in built-up areas (street lights unless signed otherwise), 60 mph on single carriageways, 70 mph on dual carriageways and motorways (cars).
+- Give priority to vehicles from the right at roundabouts unless signs or lights show otherwise.
+- Stop at solid white stop lines and red traffic signals; amber means prepare to stop unless unsafe.
 
-## Junctions & Priority
-* **Unmarked crossroads:** No one has priority. Slow down, look both ways twice, and proceed cautiously.
-* **Turning right:** Give way to oncoming traffic continuing straight or turning left.
-* **Box junctions:**
-> **Highway Code, Rule 174:** "You MUST NOT enter the box until your exit road or lane is clear."
-* Use creep-and-peep at blind junctions—edge forward slowly while scanning for traffic.
+## Skills to Master
+### 1. Speed and Compliance
+- Adjust speed for school zones, roadworks, and temporary limits.
+- Understand variable limits on smart motorways and urban “20s plenty” zones.
+- Use engine braking and anticipation to keep speed steady rather than braking late.
 
-### Junction Scenario Planner
-1. Identify type (T-junction, staggered junction, crossroads).
-2. Check signs/markings—look for stop or give-way lines.
-3. Decide priority, then signal and position early.
-4. Reassess immediately before committing; pedestrians may step out late.
+### 2. Priority and Junction Management
+- At unmarked junctions, slow right down and be prepared to stop; communicate clearly.
+- For mini-roundabouts, give way to vehicles on the right and do not overrun the painted circle unless unavoidable.
+- At pedestrian crossings, stop before the stop line when lights show red or amber with pedestrians still crossing.
 
-## Roundabouts
-* Plan your exit early; read road markings on approach.
-* Give way to traffic from your **right** unless signs indicate otherwise.
-* Use signals as follows:
-    * **Left (1st exit):** Signal left, stay left.
-    * **Straight (e.g., 2nd exit):** No signal on approach; signal left after passing the exit before yours.
-    * **Right (past 12 o’clock) or full circle:** Signal right on approach, position right, then signal left to exit.
->! Avoid lane changes in the roundabout unless markings require it.
+### 3. Lane Discipline and Road Markings
+- Follow directional arrows and lane signs well before junctions or roundabouts.
+- Understand double white lines, hatched markings, and box junction rules.
+- Use bus lanes only within permitted times. Check the signs carefully.
 
-## Overtaking
->! Overtake only when you have a clear view and enough time to complete the manoeuvre safely.
-* Never overtake when you have solid white lines on your side, on the approach to junctions, bends, brows, or where the road narrows.
-* Give extra room to cyclists and motorcyclists; be mindful of crosswinds or sudden swerves.
-* Use the MSM (Mirror-Signal-Manoeuvre) and PSL (Position-Speed-Look) routines every time.
+## Common Mistakes and How to Avoid Them
+- **Entering box junctions without a clear exit:** Wait until your exit is clear.
+- **Forgetting to cancel indicators:** After turning or changing lanes, check and cancel signals promptly.
+- **Parking where prohibited:** Respect yellow lines, zig-zags, clearways, and tram/bus stops.
 
-## Parking Rules
-* **Double yellow lines:** No waiting at any time.
-* **Single yellow lines:** Follow the restriction times on nearby signs.
-* **Red routes:** Double red means no stopping at any time; single red prohibits stopping during signed hours.
->W Never stop or park on zigzag lines, clearways, motorway hard shoulders (unless in an emergency), taxi ranks, or outside school entrances.
-* At night on roads over 30 mph, park in the direction of traffic flow with sidelights on.
+## Ready-for-Test Checklist
+- I can quote national speed limits and know where to look for variations.
+- I understand priority rules for junctions, roundabouts, and crossings.
+- I can interpret road markings and know when I may cross or must not.
+- I always plan my lane choice well in advance.
 
-## Key Takeaways
-- Look for markings, signs, and environmental context to determine priority.
-- Signal clearly and in sequence to avoid confusing others.
-- Know where stopping is illegal to prevent fines and hazards.
-
-## Practice Prompt
->! Review the three busiest junctions on your commute. Note the markings, who has priority, and where you would position your vehicle before attempting the quiz.
+## Practice Task
+>! Produce a table of speed limits for cars, cars towing, vans, and buses on different road types. Memorise it, then test yourself when travelling as a passenger by spotting and naming the rules in action.
 `,
   },
   {
     slug: "road-and-traffic-signs",
-    title: "Road and Traffic Signs",
+    title: "Road and Traffic Signs: Recognise and Respond",
     category: Category.ROAD_AND_TRAFFIC_SIGNS,
     summary:
-      "Learn to identify and understand the meanings of different shapes, colours, and types of UK road signs.",
-    estimatedDuration: "16 min",
+      "Decode warning, regulatory, and information signs plus road markings and signals so you never miss vital instructions.",
+    estimatedDuration: "18 min",
     difficulty: "Beginner",
-    tags: ["sign recognition", "road markings"],
+    tags: ["signs", "markings", "signals"],
     learningObjectives: [
-      "Classify signs by shape and colour to determine orders, warnings, or information quickly",
-      "Recall the meaning of priority and speed control signs commonly tested on the theory exam",
-      "Interpret key road markings that affect overtaking and parking decisions",
+      "Identify the meaning of common DVSA exam signs and explain the action required",
+      "Interpret road markings, traffic lights, and smart motorway signals quickly",
+      "Understand how temporary signs and variable message signs affect your route",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "Know Your Traffic Signs 2024",
     content: `
 ## Overview
-Signs and markings communicate instructions without words. Spotting shapes, colours, and line styles lets you react instantly.
+Traffic signs deliver essential instructions. Missing a sign is a common reason for theory-test errors and practical-test faults. Learn the shapes, colours, and patterns so you respond instantly.
 
-## Sign Shapes and Colours
-* **Circular:** Orders. Red rings prohibit; blue circles mandate actions (e.g., turn left).
-* **Triangular:** Warnings—slow down and prepare to act.
-* **Rectangular:** Information or directions. Colours change with road type (blue motorway, green primary, white local, brown tourist).
+## DVSA Essentials
+- **Warning signs** are red triangles, **orders** are red circles, **information** signs are rectangles.
+- Road markings (lines, arrows, box junctions, bus lanes) carry the force of law when solid or accompanied by signs.
+- Traffic light sequences include steady amber (stop if safe), flashing amber at pelican crossings (give way to pedestrians), and red X for lane closures.
 
-## Essential Signs
-* **Stop (octagonal):** Always stop at the line before proceeding.
-* **Give way (inverted triangle):** Yield to main-road traffic without necessarily stopping.
-* **National speed limit:** White circle with black stripe—60 mph single carriageway, 70 mph dual/motorway (cars).
+## Skills to Master
+### 1. Recognising Sign Types
+- Learn clusters: junction warnings, pedestrian/cycle alerts, speed changes, and school signs.
+- Identify supplementary plates that give time or vehicle-type restrictions.
+- Understand motorway diagrams: countdown markers, lane closures, service areas.
 
-## Road Markings Cheat Sheet
-* **Solid centre line:** Do not cross except for turning into premises or passing slow (<10 mph) road maintenance/animals.
-* **Hazard warning line (long dashes):** Approaching a hazard; overtake only if clear.
-* **Double yellows at kerb:** No waiting at any time.
-* **Zigzag lines:** Near crossings—no stopping or overtaking.
+### 2. Reading Road Markings
+- Solid white lines: do not cross unless safe and necessary (e.g., passing a stationary vehicle or cyclist at <10 mph if road is clear).
+- Yellow box junctions: do not enter unless exit is clear; exceptions apply when turning right.
+- Zig-zag lines near crossings: no stopping or parking at any time.
 
-## Key Takeaways
-- Use shape and colour to decode sign meaning quickly.
-- Learn priority and speed limit signs—they appear frequently on tests and real roads.
-- Treat road markings with the same respect as signs; they have legal force.
+### 3. Signals and Smart Messaging
+- Smart motorway gantries show variable limits, lane closures, and hazard warnings – follow them immediately.
+- Temporary signals at roadworks may use manual control – obey site workers’ instructions.
+- Police officers and traffic officers can direct you using arm signals or illuminated signs.
 
-## Practice Prompt
->! Spend five minutes quizzing yourself with flashcards of UK signs. Group them by shape and write a note on what each instructs before taking the quiz.
+## Common Mistakes and How to Avoid Them
+- **Ignoring supplementary plates:** They often specify times/dates for restrictions.
+- **Assuming all rectangles are information:** Blue rectangles usually indicate motorway instructions; green/brown show routes and places of interest.
+- **Missing temporary signs:** Look ahead for yellow background signs indicating diversions or roadworks.
+
+## Ready-for-Test Checklist
+- I know the shapes and colours of sign categories.
+- I can explain the action required for at least 30 common exam signs.
+- I interpret road markings correctly, including bus lanes and cycle box rules.
+- I respond promptly to smart motorway displays and traffic officer signals.
+
+## Practice Task
+>! Spend ten minutes with the “Know Your Traffic Signs” handbook (PDF or app). Pick five signs you find tricky and write a short scenario describing how you would react to each one on the road.
 `,
   },
   {
     slug: "documents",
-    title: "Documents: Legal Requirements",
+    title: "Documents: Staying Legal on Paper",
     category: Category.DOCUMENTS,
     summary:
-      "Understand the essential documents required to drive legally in the UK, including your licence, insurance, and MOT.",
-    estimatedDuration: "12 min",
+      "Understand the paperwork, legal obligations, and penalties linked to driving and owning a vehicle in the UK.",
+    estimatedDuration: "16 min",
     difficulty: "Beginner",
-    tags: ["legal compliance", "documentation"],
+    tags: ["insurance", "MOT", "licence"],
     learningObjectives: [
-      "Identify mandatory driving documents and when each must be produced",
-      "Explain insurance tiers and recognise the minimum legal cover",
-      "Understand MOT and VED obligations, including SORN requirements",
+      "Identify the core documents you must hold: driving licence, insurance, MOT, and V5C",
+      "Explain what SORN means, when you can drive without tax, and when insurance must be updated",
+      "Describe the penalties for failing to present documents or giving false information",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA/DVLA guidance 2024",
     content: `
 ## Overview
-Driving legally means holding the correct licence, insurance, MOT, and tax. Police can request evidence at any time.
+Driving legally is about more than skill. The DVSA needs you to know the legal paperwork that proves you, your vehicle, and your journey are authorised. Police can request documents at any time.
 
-## Licence Essentials
-* **Provisional licence:** Required for learners; must be supervised by someone over 21 with three years’ full licence experience.
-* **L plates:** Display front and back; remove when a qualified driver takes over.
-* **Producing documents:** If you can’t show your licence roadside, you have seven days to present it at a nominated police station.
+## DVSA Essentials
+- You must hold a valid **driving licence** for the vehicle category, keep the DVLA updated with address changes, and renew photo cards every 10 years.
+- **Insurance** is mandatory. The minimum is third-party cover, and the vehicle user must be insured to drive it.
+- Vehicles over three years old require an annual **MOT**, and you must tax the vehicle unless it has a Statutory Off Road Notification (SORN).
 
-## Insurance Tiers
->W Driving without at least **third-party** insurance is a criminal offence.
-* **Third-party:** Covers others’ property/injuries only.
-* **Third-party, fire & theft:** Adds cover for theft and fire damage to your vehicle.
-* **Comprehensive:** Covers your vehicle even if you are at fault.
+## Skills to Master
+### 1. Knowing Your Documents
+- **V5C (log book):** Proves registered keeper, not necessarily owner. Update the DVLA when you buy, sell, or change address.
+- **Insurance certificate:** Check policy type, named drivers, and class of use (social, commuting, business).
+- **MOT certificate:** Valid for 12 months; driving without one (unless en route to a pre-booked test) can incur fines.
 
-## MOT Requirements
-* Annual safety and emissions test after a car’s third birthday (fourth in Northern Ireland).
-* Driving without a valid MOT is illegal unless travelling to a pre-booked test or repairs.
+### 2. When and How to Present Documents
+- If requested by police, you must produce documents immediately or within seven days at a nominated police station (“producer” or HORT/1).
+- Keep digital copies but ensure originals are accessible.
+- Report lost or stolen documents to the DVLA or insurer without delay.
 
-## Vehicle Excise Duty (VED)
-* Pay road tax electronically; no paper disc.
-* **SORN:** Declare vehicles off-road if untaxed and unused. Must be kept on private land.
+### 3. Understanding Penalties
+- Driving without insurance: up to six penalty points, unlimited fine, and potential vehicle seizure.
+- False information on insurance or licence: prosecution for fraud.
+- Failing to tax a vehicle can result in financial penalties and clamping.
 
-## Key Takeaways
-- Carry proof of licence, insurance, and MOT; keep records updated.
-- Review insurance cover annually to ensure adequate protection.
-- Act promptly on MOT reminders and tax renewals.
+## Common Mistakes and How to Avoid Them
+- **Not updating address:** Leads to missed reminders and potential fines.
+- **Assuming insurance covers everyone:** Check policy wording for named drivers and uses.
+- **Forgetting MOT renewal:** Set reminders; some garages send alerts, but responsibility remains with you.
 
-## Practice Prompt
->! Create a checklist of document renewal dates (licence address updates, MOT, insurance, VED). Set digital reminders before attempting the quiz.
+## Ready-for-Test Checklist
+- I can list the four key documents and their purpose.
+- I know how to perform a SORN and when it applies.
+- I understand insurance classes (social, domestic & pleasure vs. commuting vs. business).
+- I know the consequences of failing to produce documents on request.
+
+## Practice Task
+>! Create a document timeline for your own or a family vehicle: note renewal dates for tax, MOT, insurance, and driving licence. Share it with the vehicle keeper to demonstrate your understanding.
 `,
   },
   {
     slug: "incidents-accidents-emergencies",
-    title: "Incidents, Accidents & Emergencies",
+    title: "Incidents, Accidents & Emergencies: Staying Calm Under Pressure",
     category: Category.INCIDENTS_ACCIDENTS_EMERGENCIES,
     summary:
-      "Know what to do in the event of a breakdown, collision, or when encountering an emergency vehicle.",
-    estimatedDuration: "18 min",
-    difficulty: "Intermediate",
-    tags: ["breakdowns", "first aid", "emergency response"],
+      "Prepare for breakdowns, collisions, and emergency situations so you know exactly what to do if the unexpected happens.",
+    estimatedDuration: "22 min",
+    difficulty: "Advanced",
+    tags: ["first aid", "breakdowns", "collisions"],
     learningObjectives: [
-      "Follow legal requirements when involved in a collision or incident",
-      "Execute safe breakdown procedures on standard roads and smart motorways",
-      "Recall the DR ABC first-aid sequence and safe behaviour around casualties",
+      "Follow safe breakdown procedures on normal roads, motorways, and smart motorways",
+      "Apply the DR ABC first-aid response and know when to call emergency services",
+      "Understand legal duties after a collision, including exchanging details and reporting",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA & Highways England 2024",
     content: `
 ## Overview
-Emergencies demand calm, quick decisions. Know the legal steps, how to protect everyone at the scene, and when to call for help.
+Even experienced drivers face emergencies. The DVSA expects you to stay calm, keep everyone safe, and meet legal obligations when incidents occur. Knowing the procedure reduces panic and saves lives.
 
-## Breakdown Actions
-* **Normal roads:** Pull off the carriageway if possible, activate hazards, and place a warning triangle 45 m behind (never on a motorway).
-* **Motorways/smart motorways:** Move to the hard shoulder or an emergency area. Stay behind the barrier and call for assistance using SOS phones.
+## DVSA Essentials
+- Use hazard lights and, where safe, a warning triangle (not on motorways).
+- On smart motorways, stop in an emergency refuge area if possible and contact National Highways.
+- DR ABC first aid: Danger, Response, Airway, Breathing, Circulation.
 
-## Collision Response
-> **Highway Code, Rule 286:** You MUST stop if damage or injury occurs.
-1. Stop safely, switch off the engine, and activate hazards.
-2. Check for injuries and call **999/112** if anyone is hurt or the road is blocked.
-3. Exchange details (name, address, insurance). If property is damaged and the owner is absent, report to police within 24 hours.
+## Skills to Master
+### 1. Breakdown Response
+- Pull over somewhere safe, ideally a lay-by or emergency area. On a standard motorway with a hard shoulder, park as far left as possible with wheels turned left.
+- Exit on the passenger side, wear high-visibility clothing if available, and wait behind the barrier.
+- Use your phone or emergency phone to call for help; give accurate location details (marker posts help).
 
-## First Aid: DR ABC
-* **Danger:** Ensure the scene is safe before approaching.
-* **Response:** Ask questions; gently shake shoulders.
-* **Airway:** Tilt head back, lift chin to open airway.
-* **Breathing:** Look, listen, and feel for up to 10 seconds.
-* **Compressions:** If not breathing, call emergency services and start CPR if trained.
->! Never remove a motorcyclist’s helmet unless absolutely necessary to maintain the airway.
+### 2. Collision Management
+- Switch off engines, turn on hazard lights, and place warning triangles at least 45 metres behind (not on motorways).
+- Check for injuries. If anyone is hurt, call 999. Do not move casualties unless there is immediate danger (fire, submersion).
+- Exchange details (name, address, registration, insurance). Report the incident to police within 24 hours if details are not exchanged.
 
-## Encountering Emergency Vehicles
-* Plan early: look for safe places to pull over without entering bus lanes or breaking traffic laws.
-* Avoid harsh braking—signal intentions and create a gap smoothly.
+### 3. First Aid Basics
+- DR ABC: check for danger, response, open airway, check breathing, maintain circulation with CPR if trained (30 compressions to 2 breaths).
+- Control bleeding with direct pressure. Keep casualties warm and reassured.
+- Do not offer food or drink. Support the head and neck if spinal injury is suspected.
 
-## Key Takeaways
-- Stop, secure the scene, and exchange details after collisions.
-- Use emergency refuges correctly and stay behind safety barriers.
-- Remember DR ABC to provide initial aid while waiting for professionals.
+## Common Mistakes and How to Avoid Them
+- **Standing in the carriageway:** Always wait behind a barrier where possible.
+- **Removing helmets from motorcyclists:** Only do so if it’s essential to maintain airway/breathing.
+- **Leaving the scene prematurely:** Never drive away without exchanging details or reporting.
 
-## Practice Prompt
->! Review the location of emergency telephones on your most-used motorway route and store breakdown provider numbers on your phone before taking the quiz.
+## Ready-for-Test Checklist
+- I know emergency contact procedures for motorways and smart motorways.
+- I can describe DR ABC and basic CPR steps.
+- I understand legal obligations when damage or injury occurs.
+- I carry essential emergency kit (first aid, high-vis, warning triangle, phone charger).
+
+## Practice Task
+>! Create an emergency response card for your glovebox listing: breakdown steps, DR ABC sequence, insurance details, and important phone numbers. Review it monthly so the information stays fresh.
 `,
   },
   {
     slug: "vehicle-loading",
-    title: "Vehicle Loading: Safety and Stability",
+    title: "Vehicle Loading: Carrying Passengers and Loads Safely",
     category: Category.VEHICLE_LOADING,
     summary:
-      "Learn the correct and safe way to load your vehicle, whether it's luggage, passengers, or towing a trailer.",
-    estimatedDuration: "14 min",
+      "Learn how weight, balance, and securing loads affect stability, braking distances, and legal compliance.",
+    estimatedDuration: "18 min",
     difficulty: "Intermediate",
-    tags: ["loading", "towing", "passenger safety"],
+    tags: ["payload", "towing", "securing loads"],
     learningObjectives: [
-      "Load passenger vehicles safely by distributing weight and securing items",
-      "Explain legal responsibilities for restraining passengers and animals",
-      "Prepare and tow trailers or caravans within licence and safety limits",
+      "Explain how loading affects handling, braking distances, and tyre pressures",
+      "Secure luggage, roof loads, and trailers in line with DVSA guidance",
+      "Understand legal limits for vehicle weight, passengers, towing, and nose weight",
     ],
-    lastReviewed: "2025-09-01",
-    sourceVersion: "Highway Code 2024 update",
+    lastReviewed: "2025-10-15",
+    sourceVersion: "DVSA Load-Securing Guidance 2024",
     content: `
 ## Overview
-Correct loading keeps the vehicle stable and legal. Poor load management increases stopping distance, risk of rollover, and insurance issues.
+Poorly secured loads cause collisions, fines, and failed driving tests. DVSA examiners look for drivers who recognise how passengers and cargo change the way a vehicle behaves.
 
-## General Loading Principles
-* Keep heavy items low and near the centre to maintain balance.
-* Secure loads with straps or nets—loose items become projectiles in sudden stops.
->W Overloading can invalidate insurance and lead to fines.
+## DVSA Essentials
+- Never exceed the vehicle’s **Maximum Authorised Mass (MAM)**; check the VIN plate.
+- Spread weight evenly and keep heavy items low and central.
+- Trailers and caravans must stay within the car’s towing limit and have adequate nose weight.
 
-## Roof Racks and Height Changes
-* Roof loads raise the centre of gravity; drive slower on bends and in crosswinds.
-* Secure the load to manufacturer torque specs and watch for height restrictions.
+## Skills to Master
+### 1. Preparing the Vehicle
+- Adjust tyre pressures according to the handbook when carrying heavy loads or towing.
+- Ensure mirrors, lights, and number plates are not obscured.
+- Confirm people can enter and exit safely; do not overload seats or footwells.
 
-## Passengers and Animals
-* The driver must ensure all passengers use seat belts or appropriate child restraints.
-* Pets need restraints (harness, carrier, cage) to avoid distraction and injury.
-> **Highway Code, Rule 57:** Animals must be suitably restrained.
+### 2. Securing Loads
+- Use luggage restraints, nets, or straps in the boot. Loose items can become projectiles in a collision.
+- Roof racks should be tightened securely; check load limits and re-tighten straps during long journeys.
+- When towing, cross safety chains (if fitted), connect breakaway cables correctly, and check lights.
 
-## Towing Trailers and Caravans
-* Verify licence entitlements and maximum authorised mass (MAM).
-* Fit towing mirrors if the trailer is wider than the car.
-* Attach the breakaway cable correctly; load heavy items over the axle to avoid snaking and pitching.
-* If snaking occurs, ease off the accelerator gently—do not brake sharply.
+### 3. Driving with Extra Weight
+- Allow longer stopping distances and acceleration times.
+- Take bends more slowly; higher centre of gravity increases rollover risk.
+- Park on level ground when loading or unloading; set the parking brake and select first gear or park.
 
-## Key Takeaways
-- Balance loads and secure everything before moving off.
-- Ensure all occupants—including animals—are restrained legally.
-- Follow towing limits and adjust driving style to maintain stability.
+## Common Mistakes and How to Avoid Them
+- **Exceeding weight limits:** Check the handbook or VIN plate; remember luggage plus passengers count.
+- **Unsecured pets or luggage:** Use restraints or carriers; loose animals are dangerous.
+- **Incorrect nose weight:** Excessive or insufficient nose weight leads to snaking. Follow manufacturer guidance.
 
-## Practice Prompt
->! Create a pre-trip checklist covering luggage placement, passenger restraints, and trailer coupling. Use it before your next long journey, then attempt the quiz.
+## Ready-for-Test Checklist
+- I know where to find my vehicle’s weight and towing limits.
+- I secure all loads, including small items, before driving.
+- I adjust tyre pressures and headlight aim when carrying heavy loads if required.
+- I adapt my driving style to the extra weight or trailer.
+
+## Practice Task
+>! Before your next family trip, plan the load: list items, their approximate weight, and where they will go. Decide how you will secure them and what adjustments (tyre pressure, mirrors, speed) you will make.
 `,
   },
 ];
