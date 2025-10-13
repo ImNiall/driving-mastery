@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import type { LearningModule, Category, Question } from "@/types";
+import type { LearningModule, Category, Question, UserAnswer } from "@/types";
 import { QUESTION_BANK } from "@/constants";
 import { ProgressService } from "@/lib/services/progress";
 import { ArrowLeftIcon, FlagIcon } from "@/components/icons";
@@ -27,9 +27,11 @@ function pickModuleQuestions(category: Category, count = 5): Question[] {
 export default function MiniQuiz({
   module,
   onModuleMastery,
+  getWrongAnswersForModule,
 }: {
   module: LearningModule;
   onModuleMastery: (c: Category) => void;
+  getWrongAnswersForModule?: (moduleSlug: string) => UserAnswer[];
 }) {
   const [attemptId, setAttemptId] = React.useState<string | null>(null);
   const [questions, setQuestions] = React.useState<Question[]>([]);
@@ -53,6 +55,21 @@ export default function MiniQuiz({
     pct: number;
   } | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+
+  const reviewQuestions = React.useMemo(() => {
+    if (!getWrongAnswersForModule) return [] as Question[];
+    try {
+      const previousWrongAnswers = getWrongAnswersForModule(module.slug) || [];
+      return previousWrongAnswers
+        .map((answer) =>
+          QUESTION_BANK.find((question) => question.id === answer.questionId),
+        )
+        .filter((question): question is Question => Boolean(question));
+    } catch (err) {
+      console.error("[MiniQuiz] Failed to load previous wrong answers", err);
+      return [] as Question[];
+    }
+  }, [getWrongAnswersForModule, module.slug]);
 
   const computeLocalTotals = React.useCallback(() => {
     const uniqueEntries = new Map<number, (typeof answers)[number]>();
@@ -83,7 +100,19 @@ export default function MiniQuiz({
     (async () => {
       try {
         // Start mini attempt
-        const qs = pickModuleQuestions(module.category, 5);
+        const randomQuestions = pickModuleQuestions(module.category, 5);
+        const uniqueQuestions = new Map<number, Question>();
+
+        reviewQuestions.forEach((question) => {
+          uniqueQuestions.set(question.id, question);
+        });
+
+        randomQuestions.forEach((question) => {
+          uniqueQuestions.set(question.id, question);
+        });
+
+        const qs = Array.from(uniqueQuestions.values()).slice(0, 5);
+
         setQuestions(qs);
         const s = await ProgressService.startAttempt("mini", module.slug);
         setAttemptId(s.attemptId);
@@ -100,7 +129,7 @@ export default function MiniQuiz({
         setError(e?.message || "Failed to start mini quiz");
       }
     })();
-  }, [module.category, module.slug]);
+  }, [module.category, module.slug, reviewQuestions]);
 
   const current = questions[index] ?? null;
   const isLast = index === questions.length - 1;

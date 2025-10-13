@@ -2328,7 +2328,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "To assess how following drivers are reacting",
+        text: "To see how drivers behind are reacting to the hazard you passed",
         isCorrect: true,
       },
       {

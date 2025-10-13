@@ -8,14 +8,16 @@ import ModuleContent, {
 } from "@/components/modules/moduleContent";
 import MiniQuiz from "@/components/MiniQuiz";
 import { decodeEntities } from "@/lib/decodeEntities";
-import type { Category, LearningModule } from "@/types";
+import type { Category, LearningModule, UserAnswer } from "@/types";
 
 export default function ModulesViewV2({
   module,
   onModuleMastery,
+  getWrongAnswersForModule,
 }: {
   module: LearningModule;
   onModuleMastery: (category: Category) => void;
+  getWrongAnswersForModule?: (moduleSlug: string) => UserAnswer[];
 }) {
   const sections = React.useMemo(
     () => parseModuleSections(module.content),
@@ -51,7 +53,11 @@ export default function ModulesViewV2({
         ))}
 
         <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 space-y-4">
-          <MiniQuiz module={module} onModuleMastery={onModuleMastery} />
+          <MiniQuiz
+            module={module}
+            onModuleMastery={onModuleMastery}
+            getWrongAnswersForModule={getWrongAnswersForModule}
+          />
         </div>
       </div>
 

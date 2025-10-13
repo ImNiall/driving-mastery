@@ -2,6 +2,7 @@
 
 import React from "react";
 import ModulesViewV2 from "@/components/ModulesViewV2";
+import { getWrongAnswersForModule } from "@/utils/wrongAnswers";
 import type { LearningModule } from "@/types";
 
 type Props = {
@@ -16,7 +17,16 @@ export default function ModulePageClient({ module }: Props) {
     [],
   );
 
+  const memoisedGetWrongAnswers = React.useCallback(
+    (moduleSlug: string) => getWrongAnswersForModule(moduleSlug),
+    [],
+  );
+
   return (
-    <ModulesViewV2 module={module} onModuleMastery={handleModuleMastery} />
+    <ModulesViewV2
+      module={module}
+      onModuleMastery={handleModuleMastery}
+      getWrongAnswersForModule={memoisedGetWrongAnswers}
+    />
   );
 }

@@ -8,11 +8,6 @@
  * for correct and incorrect answers per category, and highlights questions
  * where the correct answer exceeds the mean incorrect option length by more
  * than 20%.
- *
- * Adjustment summary (2024-06-01):
- * - Questions updated: 203
- * - Avg option length diff (correct - incorrect):
- *     before +15.0 chars, after -0.6 chars
  */
 
 const fs = require("fs");
