@@ -62,7 +62,6 @@ export default function AppNav() {
           <div className="text-lg font-extrabold text-brand-blue">
             Driving Mastery
           </div>
-
           <button
             type="button"
             className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-blue text-white transition hover:bg-brand-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue md:hidden"
