@@ -57,7 +57,9 @@ export default function MiniQuiz({
   const [error, setError] = React.useState<string | null>(null);
 
   const reviewQuestions = React.useMemo(() => {
-    if (!getWrongAnswersForModule) return [] as Question[];
+    if (!getWrongAnswersForModule || typeof window === "undefined") {
+      return [] as Question[];
+    }
     try {
       const previousWrongAnswers = getWrongAnswersForModule(module.slug) || [];
       return previousWrongAnswers
@@ -263,25 +265,27 @@ export default function MiniQuiz({
   if (finished && results) {
     const passed = results.pct >= 80;
     return (
-      <div className="space-y-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-md">
+      <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-md sm:space-y-6 sm:p-8">
         <ModuleProgress value={results.pct} />
-        <div className="text-center space-y-3">
-          <h3 className="text-2xl font-bold text-gray-800">
+        <div className="space-y-3 text-center">
+          <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
             {passed ? "Excellent Work!" : "Good Effort! Review & Retry."}
           </h3>
-          <p className="text-gray-600">You scored</p>
+          <p className="text-sm text-gray-600 sm:text-base">You scored</p>
           <p
             className={cn(
-              "font-bold text-5xl",
+              "font-bold text-4xl sm:text-5xl",
               passed ? "text-green-600" : "text-red-600",
             )}
           >
             {results.correct}
-            <span className="ml-1 text-3xl text-gray-500">
+            <span className="ml-1 text-2xl text-gray-500 sm:text-3xl">
               / {results.total}
             </span>
           </p>
-          <p className="text-sm text-gray-500">Overall score: {results.pct}%</p>
+          <p className="text-xs text-gray-500 sm:text-sm">
+            Overall score: {results.pct}%
+          </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Button
@@ -311,17 +315,17 @@ export default function MiniQuiz({
 
   if (!current) {
     return (
-      <div className="rounded-2xl border border-gray-100 bg-white p-8 text-gray-600 shadow-md">
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 text-gray-600 shadow-md sm:p-8">
         Preparing mini quiz…
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-md">
+    <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-md sm:space-y-6 sm:p-8">
       <ModuleProgress value={progressValue} />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm font-medium text-gray-600">
+        <p className="text-xs font-medium uppercase tracking-wide text-gray-600 sm:text-sm sm:normal-case sm:tracking-normal">
           Question {index + 1} of {questions.length}
         </p>
         <Button

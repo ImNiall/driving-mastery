@@ -143,25 +143,25 @@ export default function ChatWindow({
 
   return (
     <div
-      className={`flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl ${className ?? ""}`}
+      className={`flex h-full w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:rounded-3xl ${className ?? ""}`}
     >
-      <header className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-5 py-4">
+      <header className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3 sm:px-5 sm:py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue">
-            <ChatIcon className="h-5 w-5" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-blue/10 text-brand-blue sm:h-11 sm:w-11">
+            <ChatIcon className="h-5 w-5 sm:h-6 sm:w-6" />
           </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand-blue">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brand-blue sm:text-sm">
               AI Mentor
             </p>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 sm:text-sm">
               Ask Theo anything about the UK theory test.
             </p>
           </div>
         </div>
       </header>
 
-      <div className="flex-1 space-y-4 overflow-y-auto px-5 py-6 text-sm text-slate-800">
+      <div className="flex-1 space-y-4 overflow-y-auto px-4 py-5 text-sm leading-relaxed text-slate-800 sm:px-5 sm:py-6">
         {!initialised && (
           <div className="flex justify-start">
             <div className="rounded-2xl bg-slate-100 px-4 py-3 text-slate-600">
@@ -175,7 +175,7 @@ export default function ChatWindow({
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[75%] whitespace-pre-wrap rounded-2xl px-4 py-3 ${
+              className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm sm:max-w-[75%] sm:text-base ${
                 msg.role === "user"
                   ? "bg-brand-blue text-white"
                   : "bg-slate-100 text-slate-900"
@@ -203,11 +203,11 @@ export default function ChatWindow({
         <div ref={endRef} />
       </div>
 
-      <footer className="border-t border-slate-200 px-5 py-4">
-        <div className="flex items-center gap-3 rounded-full bg-slate-100 px-3">
+      <footer className="border-t border-slate-200 px-4 py-3 sm:px-5 sm:py-4">
+        <div className="flex items-center gap-2 rounded-full bg-slate-100 px-2 sm:gap-3 sm:px-3">
           <input
             type="text"
-            className="w-full bg-transparent py-2 text-sm outline-none"
+            className="w-full bg-transparent py-2 text-sm outline-none sm:text-base"
             placeholder="Ask a question about driving theory…"
             value={input}
             onChange={(event) => setInput(event.target.value)}
