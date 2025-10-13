@@ -22,29 +22,79 @@ export default function ChatWindow({
   const [input, setInput] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [initialised, setInitialised] = React.useState(false);
+  const [threadId, setThreadId] = React.useState<string | null>(null);
   const endRef = React.useRef<HTMLDivElement | null>(null);
+
+  const getAssistantResponse = React.useCallback(
+    async (history: ChatMessage[], existingThreadId?: string) => {
+      const latest = history[history.length - 1]?.text ?? "";
+      if (!latest) {
+        return { text: "", threadId: existingThreadId ?? null };
+      }
+
+      const response = await fetch("/api/assistant-chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: latest,
+          threadId: existingThreadId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Assistant request failed");
+      }
+
+      const data = (await response.json()) as {
+        text?: string;
+        threadId?: string;
+      };
+      return {
+        text: data.text ?? "",
+        threadId: data.threadId ?? existingThreadId ?? null,
+      };
+    },
+    [],
+  );
 
   React.useEffect(() => {
     if (initialised) return;
     let cancelled = false;
     const bootstrap = async () => {
       setIsLoading(true);
-      const initialUser: ChatMessage = {
-        role: "user",
-        text: initialContextMessage || "Hi Theo.",
-      };
-      const { text, action } = await getChatResponse([initialUser]);
-      if (cancelled) return;
-      const aiMessage: ChatMessage = { role: "model", text, action };
-      setMessages([aiMessage]);
-      setIsLoading(false);
-      setInitialised(true);
+      try {
+        const initialUser: ChatMessage = {
+          role: "user",
+          text: initialContextMessage || "Hi Theo.",
+        };
+        const { text, threadId: newThreadId } = await getAssistantResponse([
+          initialUser,
+        ]);
+        if (cancelled) return;
+        const aiMessage: ChatMessage = { role: "model", text };
+        setThreadId(newThreadId ?? null);
+        setMessages([aiMessage]);
+      } catch (error) {
+        if (!cancelled) {
+          setMessages([
+            {
+              role: "model",
+              text: "I’m having trouble connecting right now. Please try again in a moment.",
+            },
+          ]);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+          setInitialised(true);
+        }
+      }
     };
     bootstrap();
     return () => {
       cancelled = true;
     };
-  }, [initialContextMessage, initialised]);
+  }, [getAssistantResponse, initialContextMessage, initialised]);
 
   React.useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -59,11 +109,26 @@ export default function ChatWindow({
     setIsLoading(true);
 
     const history = [...messages, userMessage];
-    const { text, action } = await getChatResponse(history);
-    const aiMessage: ChatMessage = { role: "model", text, action };
-    setMessages((prev) => [...prev, aiMessage]);
-    setIsLoading(false);
-  }, [input, isLoading, messages]);
+    try {
+      const { text, threadId: newThreadId } = await getAssistantResponse(
+        history,
+        threadId ?? undefined,
+      );
+      setThreadId(newThreadId ?? null);
+      const aiMessage: ChatMessage = { role: "model", text };
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "model",
+          text: "I couldn’t reach the assistant just now. Please try again in a moment.",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [getAssistantResponse, input, isLoading, messages, threadId]);
 
   const handleQuizStart = React.useCallback(
     (action: QuizAction) => {

@@ -31,7 +31,7 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "To plan where to stop after the junction",
+        text: "To plan where to stop after the junction once you turn",
         isCorrect: false,
       },
       {
@@ -53,15 +53,15 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only after you complete the manoeuvre",
+        text: "Only after you complete the manoeuvre and settle back in",
         isCorrect: false,
       },
       {
-        text: "Whenever you pass through traffic lights",
+        text: "Whenever you pass through traffic lights regardless of direction",
         isCorrect: false,
       },
       {
-        text: "Only when you travel above 40 mph",
+        text: "Only when you travel above 40 mph on faster roads",
         isCorrect: false,
       },
     ],
@@ -161,11 +161,11 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "You need to check if the tyres on the parked cars are legal",
+        text: "You need to check if the tyres on the parked cars are legal as you pass",
         isCorrect: false,
       },
       {
-        text: "It prevents mud from splashing the parked cars",
+        text: "It prevents mud from splashing the parked cars as you go by",
         isCorrect: false,
       },
     ],
@@ -209,15 +209,15 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The condition of the crash barrier behind you",
+        text: "The condition of the crash barrier behind you in case it’s damaged",
         isCorrect: false,
       },
       {
-        text: "Whether your rear tyre pressures look low",
+        text: "Whether your rear tyre pressures look low from the mirrors",
         isCorrect: false,
       },
       {
-        text: "If the slip road surface is dry or wet",
+        text: "If the slip road surface is dry or wet rather than approaching traffic",
         isCorrect: false,
       },
     ],
@@ -265,11 +265,11 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "It lets you check the depth of tread on other vehicles",
+        text: "It lets you check the depth of tread on other vehicles from a distance",
         isCorrect: false,
       },
       {
-        text: "It eliminates the need to use dipped headlights",
+        text: "It eliminates the need to use dipped headlights altogether",
         isCorrect: false,
       },
     ],
@@ -287,15 +287,15 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Weave around the barriers if no train is visible",
+        text: "Weave around the barriers if no train is visible to save time",
         isCorrect: false,
       },
       {
-        text: "Sound the horn to warn the train driver you are waiting",
+        text: "Sound the horn to warn the train driver you are waiting on the road",
         isCorrect: false,
       },
       {
-        text: "Reverse away without checking the mirrors",
+        text: "Reverse away without checking the mirrors because it seems safer",
         isCorrect: false,
       },
     ],
@@ -391,7 +391,7 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It guarantees you will not need to stop for fuel",
+        text: "It guarantees you will not need to stop for fuel on the way",
         isCorrect: false,
       },
       {
@@ -399,7 +399,7 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "It means you can drive without using mirrors",
+        text: "It means you can drive without using mirrors because the route is known",
         isCorrect: false,
       },
     ],
@@ -443,15 +443,15 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The ball will roll clear, so maintain your speed",
+        text: "The ball will roll clear, so maintain your speed through the gap",
         isCorrect: false,
       },
       {
-        text: "Other drivers will block the lane behind you",
+        text: "Other drivers will block the lane behind you to keep you safe",
         isCorrect: false,
       },
       {
-        text: "Pedestrians will shout if anyone is approaching",
+        text: "Pedestrians will shout if anyone is approaching from the pavement",
         isCorrect: false,
       },
     ],
@@ -469,7 +469,7 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Avoid them unless you intend to overtake",
+        text: "Avoid them unless you intend to overtake at that moment",
         isCorrect: false,
       },
       {
@@ -477,7 +477,7 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Rely solely on the trailer’s indicator repeaters",
+        text: "Rely solely on the trailer’s indicator repeaters for awareness",
         isCorrect: false,
       },
     ],
@@ -495,15 +495,15 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Stay put until an enforcement camera flashes",
+        text: "Stay put until an enforcement camera flashes to tell you to move",
         isCorrect: false,
       },
       {
-        text: "Only change lanes if you can see an obstruction ahead",
+        text: "Only change lanes if you can see an obstruction ahead with your eyes",
         isCorrect: false,
       },
       {
-        text: "Ignore the sign unless there’s debris present",
+        text: "Ignore the sign unless there’s debris present in the lane",
         isCorrect: false,
       },
     ],
@@ -521,15 +521,15 @@ const ALERTNESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Focus only on traffic approaching from the right",
+        text: "Focus only on traffic approaching from the right and ignore the crossing nearby",
         isCorrect: false,
       },
       {
-        text: "Accelerate quickly to clear both junction and crossing together",
+        text: "Accelerate quickly to clear both junction and crossing together before they react",
         isCorrect: false,
       },
       {
-        text: "Ignore the crossing because priority lies with roundabout users",
+        text: "Ignore the crossing because priority lies with roundabout users regardless of pedestrians",
         isCorrect: false,
       },
     ],
@@ -549,15 +549,15 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Accelerate to prevent them from pulling alongside",
+        text: "Accelerate to prevent them from pulling alongside you",
         isCorrect: false,
       },
       {
-        text: "Move closer to the centre line to block their view",
+        text: "Move closer to the centre line to block their view of oncoming traffic",
         isCorrect: false,
       },
       {
-        text: "Sound your horn repeatedly to warn them off",
+        text: "Sound your horn repeatedly to warn them off the attempt",
         isCorrect: false,
       },
     ],
@@ -677,11 +677,11 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It guarantees you will not need to refuel",
+        text: "It guarantees you will not need to refuel on the way",
         isCorrect: false,
       },
       {
-        text: "It allows you to ignore all traffic signals",
+        text: "It allows you to ignore all traffic signals en route",
         isCorrect: false,
       },
       {
@@ -725,19 +725,19 @@ const ATTITUDE_QUESTIONS: Question[] = [
       "What should you do if a driver behind is trying to overtake but there is limited visibility ahead?",
     options: [
       {
-        text: "Hold your course and avoid speeding up so they can drop back",
+        text: "Hold your course and avoid speeding up so they can drop back safely",
         isCorrect: true,
       },
       {
-        text: "Brake sharply to force them to abandon the manoeuvre",
+        text: "Brake sharply to force them to abandon the manoeuvre immediately",
         isCorrect: false,
       },
       {
-        text: "Wave them through quickly to clear the queue",
+        text: "Wave them through quickly to clear the queue even if it’s risky",
         isCorrect: false,
       },
       {
-        text: "Move onto the verge to block them",
+        text: "Move onto the verge to block them from overtaking",
         isCorrect: false,
       },
     ],
@@ -751,19 +751,19 @@ const ATTITUDE_QUESTIONS: Question[] = [
       "How can you show courtesy when approaching a narrow bridge with oncoming traffic?",
     options: [
       {
-        text: "Slow down and let the oncoming vehicle cross first if they are nearer",
+        text: "Slow down and let the oncoming vehicle cross first if it is nearer",
         isCorrect: true,
       },
       {
-        text: "Accelerate to reach the bridge before them",
+        text: "Accelerate to reach the bridge before them so you don’t have to wait",
         isCorrect: false,
       },
       {
-        text: "Sound your horn repeatedly to claim priority",
+        text: "Sound your horn repeatedly to claim priority and make them back off",
         isCorrect: false,
       },
       {
-        text: "Drive in the centre to prevent them entering",
+        text: "Drive in the centre to prevent them entering until you are across",
         isCorrect: false,
       },
     ],
@@ -805,15 +805,15 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Whenever you park to let people know you have arrived",
+        text: "Whenever you park to let people know you have arrived at their door",
         isCorrect: false,
       },
       {
-        text: "To greet friends you see on the pavement",
+        text: "To greet friends you see on the pavement late at night",
         isCorrect: false,
       },
       {
-        text: "To show gratitude to a driver who lets you pass",
+        text: "To show gratitude to a driver who lets you pass in traffic",
         isCorrect: false,
       },
     ],
@@ -835,11 +835,11 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "They can park in disabled bays for the first year",
+        text: "They can park in disabled bays for the first year without a permit",
         isCorrect: false,
       },
       {
-        text: "They will always drive below the speed limit",
+        text: "They will always drive below the speed limit wherever they go",
         isCorrect: false,
       },
     ],
@@ -853,19 +853,19 @@ const ATTITUDE_QUESTIONS: Question[] = [
       "Why should you avoid revving your engine while stationary in built-up areas?",
     options: [
       {
-        text: "It creates unnecessary noise and annoyance for others",
+        text: "It creates unnecessary noise and annoyance for others living nearby",
         isCorrect: true,
       },
       {
-        text: "It cools the engine too quickly",
+        text: "It cools the engine too quickly and can cause damage",
         isCorrect: false,
       },
       {
-        text: "It doubles your fuel economy",
+        text: "It doubles your fuel economy by warming the engine faster",
         isCorrect: false,
       },
       {
-        text: "It removes condensation from the exhaust",
+        text: "It removes condensation from the exhaust so emissions stay cleaner",
         isCorrect: false,
       },
     ],
@@ -883,7 +883,7 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Move close to the kerb without signalling",
+        text: "Move close to the kerb without signalling so they cannot pass",
         isCorrect: false,
       },
       {
@@ -891,7 +891,7 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Accelerate quickly so cyclists cannot draw level",
+        text: "Accelerate quickly so cyclists cannot draw level alongside you",
         isCorrect: false,
       },
     ],
@@ -909,7 +909,7 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Drive close behind to encourage the rider to move over",
+        text: "Drive close behind to encourage the rider to move over more quickly",
         isCorrect: false,
       },
       {
@@ -917,7 +917,7 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Rev the engine gently to keep the horse alert",
+        text: "Rev the engine gently to keep the horse alert during the pass",
         isCorrect: false,
       },
     ],
@@ -935,15 +935,15 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Sound your horn and drive close to make them hurry",
+        text: "Sound your horn and drive close to make them hurry up",
         isCorrect: false,
       },
       {
-        text: "Switch to full beam to give them more light",
+        text: "Switch to full beam to give them more light to park",
         isCorrect: false,
       },
       {
-        text: "Overtake immediately, even if you must cross solid lines",
+        text: "Overtake immediately, even if you must cross solid lines to get past",
         isCorrect: false,
       },
     ],
@@ -987,15 +987,15 @@ const ATTITUDE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It is illegal to signal anyone else at a junction",
+        text: "It is illegal to signal anyone else at a junction under any circumstances",
         isCorrect: false,
       },
       {
-        text: "Signals can damage your indicator stalk",
+        text: "Signals can damage your indicator stalk if used too often",
         isCorrect: false,
       },
       {
-        text: "It always confuses automated traffic lights",
+        text: "It always confuses automated traffic lights and causes faults",
         isCorrect: false,
       },
     ],
@@ -1035,7 +1035,7 @@ const ATTITUDE_QUESTIONS: Question[] = [
       "While waiting at roadworks controlled by portable lights, a driver behind repeatedly sounds their horn. What should you do?",
     options: [
       {
-        text: "Remain calm and obey the signal sequence when it turns green",
+        text: "Stay calm and follow the lights when they turn green",
         isCorrect: true,
       },
       {
@@ -1067,15 +1067,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only during the annual MOT test",
+        text: "Only during the annual MOT test when the garage inspects them",
         isCorrect: false,
       },
       {
-        text: "Whenever you fill up the screenwash",
+        text: "Whenever you fill up the screenwash as part of a routine",
         isCorrect: false,
       },
       {
-        text: "Every time you park on a hill",
+        text: "Every time you park on a hill because slopes change the pressure",
         isCorrect: false,
       },
     ],
@@ -1087,10 +1087,22 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
     category: Category.SAFETY_AND_YOUR_VEHICLE,
     question: "What is the minimum legal tread depth for car tyres in the UK?",
     options: [
-      { text: "1.6 mm across the central three-quarters", isCorrect: true },
-      { text: "0.5 mm across the entire width", isCorrect: false },
-      { text: "2.5 mm on the inner edge only", isCorrect: false },
-      { text: "3 mm on the outer edge only", isCorrect: false },
+      {
+        text: "1.6 mm across the central three-quarters of the tread",
+        isCorrect: true,
+      },
+      {
+        text: "0.5 mm across the entire width is sufficient for legal use",
+        isCorrect: false,
+      },
+      {
+        text: "2.5 mm on the inner edge only meets the requirement",
+        isCorrect: false,
+      },
+      {
+        text: "3 mm on the outer edge only is all that is needed",
+        isCorrect: false,
+      },
     ],
     explanation:
       "Tyre law requires at least 1.6 mm of tread across the central three-quarters and around the whole circumference (Highway Code Rule 228).",
@@ -1169,15 +1181,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "They make the speedometer read faster",
+        text: "They make the speedometer read faster so limits are easier",
         isCorrect: false,
       },
       {
-        text: "They improve cornering grip significantly",
+        text: "They improve cornering grip significantly when turning",
         isCorrect: false,
       },
       {
-        text: "They reduce the chance of aquaplaning",
+        text: "They reduce the chance of aquaplaning in heavy rain",
         isCorrect: false,
       },
     ],
@@ -1195,15 +1207,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Leave it in neutral with no brake so it can roll slightly",
+        text: "Leave it in neutral with no brake so it can roll slightly if needed",
         isCorrect: false,
       },
       {
-        text: "Select reverse gear and point the wheels towards the kerb",
+        text: "Select reverse gear and point the wheels towards the kerb to rest on it",
         isCorrect: false,
       },
       {
-        text: "Switch off the engine while holding the footbrake only",
+        text: "Switch off the engine while holding the footbrake only until you return",
         isCorrect: false,
       },
     ],
@@ -1217,19 +1229,19 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
       "Why should you keep your headlights and number plates clean in winter?",
     options: [
       {
-        text: "So you can be seen clearly and remain legal despite road spray",
+        text: "So you can be seen clearly and remain legal despite road spray and salt",
         isCorrect: true,
       },
       {
-        text: "To stop frost forming on the windscreen",
+        text: "To stop frost forming on the windscreen because lights melt the ice",
         isCorrect: false,
       },
       {
-        text: "To avoid draining the battery when starting",
+        text: "To avoid draining the battery when starting on cold mornings",
         isCorrect: false,
       },
       {
-        text: "To keep the car heater working efficiently",
+        text: "To keep the car heater working efficiently by warming air faster",
         isCorrect: false,
       },
     ],
@@ -1242,10 +1254,22 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
     question:
       "Which part of the vehicle helps prevent neck injuries in a rear collision?",
     options: [
-      { text: "The correctly adjusted head restraint", isCorrect: true },
-      { text: "The dipped headlights", isCorrect: false },
-      { text: "The rear fog lamps", isCorrect: false },
-      { text: "The door side-impact bars", isCorrect: false },
+      {
+        text: "The correctly adjusted head restraint positioned close to the back of your head",
+        isCorrect: true,
+      },
+      {
+        text: "The dipped headlights because they make the car more visible from behind",
+        isCorrect: false,
+      },
+      {
+        text: "The rear fog lamps because their brightness absorbs the crash energy",
+        isCorrect: false,
+      },
+      {
+        text: "The door side-impact bars because they support your neck during a shunt",
+        isCorrect: false,
+      },
     ],
     explanation:
       "Head restraints must be positioned correctly to reduce whiplash in collisions (Highway Code Rule 97).",
@@ -1261,15 +1285,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Open the cap immediately to release pressure",
+        text: "Open the cap immediately to release pressure and steam",
         isCorrect: false,
       },
       {
-        text: "Add water while the engine is running at idle",
+        text: "Add water while the engine is running at idle so it mixes faster",
         isCorrect: false,
       },
       {
-        text: "Fill it to the brim with neat antifreeze",
+        text: "Fill it to the brim with neat antifreeze for extra protection",
         isCorrect: false,
       },
     ],
@@ -1283,19 +1307,19 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
       "Why is it important to keep your seat properly adjusted on long journeys?",
     options: [
       {
-        text: "It prevents fatigue and ensures full control of pedals and steering",
+        text: "It prevents fatigue and ensures full control of pedals and steering inputs",
         isCorrect: true,
       },
       {
-        text: "It lets you drive without using mirrors",
+        text: "It lets you drive without using mirrors because you can lean around easily",
         isCorrect: false,
       },
       {
-        text: "It means you can remove your seat belt for comfort",
+        text: "It means you can remove your seat belt for comfort once you feel settled",
         isCorrect: false,
       },
       {
-        text: "It cools the interior more quickly",
+        text: "It cools the interior more quickly by letting air flow freely around you",
         isCorrect: false,
       },
     ],
@@ -1339,15 +1363,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Brake firmly to regain grip immediately",
+        text: "Brake firmly to regain grip immediately before the water clears",
         isCorrect: false,
       },
       {
-        text: "Steer quickly from side to side to find grip",
+        text: "Steer quickly from side to side to find grip in the surface",
         isCorrect: false,
       },
       {
-        text: "Accelerate hard to cut through the water",
+        text: "Accelerate hard to cut through the water and regain speed",
         isCorrect: false,
       },
     ],
@@ -1416,15 +1440,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only when the MOT tester advises",
+        text: "Only when the MOT tester advises during the annual inspection",
         isCorrect: false,
       },
       {
-        text: "When the rubber colour fades",
+        text: "When the rubber colour fades even if they still clear the screen",
         isCorrect: false,
       },
       {
-        text: "Every five years regardless of condition",
+        text: "Every five years regardless of condition because blades last that long",
         isCorrect: false,
       },
     ],
@@ -1441,15 +1465,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It improves tyre grip in wet conditions",
+        text: "It improves tyre grip in wet conditions because of extra weight",
         isCorrect: false,
       },
       {
-        text: "It makes braking distances shorter",
+        text: "It makes braking distances shorter by pushing the car down",
         isCorrect: false,
       },
       {
-        text: "It guarantees better traction when accelerating",
+        text: "It guarantees better traction when accelerating from rest",
         isCorrect: false,
       },
     ],
@@ -1467,7 +1491,7 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Switch on hazard lights while driving",
+        text: "Switch on hazard lights while driving to see them flash",
         isCorrect: false,
       },
       {
@@ -1475,7 +1499,7 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Pull the handbrake repeatedly to check",
+        text: "Pull the handbrake repeatedly to check instead of looking",
         isCorrect: false,
       },
     ],
@@ -1493,15 +1517,15 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only immediately after leaving an MOT test",
+        text: "Only immediately after leaving an MOT test because it was inspected",
         isCorrect: false,
       },
       {
-        text: "Never, because it is self-adjusting",
+        text: "Never, because it is self-adjusting and needs no attention",
         isCorrect: false,
       },
       {
-        text: "Only if you plan to tow a trailer",
+        text: "Only if you plan to tow a trailer and need extra holding force",
         isCorrect: false,
       },
     ],
@@ -1515,19 +1539,19 @@ const SAFETY_AND_YOUR_VEHICLE_QUESTIONS: Question[] = [
       "Why should you keep your vehicle’s exhaust system in good condition?",
     options: [
       {
-        text: "It prevents harmful fumes entering the cabin and reduces noise",
+        text: "It prevents harmful fumes entering the cabin and reduces noise levels",
         isCorrect: true,
       },
       {
-        text: "It allows you to carry heavier loads",
+        text: "It allows you to carry heavier loads because the exhaust supports weight",
         isCorrect: false,
       },
       {
-        text: "It means you can legally remove the catalytic converter",
+        text: "It means you can legally remove the catalytic converter without penalty",
         isCorrect: false,
       },
       {
-        text: "It increases engine power dramatically",
+        text: "It increases engine power dramatically as gases flow faster",
         isCorrect: false,
       },
     ],
@@ -1542,10 +1566,22 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
     question:
       "What time gap should you leave when following another vehicle in dry conditions at 40 mph?",
     options: [
-      { text: "At least a two-second gap", isCorrect: true },
-      { text: "Half a second", isCorrect: false },
-      { text: "Four seconds", isCorrect: false },
-      { text: "Ten seconds", isCorrect: false },
+      {
+        text: "Maintain at least a two-second gap from the vehicle ahead",
+        isCorrect: true,
+      },
+      {
+        text: "Follow at half a second because it keeps traffic flowing more smoothly",
+        isCorrect: false,
+      },
+      {
+        text: "Leave four seconds because dry roads always need double the distance",
+        isCorrect: false,
+      },
+      {
+        text: "Hold back ten seconds so the driver behind has more space instead",
+        isCorrect: false,
+      },
     ],
     explanation:
       "A two-second gap gives time to react and brake safely on dry roads (Highway Code Rule 126).",
@@ -1607,19 +1643,19 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
     question: "What should you do if you begin to skid because of ice?",
     options: [
       {
-        text: "Ease off the accelerator and steer gently in the direction of the skid",
+        text: "Ease off the accelerator and steer gently with the skid until grip returns",
         isCorrect: true,
       },
       {
-        text: "Brake hard immediately",
+        text: "Brake hard immediately so the tyres bite back into the surface",
         isCorrect: false,
       },
       {
-        text: "Accelerate to regain grip quickly",
+        text: "Accelerate to regain grip quickly because extra power straightens the car",
         isCorrect: false,
       },
       {
-        text: "Turn the steering wheel sharply the opposite way",
+        text: "Turn the steering wheel sharply the opposite way to force the car to straighten",
         isCorrect: false,
       },
     ],
@@ -1637,15 +1673,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Because fuel consumption improves at lower speed",
+        text: "Because fuel consumption improves at lower speed in heavy fog",
         isCorrect: false,
       },
       {
-        text: "Because the brakes work better when they are cold",
+        text: "Because the brakes work better when they are cold before use",
         isCorrect: false,
       },
       {
-        text: "Because headlights are brighter at low speed",
+        text: "Because headlights are brighter at low speed and help others",
         isCorrect: false,
       },
     ],
@@ -1658,19 +1694,19 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
     question: "When is it safe to use your rear fog lights?",
     options: [
       {
-        text: "Only when visibility is seriously reduced, generally below 100 metres",
+        text: "Only when visibility is seriously reduced to around 100 metres or less",
         isCorrect: true,
       },
       {
-        text: "Whenever you drive on the motorway",
+        text: "Whenever you drive on the motorway, regardless of the weather conditions",
         isCorrect: false,
       },
       {
-        text: "In light drizzle at any speed",
+        text: "In light drizzle at any speed so approaching drivers can see you",
         isCorrect: false,
       },
       {
-        text: "At night in built-up areas",
+        text: "At night in built-up areas to make sure your car stands out in traffic",
         isCorrect: false,
       },
     ],
@@ -1688,15 +1724,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Drive quickly to create a bow wave and clear the water",
+        text: "Drive quickly to create a bow wave and clear the water more effectively",
         isCorrect: false,
       },
       {
-        text: "Stop in the water to check its depth",
+        text: "Stop in the water to check its depth before moving on",
         isCorrect: false,
       },
       {
-        text: "Reverse through it to keep the engine higher",
+        text: "Reverse through it to keep the engine higher above the splash",
         isCorrect: false,
       },
     ],
@@ -1714,15 +1750,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Flash your lights repeatedly to warn the other driver",
+        text: "Flash your lights repeatedly to warn the other driver to dip theirs",
         isCorrect: false,
       },
       {
-        text: "Speed up so you pass the vehicle quickly",
+        text: "Speed up so you pass the vehicle quickly and shorten the glare",
         isCorrect: false,
       },
       {
-        text: "Close your eyes briefly until the glare passes",
+        text: "Close your eyes briefly until the glare passes completely",
         isCorrect: false,
       },
     ],
@@ -1740,15 +1776,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "They have greater braking power than cars",
+        text: "They have greater braking power than cars so they stop instantly",
         isCorrect: false,
       },
       {
-        text: "They use the middle lane on motorways",
+        text: "They use the middle lane on motorways and never swerve",
         isCorrect: false,
       },
       {
-        text: "They always travel faster when it is windy",
+        text: "They always travel faster when it is windy to steady themselves",
         isCorrect: false,
       },
     ],
@@ -1870,15 +1906,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It increases your fuel consumption slightly",
+        text: "It increases your fuel consumption slightly because of disturbed air",
         isCorrect: false,
       },
       {
-        text: "It prevents you from using dipped headlights",
+        text: "It prevents you from using dipped headlights while you stay there",
         isCorrect: false,
       },
       {
-        text: "It guarantees you will be splashed by surface water",
+        text: "It guarantees you will be splashed by surface water whenever it rains",
         isCorrect: false,
       },
     ],
@@ -1922,15 +1958,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Speed up to pass the lorry immediately",
+        text: "Speed up to pass the lorry immediately so you get clearer air",
         isCorrect: false,
       },
       {
-        text: "Switch to rear fog lights to warn drivers behind",
+        text: "Switch to rear fog lights to warn drivers behind instead of slowing",
         isCorrect: false,
       },
       {
-        text: "Turn on full beam to cut through the spray",
+        text: "Turn on full beam to cut through the spray and dazzle ahead",
         isCorrect: false,
       },
     ],
@@ -1944,19 +1980,19 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
       "When overtaking a cyclist in windy conditions, what margin should you allow?",
     options: [
       {
-        text: "At least 1.5 metres and even more if they could be blown sideways",
+        text: "At least 1.5 metres and even more if gusts might blow them sideways",
         isCorrect: true,
       },
       {
-        text: "Half a metre is sufficient in strong winds",
+        text: "Half a metre is sufficient in strong winds to keep traffic flowing",
         isCorrect: false,
       },
       {
-        text: "No gap is needed if you accelerate quickly",
+        text: "No gap is needed if you accelerate quickly to complete the pass",
         isCorrect: false,
       },
       {
-        text: "Drive close to shield them from gusts",
+        text: "Drive close to shield them from gusts so they feel less crosswind",
         isCorrect: false,
       },
     ],
@@ -1974,15 +2010,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Under-inflation allows quicker acceleration",
+        text: "Under-inflation allows quicker acceleration because there is more drag",
         isCorrect: false,
       },
       {
-        text: "Over-inflation improves ride comfort in traffic",
+        text: "Over-inflation improves ride comfort in traffic by softening bumps",
         isCorrect: false,
       },
       {
-        text: "Over-inflation keeps the speedometer accurate",
+        text: "Over-inflation keeps the speedometer accurate as you travel faster",
         isCorrect: false,
       },
     ],
@@ -2000,15 +2036,15 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Speed up to help the overtaking driver pass sooner",
+        text: "Speed up to help the overtaking driver pass sooner than expected",
         isCorrect: false,
       },
       {
-        text: "Move right to give them more room",
+        text: "Move right to give them more room as they draw alongside",
         isCorrect: false,
       },
       {
-        text: "Brake sharply to make them abort the manoeuvre",
+        text: "Brake sharply to make them abort the manoeuvre abruptly",
         isCorrect: false,
       },
     ],
@@ -2022,19 +2058,19 @@ const SAFETY_MARGINS_QUESTIONS: Question[] = [
       "When joining a motorway from a slip road, how do you create a safe merging gap?",
     options: [
       {
-        text: "Match the speed of motorway traffic and adjust position smoothly",
+        text: "Match the speed of motorway traffic and adjust position smoothly into a gap",
         isCorrect: true,
       },
       {
-        text: "Stop at the end of the slip road before entering",
+        text: "Stop at the end of the slip road before entering so drivers can see you",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to force a space",
+        text: "Sound your horn to force a space and warn motorists of your approach",
         isCorrect: false,
       },
       {
-        text: "Use hazard lights so drivers move across",
+        text: "Use hazard lights so drivers move across and give you extra room",
         isCorrect: false,
       },
     ],
@@ -2084,11 +2120,11 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Swerve around the ball while accelerating away",
+        text: "Swerve around the ball while accelerating away to stay on time",
         isCorrect: false,
       },
       {
-        text: "Use the horn continuously to warn others",
+        text: "Use the horn continuously to warn others instead of slowing",
         isCorrect: false,
       },
     ],
@@ -2180,19 +2216,19 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "While driving at night on a rural road, you notice reflective studs zig-zagging sharply ahead. What should this alert you to?",
     options: [
       {
-        text: "A steep downhill gradient",
+        text: "A steep downhill gradient that will require lower gears shortly",
         isCorrect: false,
       },
       {
-        text: "A sharp bend that requires you to slow down",
+        text: "A sharp bend that requires you to slow down and adjust your position",
         isCorrect: true,
       },
       {
-        text: "A series of speed humps",
+        text: "A series of speed humps placed to calm traffic at night",
         isCorrect: false,
       },
       {
-        text: "A level crossing with barriers",
+        text: "A level crossing with barriers that lower across the roadway",
         isCorrect: false,
       },
     ],
@@ -2206,7 +2242,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "What’s the main danger of overtaking a slow-moving vehicle as you approach a pedestrian refuge island?",
     options: [
       {
-        text: "You might block the right-hand lane",
+        text: "You might block the right-hand lane and surprise oncoming traffic",
         isCorrect: false,
       },
       {
@@ -2236,15 +2272,15 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "When travelling slowly through city traffic",
+        text: "When travelling slowly through city traffic where buildings block the wind",
         isCorrect: false,
       },
       {
-        text: "When driving behind tall hedges on calm days",
+        text: "When driving behind tall hedges on calm days because gusts are weaker",
         isCorrect: false,
       },
       {
-        text: "When parking facing downhill",
+        text: "When parking facing downhill because the wind flows over the bonnet",
         isCorrect: false,
       },
     ],
@@ -2258,11 +2294,11 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "You’re driving through slow-moving traffic and notice brake lights several vehicles ahead. How should you react?",
     options: [
       {
-        text: "Sound your horn to warn the driver in front",
+        text: "Sound your horn to warn the driver in front that traffic is stopping",
         isCorrect: false,
       },
       {
-        text: "Change lanes immediately to maintain speed",
+        text: "Change lanes immediately to maintain speed and get ahead",
         isCorrect: false,
       },
       {
@@ -2270,7 +2306,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Accelerate to close the gap before traffic stops",
+        text: "Accelerate to close the gap before traffic stops so you aren’t cut up",
         isCorrect: false,
       },
     ],
@@ -2284,11 +2320,11 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "Why is it especially important to check your mirrors after passing a hazard such as a parked car?",
     options: [
       {
-        text: "To make sure your signal has cancelled",
+        text: "To make sure your signal has cancelled and isn’t confusing others",
         isCorrect: false,
       },
       {
-        text: "To confirm the hazard hasn’t moved",
+        text: "To confirm the hazard hasn’t moved back into your path",
         isCorrect: false,
       },
       {
@@ -2296,7 +2332,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "To ensure your headlights remain on",
+        text: "To ensure your headlights remain on after the manoeuvre",
         isCorrect: false,
       },
     ],
@@ -2310,7 +2346,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "A tractor ahead is signalling right but appears to pull slightly left first. Why might this happen?",
     options: [
       {
-        text: "The driver is unsure which direction to take",
+        text: "The driver is unsure which direction to take and keeps changing their mind",
         isCorrect: false,
       },
       {
@@ -2318,11 +2354,11 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The indicator relay is faulty",
+        text: "The indicator relay is faulty so the lights flash on the wrong side",
         isCorrect: false,
       },
       {
-        text: "They want you to overtake on the right",
+        text: "They want you to overtake on the right so they signal as a courtesy",
         isCorrect: false,
       },
     ],
@@ -2336,19 +2372,19 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "Why should you avoid driving over spilt diesel on the road surface?",
     options: [
       {
-        text: "It greatly reduces tyre grip and increases the risk of skidding",
+        text: "It severely reduces tyre grip and can make you skid",
         isCorrect: true,
       },
       {
-        text: "It can clog the windscreen washers",
+        text: "It can clog the windscreen washers so you cannot clear spray from the screen",
         isCorrect: false,
       },
       {
-        text: "It damages catalytic converters immediately",
+        text: "It damages catalytic converters immediately, forcing an expensive repair",
         isCorrect: false,
       },
       {
-        text: "It falsely triggers speed cameras",
+        text: "It falsely triggers speed cameras and could earn you unfair fines",
         isCorrect: false,
       },
     ],
@@ -2388,19 +2424,19 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "Why should you avoid coasting downhill in neutral when assessing hazards?",
     options: [
       {
-        text: "It reduces your control because the engine isn’t helping with braking",
+        text: "It reduces your control because the engine isn’t helping with braking or steering response",
         isCorrect: true,
       },
       {
-        text: "It increases engine temperature dramatically",
+        text: "It increases engine temperature dramatically, risking overheating on long descents",
         isCorrect: false,
       },
       {
-        text: "It automatically turns off your headlights",
+        text: "It automatically turns off your headlights, leaving you unseen by other drivers in traffic",
         isCorrect: false,
       },
       {
-        text: "It stops the speedometer working",
+        text: "It stops the speedometer working so you won’t realise how fast you’re going",
         isCorrect: false,
       },
     ],
@@ -2418,7 +2454,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It’s illegal to pass a junction at any time",
+        text: "It’s illegal to pass a junction at any time regardless of conditions",
         isCorrect: false,
       },
       {
@@ -2426,7 +2462,7 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "You must sound the horn near every junction",
+        text: "You must sound the horn near every junction to warn others",
         isCorrect: false,
       },
     ],
@@ -2470,15 +2506,15 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The bus may roll backwards when leaving",
+        text: "The bus may roll backwards when leaving the stop unexpectedly",
         isCorrect: false,
       },
       {
-        text: "Your speedometer stops working near buses",
+        text: "Your speedometer stops working near buses due to interference",
         isCorrect: false,
       },
       {
-        text: "The bus headlights can dazzle you",
+        text: "The bus headlights can dazzle you as it pulls away",
         isCorrect: false,
       },
     ],
@@ -2492,19 +2528,19 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
       "Why can keeping windows mist-free be a key part of hazard awareness?",
     options: [
       {
-        text: "Clear windows maximise your ability to spot developing hazards",
+        text: "Clear windows maximise your ability to spot developing hazards in good time",
         isCorrect: true,
       },
       {
-        text: "It reduces the need to use headlights",
+        text: "It reduces the need to use headlights, saving the bulbs from unnecessary wear over time on journeys",
         isCorrect: false,
       },
       {
-        text: "It prevents air entering the vehicle",
+        text: "It prevents air entering the vehicle so you keep exhaust fumes outside entirely at all times",
         isCorrect: false,
       },
       {
-        text: "It means you can drive faster in fog",
+        text: "It means you can drive faster in fog because demisted glass gives perfect vision of the road",
         isCorrect: false,
       },
     ],
@@ -2522,15 +2558,15 @@ const HAZARD_AWARENESS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "There’s no hazard; it’s only for advisory purposes",
+        text: "There’s no hazard; it’s only for advisory purposes so you can stay put",
         isCorrect: false,
       },
       {
-        text: "You may continue if traffic is light",
+        text: "You may continue if traffic is light and the lane looks clear",
         isCorrect: false,
       },
       {
-        text: "It indicates a compulsory speed increase",
+        text: "It indicates a compulsory speed increase meaning accelerate",
         isCorrect: false,
       },
     ],
@@ -2576,15 +2612,15 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "They must legally wave you across before you proceed",
+        text: "They must legally wave you across before you proceed, so wait for that signal",
         isCorrect: false,
       },
       {
-        text: "They always have right of way only on motorways",
+        text: "They always have right of way only on motorways, so you can continue in towns",
         isCorrect: false,
       },
       {
-        text: "They are required to cross diagonally",
+        text: "They are required to cross diagonally which shortens the distance",
         isCorrect: false,
       },
     ],
@@ -2624,19 +2660,19 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
       "How should you pass a group of cyclists riding two abreast on a country road?",
     options: [
       {
-        text: "Wait until it’s safe, then overtake leaving at least 1.5 metres clearance",
+        text: "Wait until it’s safe, then overtake leaving at least 1.5 metres clearance throughout",
         isCorrect: true,
       },
       {
-        text: "Drive between them to encourage single file",
+        text: "Drive between them to encourage single file and get them out of your way",
         isCorrect: false,
       },
       {
-        text: "Use the horn and overtake closely to save time",
+        text: "Use the horn and overtake closely to save time on the narrow lane",
         isCorrect: false,
       },
       {
-        text: "Follow them in a low gear until they pull over",
+        text: "Follow them in a low gear until they pull over because they must let you by",
         isCorrect: false,
       },
     ],
@@ -2736,11 +2772,11 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Drive past slowly as long as no children are present",
+        text: "Drive past slowly as long as no children are present at that moment",
         isCorrect: false,
       },
       {
-        text: "Only stop if the patrol sounds a whistle",
+        text: "Only stop if the patrol sounds a whistle to alert you",
         isCorrect: false,
       },
     ],
@@ -2754,19 +2790,19 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
       "Why do motorcyclists need particular consideration at junctions?",
     options: [
       {
-        text: "They can be hard to spot because of their narrow profile",
+        text: "They can be hard to spot because of their narrow profile and speed",
         isCorrect: true,
       },
       {
-        text: "They always have priority over cars",
+        text: "They always have priority over cars regardless of the road layout",
         isCorrect: false,
       },
       {
-        text: "They never use mirrors when turning",
+        text: "They never use mirrors when turning so you must assume they cannot see you",
         isCorrect: false,
       },
       {
-        text: "They must legally stop at every junction",
+        text: "They must legally stop at every junction before pulling out",
         isCorrect: false,
       },
     ],
@@ -2780,19 +2816,19 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
       "Why should you avoid blocking advanced stop lines (bike boxes) at traffic lights?",
     options: [
       {
-        text: "They provide cyclists with a visible and safe starting position",
+        text: "They provide cyclists with a visible and safe starting position ahead of other traffic",
         isCorrect: true,
       },
       {
-        text: "Cyclists are not allowed to use other lanes",
+        text: "Cyclists are not allowed to use other lanes, so you can occupy the box instead",
         isCorrect: false,
       },
       {
-        text: "It is the only place motorcyclists may wait",
+        text: "It is the only place motorcyclists may wait, so you should pull into it",
         isCorrect: false,
       },
       {
-        text: "Buses need the space to turn left",
+        text: "Buses need the space to turn left, so cars should stop on the line",
         isCorrect: false,
       },
     ],
@@ -2806,7 +2842,7 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
       "You’re approaching a junction where a pedestrian wearing a reflective armband is waiting to cross at night. What should you do?",
     options: [
       {
-        text: "Slow down and be prepared to stop to let them cross",
+        text: "Slow down and be prepared to stop to let them cross safely",
         isCorrect: true,
       },
       {
@@ -2814,11 +2850,11 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Speed up before they step onto the road",
+        text: "Speed up before they step onto the road to keep moving",
         isCorrect: false,
       },
       {
-        text: "Wave at them to cross behind you",
+        text: "Wave at them to cross behind you once you have passed",
         isCorrect: false,
       },
     ],
@@ -2836,15 +2872,15 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The van’s refrigeration can cause fog",
+        text: "The van’s refrigeration can cause fog around the vehicle",
         isCorrect: false,
       },
       {
-        text: "Parking is always prohibited near them",
+        text: "Parking is always prohibited near them under parking rules",
         isCorrect: false,
       },
       {
-        text: "The driver must reverse without warning",
+        text: "The driver must reverse without warning to reach each child",
         isCorrect: false,
       },
     ],
@@ -2884,19 +2920,19 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
       "Why should you not park opposite or within 10 metres of a junction?",
     options: [
       {
-        text: "It obstructs visibility for drivers and pedestrians crossing",
+        text: "It obstructs visibility for drivers and pedestrians crossing the junction safely",
         isCorrect: true,
       },
       {
-        text: "It makes it easier for buses to turn",
+        text: "It makes it easier for buses to turn because they can use your car as a pivot",
         isCorrect: false,
       },
       {
-        text: "It improves access for delivery vehicles",
+        text: "It improves access for delivery vehicles that need extra space to swing round",
         isCorrect: false,
       },
       {
-        text: "It reduces tyre wear on your car",
+        text: "It reduces tyre wear on your car since tight corners polish the tread",
         isCorrect: false,
       },
     ],
@@ -2940,15 +2976,15 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Use the horn repeatedly to warn the cyclists",
+        text: "Use the horn repeatedly to warn the cyclists that you are coming",
         isCorrect: false,
       },
       {
-        text: "Force your way through the group quickly",
+        text: "Force your way through the group quickly to avoid being delayed",
         isCorrect: false,
       },
       {
-        text: "Overtake immediately, ignoring the escort vehicle",
+        text: "Overtake immediately, ignoring the escort vehicle and any signals",
         isCorrect: false,
       },
     ],
@@ -2992,15 +3028,15 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "They can’t ride in bus lanes legally",
+        text: "They can’t ride in bus lanes legally so they stay in car lanes",
         isCorrect: false,
       },
       {
-        text: "They must always ride in the centre of a lane",
+        text: "They must always ride in the centre of a lane so filtering is illegal",
         isCorrect: false,
       },
       {
-        text: "They have priority over buses only",
+        text: "They have priority over buses only so they never use gaps",
         isCorrect: false,
       },
     ],
@@ -3044,15 +3080,15 @@ const VULNERABLE_ROAD_USERS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Pull right up beside the cab so you can move off first",
+        text: "Pull right up beside the cab so you can move off first when it changes",
         isCorrect: false,
       },
       {
-        text: "Stop directly under the lorry’s mirror arms",
+        text: "Stop directly under the lorry’s mirror arms to keep close",
         isCorrect: false,
       },
       {
-        text: "Move into the blind spot to save space behind",
+        text: "Move into the blind spot to save space behind for other traffic",
         isCorrect: false,
       },
     ],
@@ -3098,15 +3134,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Trams must stop at every junction without warning",
+        text: "Trams must stop at every junction without warning so they may block you",
         isCorrect: false,
       },
       {
-        text: "Tram drivers rely on your lights as guidance",
+        text: "Tram drivers rely on your lights as guidance to follow the rails",
         isCorrect: false,
       },
       {
-        text: "Wet rails make trams accelerate uncontrollably",
+        text: "Wet rails make trams accelerate uncontrollably and lurch forward",
         isCorrect: false,
       },
     ],
@@ -3150,15 +3186,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "They always stop mid-turn to let you pass",
+        text: "They always stop mid-turn to let you pass if you’re quick",
         isCorrect: false,
       },
       {
-        text: "They only use indicators when parked",
+        text: "They only use indicators when parked, so signals are unreliable",
         isCorrect: false,
       },
       {
-        text: "They must reverse before turning",
+        text: "They must reverse before turning so overtaking keeps traffic moving",
         isCorrect: false,
       },
     ],
@@ -3172,19 +3208,19 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
       "Why should you avoid driving in the space alongside HGVs on multilane roads?",
     options: [
       {
-        text: "You may be in the driver’s blind spot and at risk if they change lane",
+        text: "You may be in the driver's blind spot and at risk if the HGV changes lane",
         isCorrect: true,
       },
       {
-        text: "HGVs emit fumes that damage tyres instantly",
+        text: "HGVs emit fumes that damage tyres instantly, so your car could suffer a blowout",
         isCorrect: false,
       },
       {
-        text: "HGVs are not allowed to change lanes",
+        text: "HGVs are not allowed to change lanes, so staying beside them keeps you safe",
         isCorrect: false,
       },
       {
-        text: "Speed limits are lower beside HGVs",
+        text: "Speed limits are lower beside HGVs, meaning you can stay there without concern",
         isCorrect: false,
       },
     ],
@@ -3198,19 +3234,19 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
       "How should you approach a vehicle displaying an amber flashing beacon on a dual carriageway?",
     options: [
       {
-        text: "Slow down and be prepared for it to travel slowly or stop",
+        text: "Slow down and be ready if it travels slowly or stops ahead",
         isCorrect: true,
       },
       {
-        text: "Overtake immediately without observing",
+        text: "Overtake immediately without observing to get past quickly",
         isCorrect: false,
       },
       {
-        text: "Accelerate and follow closely to clear the hazard",
+        text: "Accelerate and follow closely to clear the hazard faster",
         isCorrect: false,
       },
       {
-        text: "Use your horn until it speeds up",
+        text: "Use your horn until it speeds up and leaves your lane",
         isCorrect: false,
       },
     ],
@@ -3228,15 +3264,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "They have priority at roundabouts",
+        text: "They have priority at roundabouts so cars must stay clear",
         isCorrect: false,
       },
       {
-        text: "They always travel above the speed limit",
+        text: "They always travel above the speed limit to maintain pressure",
         isCorrect: false,
       },
       {
-        text: "They are exempt from signalling requirements",
+        text: "They are exempt from signalling requirements when carrying loads",
         isCorrect: false,
       },
     ],
@@ -3254,15 +3290,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Drive alongside to guide them with hand signals",
+        text: "Drive alongside to guide them with hand signals so they can see you",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to make them stop",
+        text: "Sound your horn to make them stop and let you past",
         isCorrect: false,
       },
       {
-        text: "Overtake quickly before they finish reversing",
+        text: "Overtake quickly before they finish reversing to save time",
         isCorrect: false,
       },
     ],
@@ -3276,19 +3312,19 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
       "Why do long vehicles sometimes straddle lanes on mini-roundabouts?",
     options: [
       {
-        text: "Their length requires more space to negotiate the turn safely",
+        text: "Their length requires extra space to negotiate the turn safely without mounting the centre",
         isCorrect: true,
       },
       {
-        text: "They are exempt from using indicators",
+        text: "They are exempt from using indicators, so straddling lanes relieves them of signalling",
         isCorrect: false,
       },
       {
-        text: "They must always take the right-hand lane",
+        text: "They must always take the right-hand lane, even when turning left, to stay compliant",
         isCorrect: false,
       },
       {
-        text: "They intend to park on the roundabout",
+        text: "They intend to park on the roundabout, so occupying both lanes reserves the space",
         isCorrect: false,
       },
     ],
@@ -3306,15 +3342,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Overtake immediately on the left",
+        text: "Overtake immediately on the left to keep your journey on schedule",
         isCorrect: false,
       },
       {
-        text: "Drive as close as possible to help it turn",
+        text: "Drive as close as possible to help it turn into the gateway",
         isCorrect: false,
       },
       {
-        text: "Expect it to speed up once off the main road",
+        text: "Expect it to speed up once off the main road so you can follow",
         isCorrect: false,
       },
     ],
@@ -3332,15 +3368,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It cools the brakes too quickly",
+        text: "It cools the brakes too quickly and may warp them",
         isCorrect: false,
       },
       {
-        text: "Pedestrians must dry the road afterwards",
+        text: "Pedestrians must dry the road afterwards before others pass",
         isCorrect: false,
       },
       {
-        text: "It damages the road markings immediately",
+        text: "It damages the road markings immediately whenever water splashes",
         isCorrect: false,
       },
     ],
@@ -3410,15 +3446,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Drive in it to avoid congestion",
+        text: "Drive in it to avoid congestion because trams can slow you down",
         isCorrect: false,
       },
       {
-        text: "Use it as a parking area when waiting",
+        text: "Use it as a parking area when waiting for passengers",
         isCorrect: false,
       },
       {
-        text: "Cross it diagonally whenever you like",
+        text: "Cross it diagonally whenever you like to shorten your route",
         isCorrect: false,
       },
     ],
@@ -3432,19 +3468,19 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
       "Why should you avoid driving too close to vehicles carrying live animals?",
     options: [
       {
-        text: "Animal movement can shift the load and affect vehicle stability",
+        text: "Animal movement can shift the load and upset the vehicle's stability, so leave space",
         isCorrect: true,
       },
       {
-        text: "They have the right of way at crossings",
+        text: "They have the right of way at crossings, so close following reminds them to go first",
         isCorrect: false,
       },
       {
-        text: "They always travel at over 60 mph",
+        text: "They always travel at over 60 mph, so staying near them keeps your progress up",
         isCorrect: false,
       },
       {
-        text: "They are exempt from using brake lights",
+        text: "They are exempt from using brake lights, meaning you get more warning if you're close",
         isCorrect: false,
       },
     ],
@@ -3484,19 +3520,19 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
       "Why should you avoid overtaking near the rear of a long vehicle that’s signalling right?",
     options: [
       {
-        text: "It may conceal a smaller vehicle or junction into which it’s turning",
+        text: "It may conceal a smaller vehicle or junction that it's turning into, so hang back",
         isCorrect: true,
       },
       {
-        text: "Long vehicles cannot have working indicators",
+        text: "Long vehicles cannot have working indicators, so the signal must mean something else",
         isCorrect: false,
       },
       {
-        text: "They must reverse before turning right",
+        text: "They must reverse before turning right, so getting alongside helps you pass quicker",
         isCorrect: false,
       },
       {
-        text: "They’re about to stop and let you pass",
+        text: "They’re about to stop and let you pass, so moving up the inside saves time",
         isCorrect: false,
       },
     ],
@@ -3514,15 +3550,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The lorry cannot reverse in narrow streets",
+        text: "The lorry cannot reverse in narrow streets so it stays put",
         isCorrect: false,
       },
       {
-        text: "Refuse lorries automatically scatter debris",
+        text: "Refuse lorries automatically scatter debris to the side",
         isCorrect: false,
       },
       {
-        text: "The lorry cannot use mirrors",
+        text: "The lorry cannot use mirrors because the bins block them",
         isCorrect: false,
       },
     ],
@@ -3540,15 +3576,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Block the tracks because trams must stop",
+        text: "Block the tracks because trams must stop when cars are ahead",
         isCorrect: false,
       },
       {
-        text: "Move onto the crossing to create more space",
+        text: "Move onto the crossing to create more space for other cars",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to warn the tram driver",
+        text: "Sound your horn to warn the tram driver you are waiting",
         isCorrect: false,
       },
     ],
@@ -3566,15 +3602,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only during summer bank holidays",
+        text: "Only during summer bank holidays because roads are quieter for maintenance",
         isCorrect: false,
       },
       {
-        text: "Only at motorway service areas",
+        text: "Only at motorway service areas where they treat car parks before drivers return",
         isCorrect: false,
       },
       {
-        text: "Only when traffic levels are very low at night",
+        text: "Only when traffic levels are very low at night so fewer drivers are delayed",
         isCorrect: false,
       },
     ],
@@ -3592,15 +3628,15 @@ const OTHER_TYPES_OF_VEHICLE_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Use your horn repeatedly to warn the horse",
+        text: "Use your horn repeatedly to warn the horse you are behind",
         isCorrect: false,
       },
       {
-        text: "Pass closely to give them shelter",
+        text: "Pass closely to give them shelter from other traffic",
         isCorrect: false,
       },
       {
-        text: "Accelerate past quickly to reduce noise",
+        text: "Accelerate past quickly to reduce noise and get ahead",
         isCorrect: false,
       },
     ],
@@ -3619,15 +3655,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It will corner more sharply",
+        text: "It will corner more sharply because of the extra load",
         isCorrect: false,
       },
       {
-        text: "It will become lighter and more responsive",
+        text: "It will become lighter and more responsive thanks to the weight",
         isCorrect: false,
       },
       {
-        text: "It will automatically use less fuel",
+        text: "It will automatically use less fuel despite carrying more weight",
         isCorrect: false,
       },
     ],
@@ -3645,15 +3681,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Pump the brake pedal rapidly to prevent lock-up",
+        text: "Pump the brake pedal rapidly to prevent lock-up like older systems",
         isCorrect: false,
       },
       {
-        text: "Apply the parking brake first",
+        text: "Apply the parking brake first to slow the rear wheels",
         isCorrect: false,
       },
       {
-        text: "Release the brake as soon as you feel pulsing",
+        text: "Release the brake as soon as you feel pulsing because ABS has failed",
         isCorrect: false,
       },
     ],
@@ -3666,19 +3702,19 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
     question: "Why is gentle acceleration important when driving in snow?",
     options: [
       {
-        text: "It reduces the chance of wheelspin and maintains control",
+        text: "It reduces wheelspin and helps you stay in control on the slippery surface",
         isCorrect: true,
       },
       {
-        text: "It keeps the engine temperature lower",
+        text: "It keeps the engine temperature lower so the coolant doesn’t freeze",
         isCorrect: false,
       },
       {
-        text: "It stops the heater from working",
+        text: "It stops the heater from working, keeping the windscreen clearer",
         isCorrect: false,
       },
       {
-        text: "It makes the ABS system turn off",
+        text: "It makes the ABS system turn off, letting you brake more sharply",
         isCorrect: false,
       },
     ],
@@ -3692,19 +3728,19 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
       "How can you maintain control when driving through standing water at speed?",
     options: [
       {
-        text: "Slow down before entering the water and avoid heavy steering",
+        text: "Slow down before entering the water and avoid heavy steering inputs",
         isCorrect: true,
       },
       {
-        text: "Accelerate through the water to create a bow wave",
+        text: "Accelerate through the water to create a bow wave that clears the road",
         isCorrect: false,
       },
       {
-        text: "Select neutral gear and steer rapidly",
+        text: "Select neutral gear and steer rapidly to keep the wheels light",
         isCorrect: false,
       },
       {
-        text: "Switch off all electrical systems midstream",
+        text: "Switch off all electrical systems midstream to avoid short circuits",
         isCorrect: false,
       },
     ],
@@ -3748,15 +3784,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It improves fuel economy but reduces braking ability",
+        text: "It improves fuel economy but reduces braking ability because the pedal is down",
         isCorrect: false,
       },
       {
-        text: "It automatically locks the gearbox",
+        text: "It automatically locks the gearbox each time you do it",
         isCorrect: false,
       },
       {
-        text: "It makes steering lighter in tight bends",
+        text: "It makes steering lighter in tight bends so manoeuvres are easier",
         isCorrect: false,
       },
     ],
@@ -3774,15 +3810,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Brake sharply while holding the steering straight",
+        text: "Brake sharply while holding the steering straight to regain control",
         isCorrect: false,
       },
       {
-        text: "Increase the steering angle dramatically",
+        text: "Increase the steering angle dramatically so the car turns more",
         isCorrect: false,
       },
       {
-        text: "Accelerate harder to transfer weight to the rear",
+        text: "Accelerate harder to transfer weight to the rear and pull the nose round",
         isCorrect: false,
       },
     ],
@@ -3796,19 +3832,19 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
       "When the rear of your car starts to slide outward (oversteer), how should you respond?",
     options: [
       {
-        text: "Steer gently in the same direction as the skid and ease off the accelerator",
+        text: "Steer gently in the direction of the skid and ease off the accelerator to regain grip",
         isCorrect: true,
       },
       {
-        text: "Steer sharply opposite to the skid and brake hard",
+        text: "Steer sharply opposite to the skid and brake hard to force the car straight again",
         isCorrect: false,
       },
       {
-        text: "Apply the parking brake immediately",
+        text: "Apply the parking brake immediately so the rear wheels lock and stop the drift",
         isCorrect: false,
       },
       {
-        text: "Accelerate to straighten the car",
+        text: "Accelerate to straighten the car because extra power will drag it back into line",
         isCorrect: false,
       },
     ],
@@ -3822,19 +3858,19 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
       "Before a tight bend, when should you complete most of your braking to maintain balance?",
     options: [
       {
-        text: "Before entering the bend so the car is stable as you steer",
+        text: "Brake before entering the bend so the car stays stable as you steer",
         isCorrect: true,
       },
       {
-        text: "Halfway through the bend",
+        text: "Brake halfway through the bend so you can fine-tune your speed",
         isCorrect: false,
       },
       {
-        text: "While accelerating out of the bend",
+        text: "Brake while accelerating out of the bend to keep the nose planted",
         isCorrect: false,
       },
       {
-        text: "Only after you exit the bend",
+        text: "Brake only after exiting the bend because cornering grip is higher then",
         isCorrect: false,
       },
     ],
@@ -3852,15 +3888,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Crossing your arms quickly while steering",
+        text: "Crossing your arms quickly while steering through the turn",
         isCorrect: false,
       },
       {
-        text: "Steering with one hand at the top of the wheel",
+        text: "Steering with one hand at the top of the wheel throughout",
         isCorrect: false,
       },
       {
-        text: "Holding the wheel loosely with fingertips",
+        text: "Holding the wheel loosely with fingertips just to rest",
         isCorrect: false,
       },
     ],
@@ -3903,15 +3939,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Use first gear with high revs to gain speed quickly",
+        text: "Use first gear with high revs to gain speed quickly despite the lack of grip",
         isCorrect: false,
       },
       {
-        text: "Release the clutch immediately and rely on traction control",
+        text: "Release the clutch immediately and rely on traction control to sort it out",
         isCorrect: false,
       },
       {
-        text: "Keep the handbrake off and let the car roll backwards first",
+        text: "Keep the handbrake off and let the car roll backwards first to build momentum",
         isCorrect: false,
       },
     ],
@@ -3929,15 +3965,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Switch the traction control off to regain power",
+        text: "Switch the traction control off to regain power immediately",
         isCorrect: false,
       },
       {
-        text: "Brake sharply to reset the system",
+        text: "Brake sharply to reset the system and regain confidence",
         isCorrect: false,
       },
       {
-        text: "Accelerate harder to override the system",
+        text: "Accelerate harder to override the system and power through the bend",
         isCorrect: false,
       },
     ],
@@ -3951,19 +3987,19 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
       "In an automatic car, how can you maintain control on a long downhill descent?",
     options: [
       {
-        text: "Select a lower gear or manual mode to use engine braking",
+        text: "Select a lower gear or manual mode for engine braking",
         isCorrect: true,
       },
       {
-        text: "Keep the selector in Drive and coast in neutral intermittently",
+        text: "Keep the selector in Drive and coast in neutral intermittently to save fuel",
         isCorrect: false,
       },
       {
-        text: "Apply the parking brake lightly throughout the descent",
+        text: "Apply the parking brake lightly throughout the descent to control speed",
         isCorrect: false,
       },
       {
-        text: "Switch off overdrive and accelerate to maintain speed",
+        text: "Switch off overdrive and accelerate to maintain speed down the hill",
         isCorrect: false,
       },
     ],
@@ -3981,15 +4017,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Brake sharply in the middle of the bend to tighten your line",
+        text: "Brake sharply in the middle of the bend to tighten your line quickly",
         isCorrect: false,
       },
       {
-        text: "Hug the inside lane marker regardless of traffic",
+        text: "Hug the inside lane marker regardless of traffic conditions",
         isCorrect: false,
       },
       {
-        text: "Accelerate hard before you can see the exit",
+        text: "Accelerate hard before you can see the exit to maintain pace",
         isCorrect: false,
       },
     ],
@@ -4007,15 +4043,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "While still applying heavy steering input",
+        text: "While still applying heavy steering input before the bend opens",
         isCorrect: false,
       },
       {
-        text: "Before entering the bend to keep the speed constant",
+        text: "Before entering the bend to keep the speed constant throughout",
         isCorrect: false,
       },
       {
-        text: "Only once you are completely back on a straight road",
+        text: "Only once you are completely back on a straight road and level",
         isCorrect: false,
       },
     ],
@@ -4085,7 +4121,7 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Rely solely on mirrors and reverse quickly",
+        text: "Rely solely on mirrors and reverse quickly to finish sooner",
         isCorrect: false,
       },
       {
@@ -4111,15 +4147,15 @@ const VEHICLE_HANDLING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Spin the wheels quickly to clear the gravel",
+        text: "Spin the wheels quickly to clear the gravel and bite into the tarmac",
         isCorrect: false,
       },
       {
-        text: "Turn sharply while accelerating hard",
+        text: "Turn sharply while accelerating hard so the tyres scrub the loose stones away",
         isCorrect: false,
       },
       {
-        text: "Apply the handbrake briefly to steady the car",
+        text: "Apply the handbrake briefly to steady the car before you accelerate",
         isCorrect: false,
       },
     ],
@@ -4138,15 +4174,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Drivers who want to overtake slower traffic",
+        text: "Drivers who want to overtake slower traffic to save time",
         isCorrect: false,
       },
       {
-        text: "Learner drivers practicing for the test",
+        text: "Learner drivers practicing for the test with supervision",
         isCorrect: false,
       },
       {
-        text: "Vehicles seeking a quicker route to the next junction",
+        text: "Vehicles seeking a quicker route to the next junction during congestion",
         isCorrect: false,
       },
     ],
@@ -4228,15 +4264,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Stop at the end of the slip road before entering",
+        text: "Stop at the end of the slip road before entering so you can look",
         isCorrect: false,
       },
       {
-        text: "Join at a right angle to the traffic flow",
+        text: "Join at a right angle to the traffic flow to be seen",
         isCorrect: false,
       },
       {
-        text: "Drive on the hard shoulder until space appears",
+        text: "Drive on the hard shoulder until space appears in the left lane",
         isCorrect: false,
       },
     ],
@@ -4279,15 +4315,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Stay in the vehicle with the doors locked",
+        text: "Stay in the vehicle with the doors locked so you remain in the warm",
         isCorrect: false,
       },
       {
-        text: "Place a warning triangle behind your car on the hard shoulder",
+        text: "Place a warning triangle behind your car on the hard shoulder to alert traffic",
         isCorrect: false,
       },
       {
-        text: "Walk down the carriageway warning other drivers",
+        text: "Walk down the carriageway warning other drivers by waving your arms",
         isCorrect: false,
       },
     ],
@@ -4300,19 +4336,19 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
     question: "When can learner drivers use motorways?",
     options: [
       {
-        text: "When accompanied by an approved instructor in a dual-controlled car",
+        text: "Only when accompanied by an approved instructor in a dual-controlled car",
         isCorrect: true,
       },
       {
-        text: "Never, until they pass the practical test",
+        text: "Never, until they pass the practical test, because motorways are always off limits",
         isCorrect: false,
       },
       {
-        text: "Only between midnight and 6 am",
+        text: "Only between midnight and 6 am so they can practise without encountering traffic",
         isCorrect: false,
       },
       {
-        text: "When supervised by any full licence holder",
+        text: "When supervised by any full licence holder as long as L plates are displayed",
         isCorrect: false,
       },
     ],
@@ -4330,15 +4366,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Continue unless you see a hazard",
+        text: "Continue unless you see a hazard because the sign might be old",
         isCorrect: false,
       },
       {
-        text: "Stop immediately in the lane",
+        text: "Stop immediately in the lane even if traffic is behind",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to alert others",
+        text: "Sound your horn to alert others that the lane is closing",
         isCorrect: false,
       },
     ],
@@ -4356,15 +4392,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "By flashing indicators on every vehicle",
+        text: "By flashing indicators on every vehicle automatically",
         isCorrect: false,
       },
       {
-        text: "By changing the colour of the road surface",
+        text: "By changing the colour of the road surface to a new shade",
         isCorrect: false,
       },
       {
-        text: "By sounding a horn from the central reservation",
+        text: "By sounding a horn from the central reservation when limits change",
         isCorrect: false,
       },
     ],
@@ -4382,11 +4418,11 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Stop immediately in your lane",
+        text: "Stop immediately in your lane and wait for instructions",
         isCorrect: false,
       },
       {
-        text: "Accelerate so it can follow you closely",
+        text: "Accelerate so it can follow you closely through the traffic",
         isCorrect: false,
       },
       {
@@ -4403,19 +4439,19 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
     question: "Where are you allowed to stop on a motorway?",
     options: [
       {
-        text: "In lay-bys, service areas, or the hard shoulder in an emergency",
+        text: "Only in lay-bys, service areas, or on the hard shoulder during an emergency",
         isCorrect: true,
       },
       {
-        text: "On the central reservation to rest",
+        text: "On the central reservation to rest because it's away from moving traffic",
         isCorrect: false,
       },
       {
-        text: "On the verge to check a map",
+        text: "On the verge to check a map whenever you need to confirm the route",
         isCorrect: false,
       },
       {
-        text: "In any lane if traffic is light",
+        text: "In any running lane if traffic is light and you're feeling tired",
         isCorrect: false,
       },
     ],
@@ -4432,15 +4468,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Brake sharply while still in the left lane",
+        text: "Brake sharply while still in the left lane before signalling",
         isCorrect: false,
       },
       {
-        text: "Cross all lanes at once without signalling",
+        text: "Cross all lanes at once without signalling to reach the exit",
         isCorrect: false,
       },
       {
-        text: "Stop on the hard shoulder before the exit",
+        text: "Stop on the hard shoulder before the exit to plan your turn",
         isCorrect: false,
       },
     ],
@@ -4453,19 +4489,19 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
     question: "How should you respond to 'fog' displayed on a motorway signal?",
     options: [
       {
-        text: "Reduce speed, increase your distance, and use dipped headlights",
+        text: "Reduce speed, increase your separation, and use dipped headlights so you can be seen",
         isCorrect: true,
       },
       {
-        text: "Ignore it if visibility seems good",
+        text: "Ignore the sign if visibility seems good because it's probably a false alarm",
         isCorrect: false,
       },
       {
-        text: "Switch on main beam immediately",
+        text: "Switch straight to main beam so you can cut through any mist ahead",
         isCorrect: false,
       },
       {
-        text: "Move to the right-hand lane",
+        text: "Move over to the right-hand lane to get past slower traffic before the fog",
         isCorrect: false,
       },
     ],
@@ -4482,11 +4518,11 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "To celebrate reaching the speed limit",
+        text: "To celebrate reaching the speed limit after a long journey",
         isCorrect: false,
       },
       {
-        text: "When overtaking in the right-hand lane",
+        text: "When overtaking in the right-hand lane to claim priority",
         isCorrect: false,
       },
       {
@@ -4508,15 +4544,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Reverse carefully along the hard shoulder",
+        text: "Reverse carefully along the hard shoulder so you don’t add miles",
         isCorrect: false,
       },
       {
-        text: "Stop on the hard shoulder and wait for a gap",
+        text: "Stop on the hard shoulder and wait for a gap to nip back",
         isCorrect: false,
       },
       {
-        text: "Make a U-turn when traffic is clear",
+        text: "Make a U-turn when traffic is clear because the shoulder is wide",
         isCorrect: false,
       },
     ],
@@ -4534,15 +4570,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It’s advisory only if the road looks clear",
+        text: "It’s advisory only if the road looks clear and traffic seems to be flowing",
         isCorrect: false,
       },
       {
-        text: "It applies only to heavy vehicles",
+        text: "It applies only to heavy vehicles, so cars can continue at normal speed",
         isCorrect: false,
       },
       {
-        text: "You may ignore it after overtaking",
+        text: "You may ignore it after overtaking because the limit no longer matters",
         isCorrect: false,
       },
     ],
@@ -4586,15 +4622,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only on your vehicle log book",
+        text: "Only on your vehicle log book because breakdown teams keep copies",
         isCorrect: false,
       },
       {
-        text: "Painted on the central reservation",
+        text: "Painted on the central reservation so drivers can note it while passing",
         isCorrect: false,
       },
       {
-        text: "Displayed inside the glovebox",
+        text: "Displayed inside the glovebox for quick access to the motorway reference",
         isCorrect: false,
       },
     ],
@@ -4612,15 +4648,15 @@ const MOTORWAY_RULES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Move straight out without checking mirrors",
+        text: "Move straight out without checking mirrors so you don’t lose momentum",
         isCorrect: false,
       },
       {
-        text: "Drive along the refuge lane to build up speed",
+        text: "Drive along the refuge lane to build up speed alongside the traffic flow",
         isCorrect: false,
       },
       {
-        text: "Reverse back to the previous junction",
+        text: "Reverse back to the previous junction because it was closer",
         isCorrect: false,
       },
     ],
@@ -4643,11 +4679,11 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "The road is designated for buses only",
+        text: "The road is designated for buses only during peak hours",
         isCorrect: false,
       },
       {
-        text: "You must use dipped headlights",
+        text: "You must use dipped headlights while driving along it",
         isCorrect: false,
       },
     ],
@@ -4665,7 +4701,7 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Ignore it if the traffic light is green",
+        text: "Ignore it if the traffic light is green because lights take priority",
         isCorrect: false,
       },
       {
@@ -4673,7 +4709,7 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Carry on if you have right of way",
+        text: "Carry on if you have right of way and believe it is safe",
         isCorrect: false,
       },
     ],
@@ -4687,19 +4723,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
       "What should you do when you see a double yellow line at the edge of the road?",
     options: [
       {
-        text: "Do not wait or park at any time unless signs say otherwise",
+        text: "Do not wait or park at any time unless signs indicate otherwise",
         isCorrect: true,
       },
       {
-        text: "Park for up to 20 minutes",
+        text: "Park for up to 20 minutes whenever it seems convenient",
         isCorrect: false,
       },
       {
-        text: "Stop only in the evening",
+        text: "Stop only during the evening because restrictions end after dark",
         isCorrect: false,
       },
       {
-        text: "Use the lane for loading only",
+        text: "Use the edge for loading only as long as you leave quickly afterwards",
         isCorrect: false,
       },
     ],
@@ -4713,19 +4749,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
       "Who has priority at an uncontrolled crossroads where two vehicles arrive at the same time?",
     options: [
       {
-        text: "No one has priority; proceed carefully and be prepared to stop",
+        text: "No one has priority; proceed carefully and be ready to stop",
         isCorrect: true,
       },
       {
-        text: "The vehicle approaching from the left",
+        text: "The vehicle approaching from the left because they always have priority",
         isCorrect: false,
       },
       {
-        text: "The fastest vehicle",
+        text: "The fastest vehicle, as higher speed means they should go first",
         isCorrect: false,
       },
       {
-        text: "The vehicle on the minor road",
+        text: "The vehicle on the minor road because they need to clear the junction",
         isCorrect: false,
       },
     ],
@@ -4738,19 +4774,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
     question: "What does a solid white line at the side of the road indicate?",
     options: [
       {
-        text: "The edge of the carriageway, especially at night or in poor visibility",
+        text: "The edge of the carriageway, especially helpful at night or in poor visibility",
         isCorrect: true,
       },
       {
-        text: "A lane reserved for cyclists only",
+        text: "A permanently reserved cycle lane that other traffic must not use",
         isCorrect: false,
       },
       {
-        text: "A parking bay you may use",
+        text: "A marked parking bay where you may stop your vehicle at any time",
         isCorrect: false,
       },
       {
-        text: "An area you may cross to overtake",
+        text: "An area you can cross freely whenever you want to overtake another vehicle",
         isCorrect: false,
       },
     ],
@@ -4843,19 +4879,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
     question: "When can you wait in a yellow box junction?",
     options: [
       {
-        text: "When turning right and your exit road is clear but you must wait for oncoming traffic",
+        text: "When turning right if the exit is clear but oncoming traffic delays you",
         isCorrect: true,
       },
       {
-        text: "Whenever the traffic light is green",
+        text: "Whenever the signal shows green, even if the exit remains blocked",
         isCorrect: false,
       },
       {
-        text: "To drop off passengers quickly",
+        text: "To drop passengers even though it stops others clearing the junction",
         isCorrect: false,
       },
       {
-        text: "If the junction is empty",
+        text: "If the junction looks empty as you approach from your side",
         isCorrect: false,
       },
     ],
@@ -4868,19 +4904,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
     question: "What should you do before changing lane on a dual carriageway?",
     options: [
       {
-        text: "Check mirrors, signal if necessary, and look over your shoulder",
+        text: "Check mirrors, signal if necessary, and look over your shoulder before you move across",
         isCorrect: true,
       },
       {
-        text: "Signal only if traffic is heavy",
+        text: "Signal only if traffic is heavy; otherwise you can move across without warning",
         isCorrect: false,
       },
       {
-        text: "Change lanes first, then signal",
+        text: "Change lanes first, then signal so following drivers know where you went",
         isCorrect: false,
       },
       {
-        text: "Rely on other drivers slowing for you",
+        text: "Rely on other drivers slowing for you because they must give way to your manoeuvre",
         isCorrect: false,
       },
     ],
@@ -4894,19 +4930,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
       "What must you do if you approach a pelican crossing and the amber light is flashing?",
     options: [
       {
-        text: "Give way to pedestrians already on the crossing",
+        text: "Give way to pedestrians already on the crossing until it is clear",
         isCorrect: true,
       },
       {
-        text: "Treat it as a green light",
+        text: "Treat it as a green light because flashing amber means go",
         isCorrect: false,
       },
       {
-        text: "Stop only if the crossing is clear",
+        text: "Stop only if the crossing is clear and nobody needs to use it",
         isCorrect: false,
       },
       {
-        text: "Sound your horn to warn pedestrians",
+        text: "Sound your horn to warn pedestrians that you intend to move",
         isCorrect: false,
       },
     ],
@@ -4920,19 +4956,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
       "What do zigzag white lines either side of a pelican crossing mean?",
     options: [
       {
-        text: "No stopping or parking; keep the crossing approach clear",
+        text: "No stopping or parking; keep the crossing approach clear for pedestrians",
         isCorrect: true,
       },
       {
-        text: "Vehicles may overtake carefully",
+        text: "Vehicles may overtake carefully because the markings are only advisory",
         isCorrect: false,
       },
       {
-        text: "Motorcycles must use the crossing only",
+        text: "Motorcycles must use the crossing only when they need to turn",
         isCorrect: false,
       },
       {
-        text: "Parking is allowed for three minutes",
+        text: "Parking is allowed for three minutes if you stay with the vehicle",
         isCorrect: false,
       },
     ],
@@ -4998,19 +5034,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
       "What does a single yellow line along the kerb with an upright sign showing times indicate?",
     options: [
       {
-        text: "Waiting restrictions apply only during the times shown",
+        text: "Waiting restrictions apply only during the times shown on the nearby plate",
         isCorrect: true,
       },
       {
-        text: "Parking is prohibited for residents only",
+        text: "Parking is prohibited for residents only, so visitors may still wait",
         isCorrect: false,
       },
       {
-        text: "Loading is banned at all times",
+        text: "Loading is banned at all times regardless of what the sign shows",
         isCorrect: false,
       },
       {
-        text: "The road is for buses and taxis only",
+        text: "The road is for buses and taxis only once the yellow line appears",
         isCorrect: false,
       },
     ],
@@ -5024,19 +5060,19 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
       "When may you cross a continuous double white line down the centre of the road?",
     options: [
       {
-        text: "To pass a stationary vehicle, cyclist, or road maintenance vehicle travelling at 10 mph or less",
+        text: "Only to pass stationary vehicles or very slow road users travelling at 10 mph or less",
         isCorrect: true,
       },
       {
-        text: "To overtake if the road ahead is clear for 100 metres",
+        text: "To overtake whenever you can see at least 100 metres of clear road ahead, regardless of speed",
         isCorrect: false,
       },
       {
-        text: "To turn left into a side road",
+        text: "To turn left into any side road whenever that seems convenient to you",
         isCorrect: false,
       },
       {
-        text: "Whenever traffic behind is queuing",
+        text: "Whenever traffic behind is queuing and you want to keep the flow moving",
         isCorrect: false,
       },
     ],
@@ -5080,15 +5116,15 @@ const RULES_OF_THE_ROAD_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "That you can cross before the lights change",
+        text: "That you can cross before the lights change even if traffic stops",
         isCorrect: false,
       },
       {
-        text: "That you sound the horn to warn others",
+        text: "That you sound the horn to warn others you are entering",
         isCorrect: false,
       },
       {
-        text: "That you increase speed to clear it quickly",
+        text: "That you increase speed to clear it quickly before anyone turns",
         isCorrect: false,
       },
     ],
@@ -5134,15 +5170,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Motorcycles only beyond this point",
+        text: "Motorcycles only beyond this point for the remainder of the route",
         isCorrect: false,
       },
       {
-        text: "Cars must give way to motorcycles",
+        text: "Cars must give way to motorcycles whenever they meet",
         isCorrect: false,
       },
       {
-        text: "End of speed restriction for cars",
+        text: "End of speed restriction for cars with this sign",
         isCorrect: false,
       },
     ],
@@ -5160,15 +5196,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Zoo entrance nearby",
+        text: "Zoo entrance nearby so visitors may be turning",
         isCorrect: false,
       },
       {
-        text: "Farm animals kept indoors",
+        text: "Farm animals kept indoors so you can maintain speed",
         isCorrect: false,
       },
       {
-        text: "No hunting zone",
+        text: "No hunting zone marked for countryside walkers",
         isCorrect: false,
       },
     ],
@@ -5233,19 +5269,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What does a blue circular sign with arrows forming a circle mean?",
     options: [
       {
-        text: "Mini-roundabout ahead; give way to traffic from the right",
+        text: "Mini-roundabout ahead—give way to traffic coming from the right",
         isCorrect: true,
       },
       {
-        text: "No entry to the next junction",
+        text: "No entry to the next junction for any motor vehicles",
         isCorrect: false,
       },
       {
-        text: "End of one-way street",
+        text: "One-way street ends here so opposing traffic may appear",
         isCorrect: false,
       },
       {
-        text: "Bus station nearby",
+        text: "Indicates a nearby bus station where services pull in",
         isCorrect: false,
       },
     ],
@@ -5263,15 +5299,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Temporary diversion",
+        text: "Temporary diversion for traffic leaving the main road",
         isCorrect: false,
       },
       {
-        text: "Tourist destination",
+        text: "Tourist destination such as a heritage site",
         isCorrect: false,
       },
       {
-        text: "Motorway service area",
+        text: "Motorway service area with fuel and food",
         isCorrect: false,
       },
     ],
@@ -5285,19 +5321,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What does a sign showing two arrows pointing in opposite directions around a central obstruction mean?",
     options: [
       {
-        text: "Pass either side to reach the same destination",
+        text: "You may pass either side of the obstruction and reach the same destination",
         isCorrect: true,
       },
       {
-        text: "Dual carriageway ends ahead",
+        text: "Warns that the dual carriageway ends ahead and merging traffic will follow",
         isCorrect: false,
       },
       {
-        text: "One-way street begins",
+        text: "Shows a one-way street begins so all traffic must head in the same direction",
         isCorrect: false,
       },
       {
-        text: "Vehicles must turn right only",
+        text: "States that vehicles must turn right only and cannot use the left-hand side",
         isCorrect: false,
       },
     ],
@@ -5311,19 +5347,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What is indicated by a sign with a black diagonal stripe across a white circle?",
     options: [
       {
-        text: "National speed limit applies",
+        text: "National speed limit applies from this point onward",
         isCorrect: true,
       },
       {
-        text: "No entry",
+        text: "No entry for vehicles beyond this sign",
         isCorrect: false,
       },
       {
-        text: "End of motorway",
+        text: "End of motorway restrictions so normal rules resume",
         isCorrect: false,
       },
       {
-        text: "Area of outstanding natural beauty",
+        text: "Area of outstanding natural beauty begins here",
         isCorrect: false,
       },
     ],
@@ -5367,15 +5403,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Minimum speed limit",
+        text: "Minimum speed limit that you must travel at",
         isCorrect: false,
       },
       {
-        text: "Recommended speed",
+        text: "Recommended speed for the safest driving style",
         isCorrect: false,
       },
       {
-        text: "Number of lanes ahead",
+        text: "Number of lanes ahead on the next section",
         isCorrect: false,
       },
     ],
@@ -5415,19 +5451,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What does a circular blue sign with a white bicycle symbol mean?",
     options: [
       {
-        text: "Route for pedal cycles only",
+        text: "Mandatory route for pedal cycles only; no other vehicles may use it",
         isCorrect: true,
       },
       {
-        text: "Cyclists must dismount",
+        text: "Cyclists must dismount and push their cycles along the marked path",
         isCorrect: false,
       },
       {
-        text: "Cycle lane ends",
+        text: "Cycle lane ends ahead so riders should merge back into general traffic",
         isCorrect: false,
       },
       {
-        text: "No cycling",
+        text: "No cycling is allowed anywhere beyond this sign for the remainder of the route",
         isCorrect: false,
       },
     ],
@@ -5444,15 +5480,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Quarry entrance",
+        text: "Quarry entrance where lorries may emerge",
         isCorrect: false,
       },
       {
-        text: "No heavy goods vehicles",
+        text: "No heavy goods vehicles are permitted beyond this point",
         isCorrect: false,
       },
       {
-        text: "Road repairs completed",
+        text: "Road repairs completed so normal speeds resume",
         isCorrect: false,
       },
     ],
@@ -5466,19 +5502,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What is indicated by a blue rectangular sign with a white upward arrow?",
     options: [
       {
-        text: "Ahead only",
+        text: "Ahead only; you must continue straight on in the lane you’re in",
         isCorrect: true,
       },
       {
-        text: "Road closed ahead",
+        text: "Road closed ahead so you should prepare to turn around",
         isCorrect: false,
       },
       {
-        text: "One-way street ends",
+        text: "One-way street ends, meaning traffic may approach head-on",
         isCorrect: false,
       },
       {
-        text: "Give way",
+        text: "Give way because a junction is just beyond the sign",
         isCorrect: false,
       },
     ],
@@ -5492,19 +5528,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What does a rectangular sign with black letters 'BUS LANE' and operating times mean?",
     options: [
       {
-        text: "Only permitted vehicles may use the lane during those times",
+        text: "Only permitted vehicles may use the lane during those times stated on the sign",
         isCorrect: true,
       },
       {
-        text: "All vehicles may use the lane at all times",
+        text: "All vehicles may use the lane at all times because the timetable is advisory",
         isCorrect: false,
       },
       {
-        text: "Buses are banned at those hours",
+        text: "Buses are banned at those hours and must divert onto side streets",
         isCorrect: false,
       },
       {
-        text: "Cyclists must dismount in the lane",
+        text: "Cyclists must dismount in the lane whenever the times are displayed",
         isCorrect: false,
       },
     ],
@@ -5517,19 +5553,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
     question: "What does a red circular sign with a white horizontal bar mean?",
     options: [
       {
-        text: "No entry for vehicular traffic",
+        text: "No entry for vehicular traffic; you must not proceed past this point",
         isCorrect: true,
       },
       {
-        text: "End of one-way street",
+        text: "Marks the end of a one-way street so traffic may approach from ahead",
         isCorrect: false,
       },
       {
-        text: "No overtaking",
+        text: "Warns that overtaking is banned because the road ahead narrows",
         isCorrect: false,
       },
       {
-        text: "Give way ahead",
+        text: "Shows that a give-way junction is ahead so be prepared to stop",
         isCorrect: false,
       },
     ],
@@ -5543,19 +5579,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "A rectangular blue sign with a white 'P' above a wheelchair symbol indicates what?",
     options: [
       {
-        text: "Parking reserved for Blue Badge holders",
+        text: "Parking reserved for Blue Badge holders and other disabled users",
         isCorrect: true,
       },
       {
-        text: "Pedestrian priority zone",
+        text: "Pedestrian priority zone where vehicles cannot park or wait",
         isCorrect: false,
       },
       {
-        text: "No stopping except to load",
+        text: "No stopping except to load goods for nearby shops and cafes",
         isCorrect: false,
       },
       {
-        text: "Multi-storey car park ahead",
+        text: "Multi-storey car park ahead for general traffic and visitors",
         isCorrect: false,
       },
     ],
@@ -5573,15 +5609,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "A pedestrian zone where vehicles are banned",
+        text: "A pedestrian zone where vehicles are banned throughout the day",
         isCorrect: false,
       },
       {
-        text: "Only cyclists ahead",
+        text: "Only cyclists ahead so you can increase speed",
         isCorrect: false,
       },
       {
-        text: "Play street where driving is prohibited",
+        text: "Play street where driving is prohibited at all times",
         isCorrect: false,
       },
     ],
@@ -5595,19 +5631,19 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
       "What is indicated by a blue circular sign showing a white pedestrian and bicycle symbol side by side?",
     options: [
       {
-        text: "A segregated route shared by pedestrians and cyclists",
+        text: "A segregated path where pedestrians and cyclists have marked sides",
         isCorrect: true,
       },
       {
-        text: "Cyclists must dismount",
+        text: "Cyclists must dismount before entering the shared area",
         isCorrect: false,
       },
       {
-        text: "End of cycle lane",
+        text: "Marks the end of any cycle lane so riders must rejoin traffic",
         isCorrect: false,
       },
       {
-        text: "Pedestrians prohibited",
+        text: "Shows pedestrians are prohibited from using this stretch",
         isCorrect: false,
       },
     ],
@@ -5625,15 +5661,15 @@ const ROAD_AND_TRAFFIC_SIGNS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "A compulsory stop for toll payment",
+        text: "A compulsory stop for toll payment before you can continue",
         isCorrect: false,
       },
       {
-        text: "An emergency refuge area",
+        text: "An emergency refuge area where you must pull in",
         isCorrect: false,
       },
       {
-        text: "The end of motorway regulations",
+        text: "The end of motorway regulations so national speed limits apply",
         isCorrect: false,
       },
     ],
@@ -5649,19 +5685,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
       "What document must you produce to police within seven days if requested at the roadside?",
     options: [
       {
-        text: "A valid insurance certificate or cover note",
+        text: "A valid insurance certificate or cover note proving you’re insured",
         isCorrect: true,
       },
       {
-        text: "Your vehicle service history",
+        text: "Your vehicle service history, because maintenance records confirm insurance",
         isCorrect: false,
       },
       {
-        text: "A copy of the Highway Code",
+        text: "A copy of the Highway Code so officers can check your knowledge of the rules",
         isCorrect: false,
       },
       {
-        text: "Your bank statement",
+        text: "Your bank statement to show you can afford to contribute towards any fines",
         isCorrect: false,
       },
     ],
@@ -5674,19 +5710,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question: "What is the purpose of the V5C registration certificate?",
     options: [
       {
-        text: "It identifies the registered keeper and vehicle details",
+        text: "It identifies the registered keeper and key vehicle details for the DVLA",
         isCorrect: true,
       },
       {
-        text: "It proves ownership of the radio",
+        text: "It proves ownership of the radio, so you can reclaim it if stolen",
         isCorrect: false,
       },
       {
-        text: "It records your driving test results",
+        text: "It records your driving test results so insurers know your score",
         isCorrect: false,
       },
       {
-        text: "It acts as proof of insurance",
+        text: "It acts as proof of insurance that you can show instead of a policy document",
         isCorrect: false,
       },
     ],
@@ -5703,15 +5739,15 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only when you renew your insurance",
+        text: "Only when you renew your insurance because the company will update your records",
         isCorrect: false,
       },
       {
-        text: "Every five years regardless of changes",
+        text: "Every five years regardless of changes to keep paperwork to a minimum",
         isCorrect: false,
       },
       {
-        text: "When your vehicle reaches three years old",
+        text: "When your vehicle reaches three years old so the log book stays in date",
         isCorrect: false,
       },
     ],
@@ -5724,10 +5760,22 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question:
       "Which document shows your vehicle has passed the required safety checks for the year?",
     options: [
-      { text: "MOT test certificate (VT20)", isCorrect: true },
-      { text: "Insurance cover note", isCorrect: false },
-      { text: "Certificate of road tax", isCorrect: false },
-      { text: "Driving licence counterpart", isCorrect: false },
+      {
+        text: "The MOT test certificate (VT20) issued after the annual inspection",
+        isCorrect: true,
+      },
+      {
+        text: "An insurance cover note because it proves the car is roadworthy",
+        isCorrect: false,
+      },
+      {
+        text: "The certificate of road tax that arrives when you pay vehicle duty",
+        isCorrect: false,
+      },
+      {
+        text: "The driving licence counterpart as evidence that you passed your test",
+        isCorrect: false,
+      },
     ],
     explanation:
       "Vehicles over three years old must pass an annual MOT to confirm roadworthiness (Highway Code Rule 89).",
@@ -5738,19 +5786,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question: "What does third-party insurance cover?",
     options: [
       {
-        text: "Damage or injury caused to others, but not your own vehicle",
+        text: "Covers damage or injury you cause to others, but not your own vehicle",
         isCorrect: true,
       },
       {
-        text: "Your vehicle only",
+        text: "It covers only your own vehicle, not anyone else's losses",
         isCorrect: false,
       },
       {
-        text: "Theft of any items kept in the boot",
+        text: "It covers theft of any items stored in the boot or passenger compartment",
         isCorrect: false,
       },
       {
-        text: "Maintenance and servicing costs",
+        text: "It pays for maintenance and servicing costs whenever they arise",
         isCorrect: false,
       },
     ],
@@ -5763,19 +5811,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question: "When must you have insurance in place for your vehicle?",
     options: [
       {
-        text: "At all times unless the vehicle is declared SORN",
+        text: "At all times unless the vehicle is declared SORN and kept completely off the road",
         isCorrect: true,
       },
       {
-        text: "Only when you drive it on a Sunday",
+        text: "Only when you drive it on a Sunday because weekend journeys are higher risk",
         isCorrect: false,
       },
       {
-        text: "During daylight hours only",
+        text: "During daylight hours only since headlights make insurance unnecessary at night",
         isCorrect: false,
       },
       {
-        text: "When you carry passengers",
+        text: "When you carry passengers so the policy only covers trips with others aboard",
         isCorrect: false,
       },
     ],
@@ -5788,19 +5836,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question: "What document proves a vehicle is taxed?",
     options: [
       {
-        text: "Online confirmation or receipt of Vehicle Excise Duty payment",
+        text: "Online confirmation or a receipt showing Vehicle Excise Duty payment",
         isCorrect: true,
       },
       {
-        text: "A tax disc displayed on the windscreen",
+        text: "A tax disc displayed on the windscreen, as these were used before electronic records",
         isCorrect: false,
       },
       {
-        text: "The MOT certificate",
+        text: "The MOT certificate, because it confirms the vehicle passed its annual test",
         isCorrect: false,
       },
       {
-        text: "Your driving theory test pass certificate",
+        text: "Your driving theory test pass certificate, as proof you can legally drive it",
         isCorrect: false,
       },
     ],
@@ -5814,19 +5862,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
       "What must you check before allowing another person to drive your car?",
     options: [
       {
-        text: "That they hold a valid licence and are insured to drive the vehicle",
+        text: "Check they hold a valid licence and are insured to drive your vehicle",
         isCorrect: true,
       },
       {
-        text: "That they know your favourite route",
+        text: "Check that they know your favourite route before handing over the keys",
         isCorrect: false,
       },
       {
-        text: "That they have a passport",
+        text: "Make sure they have a passport because it's proof they can drive abroad",
         isCorrect: false,
       },
       {
-        text: "That they have owned a car before",
+        text: "Confirm they have owned a car before so they understand how it feels",
         isCorrect: false,
       },
     ],
@@ -5839,19 +5887,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question: "What does a Statutory Off Road Notification (SORN) declare?",
     options: [
       {
-        text: "A vehicle is not being used on the road and is kept off public highways",
+        text: "That the vehicle is off the road and not being used on public highways",
         isCorrect: true,
       },
       {
-        text: "The vehicle has a valid MOT",
+        text: "That the vehicle already has a valid MOT certificate in place",
         isCorrect: false,
       },
       {
-        text: "Insurance is not required even when driving",
+        text: "That insurance is not required even if someone drives the vehicle on the road",
         isCorrect: false,
       },
       {
-        text: "The vehicle is for business use only",
+        text: "That the vehicle is for business use only and must not be used privately",
         isCorrect: false,
       },
     ],
@@ -5869,15 +5917,15 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "It confirms the car was made in the UK",
+        text: "It confirms the car was made in the UK regardless of model",
         isCorrect: false,
       },
       {
-        text: "It provides insurance discounts automatically",
+        text: "It provides insurance discounts automatically with proof",
         isCorrect: false,
       },
       {
-        text: "It allows you to avoid paying for future MOTs",
+        text: "It allows you to avoid paying for future MOTs after purchase",
         isCorrect: false,
       },
     ],
@@ -5889,10 +5937,22 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     category: Category.DOCUMENTS,
     question: "How long is a MOT test certificate valid for?",
     options: [
-      { text: "12 months", isCorrect: true },
-      { text: "6 months", isCorrect: false },
-      { text: "18 months", isCorrect: false },
-      { text: "24 months", isCorrect: false },
+      {
+        text: "12 months from the date it was issued",
+        isCorrect: true,
+      },
+      {
+        text: "6 months because vehicles must be tested twice a year",
+        isCorrect: false,
+      },
+      {
+        text: "18 months so you can skip every other test",
+        isCorrect: false,
+      },
+      {
+        text: "24 months provided the mileage remains low",
+        isCorrect: false,
+      },
     ],
     explanation:
       "MOT certificates are valid for 12 months from date of issue (Highway Code Rule 89).",
@@ -5908,15 +5968,15 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only on the expiry date",
+        text: "Only on the expiry date because earlier tests reset the renewal",
         isCorrect: false,
       },
       {
-        text: "Only after the expiry date has passed",
+        text: "Only after the expiry date has passed so you get a full new year",
         isCorrect: false,
       },
       {
-        text: "Six months before it expires",
+        text: "Six months before it expires if the garage has availability",
         isCorrect: false,
       },
     ],
@@ -5930,19 +5990,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
       "What document should accompany you when driving abroad in Europe?",
     options: [
       {
-        text: "Your full driving licence and, if required, an International Driving Permit",
+        text: "Carry your photocard licence and the International Driving Permit required",
         isCorrect: true,
       },
       {
-        text: "Your vehicle log book only",
+        text: "Rely solely on the vehicle log book to prove you can drive abroad",
         isCorrect: false,
       },
       {
-        text: "Only your passport",
+        text: "Carry only your passport to show at border and roadside checks",
         isCorrect: false,
       },
       {
-        text: "Only your insurance schedule",
+        text: "Take just the insurance schedule as evidence that you're covered",
         isCorrect: false,
       },
     ],
@@ -5986,7 +6046,7 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "You must retake only the theory test",
+        text: "You must retake only the theory test because the practical still counts",
         isCorrect: false,
       },
       {
@@ -5994,7 +6054,7 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: false,
       },
       {
-        text: "Your insurance becomes invalid immediately",
+        text: "Your insurance becomes invalid immediately regardless of cover",
         isCorrect: false,
       },
     ],
@@ -6011,15 +6071,15 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The MOT test certificate",
+        text: "The MOT test certificate issued after the annual inspection",
         isCorrect: false,
       },
       {
-        text: "The vehicle service book",
+        text: "The vehicle service book completed by the garage",
         isCorrect: false,
       },
       {
-        text: "A driving licence counterpart",
+        text: "A driving licence counterpart retained after the update",
         isCorrect: false,
       },
     ],
@@ -6061,15 +6121,15 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Permission to exceed speed limits temporarily",
+        text: "Permission to exceed speed limits temporarily during special events",
         isCorrect: false,
       },
       {
-        text: "A record of penalty points on a licence",
+        text: "A record of penalty points on a licence kept by the DVLA",
         isCorrect: false,
       },
       {
-        text: "A receipt for annual road tax",
+        text: "A receipt for annual road tax that proves payment",
         isCorrect: false,
       },
     ],
@@ -6082,19 +6142,19 @@ const DOCUMENTS_QUESTIONS: Question[] = [
     question: "What does a valid MOT certificate confirm?",
     options: [
       {
-        text: "The vehicle met minimum safety standards at the time of the test",
+        text: "The vehicle met minimum safety standards at the time of the test, not beyond it",
         isCorrect: true,
       },
       {
-        text: "The vehicle is insured for another year",
+        text: "The vehicle is insured for another year because the MOT renews your policy automatically",
         isCorrect: false,
       },
       {
-        text: "The vehicle can carry unlimited passengers",
+        text: "The vehicle can carry unlimited passengers regardless of its design limits",
         isCorrect: false,
       },
       {
-        text: "The driver has no penalty points",
+        text: "The driver has no penalty points, proving they have kept a clean licence",
         isCorrect: false,
       },
     ],
@@ -6112,15 +6172,15 @@ const DOCUMENTS_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "The seller’s driving licence",
+        text: "The seller’s driving licence because it shows they have been driving the car",
         isCorrect: false,
       },
       {
-        text: "The vehicle’s fuel receipts",
+        text: "The vehicle’s fuel receipts to prove it has been filled with quality petrol",
         isCorrect: false,
       },
       {
-        text: "The previous owner’s insurance schedule",
+        text: "The previous owner’s insurance schedule as evidence the car is problem-free",
         isCorrect: false,
       },
     ],
@@ -6165,15 +6225,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Carry on driving to find a river",
+        text: "Carry on driving until you find a river so the flames can be extinguished",
         isCorrect: false,
       },
       {
-        text: "Open the bonnet fully to inspect the flames",
+        text: "Open the bonnet fully to inspect the flames and see how serious it is",
         isCorrect: false,
       },
       {
-        text: "Stay inside and wait for firefighters",
+        text: "Stay inside and wait for firefighters so they can evacuate you safely",
         isCorrect: false,
       },
     ],
@@ -6187,19 +6247,19 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
       "If you arrive at a crash scene where someone is unconscious but breathing, what should you do first?",
     options: [
       {
-        text: "Check for danger, then place them in the recovery position",
+        text: "Check for danger, then place them in the recovery position to protect their airway",
         isCorrect: true,
       },
       {
-        text: "Give them water immediately",
+        text: "Give them water immediately so they regain consciousness more quickly",
         isCorrect: false,
       },
       {
-        text: "Move them quickly into your vehicle",
+        text: "Move them quickly into your vehicle to keep them warm until help arrives",
         isCorrect: false,
       },
       {
-        text: "Remove their helmet to aid breathing",
+        text: "Remove their helmet to aid breathing even if professionals haven't assessed them",
         isCorrect: false,
       },
     ],
@@ -6216,11 +6276,11 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Give them a hot drink",
+        text: "Give them a hot drink to warm them up and slow the bleeding",
         isCorrect: false,
       },
       {
-        text: "Keep the wound exposed to the air",
+        text: "Keep the wound exposed to the air so it dries out",
         isCorrect: false,
       },
       {
@@ -6268,15 +6328,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Leave quickly if there are no witnesses",
+        text: "Leave quickly if there are no witnesses, as the damage will likely go unnoticed",
         isCorrect: false,
       },
       {
-        text: "Leave a note with only your first name",
+        text: "Leave a note with only your first name so they know someone nudged the car",
         isCorrect: false,
       },
       {
-        text: "Wait in your vehicle until someone notices",
+        text: "Wait in your vehicle until someone notices so you can claim it was accidental",
         isCorrect: false,
       },
     ],
@@ -6316,19 +6376,19 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
       "What should you do if your car breaks down in a live lane on a smart motorway and you cannot exit the vehicle safely?",
     options: [
       {
-        text: "Stay in the car with seat belts on, switch on hazard lights, and call 999",
+        text: "Stay in the car with seat belts on, switch on hazard lights, and call 999 immediately",
         isCorrect: true,
       },
       {
-        text: "Get out and stand in front of the car",
+        text: "Get out and stand in front of the car so approaching drivers can see you sooner",
         isCorrect: false,
       },
       {
-        text: "Walk down the carriageway to find help",
+        text: "Walk down the live carriageway to find help because the emergency area might be close",
         isCorrect: false,
       },
       {
-        text: "Sit on the central reservation barrier",
+        text: "Sit on the central reservation barrier so you're away from traffic until help arrives",
         isCorrect: false,
       },
     ],
@@ -6346,15 +6406,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only if the damage exceeds £1000",
+        text: "Only if the damage exceeds £1000, because smaller claims sort themselves out",
         isCorrect: false,
       },
       {
-        text: "Only if the road is blocked",
+        text: "Only if the road is blocked so police can clear the obstruction for traffic",
         isCorrect: false,
       },
       {
-        text: "Only if instructed by your insurance company",
+        text: "Only if instructed by your insurance company after you phone them for advice",
         isCorrect: false,
       },
     ],
@@ -6368,19 +6428,19 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
       "How should you warn other traffic of a broken-down vehicle on a two-way road in good visibility?",
     options: [
       {
-        text: "Use hazard warning lights and place a warning triangle at least 45 metres behind",
+        text: "Use hazard lights and place a warning triangle at least 45 metres to the rear",
         isCorrect: true,
       },
       {
-        text: "Stand in the road waving your arms",
+        text: "Stand in the carriageway waving your arms to attract approaching drivers",
         isCorrect: false,
       },
       {
-        text: "Switch on full beam headlights",
+        text: "Rely on full-beam headlights to alert drivers coming from behind",
         isCorrect: false,
       },
       {
-        text: "Only switch on the interior light",
+        text: "Just turn on the interior light so following traffic can notice you",
         isCorrect: false,
       },
     ],
@@ -6393,19 +6453,19 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
     question: "What should you do if you see a vehicle on fire in a tunnel?",
     options: [
       {
-        text: "Pull over, switch off the engine, evacuate, and use emergency phones",
+        text: "Pull over, switch off the engine, evacuate everyone, and use emergency phones to call for help",
         isCorrect: true,
       },
       {
-        text: "Drive past quickly and hope it goes out",
+        text: "Drive past quickly and hope it goes out so you are not delayed by the incident",
         isCorrect: false,
       },
       {
-        text: "Stop and open your bonnet to check your engine",
+        text: "Stop and open your bonnet to check your engine in case the fire started in your car",
         isCorrect: false,
       },
       {
-        text: "Continue driving without stopping",
+        text: "Continue driving without stopping because tunnels are designed to contain fires safely",
         isCorrect: false,
       },
     ],
@@ -6422,15 +6482,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Apply butter or grease to seal the skin",
+        text: "Apply butter or grease to seal the skin so air cannot reach the burn",
         isCorrect: false,
       },
       {
-        text: "Cover the burn immediately with wool",
+        text: "Cover the burn immediately with wool to keep it warm and protected",
         isCorrect: false,
       },
       {
-        text: "Burst any blisters to release heat",
+        text: "Burst any blisters to release heat and prevent swelling",
         isCorrect: false,
       },
     ],
@@ -6448,15 +6508,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "To recharge the vehicle battery faster",
+        text: "To recharge the vehicle battery faster while you wait",
         isCorrect: false,
       },
       {
-        text: "To indicate that you do not need assistance",
+        text: "To indicate that you do not need assistance from the control room",
         isCorrect: false,
       },
       {
-        text: "To allow you to use your phone legally",
+        text: "To allow you to use your phone legally while stationary",
         isCorrect: false,
       },
     ],
@@ -6473,15 +6533,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "As soon as possible to clear the road",
+        text: "As soon as possible to clear the road and keep traffic flowing",
         isCorrect: false,
       },
       {
-        text: "Whenever they ask you to move them",
+        text: "Whenever they ask you to move them to a more comfortable spot",
         isCorrect: false,
       },
       {
-        text: "Immediately, regardless of injuries",
+        text: "Immediately, regardless of injuries, so they are out of the way",
         isCorrect: false,
       },
     ],
@@ -6499,15 +6559,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Only your insurance company name",
+        text: "Only your insurance company name so responders can contact them directly",
         isCorrect: false,
       },
       {
-        text: "The registration of every passing vehicle",
+        text: "The registration of every passing vehicle in case witnesses are needed later",
         isCorrect: false,
       },
       {
-        text: "Whether you agree with the Highway Code",
+        text: "Whether you agree with the Highway Code so they know your driving attitude",
         isCorrect: false,
       },
     ],
@@ -6521,19 +6581,19 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
       "What should you do first if you discover a casualty who is unconscious but breathing?",
     options: [
       {
-        text: "Check their airway is open and place them in the recovery position",
+        text: "Make sure their airway is open and gently place them in the recovery position",
         isCorrect: true,
       },
       {
-        text: "Give them food and drink",
+        text: "Offer them food or drink so they regain strength as quickly as possible",
         isCorrect: false,
       },
       {
-        text: "Move them into your vehicle",
+        text: "Move them into your vehicle to keep them warm until help arrives",
         isCorrect: false,
       },
       {
-        text: "Remove their shoes to cool them down",
+        text: "Remove their shoes to cool them down and keep them comfortable",
         isCorrect: false,
       },
     ],
@@ -6577,15 +6637,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Light a flare beside the vehicle to warn others",
+        text: "Light a flare beside the vehicle to warn others that fuel is leaking",
         isCorrect: false,
       },
       {
-        text: "Collect the fuel in a container",
+        text: "Collect the fuel in a container so it doesn’t go to waste",
         isCorrect: false,
       },
       {
-        text: "Push the vehicle to the side of the road yourself",
+        text: "Push the vehicle to the side of the road yourself before emergency crews arrive",
         isCorrect: false,
       },
     ],
@@ -6603,15 +6663,15 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Stand in the live lane waving your arms",
+        text: "Stand in the live lane waving your arms so approaching drivers notice you sooner",
         isCorrect: false,
       },
       {
-        text: "Direct traffic without wearing high-visibility clothing",
+        text: "Direct traffic without wearing high-visibility clothing to keep vehicles moving",
         isCorrect: false,
       },
       {
-        text: "Leave your vehicle blocking the carriageway",
+        text: "Leave your vehicle blocking the carriageway so others are forced to slow down",
         isCorrect: false,
       },
     ],
@@ -6625,19 +6685,19 @@ const INCIDENTS_ACCIDENTS_EMERGENCIES_QUESTIONS: Question[] = [
       "When contacting emergency services from a motorway emergency phone, what additional information should you provide?",
     options: [
       {
-        text: "The number shown on the phone or marker post so they know your exact location",
+        text: "Give the number on the phone or marker post so responders know where you are",
         isCorrect: true,
       },
       {
-        text: "Your tyre pressures and fuel level",
+        text: "Provide your tyre pressures and fuel level so they understand your vehicle status",
         isCorrect: false,
       },
       {
-        text: "Your vehicle’s service history",
+        text: "Explain your vehicle's full service history to help them plan assistance",
         isCorrect: false,
       },
       {
-        text: "The full names of all your passengers",
+        text: "List the full names of every passenger travelling in your vehicle",
         isCorrect: false,
       },
     ],
@@ -6652,19 +6712,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "How should heavy items be positioned when loading a car boot?",
     options: [
       {
-        text: "Low down and as close to the rear seat back as possible",
+        text: "Place heavy items low down and as close to the rear seat back as possible",
         isCorrect: true,
       },
       {
-        text: "Stacked high near the tailgate",
+        text: "Stack them high near the tailgate so they're easier to reach quickly",
         isCorrect: false,
       },
       {
-        text: "Balanced on the parcel shelf",
+        text: "Balance them on the parcel shelf where they won't move during braking",
         isCorrect: false,
       },
       {
-        text: "Tied to the rear wiper arm",
+        text: "Tie them to the rear wiper arm as a simple way to stop them sliding about",
         isCorrect: false,
       },
     ],
@@ -6677,19 +6737,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "Why must luggage be securely fastened inside the vehicle?",
     options: [
       {
-        text: "Loose loads can become dangerous projectiles in a crash",
+        text: "Loose loads can become dangerous projectiles in a crash and injure occupants",
         isCorrect: true,
       },
       {
-        text: "It improves fuel economy",
+        text: "It improves fuel economy by keeping the car more aerodynamic inside",
         isCorrect: false,
       },
       {
-        text: "It shortens braking distance",
+        text: "It shortens braking distance because the load stays tightly together",
         isCorrect: false,
       },
       {
-        text: "It allows you to drive faster legally",
+        text: "It allows you to drive faster legally because authorities see secure luggage",
         isCorrect: false,
       },
     ],
@@ -6702,19 +6762,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "What is the effect of overloading your vehicle?",
     options: [
       {
-        text: "It reduces stability and increases stopping distances",
+        text: "It reduces stability and increases stopping distances significantly",
         isCorrect: true,
       },
       {
-        text: "It improves braking efficiency",
+        text: "It improves braking efficiency because the tyres grip harder under load",
         isCorrect: false,
       },
       {
-        text: "It reduces tyre wear",
+        text: "It reduces tyre wear by forcing the tread to sit flatter on the road",
         isCorrect: false,
       },
       {
-        text: "It makes steering lighter",
+        text: "It makes the steering lighter so you can turn the wheel with less effort",
         isCorrect: false,
       },
     ],
@@ -6728,19 +6788,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "Before towing a trailer, what should you check regarding your driving licence?",
     options: [
       {
-        text: "That you have the correct entitlement for the weight being towed",
+        text: "Confirm you have the correct licence entitlement for the weight you intend to tow",
         isCorrect: true,
       },
       {
-        text: "That you have driven abroad before",
+        text: "Confirm you have driven abroad before because that proves your towing experience",
         isCorrect: false,
       },
       {
-        text: "That the vehicle handbook is in the glovebox",
+        text: "Check the vehicle handbook is in the glovebox so you can show it if stopped",
         isCorrect: false,
       },
       {
-        text: "That your MOT is less than one month old",
+        text: "Ensure your MOT is less than one month old to show the vehicle is freshly tested",
         isCorrect: false,
       },
     ],
@@ -6753,19 +6813,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "How should weight be distributed when loading a trailer?",
     options: [
       {
-        text: "Place heavier items over the axle and strap them securely",
+        text: "Place heavier items over the axle and strap them securely to keep the trailer balanced",
         isCorrect: true,
       },
       {
-        text: "Put all heavy items at the rear",
+        text: "Put all heavy items at the rear so they are easier to unload first",
         isCorrect: false,
       },
       {
-        text: "Balance heavy items on the drawbar",
+        text: "Balance heavy items on the drawbar to keep the nose weight as high as possible",
         isCorrect: false,
       },
       {
-        text: "Stack everything as high as possible",
+        text: "Stack everything as high as possible so you can use the full headroom available",
         isCorrect: false,
       },
     ],
@@ -6779,19 +6839,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "What should you do if a roof rack load extends well beyond the back of the vehicle?",
     options: [
       {
-        text: "Mark it clearly with a high-visibility flag or board",
+        text: "Mark it clearly with a high-visibility flag or board so approaching drivers can see it",
         isCorrect: true,
       },
       {
-        text: "Leave it unmarked to avoid distracting others",
+        text: "Leave it unmarked to avoid distracting others, as bright colours draw attention",
         isCorrect: false,
       },
       {
-        text: "Allow it to swing freely",
+        text: "Allow it to swing freely so it settles wherever it wants while you're driving",
         isCorrect: false,
       },
       {
-        text: "Cover it with a dark cloth",
+        text: "Cover it with a dark cloth to stop reflections from alerting other drivers",
         isCorrect: false,
       },
     ],
@@ -6804,19 +6864,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "Why should you adjust tyre pressures when carrying heavy loads?",
     options: [
       {
-        text: "Manufacturers recommend higher pressures to handle weight safely",
+        text: "Manufacturers recommend higher pressures to handle weight safely and maintain stability",
         isCorrect: true,
       },
       {
-        text: "Lower pressures improve suspension comfort",
+        text: "Lower pressures improve suspension comfort because the tyres flex more under load",
         isCorrect: false,
       },
       {
-        text: "Overinflation reduces fuel use dramatically",
+        text: "Overinflation reduces fuel use dramatically so you save more on long trips",
         isCorrect: false,
       },
       {
-        text: "It is required only for winter tyres",
+        text: "It is required only for winter tyres because they behave differently in cold weather",
         isCorrect: false,
       },
     ],
@@ -6829,19 +6889,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "What must you ensure about passengers before setting off?",
     options: [
       {
-        text: "Everyone uses the correct seat belt or child restraint",
+        text: "Ensure everyone uses the correct seat belt or child restraint before you move",
         isCorrect: true,
       },
       {
-        text: "All doors remain unlocked",
+        text: "Check that all doors remain unlocked so passengers can get out quickly",
         isCorrect: false,
       },
       {
-        text: "Windows are fully lowered",
+        text: "Make sure the windows are fully lowered to keep the car ventilated",
         isCorrect: false,
       },
       {
-        text: "Seats are reclined for comfort",
+        text: "Recline every seat for comfort so passengers can relax on the journey",
         isCorrect: false,
       },
     ],
@@ -6854,19 +6914,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "What effect can towing an unbalanced trailer have?",
     options: [
       {
-        text: "It can cause snaking and loss of control",
+        text: "It can cause snaking and loss of control at normal driving speeds",
         isCorrect: true,
       },
       {
-        text: "It improves fuel efficiency",
+        text: "It improves fuel efficiency because the weight pushes you along",
         isCorrect: false,
       },
       {
-        text: "It makes braking more effective",
+        text: "It makes braking more effective by adding extra grip to the rear wheels",
         isCorrect: false,
       },
       {
-        text: "It eliminates tyre wear",
+        text: "It eliminates tyre wear because the trailer takes the load",
         isCorrect: false,
       },
     ],
@@ -6884,15 +6944,15 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Drive faster to test stability",
+        text: "Drive faster to test stability on a quiet road before the trip",
         isCorrect: false,
       },
       {
-        text: "Lower tyre pressures to compensate",
+        text: "Lower tyre pressures to compensate for the extra height of the load",
         isCorrect: false,
       },
       {
-        text: "Leave the load unsecured to adjust balance later",
+        text: "Leave the load unsecured to adjust balance later while driving",
         isCorrect: false,
       },
     ],
@@ -6906,19 +6966,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "Why should you recheck your load soon after starting a long journey?",
     options: [
       {
-        text: "Straps and fixings can settle and loosen as you drive",
+        text: "Straps and fixings can settle and loosen as you drive, so recheck them early",
         isCorrect: true,
       },
       {
-        text: "To make the vehicle lighter",
+        text: "To make the vehicle lighter because the load will gradually become heavier otherwise",
         isCorrect: false,
       },
       {
-        text: "Because it is illegal to stop without doing so",
+        text: "Because it is illegal to stop without doing so, and penalties apply if you forget",
         isCorrect: false,
       },
       {
-        text: "To lower tyre pressures midway",
+        text: "To lower tyre pressures midway as the tyres heat up during the first miles",
         isCorrect: false,
       },
     ],
@@ -6932,19 +6992,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "What should you do if a load extends more than one metre beyond the front of the vehicle?",
     options: [
       {
-        text: "Check legal requirements and fit an appropriate marker board",
+        text: "Check legal requirements and fit an appropriate marker board so others can see it",
         isCorrect: true,
       },
       {
-        text: "Cover it with a tarpaulin only",
+        text: "Cover it with a tarpaulin only so it looks tidy without any warning signs",
         isCorrect: false,
       },
       {
-        text: "Drive faster to reduce journey time",
+        text: "Drive faster to reduce journey time and avoid delaying traffic behind you",
         isCorrect: false,
       },
       {
-        text: "Remove all mirrors to avoid striking them",
+        text: "Remove all mirrors to avoid striking them as the front load swings past",
         isCorrect: false,
       },
     ],
@@ -6957,19 +7017,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "When towing a caravan, how should you load items inside it?",
     options: [
       {
-        text: "Keep heavy items low and near the axle, securing everything",
+        text: "Keep heavy items low and near the axle, securing everything firmly",
         isCorrect: true,
       },
       {
-        text: "Store heavy items in overhead lockers",
+        text: "Store heavy items in overhead lockers so cupboards balance the weight",
         isCorrect: false,
       },
       {
-        text: "Pile heavy items at the rear",
+        text: "Pile heavy items at the rear to give the caravan a lighter nose",
         isCorrect: false,
       },
       {
-        text: "Leave loose items scattered for easy access",
+        text: "Leave loose items scattered for easy access when you reach the campsite",
         isCorrect: false,
       },
     ],
@@ -6982,19 +7042,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "What should you do if animals are travelling in your vehicle?",
     options: [
       {
-        text: "Restrain them safely so they cannot distract or injure you",
+        text: "Restrain them safely so they cannot distract you or be hurt if you stop suddenly",
         isCorrect: true,
       },
       {
-        text: "Let them move freely to keep them calm",
+        text: "Let them move freely to keep them calm because harnesses can make them anxious",
         isCorrect: false,
       },
       {
-        text: "Hold them on your lap while driving",
+        text: "Hold them on your lap while driving so they feel reassured by your presence",
         isCorrect: false,
       },
       {
-        text: "Feed them treats while cornering",
+        text: "Feed them treats while cornering to distract them from the movement",
         isCorrect: false,
       },
     ],
@@ -7008,19 +7068,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "Why is it important to allow greater braking distances when towing a trailer or caravan?",
     options: [
       {
-        text: "The combined weight increases momentum, lengthening stopping distances",
+        text: "The combined weight increases momentum, so you need a much longer stopping distance",
         isCorrect: true,
       },
       {
-        text: "Brakes always fail when towing",
+        text: "Brakes always fail when towing because the system cannot cope with the extra load",
         isCorrect: false,
       },
       {
-        text: "Traffic behind will expect you to brake earlier",
+        text: "Traffic behind will expect you to brake earlier, so you should stop sooner for them",
         isCorrect: false,
       },
       {
-        text: "Indicators stop working while towing",
+        text: "Indicators stop working while towing, meaning you must compensate by braking sooner",
         isCorrect: false,
       },
     ],
@@ -7033,19 +7093,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "Before loading roof bars, what should you check first?",
     options: [
       {
-        text: "The maximum permissible roof load in the vehicle handbook",
+        text: "The maximum permissible roof load in the vehicle handbook or manufacturer guide",
         isCorrect: true,
       },
       {
-        text: "That the tyres are under-inflated",
+        text: "That the tyres are under-inflated so the suspension sits lower",
         isCorrect: false,
       },
       {
-        text: "Whether the rear fog lights are working",
+        text: "Whether the rear fog lights are working as part of the loading check",
         isCorrect: false,
       },
       {
-        text: "That passengers are wearing seat belts",
+        text: "That passengers are wearing seat belts before you lift the load onto the roof",
         isCorrect: false,
       },
     ],
@@ -7062,15 +7122,15 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
         isCorrect: true,
       },
       {
-        text: "Leave them on the floor for easy access",
+        text: "Leave them on the floor for easy access so you can grab them quickly",
         isCorrect: false,
       },
       {
-        text: "Pile them near the rear doors",
+        text: "Pile them near the rear doors so they slide out as soon as you open up",
         isCorrect: false,
       },
       {
-        text: "Place them on the dashboard",
+        text: "Place them on the dashboard where you can keep an eye on them while driving",
         isCorrect: false,
       },
     ],
@@ -7084,19 +7144,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "When towing, why is it important to ensure the coupling is correctly attached and locked?",
     options: [
       {
-        text: "To prevent the trailer from detaching while in motion",
+        text: "To keep the trailer attached and avoid it detaching in motion",
         isCorrect: true,
       },
       {
-        text: "To reduce fuel consumption",
+        text: "To reduce fuel consumption because a tight coupling cuts drag dramatically on motorways",
         isCorrect: false,
       },
       {
-        text: "To improve radio reception",
+        text: "To improve radio reception by keeping the aerial away from interference and static",
         isCorrect: false,
       },
       {
-        text: "To avoid checking lights",
+        text: "To avoid checking the trailer lights each time you start a journey",
         isCorrect: false,
       },
     ],
@@ -7109,19 +7169,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
     question: "How can incorrect nose weight affect a trailer’s stability?",
     options: [
       {
-        text: "Too little can cause snaking; too much can overload the towbar",
+        text: "Too little can cause snaking, while too much overloads the towbar",
         isCorrect: true,
       },
       {
-        text: "It improves cornering ability",
+        text: "It improves cornering ability by keeping the trailer tighter on bends",
         isCorrect: false,
       },
       {
-        text: "It makes the trailer shorter",
+        text: "It makes the trailer itself shorter so manoeuvres become easier",
         isCorrect: false,
       },
       {
-        text: "It only affects tyre wear",
+        text: "It only affects tyre wear, so instability is nothing to worry about",
         isCorrect: false,
       },
     ],
@@ -7135,19 +7195,19 @@ const VEHICLE_LOADING_QUESTIONS: Question[] = [
       "What routine check should you make on a trailer’s breakaway cable?",
     options: [
       {
-        text: "Ensure it’s correctly clipped to a secure point on the towing vehicle",
+        text: "Clip it securely to an approved attachment point before every trip",
         isCorrect: true,
       },
       {
-        text: "Wrap it around the towbar several times",
+        text: "Wrap it around the towbar several times so it can't pull free if the coupling fails",
         isCorrect: false,
       },
       {
-        text: "Tie it in a knot to shorten it",
+        text: "Tie it in a knot to shorten it and stop it dragging on the ground during turns",
         isCorrect: false,
       },
       {
-        text: "Leave it hanging loose for flexibility",
+        text: "Leave it hanging loose for flexibility so it only tightens during a breakaway event",
         isCorrect: false,
       },
     ],
