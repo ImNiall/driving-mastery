@@ -2,24 +2,6 @@
 
 import Link from "next/link";
 
-const team = [
-  {
-    name: "Theo (AI Mentor)",
-    role: "Always-on driving theory coach",
-    bio: "Guides learners through adaptive quizzes, highlights weak areas, and celebrates every win.",
-  },
-  {
-    name: "Niall Cullen",
-    role: "Founder & Product Lead",
-    bio: "Obsessed with building focused learning experiences that help UK learners pass first time.",
-  },
-  {
-    name: "Driving Mastery Community",
-    role: "Learners & advocates",
-    bio: "Thousands of drivers-in-training who share feedback, tips, and encouragement inside the platform.",
-  },
-];
-
 const values = [
   {
     title: "Learner-first design",
@@ -135,32 +117,6 @@ export default function AboutPage() {
               </h3>
               <p className="mt-2 text-sm text-gray-600">{value.description}</p>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto mt-20 max-w-5xl px-4">
-        <h2 className="text-center text-3xl font-bold text-gray-900 md:text-4xl">
-          The people behind the platform
-        </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600 md:text-base">
-          We combine human expertise with AI mentorship. Meet the faces (and
-          friendly bot) guiding every learner through their journey.
-        </p>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {team.map((member) => (
-            <article
-              key={member.name}
-              className="flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <h3 className="text-lg font-semibold text-gray-900">
-                {member.name}
-              </h3>
-              <p className="mt-1 text-sm font-medium text-brand-blue">
-                {member.role}
-              </p>
-              <p className="mt-3 text-sm text-gray-600">{member.bio}</p>
-            </article>
           ))}
         </div>
       </section>

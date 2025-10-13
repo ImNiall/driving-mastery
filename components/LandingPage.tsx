@@ -105,7 +105,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigateToAuth }) => {
       <section className="text-center py-20 px-4 bg-white">
         <div className="container mx-auto">
           <h2 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-            Ace Your UK Driving Theory Test with Your AI Coach.
+            Pass Your DVSA Theory Test Faster with AI-Powered Learning
           </h2>
           <p className="text-lg md:text-xl text-gray-600 mt-6 max-w-3xl mx-auto">
             Join thousands of learners who passed their test first time with

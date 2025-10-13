@@ -3,6 +3,12 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import SWKillRegister from "./sw-kill-register";
 import AppNav from "@/components/AppNav";
+import dynamic from "next/dynamic";
+
+const ChatWidgetLauncher = dynamic(
+  () => import("@/components/ChatWidgetLauncher"),
+  { ssr: false },
+);
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -27,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <SWKillRegister />
         <AppNav />
+        <ChatWidgetLauncher />
         {children}
       </body>
     </html>
