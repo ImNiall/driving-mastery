@@ -18,6 +18,7 @@ import MockTestDashboardView from "@/components/dashboard/MockTestDashboardView"
 import LeaderboardDashboardView from "@/components/dashboard/LeaderboardDashboardView";
 import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboardView";
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
 function DashboardContent() {
   const router = useRouter();
@@ -45,6 +46,7 @@ function DashboardContent() {
     }>
   >([]);
   const [signingOut, setSigningOut] = React.useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
 
   const hasAttempts = React.useMemo(
     () => attempts.some((a) => (a?.total ?? 0) > 0),
@@ -216,22 +218,40 @@ function DashboardContent() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-6 md:grid md:grid-cols-[110px,1fr] md:gap-6 lg:grid-cols-[320px,1fr] lg:gap-10 xl:grid-cols-[360px,1fr]">
-        <aside className="md:sticky md:top-24 md:h-fit md:self-start">
+      <div className="flex flex-col gap-6 lg:flex-row">
+        <div className="lg:sticky lg:top-6 lg:h-min">
           <DashboardSidebar
             activeView={activeView}
-            onNavigate={handleViewChange}
-            onSignOut={handleSignOut}
+            onNavigate={(view) => {
+              handleViewChange(view);
+              setMobileSidebarOpen(false);
+            }}
+            onSignOut={async () => {
+              await handleSignOut();
+              setMobileSidebarOpen(false);
+            }}
             signingOut={signingOut}
+            mobileOpen={mobileSidebarOpen}
+            onMobileClose={() => setMobileSidebarOpen(false)}
           />
-        </aside>
+        </div>
         <section
-          className={
+          className={`${
             activeView === "dashboard"
               ? "flex flex-col gap-8"
               : "flex flex-col gap-6"
-          }
+          } lg:flex-1`}
         >
+          <div className="flex items-center justify-between lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileSidebarOpen(true)}
+              className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
+            >
+              <Bars3Icon className="h-5 w-5" />
+              Menu
+            </button>
+          </div>
           <div className="-mx-4 md:hidden">
             <div className="mb-4 flex gap-2 overflow-x-auto px-4 pb-2">
               {dashboardNavItems.map((item) => {
