@@ -49,8 +49,6 @@ export default function AppNav() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const isDashboard = pathname?.startsWith("/dashboard");
-
   return (
     <nav className="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur">
       <div className="mx-auto max-w-6xl px-4 py-3">
@@ -86,32 +84,7 @@ export default function AppNav() {
             </svg>
           </button>
 
-          <div
-            className={`items-center gap-4 ${isDashboard ? "hidden" : "hidden md:flex"}`}
-          >
-            {!!tabs.length && (
-              <ul className="flex gap-1">
-                {tabs.map((t) => {
-                  if (!t.href) return null;
-                  const active = pathname?.startsWith(t.href);
-                  return (
-                    <li key={t.href}>
-                      <Link
-                        href={t.href}
-                        prefetch
-                        className={`rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
-                          active
-                            ? "bg-brand-blue text-white"
-                            : "text-gray-700 hover:bg-gray-100"
-                        }`}
-                      >
-                        {t.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+          <div className="hidden items-center gap-3 md:flex">
             {signedIn ? (
               <button
                 onClick={async () => {

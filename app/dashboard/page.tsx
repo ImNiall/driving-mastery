@@ -196,24 +196,26 @@ export default function DashboardPage() {
         <section className="flex flex-col gap-8">
           <div className="-mx-4 md:hidden">
             <div className="mb-4 flex gap-2 overflow-x-auto px-4 pb-2">
-              {sidebarNavItems.map((item) => {
-                const active = isActiveNavItem(item);
-                return (
-                  <button
-                    key={`mobile-${item.key}`}
-                    type="button"
-                    onClick={() => handleNavigation(item.href)}
-                    className={`flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold ${
-                      active
-                        ? "border-brand-blue bg-brand-blue text-white"
-                        : "border-gray-200 bg-white text-gray-700 hover:border-brand-blue/40 hover:text-brand-blue"
-                    }`}
-                    aria-current={active ? "page" : undefined}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
+              {sidebarNavItems
+                .filter((item) => !!item.href)
+                .map((item) => {
+                  const active = isActiveNavItem(item);
+                  return (
+                    <button
+                      key={`mobile-${item.key}`}
+                      type="button"
+                      onClick={() => handleNavigation(item.href)}
+                      className={`flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold ${
+                        active
+                          ? "border-brand-blue bg-brand-blue text-white"
+                          : "border-gray-200 bg-white text-gray-700 hover:border-brand-blue/40 hover:text-brand-blue"
+                      }`}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
               {signOutItem && (
                 <button
                   type="button"
