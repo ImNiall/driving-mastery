@@ -152,6 +152,7 @@ export default function AppNav() {
           {!!tabs.length && (
             <ul className="space-y-2">
               {tabs.map((t) => {
+                if (!t.href) return null;
                 const active = pathname?.startsWith(t.href);
                 return (
                   <li key={t.href}>
