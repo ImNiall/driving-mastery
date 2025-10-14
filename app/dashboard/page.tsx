@@ -13,37 +13,11 @@ import {
   type DashboardViewKey,
 } from "@/lib/navigation";
 import DashboardSidebar from "@/components/DashboardSidebar";
-import ModulesIndexClient from "@/app/modules/ModulesIndexClient";
-import { LEARNING_MODULES } from "@/constants";
-import LeaderboardView from "@/components/LeaderboardView";
-import dynamic from "next/dynamic";
-
-const MockTestView = dynamic(() => import("@/app/mock-test/page"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-gray-200 bg-white text-sm text-gray-500">
-      Preparing mock test experience...
-    </div>
-  ),
-});
-
-const MembershipsView = dynamic(() => import("@/app/memberships/page"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-gray-200 bg-white text-sm text-gray-500">
-      Loading memberships...
-    </div>
-  ),
-});
-
-const AboutView = dynamic(() => import("@/app/about/page"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-gray-200 bg-white text-sm text-gray-500">
-      Loading about section...
-    </div>
-  ),
-});
+import ModulesDashboardView from "@/components/dashboard/ModulesDashboardView";
+import MockTestDashboardView from "@/components/dashboard/MockTestDashboardView";
+import LeaderboardDashboardView from "@/components/dashboard/LeaderboardDashboardView";
+import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboardView";
+import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
 
 function DashboardContent() {
   const router = useRouter();
@@ -108,35 +82,15 @@ function DashboardContent() {
   const renderNonDashboard = React.useCallback(() => {
     switch (activeView) {
       case "modules":
-        return (
-          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
-            <ModulesIndexClient modules={LEARNING_MODULES} />
-          </div>
-        );
+        return <ModulesDashboardView />;
       case "mock-test":
-        return (
-          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
-            <MockTestView />
-          </div>
-        );
+        return <MockTestDashboardView />;
       case "leaderboard":
-        return (
-          <div className="rounded-3xl border border-gray-200/70 bg-white p-6 shadow-sm">
-            <LeaderboardView currentUserMasteryPoints={masteryPoints} />
-          </div>
-        );
+        return <LeaderboardDashboardView masteryPoints={masteryPoints} />;
       case "memberships":
-        return (
-          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
-            <MembershipsView />
-          </div>
-        );
+        return <MembershipsDashboardView />;
       case "about":
-        return (
-          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
-            <AboutView />
-          </div>
-        );
+        return <AboutDashboardView />;
       default:
         return null;
     }
@@ -262,7 +216,7 @@ function DashboardContent() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-6 md:grid md:grid-cols-[88px,1fr] md:gap-6 lg:grid-cols-[280px,1fr] lg:gap-10">
+      <div className="flex flex-col gap-6 md:grid md:grid-cols-[110px,1fr] md:gap-6 lg:grid-cols-[320px,1fr] lg:gap-10 xl:grid-cols-[360px,1fr]">
         <aside className="md:sticky md:top-24 md:h-fit md:self-start">
           <DashboardSidebar
             activeView={activeView}
@@ -275,7 +229,7 @@ function DashboardContent() {
           className={
             activeView === "dashboard"
               ? "flex flex-col gap-8"
-              : "flex-1 overflow-hidden"
+              : "flex flex-col gap-6"
           }
         >
           <div className="-mx-4 md:hidden">

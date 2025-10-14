@@ -8,6 +8,7 @@ import { decodeEntities } from "@/lib/decodeEntities";
 
 type Props = {
   modules: (LearningModule & { tags?: string[] })[];
+  embedVariant?: boolean;
 };
 
 function ModuleListCard({
@@ -57,7 +58,7 @@ function ModuleListCard({
   );
 }
 
-export default function ModulesIndexClient({ modules }: Props) {
+export default function ModulesIndexClient({ modules, embedVariant }: Props) {
   const [query, setQuery] = React.useState("");
   const router = useRouter();
 
@@ -74,40 +75,50 @@ export default function ModulesIndexClient({ modules }: Props) {
   }, [modules, query]);
 
   return (
-    <div className="bg-slate-50 pb-16">
-      <div className="bg-gradient-to-r from-sky-500 via-sky-600 to-indigo-600 px-4 py-14 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl space-y-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
-            Learning Hub
-          </p>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Master every DVSA theory topic
-          </h1>
-          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-lg">
-            Browse structured lessons crafted to match the Highway Code. Each
-            module ends with a five-question quiz so you can instantly check
-            what stuck.
-          </p>
-          <div className="flex flex-wrap gap-3 text-sm text-white/80">
-            <button
-              type="button"
-              onClick={() => router.push("/mock-test")}
-              className="rounded-full border border-white/40 px-4 py-2 font-semibold tracking-wide transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              Jump to mock tests
-            </button>
-            <button
-              type="button"
-              onClick={() => router.push("/dashboard")}
-              className="rounded-full border border-white/40 px-4 py-2 font-semibold tracking-wide transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              View your progress
-            </button>
+    <div className={`${embedVariant ? "bg-white" : "bg-slate-50"} pb-16`}>
+      {!embedVariant && (
+        <div className="bg-gradient-to-r from-sky-500 via-sky-600 to-indigo-600 px-4 py-14 text-white sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">
+              Learning Hub
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Master every DVSA theory topic
+            </h1>
+            <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-lg">
+              Browse structured lessons crafted to match the Highway Code. Each
+              module ends with a five-question quiz so you can instantly check
+              what stuck.
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm text-white/80">
+              <button
+                type="button"
+                onClick={() => router.push("/mock-test")}
+                className="rounded-full border border-white/40 px-4 py-2 font-semibold tracking-wide transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                Jump to mock tests
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/dashboard")}
+                className="rounded-full border border-white/40 px-4 py-2 font-semibold tracking-wide transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                View your progress
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="mx-auto -mt-10 max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
+      )}
+      <div
+        className={`mx-auto ${embedVariant ? "max-w-6xl" : "-mt-10 max-w-5xl"} px-4 sm:px-6 lg:px-8`}
+      >
+        <div
+          className={`${
+            embedVariant
+              ? "rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              : "rounded-3xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8"
+          }`}
+        >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-2xl font-semibold text-slate-900">

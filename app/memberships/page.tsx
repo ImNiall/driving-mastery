@@ -28,7 +28,7 @@ type Membership = {
   features: Feature[];
 };
 
-const MEMBERSHIPS: Membership[] = [
+export const MEMBERSHIPS: Membership[] = [
   {
     key: "free",
     name: "Free Membership",
@@ -69,10 +69,31 @@ const MEMBERSHIPS: Membership[] = [
   },
 ];
 
-export default function MembershipsPage() {
+type MembershipsContentProps = {
+  variant?: "page" | "dashboard";
+};
+
+export function MembershipsContent({
+  variant = "page",
+}: MembershipsContentProps) {
+  const isDashboard = variant === "dashboard";
+
   return (
-    <main className="min-h-screen bg-slate-50 py-16">
-      <div className="mx-auto max-w-5xl px-4">
+    <div className={isDashboard ? "space-y-10" : undefined}>
+      {isDashboard ? (
+        <header className="rounded-3xl border border-gray-200/70 bg-white px-6 py-5 text-center shadow-sm sm:text-left">
+          <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue-light px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-blue">
+            Memberships
+          </span>
+          <h1 className="mt-4 text-2xl font-bold text-gray-900">
+            Choose the plan that fits your journey
+          </h1>
+          <p className="mt-2 text-sm text-gray-600">
+            Compare what&apos;s included in each membership without leaving your
+            dashboard.
+          </p>
+        </header>
+      ) : (
         <section className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue-light px-4 py-1 text-sm font-semibold text-brand-blue">
             Memberships
@@ -86,9 +107,13 @@ export default function MembershipsPage() {
             test.
           </p>
         </section>
+      )}
 
-        <section className="mt-12">
-          <div className="grid gap-8 md:grid-cols-2">
+      <div className={isDashboard ? "" : "mx-auto max-w-5xl px-4"}>
+        <section className={`${isDashboard ? "mt-6" : "mt-12"}`}>
+          <div
+            className={`grid gap-8 md:grid-cols-2 ${isDashboard ? "xl:grid-cols-2" : ""}`}
+          >
             {MEMBERSHIPS.map((membership) => {
               const Icon = membership.icon;
               const isFeatured = membership.key === "pro";
@@ -152,7 +177,6 @@ export default function MembershipsPage() {
                   </div>
 
                   <div className="mt-8 border-t border-gray-100 px-8 pb-10 pt-8 transition-colors duration-200 group-hover:border-brand-blue/30">
-                    <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500"></h3>
                     <ul className="mt-4 space-y-4 text-sm">
                       {membership.features.map((feature) => (
                         <li
@@ -192,7 +216,13 @@ export default function MembershipsPage() {
           </div>
         </section>
 
-        <section className="mt-14 rounded-2xl bg-white p-8 text-center shadow-sm">
+        <section
+          className={`${
+            isDashboard
+              ? "rounded-2xl border border-gray-200/80 bg-white p-6 text-center shadow-sm"
+              : "mt-14 rounded-2xl bg-white p-8 text-center shadow-sm"
+          }`}
+        >
           <h2 className="text-lg font-semibold text-gray-900">
             Need help choosing?
           </h2>
@@ -201,6 +231,16 @@ export default function MembershipsPage() {
             you to the right membership.
           </p>
         </section>
+      </div>
+    </div>
+  );
+}
+
+export default function MembershipsPage() {
+  return (
+    <main className="min-h-screen bg-slate-50 py-16">
+      <div className="mx-auto max-w-5xl px-4">
+        <MembershipsContent variant="page" />
       </div>
     </main>
   );

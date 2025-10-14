@@ -5,7 +5,6 @@ import {
   SECONDARY_SIGNED_IN_ITEMS,
   SIGN_OUT_ITEM,
   type DashboardViewKey,
-  type NavigationItem,
 } from "@/lib/navigation";
 
 type DashboardSidebarProps = {
@@ -30,8 +29,8 @@ function DesktopNav({
   const SignOutIcon = signOutItem?.icon;
 
   return (
-    <div className="hidden lg:flex lg:w-[268px]">
-      <div className="flex w-full flex-col justify-between rounded-3xl border border-gray-200/70 bg-white p-6 shadow-sm">
+    <div className="hidden lg:flex">
+      <div className="flex w-[280px] flex-col justify-between rounded-3xl border border-gray-200/70 bg-white p-6 shadow-sm xl:w-[300px]">
         <div>
           <button
             type="button"
@@ -71,6 +70,7 @@ function DesktopNav({
                             ? "bg-brand-blue text-white shadow-sm"
                             : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
                         }`}
+                        aria-current={active ? "page" : undefined}
                       >
                         <span
                           className={`flex h-9 w-9 items-center justify-center rounded-xl ${
@@ -108,6 +108,7 @@ function DesktopNav({
                             ? "bg-brand-blue text-white shadow-sm"
                             : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
                         }`}
+                        aria-current={active ? "page" : undefined}
                       >
                         <span
                           className={`flex h-9 w-9 items-center justify-center rounded-xl ${
@@ -174,7 +175,7 @@ function RailNav({
 
   return (
     <div className="hidden md:flex lg:hidden">
-      <div className="flex h-full w-16 flex-col items-center gap-4 rounded-3xl border border-gray-200/70 bg-white p-3 shadow-sm">
+      <div className="flex h-full w-20 flex-col items-center gap-4 rounded-3xl border border-gray-200/70 bg-white p-3 shadow-sm">
         <button
           type="button"
           className={`${railClasses} bg-brand-blue text-white shadow-sm`}
@@ -198,6 +199,7 @@ function RailNav({
               }`}
               title={item.label}
               aria-label={item.label}
+              aria-current={active ? "page" : undefined}
               onClick={() => onNavigate(item.dashboardView!)}
             >
               <Icon className="h-5 w-5" />
