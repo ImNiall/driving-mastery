@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { handleAssistantToolCall } from "@/lib/services/assistantTools";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -34,7 +35,48 @@ export async function sendMessageToAssistant({
   let attempts = 0;
   while (runStatus.status !== "completed") {
     if (runStatus.status === "requires_action") {
-      throw new Error("Assistant run requires additional action");
+      const action = runStatus.required_action;
+      if (action?.type !== "submit_tool_outputs") {
+        throw new Error(
+          `Unsupported assistant action: ${action?.type ?? "unknown"}`,
+        );
+      }
+
+      const toolCalls = action.submit_tool_outputs?.tool_calls ?? [];
+
+      const toolOutputs = await Promise.all(
+        toolCalls.map(async (call) => {
+          if (call.type !== "function") {
+            throw new Error(`Unsupported tool call type: ${call.type}`);
+          }
+
+          let parsedArgs: Record<string, unknown> = {};
+          try {
+            parsedArgs = call.function.arguments
+              ? (JSON.parse(call.function.arguments) as Record<string, unknown>)
+              : {};
+          } catch (error) {
+            throw new Error(`Failed to parse tool arguments: ${String(error)}`);
+          }
+
+          const result = await handleAssistantToolCall(
+            call.function.name,
+            parsedArgs,
+          );
+
+          return {
+            tool_call_id: call.id,
+            output: JSON.stringify(result ?? null),
+          };
+        }),
+      );
+
+      await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
+        tool_outputs: toolOutputs,
+      });
+
+      runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id);
+      continue;
     }
     if (runStatus.status === "failed") {
       throw new Error("Assistant run failed");
