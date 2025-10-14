@@ -12,6 +12,7 @@ import {
   SIGN_OUT_ITEM,
   type NavigationItem,
 } from "@/lib/navigation";
+import DashboardSidebar from "@/components/DashboardSidebar";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -46,7 +47,6 @@ export default function DashboardPage() {
   const primaryNavItems = React.useMemo(() => PRIMARY_SIGNED_IN_ITEMS, []);
   const secondaryNavItems = React.useMemo(() => SECONDARY_SIGNED_IN_ITEMS, []);
   const signOutItem = SIGN_OUT_ITEM;
-  const SignOutIcon = signOutItem?.icon;
   const sidebarNavItems = React.useMemo(
     () => [...primaryNavItems, ...secondaryNavItems],
     [primaryNavItems, secondaryNavItems],
@@ -185,128 +185,13 @@ export default function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-6 md:grid md:grid-cols-[74px,1fr] md:gap-6 lg:grid-cols-[260px,1fr] lg:gap-8">
+      <div className="flex flex-col gap-6 md:grid md:grid-cols-[88px,1fr] md:gap-6 lg:grid-cols-[280px,1fr] lg:gap-10">
         <aside className="md:sticky md:top-24 md:h-fit md:self-start">
-          <div className="hidden md:flex lg:hidden flex-col items-center gap-3 rounded-3xl border border-gray-200/70 bg-white p-3 shadow-sm">
-            {sidebarNavItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActiveNavItem(item);
-              return (
-                <button
-                  key={item.key}
-                  type="button"
-                  onClick={() => handleNavigation(item.href)}
-                  className={`flex h-11 w-11 items-center justify-center rounded-2xl transition ${
-                    active
-                      ? "bg-brand-blue text-white shadow-sm"
-                      : "bg-white text-gray-500 hover:bg-brand-blue/10 hover:text-brand-blue"
-                  }`}
-                  aria-current={active ? "page" : undefined}
-                  title={item.label}
-                  aria-label={item.label}
-                >
-                  <Icon className="h-5 w-5" />
-                </button>
-              );
-            })}
-            {signOutItem && SignOutIcon && (
-              <button
-                type="button"
-                onClick={handleSignOut}
-                disabled={signingOut}
-                title={signOutItem.label}
-                aria-label={signOutItem.label}
-                className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-gray-500 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <SignOutIcon className="h-5 w-5" />
-              </button>
-            )}
-          </div>
-          <div className="hidden lg:block">
-            <nav className="rounded-3xl border border-gray-200/70 bg-white p-4 shadow-sm">
-              <p className="px-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
-                Overview
-              </p>
-              <div className="mt-3 space-y-1">
-                {primaryNavItems.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActiveNavItem(item);
-                  return (
-                    <button
-                      key={item.key}
-                      type="button"
-                      onClick={() => handleNavigation(item.href)}
-                      className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition ${
-                        active
-                          ? "bg-brand-blue text-white shadow-sm"
-                          : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
-                      }`}
-                      aria-current={active ? "page" : undefined}
-                    >
-                      <span
-                        className={`flex h-9 w-9 items-center justify-center rounded-xl ${
-                          active
-                            ? "bg-white/20 text-white"
-                            : "bg-brand-blue/10 text-brand-blue"
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                      </span>
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="mt-6 border-t border-gray-100 pt-4">
-                <p className="px-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
-                  More
-                </p>
-                <div className="mt-3 space-y-1">
-                  {secondaryNavItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = isActiveNavItem(item);
-                    return (
-                      <button
-                        key={item.key}
-                        type="button"
-                        onClick={() => handleNavigation(item.href)}
-                        className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition ${
-                          active
-                            ? "bg-brand-blue text-white shadow-sm"
-                            : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
-                        }`}
-                        aria-current={active ? "page" : undefined}
-                      >
-                        <span
-                          className={`flex h-9 w-9 items-center justify-center rounded-xl ${
-                            active
-                              ? "bg-white/20 text-white"
-                              : "bg-brand-blue/10 text-brand-blue"
-                          }`}
-                        >
-                          <Icon className="h-5 w-5" />
-                        </span>
-                        <span>{item.label}</span>
-                      </button>
-                    );
-                  })}
-                  {signOutItem && SignOutIcon && (
-                    <button
-                      type="button"
-                      onClick={handleSignOut}
-                      disabled={signingOut}
-                      className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-500">
-                        <SignOutIcon className="h-5 w-5" />
-                      </span>
-                      <span>{signOutItem.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            </nav>
-          </div>
+          <DashboardSidebar
+            pathname={pathname}
+            onSignOut={handleSignOut}
+            signingOut={signingOut}
+          />
         </aside>
         <section className="flex flex-col gap-8">
           <div className="-mx-4 md:hidden">
