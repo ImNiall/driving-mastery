@@ -45,11 +45,11 @@ const AboutView = dynamic(() => import("@/app/about/page"), {
   ),
 });
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeView =
-    (searchParams.get("view") as DashboardViewKey | null) ?? "dashboard";
+  const activeViewParam = searchParams?.get("view") as DashboardViewKey | null;
+  const activeView = activeViewParam ?? "dashboard";
   const [progress, setProgress] = React.useState<QuizResult[]>([]);
   const [overall, setOverall] = React.useState(0);
   const [totals, setTotals] = React.useState<{
@@ -469,5 +469,21 @@ export default function DashboardPage() {
         </section>
       </div>
     </main>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <React.Suspense
+      fallback={
+        <main className="mx-auto max-w-6xl p-6">
+          <div className="rounded-2xl border border-gray-200/70 bg-white p-6 text-gray-600">
+            Loading dashboard...
+          </div>
+        </main>
+      }
+    >
+      <DashboardContent />
+    </React.Suspense>
   );
 }
