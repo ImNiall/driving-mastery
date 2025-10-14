@@ -18,7 +18,7 @@ import MockTestDashboardView from "@/components/dashboard/MockTestDashboardView"
 import LeaderboardDashboardView from "@/components/dashboard/LeaderboardDashboardView";
 import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboardView";
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
-import { Bars3Icon } from "@heroicons/react/24/solid";
+import { Menu } from "lucide-react";
 
 function DashboardContent() {
   const router = useRouter();
@@ -248,7 +248,7 @@ function DashboardContent() {
               onClick={() => setMobileSidebarOpen(true)}
               className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
             >
-              <Bars3Icon className="h-5 w-5" />
+              <Menu className="h-5 w-5" />
               Menu
             </button>
           </div>
