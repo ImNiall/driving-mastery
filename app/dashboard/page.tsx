@@ -1,36 +1,21 @@
 "use client";
 import React from "react";
 import ProgressChart from "@/components/ProgressChart";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
 import { QuizIcon, BookOpenIcon } from "@/components/icons";
-
-// Minimal local progress shape. Replace with real persisted data when available.
-function useLocalProgress(): QuizResult[] {
-  // Placeholder: start with empty progress chart (all zeros)
-  const categories: Category[] = [
-    "safety and your vehicle",
-    "hazard awareness",
-    "alertness",
-    "safety margins",
-    "attitude",
-    "vulnerable road users",
-    "vehicle handling",
-    "documents",
-    "motorway rules",
-    "rules of the road",
-    "road and traffic signs",
-    "incidents, accidents and emergencies",
-    "vehicle loading",
-    "other types of vehicle",
-  ] as unknown as Category[];
-  return categories.map((c) => ({ category: c, correct: 0, total: 0 }));
-}
+import {
+  PRIMARY_SIGNED_IN_ITEMS,
+  SECONDARY_SIGNED_IN_ITEMS,
+  SIGN_OUT_ITEM,
+  type NavigationItem,
+} from "@/lib/navigation";
 
 export default function DashboardPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const [progress, setProgress] = React.useState<QuizResult[]>([]);
   const [overall, setOverall] = React.useState(0);
   const [totals, setTotals] = React.useState<{
@@ -51,11 +36,47 @@ export default function DashboardPage() {
       finished_at: string | null;
     }>
   >([]);
+  const [signingOut, setSigningOut] = React.useState(false);
 
   const hasAttempts = React.useMemo(
     () => attempts.some((a) => (a?.total ?? 0) > 0),
     [attempts],
   );
+
+  const primaryNavItems = React.useMemo(() => PRIMARY_SIGNED_IN_ITEMS, []);
+  const secondaryNavItems = React.useMemo(() => SECONDARY_SIGNED_IN_ITEMS, []);
+  const signOutItem = SIGN_OUT_ITEM;
+  const SignOutIcon = signOutItem?.icon;
+  const sidebarNavItems = React.useMemo(
+    () => [...primaryNavItems, ...secondaryNavItems],
+    [primaryNavItems, secondaryNavItems],
+  );
+
+  const isActiveNavItem = React.useCallback(
+    (item: NavigationItem) => !!item.href && !!pathname?.startsWith(item.href),
+    [pathname],
+  );
+
+  const handleNavigation = React.useCallback(
+    (href?: string) => {
+      if (!href) return;
+      router.push(href);
+    },
+    [router],
+  );
+
+  const handleSignOut = React.useCallback(async () => {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await supabase.auth.signOut();
+      router.push("/");
+    } catch (e) {
+      console.error("Sign out failed", e);
+    } finally {
+      setSigningOut(false);
+    }
+  }, [router, signingOut]);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -163,151 +184,306 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl p-6 space-y-8">
-      <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm">
-        <h1 className="text-2xl font-bold text-gray-900">Your Dashboard</h1>
-        <p className="text-gray-600 mt-1">
-          Review your progress and get help from your AI Mentor.
-        </p>
-      </div>
-
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
-            Your Progress Breakdown
-          </h3>
-          <div className="min-h-[220px] flex items-center justify-center">
-            <ProgressChart data={progress} hasAttempts={hasAttempts} />
+    <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="flex flex-col gap-6 md:grid md:grid-cols-[74px,1fr] md:gap-6 lg:grid-cols-[260px,1fr] lg:gap-8">
+        <aside className="md:sticky md:top-24 md:h-fit md:self-start">
+          <div className="hidden md:flex lg:hidden flex-col items-center gap-3 rounded-3xl border border-gray-200/70 bg-white p-3 shadow-sm">
+            {sidebarNavItems.map((item) => {
+              const Icon = item.icon;
+              const active = isActiveNavItem(item);
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => handleNavigation(item.href)}
+                  className={`flex h-11 w-11 items-center justify-center rounded-2xl transition ${
+                    active
+                      ? "bg-brand-blue text-white shadow-sm"
+                      : "bg-white text-gray-500 hover:bg-brand-blue/10 hover:text-brand-blue"
+                  }`}
+                  aria-current={active ? "page" : undefined}
+                  title={item.label}
+                  aria-label={item.label}
+                >
+                  <Icon className="h-5 w-5" />
+                </button>
+              );
+            })}
+            {signOutItem && SignOutIcon && (
+              <button
+                type="button"
+                onClick={handleSignOut}
+                disabled={signingOut}
+                title={signOutItem.label}
+                aria-label={signOutItem.label}
+                className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-gray-500 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <SignOutIcon className="h-5 w-5" />
+              </button>
+            )}
           </div>
-        </div>
-        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Overall Score
-            </h3>
-            <p
-              className={`text-5xl font-extrabold ${overall >= 86 ? "text-brand-green" : "text-brand-blue"}`}
-            >
-              {overall}%
-            </p>
-            <p className="text-gray-500">
-              {totals.correct} / {totals.total} correct
-            </p>
-            <p className="text-gray-500 mt-2">
-              Mastery Points:{" "}
-              <span className="font-semibold">{masteryPoints}</span>
-            </p>
-            {progress.some((p) => p.total > 0) &&
-              (() => {
-                const weakest = [...progress]
-                  .filter((p) => p.total > 0)
-                  .sort((a, b) => a.correct / a.total - b.correct / b.total)[0];
-                if (!weakest) return null;
+          <div className="hidden lg:block">
+            <nav className="rounded-3xl border border-gray-200/70 bg-white p-4 shadow-sm">
+              <p className="px-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
+                Overview
+              </p>
+              <div className="mt-3 space-y-1">
+                {primaryNavItems.map((item) => {
+                  const Icon = item.icon;
+                  const active = isActiveNavItem(item);
+                  return (
+                    <button
+                      key={item.key}
+                      type="button"
+                      onClick={() => handleNavigation(item.href)}
+                      className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition ${
+                        active
+                          ? "bg-brand-blue text-white shadow-sm"
+                          : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
+                      }`}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      <span
+                        className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+                          active
+                            ? "bg-white/20 text-white"
+                            : "bg-brand-blue/10 text-brand-blue"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-6 border-t border-gray-100 pt-4">
+                <p className="px-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
+                  More
+                </p>
+                <div className="mt-3 space-y-1">
+                  {secondaryNavItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActiveNavItem(item);
+                    return (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={() => handleNavigation(item.href)}
+                        className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition ${
+                          active
+                            ? "bg-brand-blue text-white shadow-sm"
+                            : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
+                        }`}
+                        aria-current={active ? "page" : undefined}
+                      >
+                        <span
+                          className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+                            active
+                              ? "bg-white/20 text-white"
+                              : "bg-brand-blue/10 text-brand-blue"
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                  {signOutItem && SignOutIcon && (
+                    <button
+                      type="button"
+                      onClick={handleSignOut}
+                      disabled={signingOut}
+                      className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-500">
+                        <SignOutIcon className="h-5 w-5" />
+                      </span>
+                      <span>{signOutItem.label}</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </nav>
+          </div>
+        </aside>
+        <section className="flex flex-col gap-8">
+          <div className="-mx-4 md:hidden">
+            <div className="mb-4 flex gap-2 overflow-x-auto px-4 pb-2">
+              {sidebarNavItems.map((item) => {
+                const active = isActiveNavItem(item);
                 return (
-                  <div className="mt-6">
-                    <h4 className="font-semibold mb-2 text-gray-700">
-                      Recommended Focus Area
-                    </h4>
-                    <p className="text-sm text-gray-600 mb-3">
-                      Your results suggest focusing on{" "}
-                      <span className="font-bold">{weakest.category}</span>.
-                    </p>
-                    <div className="space-y-2">
-                      <button
-                        onClick={() => {
-                          // quick path: start a mock test selection prefilled is not wired; take user to mock test
-                          window.location.href = "/mock-test";
-                        }}
-                        className="w-full bg-brand-blue-light text-brand-blue font-semibold py-2 px-4 rounded-md hover:bg-blue-200 transition-colors"
-                      >
-                        Practice Topic
-                      </button>
-                      <button
-                        onClick={() => {
-                          window.location.href = "/modules";
-                        }}
-                        className="w-full bg-slate-100 text-slate-700 font-semibold py-2 px-4 rounded-md hover:bg-slate-200 transition-colors"
-                      >
-                        Study Module
-                      </button>
-                    </div>
-                  </div>
+                  <button
+                    key={`mobile-${item.key}`}
+                    type="button"
+                    onClick={() => handleNavigation(item.href)}
+                    className={`flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold ${
+                      active
+                        ? "border-brand-blue bg-brand-blue text-white"
+                        : "border-gray-200 bg-white text-gray-700 hover:border-brand-blue/40 hover:text-brand-blue"
+                    }`}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    {item.label}
+                  </button>
                 );
-              })()}
+              })}
+              {signOutItem && (
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  disabled={signingOut}
+                  className="flex items-center gap-2 whitespace-nowrap rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition hover:border-red-200 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {signOutItem.label}
+                </button>
+              )}
+            </div>
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-2">
-            <button
-              onClick={() => router.push("/mock-test")}
-              className="w-full rounded-md bg-brand-blue text-white font-semibold py-2 px-4 hover:opacity-90 transition"
-            >
-              Start Quiz
-            </button>
-            <button
-              onClick={() => router.push("/modules")}
-              className="w-full rounded-md bg-brand-blue/10 text-brand-blue font-semibold py-2 px-4 hover:bg-brand-blue/20 transition"
-            >
-              Browse Modules
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Action cards */}
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-          <div className="mx-auto">
-            <QuizIcon className="w-12 h-12 text-brand-blue" />
+          <div className="rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
+            <h1 className="text-2xl font-bold text-gray-900">Your Dashboard</h1>
+            <p className="mt-1 text-gray-600">
+              Review your progress and get help from your AI Mentor.
+            </p>
           </div>
-          <h3 className="text-lg font-bold text-gray-800 mt-4">
-            Mock Theory Test
-          </h3>
-          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
-            Simulate the official DVSA test with a randomly selected set of
-            questions from all topics.
-          </p>
-          <button
-            onClick={() => router.push("/mock-test")}
-            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
-          >
-            Start Quiz
-          </button>
-        </div>
-        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-          <div className="mx-auto">
-            <BookOpenIcon className="w-12 h-12 text-brand-blue" />
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="lg:col-span-2 rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-xl font-bold text-gray-900">
+                Your Progress Breakdown
+              </h3>
+              <div className="min-h-[220px]">
+                <ProgressChart data={progress} hasAttempts={hasAttempts} />
+              </div>
+            </div>
+            <div className="flex flex-col justify-between rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
+              <div>
+                <h3 className="mb-2 text-xl font-bold text-gray-900">
+                  Overall Score
+                </h3>
+                <p
+                  className={`text-5xl font-extrabold ${overall >= 86 ? "text-brand-green" : "text-brand-blue"}`}
+                >
+                  {overall}%
+                </p>
+                <p className="text-gray-500">
+                  {totals.correct} / {totals.total} correct
+                </p>
+                <p className="mt-2 text-gray-500">
+                  Mastery Points:{" "}
+                  <span className="font-semibold">{masteryPoints}</span>
+                </p>
+                {progress.some((p) => p.total > 0) &&
+                  (() => {
+                    const weakest = [...progress]
+                      .filter((p) => p.total > 0)
+                      .sort(
+                        (a, b) => a.correct / a.total - b.correct / b.total,
+                      )[0];
+                    if (!weakest) return null;
+                    return (
+                      <div className="mt-6">
+                        <h4 className="mb-2 font-semibold text-gray-700">
+                          Recommended Focus Area
+                        </h4>
+                        <p className="mb-3 text-sm text-gray-600">
+                          Your results suggest focusing on{" "}
+                          <span className="font-bold">{weakest.category}</span>.
+                        </p>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => router.push("/mock-test")}
+                            className="w-full rounded-md bg-brand-blue-light px-4 py-2 font-semibold text-brand-blue transition hover:bg-blue-200"
+                          >
+                            Practice Topic
+                          </button>
+                          <button
+                            onClick={() => router.push("/modules")}
+                            className="w-full rounded-md bg-slate-100 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-200"
+                          >
+                            Study Module
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })()}
+              </div>
+              <div className="mt-6 grid grid-cols-1 gap-2">
+                <button
+                  onClick={() => router.push("/mock-test")}
+                  className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition hover:opacity-90"
+                >
+                  Start Quiz
+                </button>
+                <button
+                  onClick={() => router.push("/modules")}
+                  className="w-full rounded-md bg-brand-blue/10 px-4 py-2 font-semibold text-brand-blue transition hover:bg-brand-blue/20"
+                >
+                  Browse Modules
+                </button>
+              </div>
+            </div>
           </div>
-          <h3 className="text-lg font-bold text-gray-800 mt-4">
-            DVSA Topic Revision
-          </h3>
-          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
-            Study detailed guides covering all 14 official DVSA categories to
-            build your knowledge.
-          </p>
-          <button
-            onClick={() => router.push("/modules")}
-            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
-          >
-            Browse Modules
-          </button>
-        </div>
-        <div className="bg-white p-6 rounded-xl border border-gray-200/70 shadow-sm flex flex-col text-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-          <div className="mx-auto">
-            <QuizIcon className="w-12 h-12 text-brand-blue" />
+
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="mx-auto">
+                <QuizIcon className="h-12 w-12 text-brand-blue" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-gray-800">
+                Mock Theory Test
+              </h3>
+              <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
+                Simulate the official DVSA test with a randomly selected set of
+                questions from all topics.
+              </p>
+              <button
+                onClick={() => router.push("/mock-test")}
+                className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
+              >
+                Start Quiz
+              </button>
+            </div>
+            <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="mx-auto">
+                <BookOpenIcon className="h-12 w-12 text-brand-blue" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-gray-800">
+                DVSA Topic Revision
+              </h3>
+              <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
+                Study detailed guides covering all 14 official DVSA categories
+                to build your knowledge.
+              </p>
+              <button
+                onClick={() => router.push("/modules")}
+                className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
+              >
+                Browse Modules
+              </button>
+            </div>
+            <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+              <div className="mx-auto">
+                <QuizIcon className="h-12 w-12 text-brand-blue" />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-gray-800">
+                Quiz by Category
+              </h3>
+              <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
+                Target a single topic with a focused 10-question quiz designed
+                to sharpen your weakest area.
+              </p>
+              <button
+                onClick={() => router.push("/quiz-by-category")}
+                className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
+              >
+                Choose Category
+              </button>
+            </div>
           </div>
-          <h3 className="text-lg font-bold text-gray-800 mt-4">
-            Quiz by Category
-          </h3>
-          <p className="text-sm text-gray-600 mt-2 mb-6 flex-grow">
-            Target a single topic with a focused 10-question quiz designed to
-            sharpen your weakest area.
-          </p>
-          <button
-            onClick={() => router.push("/quiz-by-category")}
-            className="w-full bg-brand-blue text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors"
-          >
-            Choose Category
-          </button>
-        </div>
+        </section>
       </div>
     </main>
   );

@@ -1,0 +1,95 @@
+import type { ComponentType } from "react";
+import {
+  BookOpenIcon,
+  HomeIcon,
+  InformationCircleIcon,
+  LogoutIcon,
+  QuizIcon,
+  TrophyIcon,
+  UserGroupIcon,
+} from "@/components/icons";
+
+export type IconComponent = ComponentType<{ className?: string }>;
+
+export type NavigationItem = {
+  key: string;
+  label: string;
+  href?: string;
+  icon: IconComponent;
+  requiresAuth?: boolean;
+  section: "primary" | "secondary";
+  action?: "signOut";
+};
+
+export const NAVIGATION_ITEMS: NavigationItem[] = [
+  {
+    key: "dashboard",
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: HomeIcon,
+    requiresAuth: true,
+    section: "primary",
+  },
+  {
+    key: "modules",
+    label: "Modules",
+    href: "/modules",
+    icon: BookOpenIcon,
+    requiresAuth: true,
+    section: "primary",
+  },
+  {
+    key: "mock-test",
+    label: "Mock Test",
+    href: "/mock-test",
+    icon: QuizIcon,
+    requiresAuth: true,
+    section: "primary",
+  },
+  {
+    key: "leaderboard",
+    label: "Leaderboard",
+    href: "/leaderboard",
+    icon: TrophyIcon,
+    requiresAuth: true,
+    section: "secondary",
+  },
+  {
+    key: "memberships",
+    label: "Memberships",
+    href: "/memberships",
+    icon: UserGroupIcon,
+    section: "secondary",
+  },
+  {
+    key: "about",
+    label: "About",
+    href: "/about",
+    icon: InformationCircleIcon,
+    section: "secondary",
+  },
+  {
+    key: "signout",
+    label: "Sign Out",
+    icon: LogoutIcon,
+    requiresAuth: true,
+    section: "secondary",
+    action: "signOut",
+  },
+];
+
+export const PRIMARY_SIGNED_IN_ITEMS = NAVIGATION_ITEMS.filter(
+  (item) => item.requiresAuth && item.section === "primary",
+);
+
+export const SECONDARY_SIGNED_IN_ITEMS = NAVIGATION_ITEMS.filter(
+  (item) => item.section === "secondary" && item.action !== "signOut",
+);
+
+export const SIGN_OUT_ITEM = NAVIGATION_ITEMS.find(
+  (item) => item.action === "signOut",
+);
+
+export const PUBLIC_NAV_ITEMS = NAVIGATION_ITEMS.filter(
+  (item) => !item.requiresAuth && !!item.href,
+);

@@ -3,29 +3,22 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import React from "react";
-
-type NavLink = { href: string; label: string };
-
-const privateTabs: NavLink[] = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/modules", label: "Modules" },
-  { href: "/mock-test", label: "Mock Test" },
-  { href: "/leaderboard", label: "Leaderboard" },
-];
-
-const publicTabs: NavLink[] = [
-  { href: "/memberships", label: "Memberships" },
-  { href: "/about", label: "About" },
-];
+import {
+  PRIMARY_SIGNED_IN_ITEMS,
+  PUBLIC_NAV_ITEMS,
+  SECONDARY_SIGNED_IN_ITEMS,
+} from "@/lib/navigation";
 
 export default function AppNav() {
   const pathname = usePathname();
   const router = useRouter();
   const [signedIn, setSignedIn] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const tabs: NavLink[] = signedIn
-    ? [...privateTabs, ...publicTabs]
-    : publicTabs;
+  const signedInTabs = React.useMemo(
+    () => [...PRIMARY_SIGNED_IN_ITEMS, ...SECONDARY_SIGNED_IN_ITEMS],
+    [],
+  );
+  const tabs = signedIn ? signedInTabs : PUBLIC_NAV_ITEMS;
 
   React.useEffect(() => {
     let mounted = true;
@@ -37,7 +30,8 @@ export default function AppNav() {
       setSignedIn(!!session);
     });
     if (signedIn && typeof router.prefetch === "function") {
-      privateTabs.forEach((t) => {
+      signedInTabs.forEach((t) => {
+        if (!t.href) return;
         try {
           router.prefetch(t.href);
         } catch (_) {
@@ -49,11 +43,13 @@ export default function AppNav() {
       mounted = false;
       sub.subscription?.unsubscribe();
     };
-  }, [router, signedIn]);
+  }, [router, signedIn, signedInTabs]);
 
   React.useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  const isDashboard = pathname?.startsWith("/dashboard");
 
   return (
     <nav className="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur">
@@ -90,10 +86,13 @@ export default function AppNav() {
             </svg>
           </button>
 
-          <div className="hidden items-center gap-4 md:flex">
+          <div
+            className={`items-center gap-4 ${isDashboard ? "hidden" : "hidden md:flex"}`}
+          >
             {!!tabs.length && (
               <ul className="flex gap-1">
                 {tabs.map((t) => {
+                  if (!t.href) return null;
                   const active = pathname?.startsWith(t.href);
                   return (
                     <li key={t.href}>
