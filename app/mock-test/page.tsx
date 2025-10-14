@@ -71,7 +71,11 @@ type MockAttempt = {
   duration_sec: number | null;
 };
 
-export default function MockTestPage() {
+type MockTestContentProps = {
+  variant?: "page" | "dashboard";
+};
+
+export function MockTestContent({ variant = "page" }: MockTestContentProps) {
   const router = useRouter();
   const [attemptId, setAttemptId] = React.useState<string | null>(null);
   const [questions, setQuestions] = React.useState<Question[]>([]);
@@ -809,14 +813,20 @@ export default function MockTestPage() {
 
   if (!current) {
     return (
-      <main className="mx-auto max-w-3xl p-6">
-        <p className="text-gray-600">Preparing your mock test...</p>
-      </main>
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 text-gray-600">
+        Preparing your mock test...
+      </div>
     );
   }
 
   return (
-    <main className="mx-auto max-w-4xl p-4 sm:p-6 space-y-4">
+    <div
+      className={
+        variant === "dashboard"
+          ? "space-y-4"
+          : "mx-auto max-w-4xl p-4 sm:p-6 space-y-4"
+      }
+    >
       <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-gray-800">Mock Test</h1>
@@ -958,6 +968,10 @@ export default function MockTestPage() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
+}
+
+export default function MockTestPage() {
+  return <MockTestContent variant="page" />;
 }
