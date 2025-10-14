@@ -9,12 +9,21 @@ import {
   UserGroupIcon,
 } from "@/components/icons";
 
+export type DashboardViewKey =
+  | "dashboard"
+  | "modules"
+  | "mock-test"
+  | "leaderboard"
+  | "memberships"
+  | "about";
+
 export type IconComponent = ComponentType<{ className?: string }>;
 
 export type NavigationItem = {
   key: string;
   label: string;
   href?: string;
+  dashboardView?: DashboardViewKey;
   icon: IconComponent;
   requiresAuth?: boolean;
   section: "primary" | "secondary";
@@ -26,6 +35,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "dashboard",
     label: "Dashboard",
     href: "/dashboard",
+    dashboardView: "dashboard",
     icon: HomeIcon,
     requiresAuth: true,
     section: "primary",
@@ -34,6 +44,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "modules",
     label: "Modules",
     href: "/modules",
+    dashboardView: "modules",
     icon: BookOpenIcon,
     requiresAuth: true,
     section: "primary",
@@ -42,6 +53,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "mock-test",
     label: "Mock Test",
     href: "/mock-test",
+    dashboardView: "mock-test",
     icon: QuizIcon,
     requiresAuth: true,
     section: "primary",
@@ -50,6 +62,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "leaderboard",
     label: "Leaderboard",
     href: "/leaderboard",
+    dashboardView: "leaderboard",
     icon: TrophyIcon,
     requiresAuth: true,
     section: "secondary",
@@ -58,6 +71,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "memberships",
     label: "Memberships",
     href: "/memberships",
+    dashboardView: "memberships",
     icon: UserGroupIcon,
     section: "secondary",
   },
@@ -65,6 +79,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "about",
     label: "About",
     href: "/about",
+    dashboardView: "about",
     icon: InformationCircleIcon,
     section: "secondary",
   },

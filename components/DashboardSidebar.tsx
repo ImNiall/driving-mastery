@@ -1,15 +1,16 @@
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
   SIGN_OUT_ITEM,
+  type DashboardViewKey,
   type NavigationItem,
 } from "@/lib/navigation";
 
 type DashboardSidebarProps = {
-  pathname?: string | null;
+  activeView: DashboardViewKey;
+  onNavigate: (view: DashboardViewKey) => void;
   onSignOut: () => void;
   signingOut: boolean;
 };
@@ -17,13 +18,9 @@ type DashboardSidebarProps = {
 const railClasses =
   "flex h-12 w-12 items-center justify-center rounded-2xl transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue";
 
-function isActive(pathname: string | undefined | null, item: NavigationItem) {
-  if (!item.href) return false;
-  return pathname?.startsWith(item.href) ?? false;
-}
-
 function DesktopNav({
-  pathname,
+  activeView,
+  onNavigate,
   onSignOut,
   signingOut,
 }: DashboardSidebarProps) {
@@ -36,10 +33,10 @@ function DesktopNav({
     <div className="hidden lg:flex lg:w-[268px]">
       <div className="flex w-full flex-col justify-between rounded-3xl border border-gray-200/70 bg-white p-6 shadow-sm">
         <div>
-          <Link
-            href="/dashboard"
-            prefetch
+          <button
+            type="button"
             className="flex items-center gap-3 rounded-2xl bg-brand-blue/5 px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
+            onClick={() => onNavigate("dashboard")}
           >
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-blue text-sm font-semibold text-white shadow-sm">
               DM
@@ -52,7 +49,7 @@ function DesktopNav({
                 Theory Coach
               </p>
             </div>
-          </Link>
+          </button>
 
           <nav className="mt-8 space-y-6">
             <div>
@@ -61,20 +58,19 @@ function DesktopNav({
               </p>
               <ul className="mt-3 space-y-1.5">
                 {primaryItems.map((item) => {
-                  if (!item.href) return null;
+                  if (!item.dashboardView) return null;
                   const Icon = item.icon;
-                  const active = isActive(pathname, item);
+                  const active = item.dashboardView === activeView;
                   return (
                     <li key={item.key}>
-                      <Link
-                        href={item.href}
-                        prefetch
+                      <button
+                        type="button"
+                        onClick={() => onNavigate(item.dashboardView!)}
                         className={`group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue ${
                           active
                             ? "bg-brand-blue text-white shadow-sm"
                             : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
                         }`}
-                        aria-current={active ? "page" : undefined}
                       >
                         <span
                           className={`flex h-9 w-9 items-center justify-center rounded-xl ${
@@ -86,7 +82,7 @@ function DesktopNav({
                           <Icon className="h-5 w-5" />
                         </span>
                         <span>{item.label}</span>
-                      </Link>
+                      </button>
                     </li>
                   );
                 })}
@@ -99,20 +95,19 @@ function DesktopNav({
               </p>
               <ul className="mt-3 space-y-1.5">
                 {secondaryItems.map((item) => {
-                  if (!item.href) return null;
+                  if (!item.dashboardView) return null;
                   const Icon = item.icon;
-                  const active = isActive(pathname, item);
+                  const active = item.dashboardView === activeView;
                   return (
                     <li key={item.key}>
-                      <Link
-                        href={item.href}
-                        prefetch
+                      <button
+                        type="button"
+                        onClick={() => onNavigate(item.dashboardView!)}
                         className={`group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue ${
                           active
                             ? "bg-brand-blue text-white shadow-sm"
                             : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
                         }`}
-                        aria-current={active ? "page" : undefined}
                       >
                         <span
                           className={`flex h-9 w-9 items-center justify-center rounded-xl ${
@@ -124,7 +119,7 @@ function DesktopNav({
                           <Icon className="h-5 w-5" />
                         </span>
                         <span>{item.label}</span>
-                      </Link>
+                      </button>
                     </li>
                   );
                 })}
@@ -166,7 +161,12 @@ function DesktopNav({
   );
 }
 
-function RailNav({ pathname, onSignOut, signingOut }: DashboardSidebarProps) {
+function RailNav({
+  activeView,
+  onNavigate,
+  onSignOut,
+  signingOut,
+}: DashboardSidebarProps) {
   const primaryItems = React.useMemo(() => PRIMARY_SIGNED_IN_ITEMS, []);
   const secondaryItems = React.useMemo(() => SECONDARY_SIGNED_IN_ITEMS, []);
   const signOutItem = SIGN_OUT_ITEM;
@@ -175,34 +175,33 @@ function RailNav({ pathname, onSignOut, signingOut }: DashboardSidebarProps) {
   return (
     <div className="hidden md:flex lg:hidden">
       <div className="flex h-full w-16 flex-col items-center gap-4 rounded-3xl border border-gray-200/70 bg-white p-3 shadow-sm">
-        <Link
-          href="/dashboard"
-          prefetch
+        <button
+          type="button"
           className={`${railClasses} bg-brand-blue text-white shadow-sm`}
           aria-label="Dashboard home"
+          onClick={() => onNavigate("dashboard")}
         >
           <span className="text-sm font-semibold">DM</span>
-        </Link>
+        </button>
         {[...primaryItems, ...secondaryItems].map((item) => {
-          if (!item.href) return null;
+          if (!item.dashboardView) return null;
           const Icon = item.icon;
-          const active = isActive(pathname, item);
+          const active = item.dashboardView === activeView;
           return (
-            <Link
+            <button
+              type="button"
               key={item.key}
-              href={item.href}
-              prefetch
               className={`${railClasses} ${
                 active
                   ? "bg-brand-blue text-white shadow-sm"
                   : "bg-white text-gray-500 hover:bg-brand-blue/10 hover:text-brand-blue"
               }`}
-              aria-current={active ? "page" : undefined}
               title={item.label}
               aria-label={item.label}
+              onClick={() => onNavigate(item.dashboardView!)}
             >
               <Icon className="h-5 w-5" />
-            </Link>
+            </button>
           );
         })}
         {signOutItem && SignOutIcon && (
@@ -223,19 +222,22 @@ function RailNav({ pathname, onSignOut, signingOut }: DashboardSidebarProps) {
 }
 
 export default function DashboardSidebar({
-  pathname,
+  activeView,
+  onNavigate,
   onSignOut,
   signingOut,
 }: DashboardSidebarProps) {
   return (
     <>
       <RailNav
-        pathname={pathname}
+        activeView={activeView}
+        onNavigate={onNavigate}
         onSignOut={onSignOut}
         signingOut={signingOut}
       />
       <DesktopNav
-        pathname={pathname}
+        activeView={activeView}
+        onNavigate={onNavigate}
         onSignOut={onSignOut}
         signingOut={signingOut}
       />

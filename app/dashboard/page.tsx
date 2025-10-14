@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ProgressChart from "@/components/ProgressChart";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
@@ -10,13 +10,46 @@ import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
   SIGN_OUT_ITEM,
-  type NavigationItem,
+  type DashboardViewKey,
 } from "@/lib/navigation";
 import DashboardSidebar from "@/components/DashboardSidebar";
+import ModulesIndexClient from "@/app/modules/ModulesIndexClient";
+import { LEARNING_MODULES } from "@/constants";
+import LeaderboardView from "@/components/LeaderboardView";
+import dynamic from "next/dynamic";
+
+const MockTestView = dynamic(() => import("@/app/mock-test/page"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-gray-200 bg-white text-sm text-gray-500">
+      Preparing mock test experience...
+    </div>
+  ),
+});
+
+const MembershipsView = dynamic(() => import("@/app/memberships/page"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-gray-200 bg-white text-sm text-gray-500">
+      Loading memberships...
+    </div>
+  ),
+});
+
+const AboutView = dynamic(() => import("@/app/about/page"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-gray-200 bg-white text-sm text-gray-500">
+      Loading about section...
+    </div>
+  ),
+});
 
 export default function DashboardPage() {
   const router = useRouter();
-  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeView =
+    (searchParams.get("view") as DashboardViewKey | null) ?? "dashboard";
   const [progress, setProgress] = React.useState<QuizResult[]>([]);
   const [overall, setOverall] = React.useState(0);
   const [totals, setTotals] = React.useState<{
@@ -51,19 +84,63 @@ export default function DashboardPage() {
     () => [...primaryNavItems, ...secondaryNavItems],
     [primaryNavItems, secondaryNavItems],
   );
-
-  const isActiveNavItem = React.useCallback(
-    (item: NavigationItem) => !!item.href && !!pathname?.startsWith(item.href),
-    [pathname],
+  const dashboardNavItems = React.useMemo(
+    () => sidebarNavItems.filter((item) => !!item.dashboardView),
+    [sidebarNavItems],
   );
 
-  const handleNavigation = React.useCallback(
-    (href?: string) => {
-      if (!href) return;
-      router.push(href);
+  const handleViewChange = React.useCallback(
+    (view: DashboardViewKey) => {
+      const params = new URLSearchParams(
+        Array.from(searchParams.entries() ?? []),
+      );
+      if (view === "dashboard") {
+        params.delete("view");
+      } else {
+        params.set("view", view);
+      }
+      const qs = params.toString();
+      router.replace(`/dashboard${qs ? `?${qs}` : ""}`, { scroll: true });
     },
-    [router],
+    [router, searchParams],
   );
+
+  const renderNonDashboard = React.useCallback(() => {
+    switch (activeView) {
+      case "modules":
+        return (
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+            <ModulesIndexClient modules={LEARNING_MODULES} />
+          </div>
+        );
+      case "mock-test":
+        return (
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+            <MockTestView />
+          </div>
+        );
+      case "leaderboard":
+        return (
+          <div className="rounded-3xl border border-gray-200/70 bg-white p-6 shadow-sm">
+            <LeaderboardView currentUserMasteryPoints={masteryPoints} />
+          </div>
+        );
+      case "memberships":
+        return (
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+            <MembershipsView />
+          </div>
+        );
+      case "about":
+        return (
+          <div className="-mx-4 sm:-mx-6 lg:-mx-8">
+            <AboutView />
+          </div>
+        );
+      default:
+        return null;
+    }
+  }, [activeView, masteryPoints]);
 
   const handleSignOut = React.useCallback(async () => {
     if (signingOut) return;
@@ -188,34 +265,40 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-6 md:grid md:grid-cols-[88px,1fr] md:gap-6 lg:grid-cols-[280px,1fr] lg:gap-10">
         <aside className="md:sticky md:top-24 md:h-fit md:self-start">
           <DashboardSidebar
-            pathname={pathname}
+            activeView={activeView}
+            onNavigate={handleViewChange}
             onSignOut={handleSignOut}
             signingOut={signingOut}
           />
         </aside>
-        <section className="flex flex-col gap-8">
+        <section
+          className={
+            activeView === "dashboard"
+              ? "flex flex-col gap-8"
+              : "flex-1 overflow-hidden"
+          }
+        >
           <div className="-mx-4 md:hidden">
             <div className="mb-4 flex gap-2 overflow-x-auto px-4 pb-2">
-              {sidebarNavItems
-                .filter((item) => !!item.href)
-                .map((item) => {
-                  const active = isActiveNavItem(item);
-                  return (
-                    <button
-                      key={`mobile-${item.key}`}
-                      type="button"
-                      onClick={() => handleNavigation(item.href)}
-                      className={`flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold ${
-                        active
-                          ? "border-brand-blue bg-brand-blue text-white"
-                          : "border-gray-200 bg-white text-gray-700 hover:border-brand-blue/40 hover:text-brand-blue"
-                      }`}
-                      aria-current={active ? "page" : undefined}
-                    >
-                      {item.label}
-                    </button>
-                  );
-                })}
+              {dashboardNavItems.map((item) => {
+                const view = item.dashboardView!;
+                const active = view === activeView;
+                return (
+                  <button
+                    key={`mobile-${item.key}`}
+                    type="button"
+                    onClick={() => handleViewChange(view)}
+                    className={`flex items-center gap-2 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold ${
+                      active
+                        ? "border-brand-blue bg-brand-blue text-white"
+                        : "border-gray-200 bg-white text-gray-700 hover:border-brand-blue/40 hover:text-brand-blue"
+                    }`}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
               {signOutItem && (
                 <button
                   type="button"
@@ -229,147 +312,160 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
-            <h1 className="text-2xl font-bold text-gray-900">Your Dashboard</h1>
-            <p className="mt-1 text-gray-600">
-              Review your progress and get help from your AI Mentor.
-            </p>
-          </div>
+          {activeView === "dashboard" ? (
+            <>
+              <div className="rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Your Dashboard
+                </h1>
+                <p className="mt-1 text-gray-600">
+                  Review your progress and get help from your AI Mentor.
+                </p>
+              </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2 rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold text-gray-900">
-                Your Progress Breakdown
-              </h3>
-              <div className="min-h-[220px]">
-                <ProgressChart data={progress} hasAttempts={hasAttempts} />
+              <div className="grid gap-6 lg:grid-cols-3">
+                <div className="lg:col-span-2 rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-xl font-bold text-gray-900">
+                    Your Progress Breakdown
+                  </h3>
+                  <div className="min-h-[220px]">
+                    <ProgressChart data={progress} hasAttempts={hasAttempts} />
+                  </div>
+                </div>
+                <div className="flex flex-col justify-between rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
+                  <div>
+                    <h3 className="mb-2 text-xl font-bold text-gray-900">
+                      Overall Score
+                    </h3>
+                    <p
+                      className={`text-5xl font-extrabold ${overall >= 86 ? "text-brand-green" : "text-brand-blue"}`}
+                    >
+                      {overall}%
+                    </p>
+                    <p className="text-gray-500">
+                      {totals.correct} / {totals.total} correct
+                    </p>
+                    <p className="mt-2 text-gray-500">
+                      Mastery Points:{" "}
+                      <span className="font-semibold">{masteryPoints}</span>
+                    </p>
+                    {progress.some((p) => p.total > 0) &&
+                      (() => {
+                        const weakest = [...progress]
+                          .filter((p) => p.total > 0)
+                          .sort(
+                            (a, b) => a.correct / a.total - b.correct / b.total,
+                          )[0];
+                        if (!weakest) return null;
+                        return (
+                          <div className="mt-6">
+                            <h4 className="mb-2 font-semibold text-gray-700">
+                              Recommended Focus Area
+                            </h4>
+                            <p className="mb-3 text-sm text-gray-600">
+                              Your results suggest focusing on{" "}
+                              <span className="font-bold">
+                                {weakest.category}
+                              </span>
+                              .
+                            </p>
+                            <div className="space-y-2">
+                              <button
+                                onClick={() => handleViewChange("mock-test")}
+                                className="w-full rounded-md bg-brand-blue-light px-4 py-2 font-semibold text-brand-blue transition hover:bg-blue-200"
+                              >
+                                Practice Topic
+                              </button>
+                              <button
+                                onClick={() => handleViewChange("modules")}
+                                className="w-full rounded-md bg-slate-100 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-200"
+                              >
+                                Study Module
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                  </div>
+                  <div className="mt-6 grid grid-cols-1 gap-2">
+                    <button
+                      onClick={() => handleViewChange("mock-test")}
+                      className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition hover:opacity-90"
+                    >
+                      Start Quiz
+                    </button>
+                    <button
+                      onClick={() => handleViewChange("modules")}
+                      className="w-full rounded-md bg-brand-blue/10 px-4 py-2 font-semibold text-brand-blue transition hover:bg-brand-blue/20"
+                    >
+                      Browse Modules
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col justify-between rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
-              <div>
-                <h3 className="mb-2 text-xl font-bold text-gray-900">
-                  Overall Score
-                </h3>
-                <p
-                  className={`text-5xl font-extrabold ${overall >= 86 ? "text-brand-green" : "text-brand-blue"}`}
-                >
-                  {overall}%
-                </p>
-                <p className="text-gray-500">
-                  {totals.correct} / {totals.total} correct
-                </p>
-                <p className="mt-2 text-gray-500">
-                  Mastery Points:{" "}
-                  <span className="font-semibold">{masteryPoints}</span>
-                </p>
-                {progress.some((p) => p.total > 0) &&
-                  (() => {
-                    const weakest = [...progress]
-                      .filter((p) => p.total > 0)
-                      .sort(
-                        (a, b) => a.correct / a.total - b.correct / b.total,
-                      )[0];
-                    if (!weakest) return null;
-                    return (
-                      <div className="mt-6">
-                        <h4 className="mb-2 font-semibold text-gray-700">
-                          Recommended Focus Area
-                        </h4>
-                        <p className="mb-3 text-sm text-gray-600">
-                          Your results suggest focusing on{" "}
-                          <span className="font-bold">{weakest.category}</span>.
-                        </p>
-                        <div className="space-y-2">
-                          <button
-                            onClick={() => router.push("/mock-test")}
-                            className="w-full rounded-md bg-brand-blue-light px-4 py-2 font-semibold text-brand-blue transition hover:bg-blue-200"
-                          >
-                            Practice Topic
-                          </button>
-                          <button
-                            onClick={() => router.push("/modules")}
-                            className="w-full rounded-md bg-slate-100 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-200"
-                          >
-                            Study Module
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })()}
-              </div>
-              <div className="mt-6 grid grid-cols-1 gap-2">
-                <button
-                  onClick={() => router.push("/mock-test")}
-                  className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition hover:opacity-90"
-                >
-                  Start Quiz
-                </button>
-                <button
-                  onClick={() => router.push("/modules")}
-                  className="w-full rounded-md bg-brand-blue/10 px-4 py-2 font-semibold text-brand-blue transition hover:bg-brand-blue/20"
-                >
-                  Browse Modules
-                </button>
-              </div>
-            </div>
-          </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="mx-auto">
-                <QuizIcon className="h-12 w-12 text-brand-blue" />
+              <div className="grid gap-6 md:grid-cols-3">
+                <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto">
+                    <QuizIcon className="h-12 w-12 text-brand-blue" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-bold text-gray-800">
+                    Mock Theory Test
+                  </h3>
+                  <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
+                    Simulate the official DVSA test with a randomly selected set
+                    of questions from all topics.
+                  </p>
+                  <button
+                    onClick={() => handleViewChange("mock-test")}
+                    className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
+                  >
+                    Start Quiz
+                  </button>
+                </div>
+                <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto">
+                    <BookOpenIcon className="h-12 w-12 text-brand-blue" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-bold text-gray-800">
+                    DVSA Topic Revision
+                  </h3>
+                  <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
+                    Study detailed guides covering all 14 official DVSA
+                    categories to build your knowledge.
+                  </p>
+                  <button
+                    onClick={() => handleViewChange("modules")}
+                    className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
+                  >
+                    Browse Modules
+                  </button>
+                </div>
+                <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto">
+                    <QuizIcon className="h-12 w-12 text-brand-blue" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-bold text-gray-800">
+                    Quiz by Category
+                  </h3>
+                  <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
+                    Target a single topic with a focused 10-question quiz
+                    designed to sharpen your weakest area.
+                  </p>
+                  <button
+                    onClick={() => router.push("/quiz-by-category")}
+                    className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
+                  >
+                    Choose Category
+                  </button>
+                </div>
               </div>
-              <h3 className="mt-4 text-lg font-bold text-gray-800">
-                Mock Theory Test
-              </h3>
-              <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
-                Simulate the official DVSA test with a randomly selected set of
-                questions from all topics.
-              </p>
-              <button
-                onClick={() => router.push("/mock-test")}
-                className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
-              >
-                Start Quiz
-              </button>
+            </>
+          ) : (
+            <div key={activeView} className="flex-1">
+              {renderNonDashboard()}
             </div>
-            <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="mx-auto">
-                <BookOpenIcon className="h-12 w-12 text-brand-blue" />
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-gray-800">
-                DVSA Topic Revision
-              </h3>
-              <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
-                Study detailed guides covering all 14 official DVSA categories
-                to build your knowledge.
-              </p>
-              <button
-                onClick={() => router.push("/modules")}
-                className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
-              >
-                Browse Modules
-              </button>
-            </div>
-            <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-              <div className="mx-auto">
-                <QuizIcon className="h-12 w-12 text-brand-blue" />
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-gray-800">
-                Quiz by Category
-              </h3>
-              <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
-                Target a single topic with a focused 10-question quiz designed
-                to sharpen your weakest area.
-              </p>
-              <button
-                onClick={() => router.push("/quiz-by-category")}
-                className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
-              >
-                Choose Category
-              </button>
-            </div>
-          </div>
+          )}
         </section>
       </div>
     </main>
