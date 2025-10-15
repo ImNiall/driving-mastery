@@ -5,6 +5,7 @@ node_modules
 dist
 .next
 .DS_Store
+tsconfig.tsbuildinfo
 
 # env
 .env*

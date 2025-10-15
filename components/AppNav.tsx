@@ -9,6 +9,7 @@ const tabs = [
   { href: "/modules", label: "Modules" },
   { href: "/mock-test", label: "Mock Test" },
   { href: "/leaderboard", label: "Leaderboard" },
+  { href: "/faqs", label: "FAQs" },
 ];
 
 export default function AppNav() {
@@ -56,6 +57,7 @@ export default function AppNav() {
                     <Link
                       href={t.href}
                       prefetch
+                      aria-current={active ? "page" : undefined}
                       className={`px-3 py-2 rounded-md text-sm font-semibold transition-colors ${
                         active
                           ? "bg-brand-blue text-white"

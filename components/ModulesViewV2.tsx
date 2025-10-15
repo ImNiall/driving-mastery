@@ -8,15 +8,19 @@ import ModuleContent, {
 } from "@/components/modules/moduleContent";
 import MiniQuiz from "@/components/MiniQuiz";
 import { decodeEntities } from "@/lib/decodeEntities";
-import type { Category, LearningModule } from "@/types";
+import type { Category, LearningModule, UserAnswer } from "@/types";
+
+type ModulesViewV2Props = {
+  module: LearningModule;
+  onModuleMastery: (category: Category) => void;
+  getWrongAnswersForModule?: (slug: string) => UserAnswer[];
+};
 
 export default function ModulesViewV2({
   module,
   onModuleMastery,
-}: {
-  module: LearningModule;
-  onModuleMastery: (category: Category) => void;
-}) {
+  getWrongAnswersForModule: _getWrongAnswersForModule,
+}: ModulesViewV2Props) {
   const sections = React.useMemo(
     () => parseModuleSections(module.content),
     [module.content],
