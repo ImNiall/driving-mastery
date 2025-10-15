@@ -97,6 +97,15 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
     { category: string; scorePct: number }[]
   >([]);
   const [mpEarned, setMpEarned] = React.useState<number>(0);
+  const [categoryBreakdown, setCategoryBreakdown] = React.useState<
+    { category: string; correct: number; total: number; scorePct: number }[]
+  >([]);
+  const [improvements, setImprovements] = React.useState<
+    { category: string; delta: number; current: number }[]
+  >([]);
+  const [baselineCategoryStats, setBaselineCategoryStats] = React.useState<
+    Record<string, { correct: number; total: number }>
+  >({});
   const [reviewFilter, setReviewFilter] = React.useState<
     "all" | "correct" | "incorrect"
   >("all");
@@ -108,6 +117,17 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
       const attempts = (overview?.attempts || []) as MockAttempt[];
       const mockAttempts = attempts.filter((a) => a?.source === "mock");
       setHistory(mockAttempts);
+      if (Array.isArray(overview?.categories)) {
+        const baseline: Record<string, { correct: number; total: number }> = {};
+        overview.categories.forEach((cat) => {
+          if (!cat?.category) return;
+          baseline[cat.category] = {
+            correct: cat.correct || 0,
+            total: cat.total || 0,
+          };
+        });
+        setBaselineCategoryStats(baseline);
+      }
     } catch (e) {
       console.warn("Failed to load mock test history", e);
     }
@@ -300,6 +320,24 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
     [questions.length, correctCount, incorrectCount],
   );
 
+  const handleFinishClick = async () => {
+    if (finished || submitting) return;
+    const needsConfirm = unansweredCount > 0 || flaggedCount > 0;
+    if (needsConfirm) {
+      const msgParts = [] as string[];
+      if (unansweredCount > 0) msgParts.push(`${unansweredCount} unanswered`);
+      if (flaggedCount > 0) msgParts.push(`${flaggedCount} flagged for review`);
+      const warn = msgParts.length
+        ? `You still have ${msgParts.join(" and ")}.
+
+Are you sure you want to finish the test now?`
+        : `Are you sure you want to finish the test now?`;
+      const ok = window.confirm(warn);
+      if (!ok) return;
+    }
+    await finishAttempt();
+  };
+
   const handleSelect = async (choice: string) => {
     if (!current || !attemptId) return;
     setSelected(choice);
@@ -432,23 +470,63 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
           perCat[k].total += 1;
           if (a.correct) perCat[k].correct += 1;
         }
-        // build recommended (two weakest categories with at least one attempt)
-        const weakest = Object.entries(perCat)
-          .filter(([, v]) => v.total > 0)
-          .map(([cat, v]) => ({
-            category: cat,
-            scorePct: (v.correct / v.total) * 100,
-          }))
+
+        const perCatArray = Object.entries(perCat).map(([cat, v]) => ({
+          category: cat,
+          correct: v.correct,
+          total: v.total,
+          scorePct: v.total > 0 ? (v.correct / v.total) * 100 : 0,
+        }));
+        setCategoryBreakdown(perCatArray);
+
+        const weakest = [...perCatArray]
+          .filter((entry) => entry.total > 0)
           .sort((a, b) => a.scorePct - b.scorePct)
           .slice(0, 2);
         setRecommended(weakest);
+
+        const computedImprovements = perCatArray
+          .map((entry) => {
+            const baseline = baselineCategoryStats[entry.category];
+            if (!baseline || baseline.total === 0) return null;
+            const baselinePct = (baseline.correct / baseline.total) * 100;
+            const delta = entry.scorePct - baselinePct;
+            return { category: entry.category, current: entry.scorePct, delta };
+          })
+          .filter(
+            (
+              entry,
+            ): entry is { category: string; current: number; delta: number } =>
+              !!entry && entry.delta > 0.5,
+          )
+          .sort((a, b) => b.delta - a.delta)
+          .slice(0, 2);
+        setImprovements(computedImprovements);
+
+        setBaselineCategoryStats((prev) => {
+          const updated = { ...prev };
+          perCatArray.forEach((entry) => {
+            const existing = updated[entry.category] || {
+              correct: 0,
+              total: 0,
+            };
+            updated[entry.category] = {
+              correct: existing.correct + entry.correct,
+              total: existing.total + entry.total,
+            };
+          });
+          return updated;
+        });
+
         let mpSum = 0;
         await Promise.all(
-          Object.entries(perCat).map(async ([cat, v]) => {
-            const pct = v.total ? (v.correct / v.total) * 100 : 0;
-            const pts = v.correct * 10 + (pct >= 86 ? 25 : 0);
+          perCatArray.map(async (entry) => {
+            const pts = entry.correct * 10 + (entry.scorePct >= 86 ? 25 : 0);
             if (pts > 0)
-              await ProgressService.recordMastery(cat, Math.round(pts));
+              await ProgressService.recordMastery(
+                entry.category,
+                Math.round(pts),
+              );
             mpSum += Math.max(0, Math.round(pts));
           }),
         );
@@ -667,89 +745,212 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
   if (finished && results) {
     const pct = results.score_percent;
     const passed = pct >= 86;
+    const strongestCategory = [...categoryBreakdown]
+      .filter((entry) => entry.total > 0)
+      .sort((a, b) => b.scorePct - a.scorePct)[0];
+    const improvementHighlight = improvements[0];
+    const formatCategoryLabel = (category: string) =>
+      category
+        .split("_")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    const summaryNote = improvementHighlight
+      ? `Biggest gain: ${formatCategoryLabel(improvementHighlight.category)} (+${improvementHighlight.delta.toFixed(1)} pts vs your previous average).`
+      : strongestCategory
+        ? `Your strongest topic this run was ${formatCategoryLabel(strongestCategory.category)} (${Math.round(strongestCategory.scorePct)}% correct).`
+        : null;
+    const incorrect = results.total - results.correct;
+
     return (
-      <main className="mx-auto max-w-4xl p-6 space-y-8">
-        <div className="bg-white p-6 md:p-8 rounded-lg shadow-xl text-center">
-          <div className="mx-auto mb-2 text-3xl font-bold {passed ? 'text-yellow-500' : 'text-blue-500'}"></div>
-          <h2 className="text-3xl font-bold text-gray-800 mt-2">
-            {passed
-              ? "Congratulations, you passed!"
-              : "Good Effort, Keep Practicing!"}
-          </h2>
-          <p className="text-lg text-gray-600 mt-2">You scored:</p>
-          <p
-            className={`text-7xl font-bold my-4 ${passed ? "text-brand-green" : "text-brand-red"}`}
-          >
-            {pct}%
-          </p>
-          <p className="text-gray-500 text-lg">
-            ({results.correct} out of {results.total} correct)
-          </p>
-          <hr className="my-6" />
-          <div className="text-center">
-            <p className="text-sm text-gray-600">Mastery Points Earned</p>
-            <p className="text-2xl font-extrabold text-yellow-500">
-              +{mpEarned} MP
-            </p>
-            <button
-              onClick={() => router.push("/leaderboard")}
-              className="text-brand-blue text-sm font-semibold mt-1 hover:underline"
-            >
-              Check your new rank →
-            </button>
+      <main className="mx-auto max-w-5xl p-6 space-y-8">
+        <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-blue via-brand-purple to-brand-blue/80 text-white shadow-2xl">
+          <div className="flex flex-col gap-6 p-8 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/70">
+                Mock Test Summary
+              </p>
+              <h2 className="mt-2 text-3xl font-bold md:text-4xl">
+                {passed
+                  ? "Outstanding drive—you're on track!"
+                  : "Good effort, keep practising!"}
+              </h2>
+              <p className="mt-3 text-sm text-white/85">
+                You answered{" "}
+                <span className="font-semibold">{results.correct}</span> of{" "}
+                <span className="font-semibold">{results.total}</span> questions
+                correctly.
+              </p>
+              {summaryNote && (
+                <p className="mt-3 text-sm text-white/80">{summaryNote}</p>
+              )}
+            </div>
+            <div className="rounded-3xl bg-white/20 px-8 py-6 text-center shadow-inner">
+              <p className="text-xs uppercase tracking-wide text-white/70">
+                Score
+              </p>
+              <p className="mt-1 text-5xl font-extrabold">{pct}%</p>
+              <p className="mt-2 text-sm text-white/80">
+                {passed
+                  ? "DVSA pass threshold met"
+                  : "Aim for 86% to reach the DVSA pass mark"}
+              </p>
+            </div>
           </div>
-          <div className="mt-8 grid sm:grid-cols-2 gap-4">
+          <div className="grid gap-4 border-t border-white/15 px-8 py-6 sm:grid-cols-3">
+            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm">
+              <p className="text-white/70">Correct answers</p>
+              <p className="text-xl font-semibold text-white">
+                {results.correct}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm">
+              <p className="text-white/70">Incorrect answers</p>
+              <p className="text-xl font-semibold text-white">{incorrect}</p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm">
+              <p className="text-white/70">Mastery points earned</p>
+              <p className="text-xl font-semibold text-yellow-300">
+                +{mpEarned} MP
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 border-t border-white/15 px-8 py-6">
             <button
               onClick={() => router.push("/dashboard")}
-              className="w-full bg-gray-600 text-white py-3 px-4 rounded-md hover:bg-gray-700 transition-colors font-semibold text-lg"
+              className="rounded-full bg-white/15 px-6 py-2 text-sm font-semibold text-white transition hover:bg-white/25"
             >
-              Dashboard
+              Back to Dashboard
             </button>
             <button
               onClick={() => window.location.reload()}
-              className="w-full bg-brand-blue text-white py-3 px-4 rounded-md hover:bg-blue-600 transition-colors font-semibold text-lg"
+              className="rounded-full bg-white px-6 py-2 text-sm font-semibold text-brand-blue shadow-sm transition hover:bg-slate-100"
             >
               Restart Quiz
             </button>
+            <button
+              onClick={() => router.push("/leaderboard")}
+              className="rounded-full border border-white/40 px-6 py-2 text-sm font-semibold text-white/90 transition hover:bg-white/10"
+            >
+              Check your rank →
+            </button>
           </div>
-        </div>
+        </section>
+
+        <section className="grid gap-6 lg:grid-cols-2">
+          {categoryBreakdown.length > 0 && (
+            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Category Breakdown
+              </h3>
+              <ul className="mt-4 space-y-4">
+                {[...categoryBreakdown]
+                  .sort((a, b) => b.scorePct - a.scorePct)
+                  .map((entry) => {
+                    const pctRounded = Math.round(entry.scorePct);
+                    const barColor =
+                      pctRounded >= 70
+                        ? "bg-brand-green"
+                        : pctRounded >= 40
+                          ? "bg-yellow-400"
+                          : "bg-brand-red";
+                    return (
+                      <li key={entry.category} className="space-y-2">
+                        <div className="flex items-center justify-between text-sm font-medium text-gray-700">
+                          <span>{formatCategoryLabel(entry.category)}</span>
+                          <span className="text-gray-500">
+                            {pctRounded}% ({entry.correct}/{entry.total})
+                          </span>
+                        </div>
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
+                          <div
+                            className={`h-full rounded-full ${barColor}`}
+                            style={{
+                              width: `${Math.min(entry.scorePct, 100)}%`,
+                            }}
+                          />
+                        </div>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
+          )}
+
+          <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900">
+              {improvements.length > 0
+                ? "Notable Improvements"
+                : "Keep Building Momentum"}
+            </h3>
+            {improvements.length > 0 ? (
+              <ul className="mt-4 space-y-3">
+                {improvements.map((entry) => (
+                  <li
+                    key={entry.category}
+                    className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-sm text-gray-700"
+                  >
+                    <div>
+                      <p className="font-semibold text-gray-800">
+                        {formatCategoryLabel(entry.category)}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Now {Math.round(entry.current)}% (+
+                        {entry.delta.toFixed(1)} pts)
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-brand-green/20 px-3 py-1 text-xs font-semibold text-brand-green">
+                      Improved
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-4 text-sm text-gray-600">
+                We didn&apos;t detect category improvements compared to your
+                previous average yet. Keep practising to spot positive trends!
+              </p>
+            )}
+          </div>
+        </section>
 
         {recommended.length > 0 && (
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">
+          <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-900">
               Recommended Study
             </h3>
-            <div className="space-y-3">
+            <div className="mt-4 space-y-3">
               {recommended.map((r) => (
                 <div
                   key={r.category}
-                  className="flex items-center justify-between bg-slate-50 px-4 py-3 rounded-md border border-slate-200"
+                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
                 >
                   <div>
-                    <p className="font-semibold capitalize">{r.category}</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="font-semibold text-gray-800">
+                      {formatCategoryLabel(r.category)}
+                    </p>
+                    <p className="text-xs text-gray-600">
                       Your score: {Math.round(r.scorePct)}%
                     </p>
                   </div>
                   <button
                     onClick={() => router.push("/modules")}
-                    className="bg-white border border-gray-300 px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-gray-50"
+                    className="rounded-full border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:bg-gray-50"
                   >
-                    Study Now
+                    Study now
                   </button>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        <div className="mt-2 pt-6">
-          <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
-            Review Your Answers
-          </h3>
-          <div className="flex justify-center mb-6">
+        <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
+            <h3 className="text-xl font-semibold text-gray-900">
+              Review your answers
+            </h3>
             <div
-              className="inline-flex rounded-md shadow-sm overflow-hidden"
+              className="inline-flex overflow-hidden rounded-full border border-gray-200 shadow-sm"
               role="group"
               aria-label="Filter reviewed questions"
             >
@@ -763,12 +964,6 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
                       isActive
                         ? "bg-brand-blue text-white"
                         : "bg-white text-gray-700 hover:bg-gray-100"
-                    } ${
-                      key === "all"
-                        ? "rounded-l-md"
-                        : key === "incorrect"
-                          ? "rounded-r-md"
-                          : ""
                     }`}
                     type="button"
                   >
@@ -806,7 +1001,7 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
               })
             )}
           </div>
-        </div>
+        </section>
       </main>
     );
   }
@@ -878,7 +1073,7 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
             <button
               disabled={selected === null}
               onClick={goNext}
-              className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-blue-600 disabled:bg-gray-300"
+              className="flex items-center bg-brand-blue text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors hover:bg-blue-600 disabled:bg-gray-300"
             >
               Next <ArrowRightIcon className="w-5 h-5 ml-2" />
             </button>
@@ -886,10 +1081,14 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
           {isLast && (
             <button
               disabled={submitting || selected === null}
-              onClick={finishAttempt}
-              className="flex items-center bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-lg shadow-sm cursor-not-allowed"
+              onClick={handleFinishClick}
+              className={`flex items-center font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors ${
+                selected === null
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  : "bg-brand-green text-white hover:bg-green-600"
+              }`}
             >
-              Submit
+              Finish Test
             </button>
           )}
         </div>
@@ -947,20 +1146,7 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
         </div>
         <div className="mt-4">
           <button
-            onClick={async () => {
-              if (finished || submitting) return;
-              const msgParts = [] as string[];
-              if (unansweredCount > 0)
-                msgParts.push(`${unansweredCount} unanswered`);
-              if (flaggedCount > 0)
-                msgParts.push(`${flaggedCount} flagged for review`);
-              const warn = msgParts.length
-                ? `You still have ${msgParts.join(" and ")}.\n\nAre you sure you want to finish the test now?`
-                : `Are you sure you want to finish the test now?`;
-              const ok = window.confirm(warn);
-              if (!ok) return;
-              await finishAttempt();
-            }}
+            onClick={handleFinishClick}
             className="w-full mt-2 bg-brand-green text-white font-semibold py-3 px-4 rounded-md hover:bg-green-600 disabled:bg-gray-300"
             disabled={submitting || finished}
           >

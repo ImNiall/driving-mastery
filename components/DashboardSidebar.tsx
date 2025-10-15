@@ -22,8 +22,16 @@ function SidebarContent({
   onSignOut,
   signingOut,
 }: Omit<DashboardSidebarProps, "mobileOpen" | "onMobileClose">) {
-  const primaryItems = React.useMemo(() => PRIMARY_SIGNED_IN_ITEMS, []);
-  const secondaryItems = React.useMemo(() => SECONDARY_SIGNED_IN_ITEMS, []);
+  const primaryItems = React.useMemo(
+    () =>
+      PRIMARY_SIGNED_IN_ITEMS.filter((item) => item.showInSidebar !== false),
+    [],
+  );
+  const secondaryItems = React.useMemo(
+    () =>
+      SECONDARY_SIGNED_IN_ITEMS.filter((item) => item.showInSidebar !== false),
+    [],
+  );
   const signOutItem = SIGN_OUT_ITEM;
   const SignOutIcon = signOutItem?.icon;
 

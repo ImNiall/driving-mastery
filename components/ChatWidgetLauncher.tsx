@@ -29,13 +29,13 @@ export default function ChatWidgetLauncher() {
       </button>
 
       <div
-        className={`fixed bottom-[8.5rem] right-4 z-40 w-[calc(100vw-2.5rem)] max-w-sm transition-all duration-300 sm:bottom-28 sm:right-5 sm:w-[calc(100vw-3rem)] sm:max-w-md md:bottom-24 md:right-6 md:max-w-lg ${
+        className={`fixed bottom-[8.5rem] right-4 z-40 h-[68vh] w-[calc(100vw-2.5rem)] max-h-[82vh] max-w-sm transition-all duration-300 sm:bottom-28 sm:right-5 sm:h-[70vh] sm:w-[calc(100vw-3rem)] sm:max-h-[84vh] sm:max-w-md md:bottom-24 md:right-6 md:h-[72vh] md:max-h-[85vh] md:max-w-lg ${
           isOpen
             ? "pointer-events-auto opacity-100 translate-y-0"
             : "pointer-events-none opacity-0 translate-y-4"
         }`}
       >
-        <ChatWindow className="min-h-[460px] shadow-2xl sm:min-h-[520px]" />
+        <ChatWindow className="min-h-[460px] h-full max-h-full shadow-2xl sm:min-h-[520px]" />
       </div>
 
       {isOpen && (

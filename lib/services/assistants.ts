@@ -1,5 +1,8 @@
 import OpenAI from "openai";
-import { handleAssistantToolCall } from "@/lib/services/assistantTools";
+import {
+  handleAssistantToolCall,
+  type AssistantToolContext,
+} from "@/lib/services/assistantTools";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -14,9 +17,11 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export async function sendMessageToAssistant({
   threadId,
   message,
+  context,
 }: {
   threadId: string;
   message: string;
+  context?: AssistantToolContext;
 }) {
   if (!assistantId) {
     throw new Error("Assistant is not configured");
@@ -62,11 +67,15 @@ export async function sendMessageToAssistant({
           const result = await handleAssistantToolCall(
             call.function.name,
             parsedArgs,
+            context ?? {},
           );
 
           return {
             tool_call_id: call.id,
-            output: JSON.stringify(result ?? null),
+            output:
+              typeof result === "string"
+                ? result
+                : JSON.stringify(result ?? null),
           };
         }),
       );

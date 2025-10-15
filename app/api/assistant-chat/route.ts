@@ -3,6 +3,7 @@ import {
   createThread,
   sendMessageToAssistant,
 } from "@/lib/services/assistants";
+import { supabaseRoute } from "@/lib/supabase/route";
 
 export async function POST(request: Request) {
   try {
@@ -15,10 +16,18 @@ export async function POST(request: Request) {
       );
     }
 
+    const supabase = supabaseRoute();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
     const activeThreadId = threadId || (await createThread());
     const response = await sendMessageToAssistant({
       threadId: activeThreadId,
       message,
+      context: {
+        userId: session?.user?.id ?? undefined,
+      },
     });
 
     return NextResponse.json({

@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
 export type AssistantToolResult =
   | Record<string, unknown>
@@ -6,14 +6,37 @@ export type AssistantToolResult =
   | number
   | null;
 
+export type AssistantToolContext = {
+  userId?: string | null;
+};
+
 type ToolHandler = (
   args: Record<string, unknown>,
+  context: AssistantToolContext,
 ) => Promise<AssistantToolResult>;
 
-async function getWeakestCategory(args: Record<string, unknown>) {
-  const userId = args.userId ?? args.user_uuid;
-  if (!userId || typeof userId !== "string") {
-    throw new Error("userId is required to fetch weakest category");
+async function getWeakestCategory(
+  args: Record<string, unknown>,
+  context: AssistantToolContext,
+) {
+  const userId =
+    (typeof args.userId === "string" && args.userId) ||
+    (typeof args.user_uuid === "string" && args.user_uuid) ||
+    (context.userId ?? undefined);
+
+  if (!userId) {
+    return {
+      error: "missing_user_id",
+      message: "No userId provided for weakest category lookup.",
+    };
+  }
+
+  const supabaseAdmin = getSupabaseAdmin();
+  if (!supabaseAdmin) {
+    return {
+      error: "server_config",
+      message: "Supabase credentials are not configured on the server.",
+    };
   }
 
   const { data, error } = await supabaseAdmin.rpc("get_weakest_category", {
@@ -21,7 +44,10 @@ async function getWeakestCategory(args: Record<string, unknown>) {
   });
 
   if (error) {
-    throw new Error(error.message);
+    return {
+      error: "supabase_error",
+      message: error.message,
+    };
   }
 
   const payload = (Array.isArray(data) ? data[0] : data) as {
@@ -44,10 +70,14 @@ const toolHandlers: Record<string, ToolHandler> = {
 export async function handleAssistantToolCall(
   name: string,
   args: Record<string, unknown>,
+  context: AssistantToolContext,
 ): Promise<AssistantToolResult> {
   const handler = toolHandlers[name];
   if (!handler) {
-    throw new Error(`Unsupported assistant tool: ${name}`);
+    return {
+      error: "unsupported_tool",
+      message: `Unsupported assistant tool: ${name}`,
+    };
   }
-  return handler(args);
+  return handler(args, context);
 }

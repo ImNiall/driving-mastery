@@ -28,6 +28,7 @@ export type NavigationItem = {
   requiresAuth?: boolean;
   section: "primary" | "secondary";
   action?: "signOut";
+  showInSidebar?: boolean;
 };
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
@@ -71,17 +72,17 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "memberships",
     label: "Memberships",
     href: "/memberships",
-    dashboardView: "memberships",
     icon: UserGroupIcon,
     section: "secondary",
+    showInSidebar: false,
   },
   {
     key: "about",
     label: "About",
     href: "/about",
-    dashboardView: "about",
     icon: InformationCircleIcon,
     section: "secondary",
+    showInSidebar: false,
   },
   {
     key: "signout",
