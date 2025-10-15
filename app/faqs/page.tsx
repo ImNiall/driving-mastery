@@ -1,15 +1,19 @@
 import React from "react";
-import FaqHero from "@/components/faq/FaqHero";
+import { FAQ_SECTIONS } from "@/content/faqs";
 
 export default function FaqsPage() {
   return (
-    <main className="min-h-screen bg-slate-50 pb-16">
-      <FaqHero />
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-dashed border-slate-200 bg-white/60 p-8 text-center text-sm text-slate-500">
-          More FAQ content is coming soon.
-        </div>
-      </section>
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h1 className="text-3xl sm:text-4xl font-semibold">
+        Frequently Asked Questions
+      </h1>
+      <ul className="mt-6 space-y-4">
+        {FAQ_SECTIONS.map((section) => (
+          <li key={section.id} className="text-lg font-medium">
+            {section.title}
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

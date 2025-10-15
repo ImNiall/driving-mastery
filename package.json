@@ -12,6 +12,7 @@
     "deploy": "npm run build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "prepare": "husky install",
     "secretlint": "secretlint \"**/*\" -f @secretlint/formatter-stylish",
     "precommit:secrets": "secretlint --maskSecrets \"**/*\""
