@@ -100,12 +100,6 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
   const [categoryBreakdown, setCategoryBreakdown] = React.useState<
     { category: string; correct: number; total: number; scorePct: number }[]
   >([]);
-  const [improvements, setImprovements] = React.useState<
-    { category: string; delta: number; current: number }[]
-  >([]);
-  const [baselineCategoryStats, setBaselineCategoryStats] = React.useState<
-    Record<string, { correct: number; total: number }>
-  >({});
   const [reviewFilter, setReviewFilter] = React.useState<
     "all" | "correct" | "incorrect"
   >("all");
@@ -117,17 +111,6 @@ export function MockTestContent({ variant = "page" }: MockTestContentProps) {
       const attempts = (overview?.attempts || []) as MockAttempt[];
       const mockAttempts = attempts.filter((a) => a?.source === "mock");
       setHistory(mockAttempts);
-      if (Array.isArray(overview?.categories)) {
-        const baseline: Record<string, { correct: number; total: number }> = {};
-        overview.categories.forEach((cat) => {
-          if (!cat?.category) return;
-          baseline[cat.category] = {
-            correct: cat.correct || 0,
-            total: cat.total || 0,
-          };
-        });
-        setBaselineCategoryStats(baseline);
-      }
     } catch (e) {
       console.warn("Failed to load mock test history", e);
     }
@@ -485,39 +468,6 @@ Are you sure you want to finish the test now?`
           .slice(0, 2);
         setRecommended(weakest);
 
-        const computedImprovements = perCatArray
-          .map((entry) => {
-            const baseline = baselineCategoryStats[entry.category];
-            if (!baseline || baseline.total === 0) return null;
-            const baselinePct = (baseline.correct / baseline.total) * 100;
-            const delta = entry.scorePct - baselinePct;
-            return { category: entry.category, current: entry.scorePct, delta };
-          })
-          .filter(
-            (
-              entry,
-            ): entry is { category: string; current: number; delta: number } =>
-              !!entry && entry.delta > 0.5,
-          )
-          .sort((a, b) => b.delta - a.delta)
-          .slice(0, 2);
-        setImprovements(computedImprovements);
-
-        setBaselineCategoryStats((prev) => {
-          const updated = { ...prev };
-          perCatArray.forEach((entry) => {
-            const existing = updated[entry.category] || {
-              correct: 0,
-              total: 0,
-            };
-            updated[entry.category] = {
-              correct: existing.correct + entry.correct,
-              total: existing.total + entry.total,
-            };
-          });
-          return updated;
-        });
-
         let mpSum = 0;
         await Promise.all(
           perCatArray.map(async (entry) => {
@@ -748,17 +698,14 @@ Are you sure you want to finish the test now?`
     const strongestCategory = [...categoryBreakdown]
       .filter((entry) => entry.total > 0)
       .sort((a, b) => b.scorePct - a.scorePct)[0];
-    const improvementHighlight = improvements[0];
     const formatCategoryLabel = (category: string) =>
       category
         .split("_")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
-    const summaryNote = improvementHighlight
-      ? `Biggest gain: ${formatCategoryLabel(improvementHighlight.category)} (+${improvementHighlight.delta.toFixed(1)} pts vs your previous average).`
-      : strongestCategory
-        ? `Your strongest topic this run was ${formatCategoryLabel(strongestCategory.category)} (${Math.round(strongestCategory.scorePct)}% correct).`
-        : null;
+    const summaryNote = strongestCategory
+      ? `Your strongest topic this run was ${formatCategoryLabel(strongestCategory.category)} (${Math.round(strongestCategory.scorePct)}% correct).`
+      : null;
     const incorrect = results.total - results.correct;
 
     return (
@@ -836,82 +783,42 @@ Are you sure you want to finish the test now?`
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-2">
-          {categoryBreakdown.length > 0 && (
-            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Category Breakdown
-              </h3>
-              <ul className="mt-4 space-y-4">
-                {[...categoryBreakdown]
-                  .sort((a, b) => b.scorePct - a.scorePct)
-                  .map((entry) => {
-                    const pctRounded = Math.round(entry.scorePct);
-                    const barColor =
-                      pctRounded >= 70
-                        ? "bg-brand-green"
-                        : pctRounded >= 40
-                          ? "bg-yellow-400"
-                          : "bg-brand-red";
-                    return (
-                      <li key={entry.category} className="space-y-2">
-                        <div className="flex items-center justify-between text-sm font-medium text-gray-700">
-                          <span>{formatCategoryLabel(entry.category)}</span>
-                          <span className="text-gray-500">
-                            {pctRounded}% ({entry.correct}/{entry.total})
-                          </span>
-                        </div>
-                        <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
-                          <div
-                            className={`h-full rounded-full ${barColor}`}
-                            style={{
-                              width: `${Math.min(entry.scorePct, 100)}%`,
-                            }}
-                          />
-                        </div>
-                      </li>
-                    );
-                  })}
-              </ul>
-            </div>
-          )}
-
-          <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+        {categoryBreakdown.length > 0 && (
+          <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-900">
-              {improvements.length > 0
-                ? "Notable Improvements"
-                : "Keep Building Momentum"}
+              Category Breakdown
             </h3>
-            {improvements.length > 0 ? (
-              <ul className="mt-4 space-y-3">
-                {improvements.map((entry) => (
-                  <li
-                    key={entry.category}
-                    className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-sm text-gray-700"
-                  >
-                    <div>
-                      <p className="font-semibold text-gray-800">
-                        {formatCategoryLabel(entry.category)}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Now {Math.round(entry.current)}% (+
-                        {entry.delta.toFixed(1)} pts)
-                      </p>
-                    </div>
-                    <span className="rounded-full bg-brand-green/20 px-3 py-1 text-xs font-semibold text-brand-green">
-                      Improved
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-4 text-sm text-gray-600">
-                We didn&apos;t detect category improvements compared to your
-                previous average yet. Keep practising to spot positive trends!
-              </p>
-            )}
-          </div>
-        </section>
+            <ul className="mt-4 space-y-4">
+              {[...categoryBreakdown]
+                .sort((a, b) => b.scorePct - a.scorePct)
+                .map((entry) => {
+                  const pctRounded = Math.round(entry.scorePct);
+                  const barColor =
+                    pctRounded >= 70
+                      ? "bg-brand-green"
+                      : pctRounded >= 40
+                        ? "bg-yellow-400"
+                        : "bg-brand-red";
+                  return (
+                    <li key={entry.category} className="space-y-2">
+                      <div className="flex items-center justify-between text-sm font-medium text-gray-700">
+                        <span>{formatCategoryLabel(entry.category)}</span>
+                        <span className="text-gray-500">
+                          {pctRounded}% ({entry.correct}/{entry.total})
+                        </span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-gray-100">
+                        <div
+                          className={`h-full rounded-full ${barColor}`}
+                          style={{ width: `${Math.min(entry.scorePct, 100)}%` }}
+                        />
+                      </div>
+                    </li>
+                  );
+                })}
+            </ul>
+          </section>
+        )}
 
         {recommended.length > 0 && (
           <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
