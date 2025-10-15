@@ -710,73 +710,88 @@ Are you sure you want to finish the test now?`
 
     return (
       <main className="mx-auto max-w-5xl p-6 space-y-8">
-        <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-blue via-brand-purple to-brand-blue/80 text-white shadow-2xl">
-          <div className="flex flex-col gap-6 p-8 md:flex-row md:items-end md:justify-between">
+        <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-lg">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/70">
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-400">
                 Mock Test Summary
               </p>
-              <h2 className="mt-2 text-3xl font-bold md:text-4xl">
+              <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">
                 {passed
-                  ? "Outstanding drive—you're on track!"
+                  ? "Outstanding drive—you’re on track!"
                   : "Good effort, keep practising!"}
               </h2>
-              <p className="mt-3 text-sm text-white/85">
+              <p className="mt-3 text-sm text-gray-600">
                 You answered{" "}
-                <span className="font-semibold">{results.correct}</span> of{" "}
-                <span className="font-semibold">{results.total}</span> questions
-                correctly.
+                <span className="font-semibold text-gray-900">
+                  {results.correct}
+                </span>{" "}
+                of{" "}
+                <span className="font-semibold text-gray-900">
+                  {results.total}
+                </span>{" "}
+                questions correctly.
               </p>
               {summaryNote && (
-                <p className="mt-3 text-sm text-white/80">{summaryNote}</p>
+                <p className="mt-3 text-sm text-gray-500">{summaryNote}</p>
               )}
             </div>
-            <div className="rounded-3xl bg-white/20 px-8 py-6 text-center shadow-inner">
-              <p className="text-xs uppercase tracking-wide text-white/70">
+            <div className="rounded-3xl border border-gray-200 bg-slate-50 px-8 py-6 text-center shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">
                 Score
               </p>
-              <p className="mt-1 text-5xl font-extrabold">{pct}%</p>
-              <p className="mt-2 text-sm text-white/80">
+              <p
+                className={`mt-1 text-5xl font-extrabold ${passed ? "text-brand-green" : "text-brand-red"}`}
+              >
+                {pct}%
+              </p>
+              <p className="mt-2 text-sm text-gray-500">
                 {passed
                   ? "DVSA pass threshold met"
                   : "Aim for 86% to reach the DVSA pass mark"}
               </p>
             </div>
           </div>
-          <div className="grid gap-4 border-t border-white/15 px-8 py-6 sm:grid-cols-3">
-            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm">
-              <p className="text-white/70">Correct answers</p>
-              <p className="text-xl font-semibold text-white">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">
+                Correct answers
+              </p>
+              <p className="text-xl font-semibold text-gray-900">
                 {results.correct}
               </p>
             </div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm">
-              <p className="text-white/70">Incorrect answers</p>
-              <p className="text-xl font-semibold text-white">{incorrect}</p>
+            <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">
+                Incorrect answers
+              </p>
+              <p className="text-xl font-semibold text-gray-900">{incorrect}</p>
             </div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm">
-              <p className="text-white/70">Mastery points earned</p>
-              <p className="text-xl font-semibold text-yellow-300">
+            <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm">
+              <p className="text-xs uppercase tracking-wide text-gray-500">
+                Mastery points earned
+              </p>
+              <p className="text-xl font-semibold text-yellow-500">
                 +{mpEarned} MP
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3 border-t border-white/15 px-8 py-6">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <button
               onClick={() => router.push("/dashboard")}
-              className="rounded-full bg-white/15 px-6 py-2 text-sm font-semibold text-white transition hover:bg-white/25"
+              className="rounded-full border border-gray-300 px-6 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100"
             >
               Back to Dashboard
             </button>
             <button
               onClick={() => window.location.reload()}
-              className="rounded-full bg-white px-6 py-2 text-sm font-semibold text-brand-blue shadow-sm transition hover:bg-slate-100"
+              className="rounded-full bg-brand-blue px-6 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
             >
               Restart Quiz
             </button>
             <button
               onClick={() => router.push("/leaderboard")}
-              className="rounded-full border border-white/40 px-6 py-2 text-sm font-semibold text-white/90 transition hover:bg-white/10"
+              className="rounded-full border border-gray-300 px-6 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100"
             >
               Check your rank →
             </button>
@@ -985,15 +1000,11 @@ Are you sure you want to finish the test now?`
               Next <ArrowRightIcon className="w-5 h-5 ml-2" />
             </button>
           )}
-          {isLast && (
+          {isLast && selected !== null && (
             <button
-              disabled={submitting || selected === null}
+              disabled={submitting}
               onClick={handleFinishClick}
-              className={`flex items-center font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors ${
-                selected === null
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-brand-green text-white hover:bg-green-600"
-              }`}
+              className="flex items-center bg-brand-green text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors hover:bg-green-600"
             >
               Finish Test
             </button>
@@ -1055,7 +1066,7 @@ Are you sure you want to finish the test now?`
           <button
             onClick={handleFinishClick}
             className="w-full mt-2 bg-brand-green text-white font-semibold py-3 px-4 rounded-md hover:bg-green-600 disabled:bg-gray-300"
-            disabled={submitting || finished}
+            disabled={submitting || finished || unansweredCount > 0}
           >
             Finish Test
           </button>
