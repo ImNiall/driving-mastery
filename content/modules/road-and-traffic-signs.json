@@ -1,0 +1,186 @@
+{
+  "slug": "road-and-traffic-signs",
+  "title": "Road and Traffic Signs: Read the Road Like a Pro",
+  "summary": "Learn the shapes, colours, and layouts of UK road signs so you can respond quickly and confidently.",
+  "estimatedDuration": "24 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "Sign Types",
+    "Priority & Warnings",
+    "Smart Signs",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Sign Literacy Matters",
+      "body": "Road signs give you advance notice of hazards, priorities, and legal requirements. Recognising them instantly leaves more time to plan a safe response."
+    },
+    {
+      "id": "sign-types",
+      "title": "Sign Shapes and Colours",
+      "items": [
+        "Circular signs give orders: blue circles are positive instructions, red circles are prohibitions.",
+        "Triangles warn of hazards—think ‘A’ for warning.",
+        "Rectangles provide information; on motorways they are blue, on primary routes green, and on tourist routes brown."
+      ]
+    },
+    {
+      "id": "priority-warnings",
+      "title": "Priority and Warning Signs",
+      "items": [
+        "Give way and stop signs: stop is the only octagonal sign—obey even if the road looks clear.",
+        "Priority over oncoming vehicles vs. give priority: note the arrow colours to know who must wait.",
+        "Warning signs for bends, junctions, or steep hills tell you to adjust speed and gear early."
+      ]
+    },
+    {
+      "id": "smart-signs",
+      "title": "Variable and Smart Signs",
+      "body": "Matrix signs on smart motorways and major A roads can display temporary limits, lane closures, or hazard warnings. Treat them as legally enforceable and adjust immediately."
+    },
+    {
+      "id": "road-markings",
+      "title": "Road Markings",
+      "items": [
+        "Double white lines: do not cross or straddle unless it’s safe and legal (e.g., to pass a stationary vehicle).",
+        "Yellow box junctions: keep clear unless your exit road is clear.",
+        "Cycle lanes and bus lanes: check operation times and solid vs. broken lines before entering."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "shapes",
+      "label": "I can identify sign meaning from its shape and colour alone."
+    },
+    {
+      "id": "priority-signs",
+      "label": "I understand give way, stop, and priority markers and act on them early."
+    },
+    {
+      "id": "smart-updates",
+      "label": "I react quickly to temporary limits and red X signals on smart roads."
+    },
+    {
+      "id": "marking-awareness",
+      "label": "I know what road markings mean, including bus lanes and yellow boxes."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "flashcards",
+      "label": "Flashcard sprint",
+      "detail": "Use DVSA sign flashcards or apps. Shuffle five at a time and explain the action aloud."
+    },
+    {
+      "id": "theo-signs",
+      "label": "Theo’s sign walk",
+      "detail": "Go for a ten-minute walk and photograph signs (where safe). Back home, describe what each means and what action you’d take.",
+      "tone": "theo"
+    },
+    {
+      "id": "marking-map",
+      "label": "Markings map",
+      "detail": "Print a blank map of your town and highlight where you’ve seen priority signs, bus lanes, or complex markings. Revisiting spots cements knowledge."
+    }
+  ],
+  "quiz": {
+    "id": "road-signs-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What does a red circular sign with a white horizontal bar mean?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "No stopping",
+            "explanation": "No stopping signs use blue backgrounds with red borders."
+          },
+          {
+            "id": "q1o2",
+            "label": "No entry",
+            "correct": true,
+            "explanation": "The ‘No entry’ sign bans all traffic from entering—obey it every time."
+          },
+          {
+            "id": "q1o3",
+            "label": "National speed limit applies",
+            "explanation": "National limit signs are white with a diagonal black stripe."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "How should you respond to a rectangular blue sign with a white ‘P’?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Expect a pedestrian crossing",
+            "explanation": "Pedestrian crossing signs are triangular or rectangular with different symbols."
+          },
+          {
+            "id": "q2o2",
+            "label": "Parking is available ahead",
+            "correct": true,
+            "explanation": "Information signs like parking use rectangular shapes and blue backgrounds."
+          },
+          {
+            "id": "q2o3",
+            "label": "No waiting at any time",
+            "explanation": "No waiting is indicated by a blue circle with a red border and diagonal line."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "What does a red triangle showing a car and skid marks warn you about?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Loose chippings",
+            "explanation": "Loose chippings are shown with stones flying from tyres."
+          },
+          {
+            "id": "q3o2",
+            "label": "Slippery road ahead",
+            "correct": true,
+            "explanation": "Slow down, avoid harsh braking, and choose a higher gear if needed."
+          },
+          {
+            "id": "q3o3",
+            "label": "No motor vehicles",
+            "explanation": "‘No motor vehicles’ is a red circle with a car and motorbike."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "A yellow box junction is ahead. What must you do?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Enter and wait if the lights are green",
+            "explanation": "You must not enter unless your exit is clear—green lights don’t override this."
+          },
+          {
+            "id": "q4o2",
+            "label": "Stop before the box unless turning right and only if you can clear it",
+            "correct": true,
+            "explanation": "Keep the box clear to avoid blocking cross traffic."
+          },
+          {
+            "id": "q4o3",
+            "label": "Sound the horn before entering",
+            "explanation": "There’s no need to use the horn unless warning of immediate danger."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "slug": "essential-documents",
+  "title": "Essential Documents: Stay Legal and Organised",
+  "summary": "Understand the paperwork and processes that keep you legally on the road and ready for checks or emergencies.",
+  "estimatedDuration": "18 min",
+  "difficulty": "Beginner",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Documents",
+    "When Things Change",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Documents Matter",
+      "body": "Keeping your documents up to date proves you’re entitled to drive, insured, and operating a roadworthy vehicle. It also makes roadside or insurance checks stress-free."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "You must have a valid provisional or full driving licence to drive on public roads.",
+        "Vehicles over three years old need a valid MOT certificate.",
+        "You must be insured to drive the vehicle, and it must be taxed (Vehicle Excise Duty)."
+      ]
+    },
+    {
+      "id": "document-pack",
+      "title": "Key Documents",
+      "items": [
+        "Driving licence photocard—check the expiry date and address details.",
+        "Insurance certificate or digital proof—know who you’re insured to drive and any excesses.",
+        "MOT certificate (if applicable) and service history.",
+        "V5C log book for the vehicle owner showing registered keeper details."
+      ]
+    },
+    {
+      "id": "changes",
+      "title": "When Things Change",
+      "items": [
+        "Update the DVLA if you change name or address.",
+        "Tell your insurer about vehicle modifications or new main drivers.",
+        "SORN (Statutory Off Road Notification) a vehicle if you stop using it on public roads.",
+        "Replace lost or damaged documents promptly to avoid fines."
+      ]
+    },
+    {
+      "id": "proof",
+      "title": "Proving Roadworthiness",
+      "body": "Keep a digital and paper copy of maintenance receipts. They help when selling the vehicle or dealing with insurance claims after a collision."
+    }
+  ],
+  "checklist": [
+    {
+      "id": "licence",
+      "label": "My driving licence details are current and stored safely."
+    },
+    {
+      "id": "insurance",
+      "label": "I know where to access my insurance certificate instantly."
+    },
+    {
+      "id": "mot",
+      "label": "My vehicle has a valid MOT (if required) and I track the renewal date."
+    },
+    {
+      "id": "change-process",
+      "label": "I know how to update DVLA and insurers if my circumstances change."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "document-folder",
+      "label": "Build a folder",
+      "detail": "Create a shared digital folder for your licence, insurance, MOT, and breakdown cover. Share access with your supervising driver."
+    },
+    {
+      "id": "theo-calendar",
+      "label": "Theo’s renewal reminders",
+      "detail": "Add MOT, tax, and insurance renewal dates to your calendar with alerts one month in advance.",
+      "tone": "theo"
+    },
+    {
+      "id": "mock-stop",
+      "label": "Mock roadside stop",
+      "detail": "Role-play being asked for documents. Practise explaining where they’re stored and how you’d show them within seven days at a police station."
+    }
+  ],
+  "quiz": {
+    "id": "essential-docs-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Which document proves who is responsible for taxing and registering a vehicle?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Insurance certificate",
+            "explanation": "Insurance proves financial cover, not registered keeper details."
+          },
+          {
+            "id": "q1o2",
+            "label": "V5C registration certificate",
+            "correct": true,
+            "explanation": "The V5C shows the registered keeper and vehicle details."
+          },
+          {
+            "id": "q1o3",
+            "label": "MOT certificate",
+            "explanation": "MOT proves roadworthiness, not ownership."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "Your licence address changes. How soon must you inform the DVLA?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Within 6 months",
+            "explanation": "Waiting risks fines and important mail going to the wrong address."
+          },
+          {
+            "id": "q2o2",
+            "label": "Immediately or as soon as possible",
+            "correct": true,
+            "explanation": "Updating quickly keeps your record accurate and avoids penalties."
+          },
+          {
+            "id": "q2o3",
+            "label": "Only when you renew the licence",
+            "explanation": "You must update your address straight away, not wait for renewal."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "What is SORN used for?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Declaring a vehicle off the road so you don’t need to tax or insure it",
+            "correct": true,
+            "explanation": "SORN stops you being charged vehicle tax while it’s off the road."
+          },
+          {
+            "id": "q3o2",
+            "label": "Renewing your MOT",
+            "explanation": "MOT renewal is a separate process."
+          },
+          {
+            "id": "q3o3",
+            "label": "Changing your driving instructor",
+            "explanation": "SORN is about the vehicle, not instructors."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "How long do you usually have to produce documents at a police station if requested by an officer?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "7 days",
+            "correct": true,
+            "explanation": "You normally have seven days to present documents if you can’t show them roadside."
+          },
+          {
+            "id": "q4o2",
+            "label": "24 hours",
+            "explanation": "24 hours is not the standard time allowed."
+          },
+          {
+            "id": "q4o3",
+            "label": "Until the next MOT",
+            "explanation": "You must present documents promptly—waiting for the MOT isn’t acceptable."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "slug": "safety-margins",
+  "title": "Safety Margins: Space, Speed, and Stopping",
+  "summary": "Control your speed and space so you can react, brake, and stop safely in any conditions.",
+  "estimatedDuration": "20 min",
+  "difficulty": "Beginner",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Skills",
+    "Conditions",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Safety Margins Matter",
+      "body": "Leaving generous gaps gives you time to deal with mistakes—yours and other road users’. It’s how you stay out of the ‘no time to react’ danger zone."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Keep a two-second gap in the dry, four seconds in the wet, and up to ten seconds in snow or ice.",
+        "Rule 126: Drive at a speed that allows you to stop within the distance you can see to be clear.",
+        "Increase following distance for large vehicles, motorcycles, or when towing."
+      ]
+    },
+    {
+      "id": "gap-judging",
+      "title": "Judging Safe Gaps",
+      "body": "Choose a roadside marker and say ‘Only a fool breaks the two-second rule.’ If you pass the marker before you finish speaking, you’re too close. Extend the count when conditions worsen."
+    },
+    {
+      "id": "stopping-distances",
+      "title": "Stopping Distances",
+      "items": [
+        "Thinking distance increases with speed—double your speed and your stopping distance quadruples.",
+        "Keep tyres inflated and brakes maintained to achieve the stopping distances shown in the Highway Code.",
+        "Plan ahead for downhill slopes or heavy loads; both lengthen your stopping distance."
+      ]
+    },
+    {
+      "id": "weather",
+      "title": "Adapting to Conditions",
+      "items": [
+        "Rain: slow earlier, use gentle steering and braking to avoid aquaplaning.",
+        "Fog: use dipped headlights or fog lights when visibility drops below 100 m and maintain a huge gap.",
+        "Ice or snow: move off in a higher gear, accelerate gently, and keep revs low."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "two-second",
+      "label": "I use the two-second rule and extend it when grip is reduced."
+    },
+    {
+      "id": "vision",
+      "label": "I adjust my speed so I can stop within the distance I can see."
+    },
+    {
+      "id": "load-adjustment",
+      "label": "I adapt stopping distances for passengers, loads, and road gradients."
+    },
+    {
+      "id": "weather-plan",
+      "label": "I have a plan for rain, fog, and icy conditions before setting off."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "marker-practice",
+      "label": "Marker drill",
+      "detail": "On dual carriageways, pick every other lamppost and rehearse the two-second mantra. Notice how much space you gain when you ease off early."
+    },
+    {
+      "id": "stopping-chart",
+      "label": "Create a stopping chart",
+      "detail": "Write out the Highway Code stopping distances and stick them near your study space. Spaced repetition helps them stick for the test."
+    },
+    {
+      "id": "theo-weather",
+      "label": "Theo’s weather prep",
+      "detail": "Before lessons, check the Met Office app. If grip looks low, agree a reduced-speed plan with your instructor.",
+      "tone": "theo"
+    }
+  ],
+  "quiz": {
+    "id": "safety-margins-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "You’re following a lorry in heavy rain. What time gap should you leave?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Two seconds",
+            "explanation": "Two seconds is only recommended in dry conditions."
+          },
+          {
+            "id": "q1o2",
+            "label": "Four seconds",
+            "correct": true,
+            "explanation": "Wet roads need at least double the dry following distance."
+          },
+          {
+            "id": "q1o3",
+            "label": "One second because the lorry is slow",
+            "explanation": "Reducing the gap makes spray worse and removes your stopping space."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "Why should you increase your following distance at night?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Your reaction time improves in the dark",
+            "explanation": "Reaction times are slower, not faster, when visibility is limited."
+          },
+          {
+            "id": "q2o2",
+            "label": "It gives more time to react when you can’t see hazards clearly",
+            "correct": true,
+            "explanation": "Longer gaps compensate for reduced visibility and glare from lights."
+          },
+          {
+            "id": "q2o3",
+            "label": "So you can use full beam more often",
+            "explanation": "Full beam must be dipped for oncoming traffic regardless of distance."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "What’s the best action if you start to aquaplane?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Accelerate to regain control",
+            "explanation": "Speeding up reduces grip further and prolongs the skid."
+          },
+          {
+            "id": "q3o2",
+            "label": "Ease off the accelerator and avoid steering sharply",
+            "correct": true,
+            "explanation": "Gently easing off lets the tyres regain contact with the road."
+          },
+          {
+            "id": "q3o3",
+            "label": "Brake firmly and hold the pedal down",
+            "explanation": "Heavy braking can lock wheels and make the skid worse, even with ABS."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "How does a heavy load affect your stopping distance?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "It reduces it because the tyres grip more",
+            "explanation": "Extra weight lengthens stopping distance and may require lower speeds."
+          },
+          {
+            "id": "q4o2",
+            "label": "It increases it, so you should leave more space ahead",
+            "correct": true,
+            "explanation": "More mass means more momentum, which needs extra time and distance to stop."
+          },
+          {
+            "id": "q4o3",
+            "label": "It makes no difference if you have ABS",
+            "explanation": "ABS helps steering control but cannot defy physics—leave more room."
+          }
+        ]
+      }
+    ]
+  }
+}

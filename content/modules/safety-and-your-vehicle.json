@@ -1,0 +1,186 @@
+{
+  "slug": "safety-and-your-vehicle",
+  "title": "Safety and Your Vehicle: Keep It Roadworthy",
+  "summary": "Master the essential checks and legal duties that keep your vehicle safe, efficient, and DVSA-test ready.",
+  "estimatedDuration": "22 min",
+  "difficulty": "Beginner",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Skills",
+    "Mistakes",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Vehicle Safety Matters",
+      "body": "A well-maintained car keeps you and everyone around you safe. Knowing your checks prevents breakdowns, fines, and serious incidents."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Use the POWDER (or POWERS) routine: Petrol, Oil, Water, Damage, Electrics, Rubber/Self.",
+        "Tyres must have 1.6 mm tread across the central three-quarters and be inflated to handbook pressures.",
+        "Seat belts and child restraints must be correctly fitted; it’s the driver’s legal responsibility (Rules 99–102)."
+      ]
+    },
+    {
+      "id": "pre-journey",
+      "title": "Pre-Journey Checks",
+      "items": [
+        "Walk around the car looking for damage, leaks, or obstructions.",
+        "Check oil, coolant, brake fluid, and screenwash levels before long journeys.",
+        "Confirm lights, indicators, horn, wipers, and washers operate correctly."
+      ]
+    },
+    {
+      "id": "dash-warnings",
+      "title": "Dashboard Warnings Explained",
+      "body": "Red lights mean stop as soon as it’s safe. Amber lights need attention soon—book diagnostics or check the manual. Blue or green lights simply confirm systems are active, like full beam or cruise control."
+    },
+    {
+      "id": "occupant-safety",
+      "title": "Keeping Occupants Safe",
+      "items": [
+        "Adjust head restraints to eye level and close to the back of the head.",
+        "Stow loose items in the boot or secure storage to prevent injury in a collision.",
+        "Never place a rear-facing child seat in front of an active airbag."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "powder",
+      "label": "I complete POWDER checks before lessons or long trips."
+    },
+    {
+      "id": "tyres",
+      "label": "I know the correct tyre pressures and tread requirements."
+    },
+    {
+      "id": "warning-lights",
+      "label": "I can identify key dashboard warning lights and the action to take."
+    },
+    {
+      "id": "child-restraints",
+      "label": "I use and fit seat belts and child restraints correctly every time."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "weekly-routine",
+      "label": "Weekly walkaround",
+      "detail": "Set a reminder each Sunday evening to complete a five-minute inspection. Note anything to discuss with your instructor."
+    },
+    {
+      "id": "manual",
+      "label": "Know your manual",
+      "detail": "Flag three dashboard symbols you’re unsure about and look them up tonight. Understanding them reduces stress on the road."
+    },
+    {
+      "id": "theo-showme",
+      "label": "Theo’s Show Me/Tell Me hack",
+      "detail": "Practise Show Me/Tell Me answers aloud while you carry out the physical check. Linking the words and action boosts memory.",
+      "tone": "theo"
+    }
+  ],
+  "quiz": {
+    "id": "safety-vehicle-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What’s the legal minimum tread depth for car tyres in the UK?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "1.0 mm across the entire tyre",
+            "explanation": "This is below the legal requirement and unsafe in the wet."
+          },
+          {
+            "id": "q1o2",
+            "label": "1.6 mm across the central three-quarters",
+            "correct": true,
+            "explanation": "This is the DVSA and legal minimum—check regularly with a gauge."
+          },
+          {
+            "id": "q1o3",
+            "label": "2.5 mm across the whole tyre",
+            "explanation": "2.5 mm is recommended for best performance but not the legal minimum."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "A red oil pressure warning light appears while driving. What should you do?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Ignore it until the next service",
+            "explanation": "Driving with low oil pressure can cause severe engine damage."
+          },
+          {
+            "id": "q2o2",
+            "label": "Stop as soon as it’s safe and check the oil level",
+            "correct": true,
+            "explanation": "Red warnings require immediate action to protect the engine."
+          },
+          {
+            "id": "q2o3",
+            "label": "Continue driving but reduce speed",
+            "explanation": "Continuing risks a breakdown and costly repairs."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "Which of these is part of the POWDER check?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Reviewing the sat-nav route",
+            "explanation": "Sat-nav planning is useful but not part of POWDER."
+          },
+          {
+            "id": "q3o2",
+            "label": "Checking coolant and screenwash levels",
+            "correct": true,
+            "explanation": "Water includes coolant and washer fluid—both vital for safety."
+          },
+          {
+            "id": "q3o3",
+            "label": "Vacuuming the interior",
+            "explanation": "Interior cleaning isn’t required for the safety check."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "What’s the safest way to transport loose items like sports gear?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Leave them on the back seat for quick access",
+            "explanation": "Loose items can become dangerous projectiles in a collision."
+          },
+          {
+            "id": "q4o2",
+            "label": "Store them in the boot or secure them with straps",
+            "correct": true,
+            "explanation": "Securing items protects you and your passengers during sudden stops."
+          },
+          {
+            "id": "q4o3",
+            "label": "Hold them on your lap while driving",
+            "explanation": "Holding items distracts and compromises restraint systems."
+          }
+        ]
+      }
+    ]
+  }
+}

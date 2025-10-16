@@ -1,0 +1,187 @@
+{
+  "slug": "attitude",
+  "title": "Attitude: Drive Calmly, Share the Road",
+  "summary": "Adopt the considerate, law-abiding mindset that keeps traffic flowing smoothly and protects vulnerable people.",
+  "estimatedDuration": "18 min",
+  "difficulty": "Beginner",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Skills",
+    "Mistakes",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Attitude Matters",
+      "body": "Your attitude shapes every decision behind the wheel. DVSA examiners look for patient, collaborative driving that keeps everyone safe and confident."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Rule 147: Be patient and courteous with every road user, especially the vulnerable.",
+        "Rule 126: Maintain at least a two-second gap in the dry, four seconds in the wet.",
+        "Rules 219–221: Give priority to emergency vehicles without breaking traffic laws."
+      ]
+    },
+    {
+      "id": "skills",
+      "title": "Skills to Develop",
+      "items": [
+        "Plan journeys with buffer time so you never feel pressured to speed or take risks.",
+        "Use calm communication—signals, positioning, and eye contact—to share space politely.",
+        "Practise breathing and grip relaxation techniques to manage stress responses."
+      ],
+      "body": "Attitude skills are practical. Build them on routine drives by setting small goals, such as keeping generous gaps or thanking drivers who let you merge."
+    },
+    {
+      "id": "managing-conflict",
+      "title": "Handling Conflict Safely",
+      "items": [
+        "Avoid retaliation if others drive aggressively; reduce speed and create space instead.",
+        "Keep doors locked and remain in your vehicle if you feel threatened; call 999 if necessary.",
+        "Do not make eye contact or gestures that may escalate the situation."
+      ]
+    },
+    {
+      "id": "respect-vulnerable",
+      "title": "Protect Vulnerable Road Users",
+      "body": "Cyclists, pedestrians, horse riders, and mobility scooter users need extra room and patience. Slow right down, give at least 1.5 m when passing cyclists under 30 mph, and follow instructor guidance around horses."
+    }
+  ],
+  "checklist": [
+    {
+      "id": "calm-plan",
+      "label": "I leave early and have a plan for delays so I never feel rushed."
+    },
+    {
+      "id": "courtesy",
+      "label": "I use signals, positioning, and eye contact to cooperate with others."
+    },
+    {
+      "id": "gap",
+      "label": "I maintain legal speed limits and time-based following gaps."
+    },
+    {
+      "id": "vulnerable-users",
+      "label": "I adapt speed and give wide clearance to vulnerable road users."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "scenario-planning",
+      "label": "Plan for pressure",
+      "detail": "List three situations that usually raise your stress (tailgaters, running late, busy junctions). Decide the calm response before you drive."
+    },
+    {
+      "id": "gratitude",
+      "label": "Positive reset",
+      "detail": "At every red light, name one thing going well. It keeps your mindset supportive and reduces frustration."
+    },
+    {
+      "id": "theo-attitude",
+      "label": "Theo’s cue",
+      "detail": "If someone makes a mistake, count to three before reacting. That pause protects your licence and keeps journeys smooth.",
+      "tone": "theo"
+    }
+  ],
+  "quiz": {
+    "id": "attitude-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "An emergency vehicle approaches from behind with blue lights flashing. What should you do?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Brake sharply and stop in the middle of the lane",
+            "explanation": "Stopping suddenly may cause a collision or block the emergency vehicle."
+          },
+          {
+            "id": "q1o2",
+            "label": "Continue at the same speed until you reach your destination",
+            "explanation": "Failing to respond delays emergency services and breaks Highway Code guidance."
+          },
+          {
+            "id": "q1o3",
+            "label": "Signal and pull over where it’s safe, without mounting the kerb or breaking red lights",
+            "correct": true,
+            "explanation": "Give emergency vehicles space, but only when it is safe and legal to do so."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "A driver behind is tailgating you on a national speed limit road. What’s the best response?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Accelerate to increase the gap",
+            "explanation": "Speeding up reduces your own safety margin and may break the speed limit."
+          },
+          {
+            "id": "q2o2",
+            "label": "Brake test them to warn them off",
+            "explanation": "Braking sharply could cause a collision and may be interpreted as aggression."
+          },
+          {
+            "id": "q2o3",
+            "label": "Maintain a steady speed and increase the gap ahead so you can slow gradually if needed",
+            "correct": true,
+            "explanation": "Creating extra space ahead keeps you and your passengers safe while discouraging tailgating."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "You’re feeling stressed after a difficult day. What should you do before driving?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Jump in the car and get the journey over with",
+            "explanation": "Driving while upset can lead to poor decisions and aggressive responses."
+          },
+          {
+            "id": "q3o2",
+            "label": "Take a short break, breathe deeply, and delay the journey if you still feel tense",
+            "correct": true,
+            "explanation": "A calm mindset helps you drive considerately and meet DVSA expectations."
+          },
+          {
+            "id": "q3o3",
+            "label": "Turn the radio up loud to distract yourself",
+            "explanation": "Loud music won’t resolve stress and may distract you from hazards."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "How should you respond if another driver makes a mistake that delays you?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Sound the horn repeatedly to show your frustration",
+            "explanation": "The horn is only for warning others of danger, not expressing annoyance."
+          },
+          {
+            "id": "q4o2",
+            "label": "Stay patient, allow them space, and continue once the hazard is clear",
+            "correct": true,
+            "explanation": "Patience keeps everyone safe and demonstrates the positive attitude examiners expect."
+          },
+          {
+            "id": "q4o3",
+            "label": "Overtake immediately, regardless of road markings",
+            "explanation": "Dangerous overtakes risk collisions and are unlawful."
+          }
+        ]
+      }
+    ]
+  }
+}

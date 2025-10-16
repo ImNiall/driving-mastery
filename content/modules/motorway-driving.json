@@ -1,0 +1,186 @@
+{
+  "slug": "motorway-driving",
+  "title": "Motorway Driving: Confident at Higher Speeds",
+  "summary": "Master lane discipline, joining and leaving techniques, and smart motorway rules for safe high-speed travel.",
+  "estimatedDuration": "25 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Skills",
+    "Smart Motorways",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Motorway Skills Matter",
+      "body": "Motorways are statistically the safest roads, but only when drivers plan ahead, use lanes correctly, and stay alert to changing signals."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "National speed limit is 70 mph unless signs show otherwise—always adjust for weather and traffic.",
+        "Use the left lane unless overtaking; keep middle and right lanes for passing only.",
+        "Hard shoulders are for emergencies; on smart motorways, follow the overhead signs for lane status."
+      ]
+    },
+    {
+      "id": "joining-leaving",
+      "title": "Joining and Leaving",
+      "items": [
+        "Use the slip road to match motorway speed, checking mirrors and blind spots before merging.",
+        "Signal early when leaving and move into the left lane in good time—do not cross solid lines.",
+        "If you miss your exit, continue to the next junction; never stop or reverse."
+      ]
+    },
+    {
+      "id": "lane-discipline",
+      "title": "Lane Discipline and Overtaking",
+      "body": "Plan overtakes early, checking mirrors and blind spots, signalling, and moving smoothly into the next lane. Pass with a safe gap and return to the left lane as soon as it’s clear. Avoid undertaking unless traffic is moving in queues."
+    },
+    {
+      "id": "smart-motorways",
+      "title": "Smart Motorway Rules",
+      "items": [
+        "Obey red ‘X’ lane closures—driving in a closed lane is illegal and dangerous.",
+        "Variable speed limits manage flow; stick to the displayed limit even if lanes look clear.",
+        "Use emergency refuge areas if you break down and contact National Highways via the SOS phone."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "lane-use",
+      "label": "I cruise in the left lane and only stay in other lanes when overtaking."
+    },
+    {
+      "id": "merge-skill",
+      "label": "I can match speed on the slip road and join the motorway smoothly."
+    },
+    {
+      "id": "smart-awareness",
+      "label": "I understand smart motorway signals, including red X, amber warnings, and variable limits."
+    },
+    {
+      "id": "emergency-plan",
+      "label": "I know what to do if I break down or miss an exit on a motorway."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "simulator",
+      "label": "Virtual practice",
+      "detail": "Watch DVSA motorway driving videos. Pause to explain why drivers chose certain lanes or adjusted speed."
+    },
+    {
+      "id": "theo-slip",
+      "label": "Theo’s slip-road drill",
+      "detail": "On dual carriageways, practise accelerating briskly up the slip road, checking mirrors twice before merging. The habit transfers directly to motorways.",
+      "tone": "theo"
+    },
+    {
+      "id": "signal-journal",
+      "label": "Signal audit",
+      "detail": "Keep a note of every time you used or missed a signal when changing lanes. Review weekly to tighten your routine."
+    }
+  ],
+  "quiz": {
+    "id": "motorway-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Which lane should you normally travel in on a motorway?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Whichever lane matches your cruising speed",
+            "explanation": "Staying in faster lanes without overtaking blocks traffic and can cause tailgating."
+          },
+          {
+            "id": "q1o2",
+            "label": "The left-hand lane unless you’re overtaking",
+            "correct": true,
+            "explanation": "Keep left to maintain flow; use other lanes only to pass."
+          },
+          {
+            "id": "q1o3",
+            "label": "The centre lane because it’s safest",
+            "explanation": "Middle-lane hogging is unsafe and can lead to penalties."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "What should you do if a red ‘X’ is displayed above your lane?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Ignore it if the lane looks clear",
+            "explanation": "A red ‘X’ means the lane is closed—ignoring it risks collisions and prosecution."
+          },
+          {
+            "id": "q2o2",
+            "label": "Move out of the lane safely and promptly",
+            "correct": true,
+            "explanation": "Change lanes as soon as it’s safe; the lane may be blocked ahead."
+          },
+          {
+            "id": "q2o3",
+            "label": "Slow to 30 mph but stay in the lane",
+            "explanation": "Remaining in a closed lane is illegal regardless of speed."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "How should you use the hard shoulder?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "For short breaks if you’re tired",
+            "explanation": "Use service areas for rest—hard shoulders are for emergencies only."
+          },
+          {
+            "id": "q3o2",
+            "label": "Only in a genuine emergency or if directed by the police or signage",
+            "correct": true,
+            "explanation": "Stopping unnecessarily is dangerous and illegal."
+          },
+          {
+            "id": "q3o3",
+            "label": "To overtake queues",
+            "explanation": "Driving on the hard shoulder to beat traffic is illegal and unsafe."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "What should you do if you miss your motorway exit?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Stop on the hard shoulder and reverse carefully",
+            "explanation": "Reversing on a motorway is extremely dangerous and illegal."
+          },
+          {
+            "id": "q4o2",
+            "label": "Continue to the next junction and re-plan your route",
+            "correct": true,
+            "explanation": "Stay calm, leave at the next exit, and adjust your route safely."
+          },
+          {
+            "id": "q4o3",
+            "label": "Make a U-turn if the road looks clear",
+            "explanation": "U-turns are never permitted on motorways."
+          }
+        ]
+      }
+    ]
+  }
+}

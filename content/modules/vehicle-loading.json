@@ -1,0 +1,186 @@
+{
+  "slug": "vehicle-loading",
+  "title": "Vehicle Loading: Balance Safety and Efficiency",
+  "summary": "Understand weight limits, cargo security, and passenger safety so your vehicle stays stable and legal.",
+  "estimatedDuration": "19 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Weight & Balance",
+    "Securing Loads",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Loading Matters",
+      "body": "Extra passengers or cargo change how your car accelerates, brakes, and corners. Planning your load protects your licence and keeps everyone comfortable."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Never exceed the Maximum Authorised Mass (MAM) or axle weight listed in the handbook or VIN plate.",
+        "Distribute weight evenly and secure loads so they cannot move under braking.",
+        "Adjust tyre pressures and headlamp aim if your vehicle handbook recommends it when heavily loaded."
+      ]
+    },
+    {
+      "id": "weight-balance",
+      "title": "Managing Weight and Balance",
+      "items": [
+        "Place heavy items low and central in the boot to keep the centre of gravity stable.",
+        "Split passengers across seats to avoid overloading one side of the vehicle.",
+        "Use roof racks only when necessary and keep loads as light as possible to reduce drag."
+      ]
+    },
+    {
+      "id": "securing",
+      "title": "Securing Loads",
+      "body": "Use luggage straps, cargo nets, or built-in fixing points. Loose items become dangerous projectiles in a collision—secure them even for short trips."
+    },
+    {
+      "id": "trailers",
+      "title": "Towing and Trailers",
+      "items": [
+        "Check the towing capacity of your vehicle and ensure the trailer is roadworthy with working lights and brakes.",
+        "Distribute trailer weight with about 7–10% nose weight on the tow ball to prevent snaking.",
+        "Fit the correct mirrors when towing wider loads and drive at lower speeds."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "mam",
+      "label": "I know my vehicle’s Maximum Authorised Mass and stay within it."
+    },
+    {
+      "id": "secure-load",
+      "label": "I secure cargo so it cannot move or fall during the journey."
+    },
+    {
+      "id": "tyre-pressure",
+      "label": "I adjust tyre pressures and lights when carrying heavy loads if recommended."
+    },
+    {
+      "id": "passenger-balance",
+      "label": "I brief passengers to keep seat belts fastened and spread weight evenly."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "boot-drill",
+      "label": "Boot drill",
+      "detail": "Repack your boot before a lesson. Remove unnecessary items and position heavy objects low and close to the rear seat backs."
+    },
+    {
+      "id": "theo-straps",
+      "label": "Theo’s strap check",
+      "detail": "Practise fastening ratchet straps on a suitcase or storage box. You’ll be faster and safer when securing real loads.",
+      "tone": "theo"
+    },
+    {
+      "id": "weigh-it",
+      "label": "Weigh it",
+      "detail": "Use a household scale to estimate the weight of your luggage. Knowing the numbers helps you avoid accidental overloading."
+    }
+  ],
+  "quiz": {
+    "id": "vehicle-loading-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Why should heavy items be placed low and central in the vehicle?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "It makes them easier to reach",
+            "explanation": "Convenience isn’t the priority—stability is."
+          },
+          {
+            "id": "q1o2",
+            "label": "To maintain a low centre of gravity and keep handling predictable",
+            "correct": true,
+            "explanation": "Balanced loads reduce the risk of skidding or rollover."
+          },
+          {
+            "id": "q1o3",
+            "label": "So the boot looks tidy",
+            "explanation": "A tidy boot is nice, but the goal is vehicle stability."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "How should you adjust your driving when towing a trailer?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Drive faster to reduce journey time",
+            "explanation": "Higher speeds increase instability when towing."
+          },
+          {
+            "id": "q2o2",
+            "label": "Allow more time for acceleration, braking, and cornering",
+            "correct": true,
+            "explanation": "Trailers add weight and length, so you need larger safety margins."
+          },
+          {
+            "id": "q2o3",
+            "label": "Switch off your indicators to save power",
+            "explanation": "Indicators are essential—many trailers have repeaters."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "What does the VIN plate provide that helps with loading?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "The recommended tyre brand",
+            "explanation": "Tyre brand advice comes from the handbook, not the VIN plate."
+          },
+          {
+            "id": "q3o2",
+            "label": "Maximum authorised mass and axle weight limits",
+            "correct": true,
+            "explanation": "Use these figures to avoid overloading the car or axles."
+          },
+          {
+            "id": "q3o3",
+            "label": "Your insurance renewal date",
+            "explanation": "Insurance details aren’t on the VIN plate."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "What should you do before setting off with a heavy load on the roof rack?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Nothing—roof loads don’t affect driving",
+            "explanation": "Roof loads change centre of gravity and increase drag."
+          },
+          {
+            "id": "q4o2",
+            "label": "Check the rack’s weight limit, tighten straps, and plan for reduced fuel economy",
+            "correct": true,
+            "explanation": "Securing the load and adjusting expectations keeps the journey safe."
+          },
+          {
+            "id": "q4o3",
+            "label": "Open the sunroof for extra ventilation",
+            "explanation": "Ventilation isn’t the issue—security is."
+          }
+        ]
+      }
+    ]
+  }
+}

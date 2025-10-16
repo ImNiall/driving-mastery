@@ -1,0 +1,187 @@
+{
+  "slug": "other-types-of-vehicle",
+  "title": "Other Types of Vehicle: Share the Road Confidently",
+  "summary": "Learn how to anticipate the behaviour and limitations of buses, lorries, trams, and slow-moving vehicles.",
+  "estimatedDuration": "19 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Vehicles",
+    "Scenarios",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Other Vehicles Matter",
+      "body": "Large or specialist vehicles have different speeds, turning circles, and blind spots. Understanding them keeps you safe and professional when sharing the road."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Give large vehicles extra room when they swing out to turn left—they need space to clear kerbs.",
+        "Never pass a tram on the inside unless directed; follow lane signals and obey dedicated traffic lights.",
+        "Farm vehicles or mobility scooters may travel well below the limit—be patient and only overtake when it’s legal, safe, and necessary."
+      ]
+    },
+    {
+      "id": "vehicle-types",
+      "title": "Vehicle Characteristics",
+      "items": [
+        "Buses and coaches: watch for signals indicating they’re pulling out from stops—give priority when you can do so safely.",
+        "Heavy goods vehicles: longer stopping distances, large blind spots, and spray in wet weather.",
+        "Trams: follow road markings and signals; remember they cannot steer to avoid you.",
+        "Slow-moving vehicles: tractors, road sweepers, and gritters often travel at 25 mph or less and may turn suddenly into fields or side roads."
+      ]
+    },
+    {
+      "id": "passing-plan",
+      "title": "Planning Overtakes",
+      "body": "Check far ahead before overtaking large vehicles. You need a long, clear view, ample acceleration space, and time to move back without cutting in. If in doubt, hold back—arriving safely matters more than saving seconds."
+    },
+    {
+      "id": "night-weather",
+      "title": "Night and Weather Considerations",
+      "items": [
+        "Expect extra spray and turbulence when passing lorries in rain—use wipers and keep both hands on the wheel.",
+        "At night, dip headlights early to avoid dazzling lorry drivers sitting higher up.",
+        "When following a snow plough or gritter, stay well back and be prepared for sudden stops."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "blindspots",
+      "label": "I know where large vehicle blind spots are and avoid lingering in them."
+    },
+    {
+      "id": "bus-priority",
+      "label": "I anticipate buses pulling away from stops and plan to help them rejoin safely."
+    },
+    {
+      "id": "patient-overtake",
+      "label": "I only overtake slow vehicles when I can complete the manoeuvre smoothly and legally."
+    },
+    {
+      "id": "tram-discipline",
+      "label": "I obey tram signals and road markings, treating the rails as a separate lane."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "mirror-map",
+      "label": "Mirror map",
+      "detail": "Sketch the blind spots of a lorry from a DVSA diagram. Keep it in your notes to remind you where to position your car."
+    },
+    {
+      "id": "theo-bus",
+      "label": "Theo’s bus drill",
+      "detail": "When you see a bus signal, count ‘mirror, signal, gap, go’. Even if you can’t let it out, the routine keeps your planning sharp.",
+      "tone": "theo"
+    },
+    {
+      "id": "overtake-journal",
+      "label": "Overtake reflections",
+      "detail": "After each drive, note any times you chose not to overtake. Praising patient decisions builds confidence in waiting."
+    }
+  ],
+  "quiz": {
+    "id": "other-vehicles-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "Why do large vehicles sometimes move to the right before turning left?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "To confuse following drivers",
+            "explanation": "They need extra room, not to confuse traffic."
+          },
+          {
+            "id": "q1o2",
+            "label": "To position for a wide turn and avoid clipping the kerb",
+            "correct": true,
+            "explanation": "Give them space; do not try to squeeze between the vehicle and the kerb."
+          },
+          {
+            "id": "q1o3",
+            "label": "Because the driver is unsure where to turn",
+            "explanation": "Professional drivers plan turns carefully—the movement is deliberate."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "You are following a tractor on a country road. When is it safe to overtake?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Immediately, because tractors must pull over",
+            "explanation": "Tractors are not obliged to pull over instantly—you must wait for a safe gap."
+          },
+          {
+            "id": "q2o2",
+            "label": "When you have a clear view of the road ahead and it’s legal to overtake",
+            "correct": true,
+            "explanation": "Only pass if you can complete the manoeuvre without exceeding the speed limit or crossing solid lines."
+          },
+          {
+            "id": "q2o3",
+            "label": "When the tractor slows at any junction",
+            "explanation": "They may be turning—overtaking here is dangerous."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "What should you do if a bus is signalling to leave a stop?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Maintain speed and pass as quickly as possible",
+            "explanation": "This can trap the bus and increase risk for passengers."
+          },
+          {
+            "id": "q3o2",
+            "label": "Slow down and let the bus out if it’s safe",
+            "correct": true,
+            "explanation": "Helping buses rejoin supports traffic flow and is encouraged by the Highway Code."
+          },
+          {
+            "id": "q3o3",
+            "label": "Sound your horn so the bus knows you’re there",
+            "explanation": "Use the horn only to warn of danger."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "How should you approach a level crossing used by trams?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Ignore tram signals because they don’t apply to cars",
+            "explanation": "Tram signals must be obeyed—they control movement across the tracks."
+          },
+          {
+            "id": "q4o2",
+            "label": "Follow the dedicated signals and road markings, crossing only when they show it’s safe",
+            "correct": true,
+            "explanation": "Trams cannot steer around you, so you must follow their signals exactly."
+          },
+          {
+            "id": "q4o3",
+            "label": "Stop on the tracks to check for trams",
+            "explanation": "Never stop on the rails—you must ensure your exit is clear before crossing."
+          }
+        ]
+      }
+    ]
+  }
+}

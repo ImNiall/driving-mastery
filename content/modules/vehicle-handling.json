@@ -1,0 +1,186 @@
+{
+  "slug": "vehicle-handling",
+  "title": "Vehicle Handling: Stay Smooth and in Control",
+  "summary": "Build the steering, braking, and gear skills that keep your car stable in bends, junctions, and challenging conditions.",
+  "estimatedDuration": "23 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Skills",
+    "Conditions",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Vehicle Handling Matters",
+      "body": "Smooth control keeps passengers comfortable, tyres gripping, and fuel consumption low. It’s also essential for avoiding skids and maintaining confidence."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Use progressive braking: press gently at first, increase pressure, then ease off as you stop.",
+        "Look and steer where you want to go—your hands follow your eyes.",
+        "Match gear to speed; block change when appropriate to keep the car stable."
+      ]
+    },
+    {
+      "id": "core-skills",
+      "title": "Core Handling Skills",
+      "items": [
+        "Steering: use the push-pull method or controlled hand-over-hand at low speed for precision.",
+        "Braking: plan early, brake in a straight line before corners, and cover the brake when needed.",
+        "Acceleration: apply smoothly to maintain traction, especially when exiting bends."
+      ]
+    },
+    {
+      "id": "bends-hills",
+      "title": "Bends and Hills",
+      "body": "Approach bends at a speed that lets you stop within the distance you can see. On hills, select a lower gear early and use handbrake control to prevent rolling back."
+    },
+    {
+      "id": "low-grip",
+      "title": "Low-Grip Conditions",
+      "items": [
+        "Wet or icy roads: increase following distance, use higher gears to reduce wheelspin, and avoid harsh inputs.",
+        "Loose surfaces: steer gently and allow longer braking distances.",
+        "ABS and traction control: understand how they feel so you remain calm if they activate."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "progressive-brake",
+      "label": "I brake progressively and finish braking before steering into a bend."
+    },
+    {
+      "id": "gear-selection",
+      "label": "I select gears that match speed and road conditions, using block changes when suitable."
+    },
+    {
+      "id": "smooth-steer",
+      "label": "I steer smoothly using push-pull or controlled hand-over-hand when manoeuvring."
+    },
+    {
+      "id": "hill-control",
+      "label": "I can move off uphill and downhill without rolling or stalling."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "commentary-control",
+      "label": "Narrate your control",
+      "detail": "During lessons, say ‘mirrors, ease off, brake, gear, position’ as you approach hazards. The script keeps actions smooth."
+    },
+    {
+      "id": "theo-smooth",
+      "label": "Theo’s cup test",
+      "detail": "Place a half-full reusable cup in the cup holder (with a lid). Aim to keep the liquid steady—smooth control saves fuel and keeps the car balanced.",
+      "tone": "theo"
+    },
+    {
+      "id": "skid-demo",
+      "label": "Skid awareness",
+      "detail": "Watch DVSA videos on ABS and traction control. Knowing what to expect reduces panic if systems activate."
+    }
+  ],
+  "quiz": {
+    "id": "vehicle-handling-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "How should you brake when approaching a bend?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Brake hard halfway through the bend",
+            "explanation": "Braking in the bend can unsettle the vehicle and lead to loss of control."
+          },
+          {
+            "id": "q1o2",
+            "label": "Brake progressively before the bend, then ease off as you steer",
+            "correct": true,
+            "explanation": "Finishing braking before steering keeps grip balanced and the car stable."
+          },
+          {
+            "id": "q1o3",
+            "label": "Don’t brake at all",
+            "explanation": "You may need to reduce speed—plan early rather than relying on luck."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "When might you use a block gear change?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "When you want to skip unnecessary gears while slowing down",
+            "correct": true,
+            "explanation": "Block changing keeps the car stable and reduces workload when the road is clear."
+          },
+          {
+            "id": "q2o2",
+            "label": "Only when accelerating hard",
+            "explanation": "Block changes are typically used during deceleration."
+          },
+          {
+            "id": "q2o3",
+            "label": "Never—it’s not allowed on test",
+            "explanation": "DVSA examiners expect smart gear choices, including block changes when appropriate."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "What’s the safest way to move off uphill?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Release the handbrake and then find the bite point",
+            "explanation": "This risks rolling back and failing the manoeuvre."
+          },
+          {
+            "id": "q3o2",
+            "label": "Find the bite point, check mirrors, then release the handbrake while adding gas",
+            "correct": true,
+            "explanation": "Balancing the pedals before releasing the brake prevents rolling back."
+          },
+          {
+            "id": "q3o3",
+            "label": "Hold the car with the clutch only",
+            "explanation": "Riding the clutch overheats it and gives less control."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "What should you do if ABS activates under heavy braking?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Release the pedal immediately",
+            "explanation": "ABS pulses to help you steer—lifting off removes the assistance."
+          },
+          {
+            "id": "q4o2",
+            "label": "Keep firm pressure on the brake and steer around the hazard",
+            "correct": true,
+            "explanation": "ABS allows you to brake and steer; keep your foot down and steer smoothly."
+          },
+          {
+            "id": "q4o3",
+            "label": "Pump the brakes rapidly",
+            "explanation": "Pumping is for cars without ABS—modern systems already pulse the brakes for you."
+          }
+        ]
+      }
+    ]
+  }
+}
