@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
-import { QuizIcon, BookOpenIcon, ChatIcon } from "@/components/icons";
+import { QuizIcon, BookOpenIcon } from "@/components/icons";
 import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
@@ -18,7 +18,6 @@ import MockTestDashboardView from "@/components/dashboard/MockTestDashboardView"
 import LeaderboardDashboardView from "@/components/dashboard/LeaderboardDashboardView";
 import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboardView";
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
-import ChatDashboardView from "@/components/dashboard/ChatDashboardView";
 import { Menu } from "lucide-react";
 
 function DashboardContent() {
@@ -94,8 +93,6 @@ function DashboardContent() {
         return <MembershipsDashboardView />;
       case "about":
         return <AboutDashboardView />;
-      case "chat":
-        return <ChatDashboardView />;
       default:
         return null;
     }
@@ -434,24 +431,6 @@ function DashboardContent() {
                     className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
                   >
                     Choose Category
-                  </button>
-                </div>
-                <div className="flex flex-col rounded-xl border border-gray-200/70 bg-white p-6 text-center shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                  <div className="mx-auto">
-                    <ChatIcon className="h-12 w-12 text-brand-blue" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-bold text-gray-800">
-                    Chat AI Mentor
-                  </h3>
-                  <p className="mt-2 mb-6 flex-grow text-sm text-gray-600">
-                    Launch the redesigned assistant to ask questions, review
-                    answers, or request a personalised study plan.
-                  </p>
-                  <button
-                    onClick={() => handleViewChange("chat")}
-                    className="w-full rounded-md bg-brand-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-600"
-                  >
-                    Open Chat
                   </button>
                 </div>
               </div>

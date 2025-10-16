@@ -1,10 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+let cachedSupabase: ReturnType<typeof createClient> | null = null;
+
+function getSupabase() {
+  if (cachedSupabase) {
+    return cachedSupabase;
+  }
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Supabase credentials are not configured");
+  }
+
+  cachedSupabase = createClient(supabaseUrl, serviceRoleKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+
+  return cachedSupabase;
+}
 
 const pct = (num: number, den: number) =>
   den === 0 ? 0 : Math.round((100 * num) / den);
@@ -56,6 +75,8 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+
+    const supabase = getSupabase();
 
     const { data: qaCols, error: qaColsErr } = await supabase
       .from("information_schema.columns" as never)
