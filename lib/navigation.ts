@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import {
   BookOpenIcon,
+  ChatIcon,
   HomeIcon,
   InformationCircleIcon,
   LogoutIcon,
@@ -67,6 +68,22 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: TrophyIcon,
     requiresAuth: true,
     section: "secondary",
+  },
+  {
+    key: "faqs",
+    label: "FAQs",
+    href: "/faqs",
+    icon: ChatIcon,
+    section: "secondary",
+    showInSidebar: false,
+  },
+  {
+    key: "faqs",
+    label: "FAQs",
+    href: "/faqs",
+    icon: ChatIcon,
+    section: "secondary",
+    showInSidebar: false,
   },
   {
     key: "memberships",

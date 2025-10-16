@@ -4,6 +4,7 @@ import "./globals.css";
 import SWKillRegister from "./sw-kill-register";
 import AppNav from "@/components/AppNav";
 import dynamic from "next/dynamic";
+import Footer from "@/components/Footer";
 
 const ChatWidgetLauncher = dynamic(
   () => import("@/components/ChatWidgetLauncher"),
@@ -34,7 +35,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SWKillRegister />
         <AppNav />
         <ChatWidgetLauncher />
-        {children}
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
