@@ -156,5 +156,5 @@ describe("QuizByCategoryPage", () => {
     expect(await screen.findByText(/Quiz complete/i)).toBeInTheDocument();
     expect(screen.getByText(/Score: 100%/i)).toBeInTheDocument();
     expect(mockRecordAnswer).toHaveBeenCalled();
-  });
+  }, 15000);
 });

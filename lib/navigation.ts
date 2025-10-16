@@ -70,6 +70,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     section: "secondary",
   },
   {
+    key: "chat",
+    label: "Chat",
+    href: "/chat",
+    icon: ChatIcon,
+    section: "secondary",
+    showInSidebar: false,
+  },
+  {
     key: "faqs",
     label: "FAQs",
     href: "/faqs",

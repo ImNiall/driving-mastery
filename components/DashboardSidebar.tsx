@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
   SIGN_OUT_ITEM,
   type DashboardViewKey,
 } from "@/lib/navigation";
+import { ChatIcon } from "@/components/icons";
 
 type DashboardSidebarProps = {
   activeView: DashboardViewKey;
@@ -141,6 +143,32 @@ function SidebarContent({
               </li>
             )}
           </ul>
+        </div>
+
+        <div className="rounded-2xl border border-brand-blue/20 bg-brand-blue/5 px-4 py-5 text-sm text-gray-700 shadow-sm">
+          <div className="flex items-start gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-blue/10 text-brand-blue">
+              <ChatIcon className="h-5 w-5" />
+            </span>
+            <div className="flex-1">
+              <p className="text-xs font-semibold uppercase tracking-wide text-brand-blue">
+                Need quick help?
+              </p>
+              <p className="mt-1 text-sm font-semibold text-gray-900">
+                Chat with your AI Mentor.
+              </p>
+              <p className="mt-1 text-xs leading-5 text-gray-600">
+                Ask questions, review answers, and get study tips tailored to
+                you.
+              </p>
+              <Link
+                href="/chat"
+                className="mt-3 inline-flex items-center justify-center rounded-full bg-brand-blue px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-blue/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
+              >
+                Open Chatbot
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
 
