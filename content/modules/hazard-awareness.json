@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "Only other moving vehicles",
             "explanation": "Static hazards like roadworks can become developing hazards too."
+          },
+          {
+            "id": "q1o4",
+            "label": "Anything that already has a warning sign",
+            "explanation": "Warning signs help, but you must spot hazards even when no sign is present."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "Speed up to pass the area quickly",
             "explanation": "Accelerating reduces your reaction window and is unsafe."
+          },
+          {
+            "id": "q2o4",
+            "label": "Reverse away from the scene to avoid the hazard",
+            "explanation": "Reversing in the road introduces new dangers; slowing prepares you to stop safely."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "Flash your headlights to warn others",
             "explanation": "Flashing could confuse other drivers and doesn’t manage your own risk."
+          },
+          {
+            "id": "q3o4",
+            "label": "Sound the horn while maintaining your speed",
+            "explanation": "Sounding the horn doesn’t solve the hidden hazard; planning to slow down does."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Avoid using mirrors because they cause glare",
             "explanation": "Mirrors remain essential—glare can be managed by adjusting the anti-dazzle setting."
+          },
+          {
+            "id": "q4o4",
+            "label": "Turn on the interior light to brighten the cabin",
+            "explanation": "An interior light reduces your forward vision and doesn’t help you spot hazards outside."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You’re on a fast dual carriageway and traffic ahead suddenly slows. How can you warn drivers behind of the developing hazard?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Use your hazard warning lights briefly while you slow down",
+            "correct": true,
+            "explanation": "A short burst of hazard lights alerts following drivers to the queue forming ahead."
+          },
+          {
+            "id": "q5o2",
+            "label": "Keep braking hard without signalling",
+            "explanation": "Without warning, vehicles behind may not react in time to your sudden braking."
+          },
+          {
+            "id": "q5o3",
+            "label": "Sound the horn continuously",
+            "explanation": "The horn isn’t effective for alerting drivers behind you at speed."
+          },
+          {
+            "id": "q5o4",
+            "label": "Switch to full beam to warn oncoming traffic",
+            "explanation": "Oncoming drivers aren’t the immediate hazard—the aim is to warn following traffic."
           }
         ]
       }

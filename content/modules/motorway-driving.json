@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "The centre lane because it’s safest",
             "explanation": "Middle-lane hogging is unsafe and can lead to penalties."
+          },
+          {
+            "id": "q1o4",
+            "label": "Any lane except the hard shoulder",
+            "explanation": "You should keep to the left lane when not overtaking to maintain smooth traffic flow."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "Slow to 30 mph but stay in the lane",
             "explanation": "Remaining in a closed lane is illegal regardless of speed."
+          },
+          {
+            "id": "q2o4",
+            "label": "Wait until you reach the sign before changing lanes",
+            "explanation": "Move out as soon as it’s safe—waiting risks meeting the hazard that closed the lane."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "To overtake queues",
             "explanation": "Driving on the hard shoulder to beat traffic is illegal and unsafe."
+          },
+          {
+            "id": "q3o4",
+            "label": "For checking directions if you miss a sign",
+            "explanation": "Use service areas to re-check directions—hard shoulders are for emergencies only."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Make a U-turn if the road looks clear",
             "explanation": "U-turns are never permitted on motorways."
+          },
+          {
+            "id": "q4o4",
+            "label": "Cross the central reservation carefully",
+            "explanation": "Crossing the central reservation is illegal and highly dangerous."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "How should you join a motorway from a slip road?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Match your speed to traffic on the motorway and merge when there’s a safe gap",
+            "correct": true,
+            "explanation": "Use the full length of the slip road to build speed and merge smoothly into a suitable gap."
+          },
+          {
+            "id": "q5o2",
+            "label": "Stop at the end of the slip road before joining",
+            "explanation": "Stopping can surprise following drivers and makes it harder to merge safely."
+          },
+          {
+            "id": "q5o3",
+            "label": "Join immediately without checking mirrors",
+            "explanation": "Always check mirrors and blind spots before merging."
+          },
+          {
+            "id": "q5o4",
+            "label": "Drive on the hard shoulder until a gap appears",
+            "explanation": "The hard shoulder is for emergencies—you must merge directly from the slip road."
           }
         ]
       }

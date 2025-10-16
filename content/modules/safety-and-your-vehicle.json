@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "2.5 mm across the whole tyre",
             "explanation": "2.5 mm is recommended for best performance but not the legal minimum."
+          },
+          {
+            "id": "q1o4",
+            "label": "3.5 mm on the outside edges",
+            "explanation": "The law specifies 1.6 mm across the central three-quarters—not just the edges."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "Continue driving but reduce speed",
             "explanation": "Continuing risks a breakdown and costly repairs."
+          },
+          {
+            "id": "q2o4",
+            "label": "Switch on your hazard lights and carry on",
+            "explanation": "Warning lights indicate a fault—you must stop and investigate, not keep driving."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "Vacuuming the interior",
             "explanation": "Interior cleaning isn’t required for the safety check."
+          },
+          {
+            "id": "q3o4",
+            "label": "Checking the playlist for your journey",
+            "explanation": "POWDER focuses on mechanical and safety checks, not entertainment."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Hold them on your lap while driving",
             "explanation": "Holding items distracts and compromises restraint systems."
+          },
+          {
+            "id": "q4o4",
+            "label": "Place them in the passenger footwell",
+            "explanation": "Loose items in the footwell can roll under pedals and stop you braking properly."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "When should you check your tyre pressures for the most reliable reading?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "When the tyres are cold, before a long journey",
+            "correct": true,
+            "explanation": "Cold tyres give the most accurate pressure reading—check before heat builds up."
+          },
+          {
+            "id": "q5o2",
+            "label": "Immediately after driving at motorway speeds",
+            "explanation": "Heat from driving raises the pressure and gives a false reading."
+          },
+          {
+            "id": "q5o3",
+            "label": "After washing the car so the tyres are clean",
+            "explanation": "Cleanliness doesn’t affect the gauge—temperature does."
+          },
+          {
+            "id": "q5o4",
+            "label": "Only during the annual MOT test",
+            "explanation": "Tyre pressures must be checked regularly, not just once a year."
           }
         ]
       }

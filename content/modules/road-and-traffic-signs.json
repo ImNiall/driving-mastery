@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "National speed limit applies",
             "explanation": "National limit signs are white with a diagonal black stripe."
+          },
+          {
+            "id": "q1o4",
+            "label": "Give way",
+            "explanation": "Give way signs are upside-down red triangles with a white centre."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "No waiting at any time",
             "explanation": "No waiting is indicated by a blue circle with a red border and diagonal line."
+          },
+          {
+            "id": "q2o4",
+            "label": "End of controlled parking zone",
+            "explanation": "Controlled zone signs show times and restrictions; a lone ‘P’ indicates available parking."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "No motor vehicles",
             "explanation": "‘No motor vehicles’ is a red circle with a car and motorbike."
+          },
+          {
+            "id": "q3o4",
+            "label": "Steep hill ahead",
+            "explanation": "Steep hills are shown by a vehicle on a gradient with a percentage figure."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Sound the horn before entering",
             "explanation": "There’s no need to use the horn unless warning of immediate danger."
+          },
+          {
+            "id": "q4o4",
+            "label": "Enter if there’s space on the left side only",
+            "explanation": "You must keep the entire junction clear unless turning right and the exit is blocked by oncoming traffic."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "What does a circular blue sign with a white arrow pointing left mean?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Turn left ahead mandatory",
+            "correct": true,
+            "explanation": "Blue circles give mandatory instructions—this one tells you to keep or turn left."
+          },
+          {
+            "id": "q5o2",
+            "label": "Give way to traffic from the left",
+            "explanation": "Give way signs are red and white triangles, not blue circles."
+          },
+          {
+            "id": "q5o3",
+            "label": "Left turn prohibited",
+            "explanation": "A prohibition would be a red circle with a diagonal bar over a left arrow."
+          },
+          {
+            "id": "q5o4",
+            "label": "Diversion route starts",
+            "explanation": "Diversions usually use yellow signs with black arrows, not blue circular instructions."
           }
         ]
       }

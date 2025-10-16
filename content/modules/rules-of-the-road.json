@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "70 mph",
             "explanation": "70 mph is the limit for dual carriageways and motorways unless signed otherwise."
+          },
+          {
+            "id": "q1o4",
+            "label": "40 mph",
+            "explanation": "40 mph is only used where specifically signed."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "label": "Neither driver; approach slowly and be prepared to stop",
             "correct": true,
             "explanation": "Unmarked crossroads require cooperation—communicate and proceed safely."
+          },
+          {
+            "id": "q2o4",
+            "label": "The vehicle on your left",
+            "explanation": "There is no automatic priority—treat everyone with caution."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "label": "Whenever the patrol steps into the road with a STOP sign",
             "correct": true,
             "explanation": "Failing to stop is an offence and endangers the patrol and children."
+          },
+          {
+            "id": "q3o4",
+            "label": "Only if a traffic light also shows red",
+            "explanation": "The patrol’s STOP sign takes priority even if signals are not present."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "A signed permission letter from a supervisor",
             "explanation": "Learners need a suitable supervisor, but no letter is required."
+          },
+          {
+            "id": "q4o4",
+            "label": "Proof that the vehicle has recently been serviced",
+            "explanation": "Service history is good practice but not a legal requirement to drive."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You see double white lines in the centre of the road where the line nearest you is solid. When may you cross or straddle this line?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "To pass a stationary vehicle, pedal cycle, horse, or road maintenance vehicle travelling at 10 mph or less",
+            "correct": true,
+            "explanation": "The Highway Code allows crossing a solid line only in these limited circumstances."
+          },
+          {
+            "id": "q5o2",
+            "label": "To overtake any slow-moving vehicle as long as you signal",
+            "explanation": "You must not cross for general overtakes—even if you signal."
+          },
+          {
+            "id": "q5o3",
+            "label": "Whenever the opposite lane appears clear",
+            "explanation": "Double white lines protect dangerous stretches—do not cross just because it looks clear."
+          },
+          {
+            "id": "q5o4",
+            "label": "If you need to speed up to the limit quickly",
+            "explanation": "Speeding up is never a valid reason to cross solid white lines."
           }
         ]
       }

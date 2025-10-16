@@ -114,6 +114,11 @@
             "id": "q1o3",
             "label": "MOT certificate",
             "explanation": "MOT proves roadworthiness, not ownership."
+          },
+          {
+            "id": "q1o4",
+            "label": "Purchase receipt",
+            "explanation": "A sales receipt is useful but the V5C is the DVLA’s official record of the keeper."
           }
         ]
       },
@@ -136,6 +141,11 @@
             "id": "q2o3",
             "label": "Only when you renew the licence",
             "explanation": "You must update your address straight away, not wait for renewal."
+          },
+          {
+            "id": "q2o4",
+            "label": "When you next buy a vehicle",
+            "explanation": "Address changes must be reported immediately, regardless of vehicle purchases."
           }
         ]
       },
@@ -158,6 +168,11 @@
             "id": "q3o3",
             "label": "Changing your driving instructor",
             "explanation": "SORN is about the vehicle, not instructors."
+          },
+          {
+            "id": "q3o4",
+            "label": "Booking a practical test",
+            "explanation": "Test bookings are unrelated to declaring a vehicle off the road."
           }
         ]
       },
@@ -180,6 +195,38 @@
             "id": "q4o3",
             "label": "Until the next MOT",
             "explanation": "You must present documents promptly—waiting for the MOT isn’t acceptable."
+          },
+          {
+            "id": "q4o4",
+            "label": "Whenever you can get a lift to the station",
+            "explanation": "The law expects you to present documents within the stated seven-day period."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "What is the minimum insurance cover you must have before driving on public roads?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Third-party cover",
+            "correct": true,
+            "explanation": "UK law requires at least third-party insurance to cover injury or damage you cause to others."
+          },
+          {
+            "id": "q5o2",
+            "label": "Third-party, fire and theft",
+            "explanation": "This offers extra protection but the legal minimum is third-party cover."
+          },
+          {
+            "id": "q5o3",
+            "label": "Comprehensive cover",
+            "explanation": "Fully comprehensive is optional; it isn’t the legal minimum."
+          },
+          {
+            "id": "q5o4",
+            "label": "No insurance if you only drive occasionally",
+            "explanation": "Every vehicle used or kept on public roads must be insured unless it has a valid SORN."
           }
         ]
       }
