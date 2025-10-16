@@ -1,0 +1,207 @@
+{
+  "slug": "alertness",
+  "title": "Alertness: Stay Observant and Proactive",
+  "summary": "Sharpen your observation routine, stay ahead of developing hazards, and keep fatigue or distractions from derailing a safe journey.",
+  "progress": 20,
+  "stepIndex": 2,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Skills",
+    "Mistakes",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Alertness Matters",
+      "body": "Alertness sits at the heart of safe driving. The DVSA expects you to gather information continuously, predict how other road users may behave, and respond in good time. When your attention drops, hazards become surprises and you lose the margin needed to brake or steer safely."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Use the Mirror–Signal–Manoeuvre and Mirror–Signal–Position–Speed–Look routines before every change in speed or direction.",
+        "Rule 90 & 91: plan rest stops, do not drive tired, never drive under the influence of alcohol or drugs.",
+        "Rule 148: avoid distractions – mobile phone use (hand-held or hands-free) must not divert your full attention."
+      ]
+    },
+    {
+      "id": "skills",
+      "title": "Skills to Master",
+      "items": [
+        "Continuous 360° scanning: near, mid, far, and mirrors every few seconds.",
+        "Anticipation and planning: ask ‘what if?’ for every developing hazard.",
+        "Managing distractions: phones silenced, sat-nav set before moving, recognise and act on early fatigue signs."
+      ]
+    },
+    {
+      "id": "mistakes",
+      "title": "Common Mistakes",
+      "items": [
+        "Fixating on one point and missing hazards elsewhere.",
+        "Reacting late because you notice brake lights only when they are already bright red.",
+        "Driving while upset or rushed leading to poor decisions."
+      ],
+      "body": "Break tunnel vision with regular mirror checks, lift off early when traffic ahead slows, and build extra journey time so you never feel pressured to take risks."
+    },
+    {
+      "id": "practice-task",
+      "title": "Practice Task",
+      "body": "On your next supervised drive, narrate what you see, what might happen next, and the action you plan to take. This ‘commentary driving’ technique trains your brain to stay proactive rather than reactive."
+    }
+  ],
+  "checklist": [
+    {
+      "id": "msm",
+      "label": "I automatically carry out the MSM / MSPSL sequence before every manoeuvre."
+    },
+    {
+      "id": "hazard-scan",
+      "label": "I scan mirrors and blind spots frequently and adjust my plan early."
+    },
+    {
+      "id": "distractions",
+      "label": "My phone is silenced and I set tech (music, sat-nav) before moving off."
+    },
+    {
+      "id": "fatigue-plan",
+      "label": "I know the signs of fatigue and schedule breaks on longer journeys."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "commentary",
+      "label": "Theo’s Advice",
+      "detail": "Record a short practice drive on your phone (audio only) and narrate hazards. Listen back to spot gaps in your routine.",
+      "tone": "theo"
+    },
+    {
+      "id": "mirrors",
+      "label": "Mirror rhythm",
+      "detail": "Every time you change gear or position, pair it with a mirror check. The rhythm keeps you ahead of emerging hazards."
+    },
+    {
+      "id": "fatigue",
+      "label": "Beat fatigue",
+      "detail": "If you yawn more than once or start blinking heavily, plan a safe stop within 15 minutes."
+    }
+  ],
+  "quiz": {
+    "id": "alertness-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "You’re driving on a clear dual carriageway and notice brake lights several vehicles ahead. What should you do first?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Maintain speed then brake late if needed",
+            "explanation": "Delaying your response reduces your safety margin and could cause harsh braking behind you."
+          },
+          {
+            "id": "q1o2",
+            "label": "Ease off the accelerator and check your mirrors",
+            "correct": true,
+            "explanation": "Lifting off early buys time to assess the situation and creates a smoother, safer plan."
+          },
+          {
+            "id": "q1o3",
+            "label": "Swerve into the right-hand lane immediately",
+            "explanation": "Changing lanes without planning may put you in conflict with faster traffic."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "When should you check your blind spot?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Only when reversing",
+            "explanation": "Blind spots must be checked before any lateral movement, not just reversing."
+          },
+          {
+            "id": "q2o2",
+            "label": "Before moving off or changing lanes",
+            "correct": true,
+            "explanation": "A quick glance confirms whether a cyclist or vehicle has moved into the area you cannot see in mirrors."
+          },
+          {
+            "id": "q2o3",
+            "label": "Whenever you approach traffic lights",
+            "explanation": "Traffic lights do not require a blind-spot check unless you plan to move sideways."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "How can you reduce the risk caused by fatigue on a long journey?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Keep a window open and turn the heater up",
+            "explanation": "Fresh air alone will not prevent fatigue once it sets in."
+          },
+          {
+            "id": "q3o2",
+            "label": "Plan regular rest stops and swap drivers if possible",
+            "correct": true,
+            "explanation": "Taking breaks is the DVSA-recommended way to manage tiredness safely."
+          },
+          {
+            "id": "q3o3",
+            "label": "Drink more caffeinated drinks than usual",
+            "explanation": "Caffeine may mask fatigue briefly but does not remove the underlying risk."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "You need to change your sat-nav destination while driving. What should you do?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Adjust it quickly while keeping one hand on the wheel",
+            "explanation": "Taking your attention from the road can create immediate hazards."
+          },
+          {
+            "id": "q4o2",
+            "label": "Ask a passenger to set it or stop in a safe place first",
+            "correct": true,
+            "explanation": "The DVSA expects the route to be set before moving or by a passenger so you stay focused."
+          },
+          {
+            "id": "q4o3",
+            "label": "Slow down sharply then change it",
+            "explanation": "Braking sharply distracts following traffic and may cause rear-end collisions."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "How often should you glance in your mirrors during normal driving?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Every 5–8 seconds and before any manoeuvre",
+            "correct": true,
+            "explanation": "Regular mirror use gives early warning of changes behind you so you can plan calmly."
+          },
+          {
+            "id": "q5o2",
+            "label": "Only when slowing down",
+            "explanation": "Mirrors are needed whenever you change speed, direction, or road position—waiting to slow is too late."
+          },
+          {
+            "id": "q5o3",
+            "label": "Every time you accelerate hard",
+            "explanation": "Accelerating hard should be avoided unless absolutely necessary, and mirror checks must be more frequent than that."
+          }
+        ]
+      }
+    ]
+  }
+}
