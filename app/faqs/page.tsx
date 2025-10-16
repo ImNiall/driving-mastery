@@ -35,15 +35,15 @@ export default function FaqsPage() {
   return (
     <main className="bg-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <section className="rounded-3xl bg-gradient-to-r from-brand-blue to-brand-purple px-6 py-12 text-white shadow-xl sm:px-8 lg:px-12">
+        <section className="rounded-3xl bg-white px-6 py-12 shadow-xl sm:px-8 lg:px-12">
           <div className="max-w-3xl space-y-5">
-            <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white/80">
+            <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
               Help Centre
             </span>
-            <h1 className="text-3xl font-bold sm:text-4xl">
+            <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
               Frequently Asked Questions
             </h1>
-            <p className="text-base text-white/85 sm:text-lg">
+            <p className="text-base text-slate-600 sm:text-lg">
               Find quick answers about memberships, mock tests, and the AI
               Mentor. Search by keyword or browse by topic to get back to your
               revision faster.
@@ -57,7 +57,7 @@ export default function FaqsPage() {
               </Link>
               <a
                 href="mailto:support@drivingmastery.app"
-                className="rounded-full border border-white/50 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="rounded-full border border-brand-blue/30 px-5 py-2 text-sm font-semibold text-brand-blue transition hover:bg-brand-blue/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
               >
                 Email support
               </a>
