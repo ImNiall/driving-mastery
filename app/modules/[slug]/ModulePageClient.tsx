@@ -7,7 +7,7 @@ import { getWrongAnswersForModule } from "@/utils/wrongAnswers";
 
 type Props = {
   module: LearningModule & { tags?: string[] };
-  onModuleMastery: (category: LearningModule["category"]) => void;
+  onModuleMastery?: (category: LearningModule["category"]) => void;
 };
 
 export default function ModulePageClient({ module, onModuleMastery }: Props) {
@@ -20,10 +20,17 @@ export default function ModulePageClient({ module, onModuleMastery }: Props) {
     }
   }, []);
 
+  const handleMastery = React.useCallback(
+    (category: LearningModule["category"]) => {
+      onModuleMastery?.(category);
+    },
+    [onModuleMastery],
+  );
+
   return (
     <ModulesViewV2
       module={module}
-      onModuleMastery={onModuleMastery}
+      onModuleMastery={handleMastery}
       getWrongAnswersForModule={memoisedGetWrongAnswers}
     />
   );
