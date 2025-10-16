@@ -32,7 +32,11 @@ type AnswerEntry = {
   category: Category;
 };
 
-export default function MockTestPage() {
+type MockTestContentProps = {
+  variant?: "page" | "dashboard";
+};
+
+export function MockTestContent({ variant = "page" }: MockTestContentProps) {
   const router = useRouter();
   const [attemptId, setAttemptId] = React.useState<string | null>(null);
   const [questions, setQuestions] = React.useState<Question[]>([]);
@@ -57,6 +61,23 @@ export default function MockTestPage() {
   const [reviewFilter, setReviewFilter] = React.useState<
     "all" | "correct" | "incorrect"
   >("all");
+
+  const renderContainer = (
+    children: React.ReactNode,
+    {
+      maxWidth = "max-w-6xl",
+      padding = "px-4 py-10",
+    }: { maxWidth?: string; padding?: string } = {},
+  ) => {
+    if (variant === "dashboard") {
+      return <div>{children}</div>;
+    }
+    return (
+      <main className="min-h-screen bg-slate-50">
+        <div className={`mx-auto ${maxWidth} ${padding}`}>{children}</div>
+      </main>
+    );
+  };
 
   // auto-resume: check latest unfinished attempt for mock
   React.useEffect(() => {
@@ -338,112 +359,116 @@ export default function MockTestPage() {
   };
 
   if (error) {
-    return (
-      <main className="mx-auto max-w-3xl p-6">
-        <p className="text-red-600">{error}</p>
-      </main>
+    return renderContainer(
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+        <p className="font-semibold">We couldn&apos;t start your mock test.</p>
+        <p className="mt-1 break-words">{error}</p>
+      </div>,
+      { maxWidth: "max-w-3xl", padding: "px-4 py-10" },
     );
   }
 
   if (stage === "select") {
-    return (
-      <main className="mx-auto max-w-5xl p-6">
-        <div className="max-w-4xl mx-auto animate-fade-in">
+    return renderContainer(
+      <div className="animate-fade-in space-y-10 mx-auto max-w-5xl">
+        {variant === "page" && (
           <button
             onClick={() => router.push("/dashboard")}
-            className="text-brand-blue font-semibold mb-6"
+            className="text-brand-blue font-semibold"
           >
             &larr; Back to Dashboard
           </button>
+        )}
 
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-800">
-              Configure Your Mock Test
-            </h2>
-            <p className="text-gray-600 mt-2">
-              Select a test length to begin. The full mock test simulates the
-              official DVSA exam.
-            </p>
-          </div>
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold text-gray-800">
+            Configure Your Mock Test
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Select a test length to begin. The full mock test simulates the
+            official DVSA exam.
+          </p>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            {[
-              {
-                len: 10,
-                title: "Quick Practice",
-                desc: "A brief 10-question quiz to quickly assess your knowledge.",
-              },
-              {
-                len: 25,
-                title: "Standard Mock Test",
-                desc: "A comprehensive 25-question practice test covering a range of topics.",
-              },
-              {
-                len: 50,
-                title: "Official Mock Test",
-                desc: "A full-length 50-question test that mirrors the format of the official DVSA exam.",
-              },
-            ].map(({ len, title, desc }) => (
-              <div
-                key={len}
-                onClick={() => startMock(len as 10 | 25 | 50)}
-                className="group bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:shadow-xl hover:-translate-y-1 hover:border-brand-blue active:scale-95 active:bg-blue-50 transition-all duration-300 ease-in-out cursor-pointer flex flex-col text-center"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ")
-                    startMock(len as 10 | 25 | 50);
-                }}
-                aria-label={`Start a ${len} question test titled ${title}`}
-              >
-                <h3 className="text-5xl font-bold text-brand-blue group-hover:scale-110 transition-transform duration-300 ease-in-out">
-                  {len}
-                </h3>
-                <p className="text-lg font-semibold text-gray-800 mt-2">
-                  {title}
-                </p>
-                <p className="text-sm text-gray-600 mt-2 mb-4 flex-grow">
-                  {desc}
-                </p>
+        <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-3">
+          {[
+            {
+              len: 10,
+              title: "Quick Practice",
+              desc: "A brief 10-question quiz to quickly assess your knowledge.",
+            },
+            {
+              len: 25,
+              title: "Standard Mock Test",
+              desc: "A comprehensive 25-question practice test covering a range of topics.",
+            },
+            {
+              len: 50,
+              title: "Official Mock Test",
+              desc: "A full-length 50-question test that mirrors the format of the official DVSA exam.",
+            },
+          ].map(({ len, title, desc }) => (
+            <div
+              key={len}
+              onClick={() => startMock(len as 10 | 25 | 50)}
+              className="group flex cursor-pointer flex-col rounded-lg border-2 border-transparent bg-white p-6 text-center shadow-md transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-brand-blue hover:shadow-xl active:scale-95 active:bg-blue-50"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ")
+                  startMock(len as 10 | 25 | 50);
+              }}
+              aria-label={`Start a ${len} question test titled ${title}`}
+            >
+              <h3 className="text-5xl font-bold text-brand-blue transition-transform duration-300 ease-in-out group-hover:scale-110">
+                {len}
+              </h3>
+              <p className="mt-2 text-lg font-semibold text-gray-800">
+                {title}
+              </p>
+              <p className="mt-2 mb-4 flex-grow text-sm text-gray-600">
+                {desc}
+              </p>
 
-                <div className="my-4 pt-4 border-t border-gray-200">
-                  <div className="text-sm text-gray-500 py-4">
-                    No attempts yet.
-                  </div>
-                </div>
-
-                <div className="mt-auto font-semibold text-brand-blue transition-colors group-hover:text-blue-600 flex items-center justify-center">
-                  <span>Start Test</span>
-                  <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-300 ease-in-out ml-1">
-                    &rarr;
-                  </span>
+              <div className="my-4 border-t border-gray-200 pt-4">
+                <div className="py-4 text-sm text-gray-500">
+                  No attempts yet.
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="mt-12">
-            <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">
-              Your Test History
-            </h3>
-            <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
-              <p>You haven&apos;t completed any quizzes yet.</p>
-              <p className="text-sm mt-1">
-                Your history will appear here once you do!
-              </p>
+              <div className="mt-auto flex items-center justify-center font-semibold text-brand-blue transition-colors group-hover:text-blue-600">
+                <span>Start Test</span>
+                <span className="ml-1 inline-block transition-transform duration-300 ease-in-out group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </div>
             </div>
+          ))}
+        </div>
+
+        <div className="mx-auto max-w-3xl rounded-lg bg-white p-6 text-center shadow-md">
+          <h3 className="text-2xl font-bold text-gray-800">
+            Your Test History
+          </h3>
+          <div className="mt-4 rounded-lg border border-dashed border-gray-200 bg-gray-50 p-6 text-sm text-gray-500">
+            <p>You haven&apos;t completed any quizzes yet.</p>
+            <p className="mt-1">Your history will appear here once you do!</p>
           </div>
         </div>
-      </main>
+      </div>,
+      {
+        maxWidth: variant === "dashboard" ? "max-w-4xl" : "max-w-5xl",
+        padding: variant === "dashboard" ? "px-0 py-0" : "px-4 py-10",
+      },
     );
   }
 
   if (finished && results) {
     const pct = results.score_percent;
     const passed = pct >= 86;
-    return (
-      <main className="mx-auto max-w-4xl p-6 space-y-8">
-        <div className="bg-white p-6 md:p-8 rounded-lg shadow-xl text-center">
+    return renderContainer(
+      <div className="space-y-8">
+        <div className="rounded-lg bg-white p-6 text-center shadow-xl md:p-8">
           <div className="mx-auto mb-2 text-3xl font-bold {passed ? 'text-yellow-500' : 'text-blue-500'}"></div>
           <h2 className="text-3xl font-bold text-gray-800 mt-2">
             {passed
@@ -489,7 +514,7 @@ export default function MockTestPage() {
         </div>
 
         {recommended.length > 0 && (
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="rounded-lg bg-white p-6 shadow">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
               Recommended Study
             </h3>
@@ -581,21 +606,26 @@ export default function MockTestPage() {
             )}
           </div>
         </div>
-      </main>
+      </div>,
+      {
+        maxWidth: "max-w-4xl",
+        padding: variant === "dashboard" ? "px-0 py-0" : "px-4 py-10",
+      },
     );
   }
 
   if (!current) {
-    return (
-      <main className="mx-auto max-w-3xl p-6">
-        <p className="text-gray-600">Preparing your mock test...</p>
-      </main>
+    return renderContainer(
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 text-sm text-gray-600 shadow-sm">
+        Preparing your mock test...
+      </div>,
+      { maxWidth: "max-w-3xl", padding: "px-4 py-10" },
     );
   }
 
-  return (
-    <main className="mx-auto max-w-4xl p-4 sm:p-6 space-y-4">
-      <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
+  return renderContainer(
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
         <div>
           <h1 className="text-xl font-bold text-gray-800">Mock Test</h1>
           <p className="text-sm text-gray-500">
@@ -736,6 +766,14 @@ export default function MockTestPage() {
           </button>
         </div>
       </div>
-    </main>
+    </div>,
+    {
+      maxWidth: "max-w-4xl",
+      padding: variant === "dashboard" ? "px-0 py-0" : "px-4 sm:px-6 py-8",
+    },
   );
+}
+
+export default function MockTestPage() {
+  return <MockTestContent variant="page" />;
 }
