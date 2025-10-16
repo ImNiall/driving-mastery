@@ -16,8 +16,7 @@ export type DashboardViewKey =
   | "mock-test"
   | "leaderboard"
   | "memberships"
-  | "about"
-  | "chat";
+  | "about";
 
 export type IconComponent = ComponentType<{ className?: string }>;
 
@@ -67,15 +66,6 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     href: "/leaderboard",
     dashboardView: "leaderboard",
     icon: TrophyIcon,
-    requiresAuth: true,
-    section: "secondary",
-  },
-  {
-    key: "chat",
-    label: "Chat",
-    href: "/chat",
-    dashboardView: "chat",
-    icon: ChatIcon,
     requiresAuth: true,
     section: "secondary",
   },
