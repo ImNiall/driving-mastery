@@ -1,18 +1,37 @@
 import { notFound } from "next/navigation";
-import ModulePageClient from "./ModulePageClient";
-import { LEARNING_MODULES } from "@/constants";
+import ModulePage from "@/components/modules/ModulePage";
+import {
+  getModuleSlugs,
+  getNextModuleSlug,
+  loadModule,
+} from "@/lib/modules/data";
 
-export function generateStaticParams() {
-  return LEARNING_MODULES.map((lesson) => ({ slug: lesson.slug }));
+export async function generateStaticParams() {
+  const slugs = await getModuleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 type Params = { params: { slug: string } };
 
-export default function ModuleDetailPage({ params }: Params) {
-  const lesson = LEARNING_MODULES.find((item) => item.slug === params.slug);
-  if (!lesson) {
+export default async function ModuleDetailPage({ params }: Params) {
+  const slugs = await getModuleSlugs();
+  const index = slugs.indexOf(params.slug);
+  if (index === -1) {
     notFound();
   }
 
-  return <ModulePageClient module={lesson} />;
+  const moduleData = await loadModule(params.slug);
+  const nextSlug = await getNextModuleSlug(params.slug);
+  const nextModule = nextSlug
+    ? { slug: nextSlug, title: (await loadModule(nextSlug)).title }
+    : null;
+
+  return (
+    <ModulePage
+      module={moduleData}
+      moduleNumber={index + 1}
+      totalModules={slugs.length}
+      nextModule={nextModule}
+    />
+  );
 }
