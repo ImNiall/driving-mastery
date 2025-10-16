@@ -1,15 +1,16 @@
 "use client";
 
 import {
+  Award,
   BookOpen,
-  Calculator,
-  Code,
-  Languages,
+  CarFront,
+  GaugeCircle,
+  HeartPulse,
   Lightbulb,
   MessageCircle,
   MessageSquare,
   Sparkles,
-  Wand2,
+  Target,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,55 +22,55 @@ import { useChatStore } from "@/store/chatStore";
 const ACTIONS = [
   {
     icon: Lightbulb,
-    title: "Explain",
+    title: "Explain DVSA Rules",
     description:
-      "Break down complex driving topics into friendly, easy-to-understand steps.",
-    prompt: "Explain the following concept like I'm learning to drive: ",
-  },
-  {
-    icon: Code,
-    title: "Generate Code",
-    description:
-      "Draft small pieces of code or pseudo-code for training resources.",
-    prompt: "Write a quick script to help learners practise: ",
+      "Break down Highway Code topics into learner-friendly language with examples.",
+    prompt: "Explain this DVSA rule and give a driving example: ",
   },
   {
     icon: BookOpen,
-    title: "Learn",
+    title: "Revise a Module",
     description:
-      "Study theory rules, road signs, and safe driving habits in minutes.",
-    prompt: "Help me learn about: ",
-  },
-  {
-    icon: Calculator,
-    title: "Solve Problems",
-    description: "Work through tricky practice questions step-by-step.",
-    prompt: "Talk me through this theory question: ",
-  },
-  {
-    icon: Languages,
-    title: "Translate",
-    description:
-      "Translate explanations and tips into another language for revision.",
-    prompt: "Translate this driving theory tip into Spanish: ",
-  },
-  {
-    icon: MessageCircle,
-    title: "Brainstorm",
-    description: "Come up with scenario ideas and hazard perception prompts.",
-    prompt: "Brainstorm a few hazard scenarios about: ",
+      "Get key takeaways, checklists, and quiz-style questions for a theory module.",
+    prompt: "Summarise the main points and quiz me on: ",
   },
   {
     icon: Sparkles,
-    title: "Improve Writing",
-    description: "Polish announcements, lesson plans, or helpful blog posts.",
-    prompt: "Improve the tone of this update: ",
+    title: "Did You Know?",
+    description:
+      "Discover quick DVSA facts and myth-busting tips to keep revision interesting.",
+    prompt: "Share a short 'did you know?' fact about: ",
   },
   {
-    icon: Wand2,
-    title: "Summarise",
-    description: "Turn lengthy DVSA documentation into quick checklists.",
-    prompt: "Summarise these notes for quick revision: ",
+    icon: GaugeCircle,
+    title: "Mock Test Coaching",
+    description:
+      "Review why answers are right or wrong and get tips to reach 86%+.",
+    prompt:
+      "Explain the correct answer and technique for this mock-test question: ",
+  },
+  {
+    icon: CarFront,
+    title: "In-car Coaching",
+    description:
+      "Prepare prompts for commentary driving, mirror routines, and manoeuvres.",
+    prompt: "Coach me through this driving manoeuvre with commentary prompts: ",
+  },
+  {
+    icon: HeartPulse,
+    title: "Calm Test Nerves",
+    description:
+      "Get breathing drills, positive self-talk, and visualisation ideas for confidence.",
+    prompt:
+      "I'm feeling anxious about my test. Coach me with calming steps for: ",
+  },
+  {
+    icon: Target,
+    title: "Debrief My Practice",
+    description:
+      "Reflect on today’s lesson and turn it into focus points for your next drive.",
+    prompt:
+      "I just practised this scenario. Help me debrief and set the next focus: ",
   },
 ] as const;
 
