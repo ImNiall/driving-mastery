@@ -322,7 +322,7 @@ Are you sure you want to finish the test now?`
   };
 
   const handleSelect = async (choice: string) => {
-    if (!current || !attemptId) return;
+    if (!current || !attemptId || submitting || finished) return;
     setSelected(choice);
     const correct = !!current.options.find(
       (o) => o.text === choice && o.isCorrect,
@@ -338,15 +338,16 @@ Are you sure you want to finish the test now?`
       correct,
       category: current.category as Category,
     };
-    setAnswers((prev) => {
-      const existingIndex = prev.findIndex((a) => a.qid === current.id);
-      if (existingIndex >= 0) {
-        const next = [...prev];
-        next[existingIndex] = entry;
-        return next;
-      }
-      return [...prev, entry];
-    });
+    const existingIndex = answers.findIndex((a) => a.qid === current.id);
+    const nextAnswers =
+      existingIndex >= 0
+        ? (() => {
+            const next = [...answers];
+            next[existingIndex] = entry;
+            return next;
+          })()
+        : [...answers, entry];
+    setAnswers(nextAnswers);
     // fire-and-forget record
     // Fire-and-forget to avoid UI lag on selection
     ProgressService.recordAnswer({
@@ -357,6 +358,10 @@ Are you sure you want to finish the test now?`
       choice,
       isCorrect: correct,
     }).catch((e) => console.warn("recordAnswer failed", e));
+
+    if (isLast) {
+      void finishAttempt(nextAnswers);
+    }
   };
 
   const goNext = () => {
@@ -380,27 +385,39 @@ Are you sure you want to finish the test now?`
     await finishAttempt();
   };
 
-  const finishAttempt = async () => {
+  const finishAttempt = async (overrideAnswers?: AnswerEntry[]) => {
     if (!attemptId || submitting || finished) return;
+    const answerList = overrideAnswers ?? answers;
+    if (answerList.length === 0) return;
+
+    const localTotals = answerList.reduce(
+      (acc, entry) => {
+        acc.total += 1;
+        if (entry.correct) acc.correct += 1;
+        return acc;
+      },
+      { total: 0, correct: 0 },
+    );
+    const localScorePercent =
+      localTotals.total > 0
+        ? Math.round((localTotals.correct / localTotals.total) * 100)
+        : 0;
+    const optimisticResult = {
+      total: localTotals.total,
+      correct: localTotals.correct,
+      score_percent: localScorePercent,
+    };
+
     setSubmitting(true);
+    setResults(optimisticResult);
+    setFinished(true);
+
     try {
-      const localTotals = answers.reduce(
-        (acc, entry) => {
-          acc.total += 1;
-          if (entry.correct) acc.correct += 1;
-          return acc;
-        },
-        { total: 0, correct: 0 },
-      );
-      const localScorePercent =
-        localTotals.total > 0
-          ? Math.round((localTotals.correct / localTotals.total) * 100)
-          : 0;
       // Ensure all answers are persisted before aggregation
       try {
         await ProgressService.answersBulk({
           attemptId,
-          answers: answers.map((a) => ({
+          answers: answerList.map((a) => ({
             questionId: a.qid,
             qIndex: a.qIndex,
             choice: a.choice,
@@ -419,11 +436,11 @@ Are you sure you want to finish the test now?`
       });
       let res = await ProgressService.finishAttempt(attemptId);
       // Retry path: if server totals are zero but we have local answers, bulk-send then finalize again
-      if (res.total === 0 && answers.length > 0) {
+      if (res.total === 0 && answerList.length > 0) {
         try {
           await ProgressService.answersBulk({
             attemptId,
-            answers: answers.map((a) => ({
+            answers: answerList.map((a) => ({
               questionId: a.qid,
               qIndex: a.qIndex,
               choice: a.choice,
@@ -447,7 +464,7 @@ Are you sure you want to finish the test now?`
       // award mastery points per-category simple heuristic
       try {
         const perCat: Record<string, { correct: number; total: number }> = {};
-        for (const a of answers) {
+        for (const a of answerList) {
           const k = a.category as unknown as string;
           perCat[k] = perCat[k] || { correct: 0, total: 0 };
           perCat[k].total += 1;
@@ -490,7 +507,6 @@ Are you sure you want to finish the test now?`
             ? localScorePercent
             : res.score_percent,
       });
-      setFinished(true);
     } catch (e: any) {
       setError(e?.message || "Failed to finish attempt");
     } finally {
@@ -1006,13 +1022,13 @@ Are you sure you want to finish the test now?`
               onClick={handleFinishClick}
               className="flex items-center bg-brand-green text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors hover:bg-green-600"
             >
-              Finish Test
+              Show Results
             </button>
           )}
         </div>
       </div>
 
-      {/* Bottom progress card with counts and Finish Test */}
+      {/* Bottom progress card with counts and Show Results */}
       <div className="bg-white p-4 rounded-lg shadow-md">
         <div className="flex flex-wrap gap-2 mb-4">
           {questions.map((q, i) => {
@@ -1068,7 +1084,7 @@ Are you sure you want to finish the test now?`
             className="w-full mt-2 bg-brand-green text-white font-semibold py-3 px-4 rounded-md hover:bg-green-600 disabled:bg-gray-300"
             disabled={submitting || finished || unansweredCount > 0}
           >
-            Finish Test
+            Show Results
           </button>
         </div>
       </div>
