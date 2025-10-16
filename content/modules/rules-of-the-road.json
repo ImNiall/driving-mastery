@@ -1,0 +1,186 @@
+{
+  "slug": "rules-of-the-road",
+  "title": "Rules of the Road: Know the Law, Drive with Confidence",
+  "summary": "Understand speed limits, priority rules, and legal responsibilities so every journey is compliant and stress-free.",
+  "estimatedDuration": "26 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Priority",
+    "Speed & Signs",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Rules Matter",
+      "body": "Highway Code knowledge underpins safe, legal driving. Knowing who has priority and what the signs mean helps you make calm, confident decisions."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Rule 103–112: Understand signals from police, traffic officers, and authorised persons.",
+        "Rule 144: You must not drive on the pavement unless crossing to a property entrance.",
+        "Know national speed limits: cars—30 mph in built-up areas, 60 mph on single carriageways, 70 mph on dual carriageways and motorways unless signed otherwise."
+      ]
+    },
+    {
+      "id": "priority",
+      "title": "Giving and Taking Priority",
+      "items": [
+        "At unmarked crossroads, no one has priority—approach slowly and be prepared to stop.",
+        "Traffic on the main road normally has priority over vehicles emerging from side roads.",
+        "Buses, trams, cyclists, and pedestrians may have dedicated priority signals—obey them."
+      ]
+    },
+    {
+      "id": "speed-management",
+      "title": "Managing Speed and Signs",
+      "body": "Look for clues such as street lighting (usually 30 mph), road markings, and gateway signs when entering new areas. Use repeater signs to confirm the limit and adjust your speed before you reach hazards like bends or pedestrian zones."
+    },
+    {
+      "id": "legal-duties",
+      "title": "Legal Responsibilities",
+      "items": [
+        "Always stop if involved in a collision; exchange details and report to police if required.",
+        "It is illegal to use a hand-held mobile phone while driving or supervising a learner.",
+        "Ensure you have valid insurance, MOT (if required), and road tax before driving."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "speed-limits",
+      "label": "I can recall national and local speed limits for my vehicle type."
+    },
+    {
+      "id": "priority-knowledge",
+      "label": "I understand who has priority at junctions, crossings, and roundabouts."
+    },
+    {
+      "id": "legal-docs",
+      "label": "I carry the correct legal documents or know how to access them quickly."
+    },
+    {
+      "id": "mobile-law",
+      "label": "I keep my phone secured and never handle it while driving."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "sign-spotting",
+      "label": "Sign spotting",
+      "detail": "During walks or bus rides, note every speed limit or priority sign you see. Quiz yourself on what each means."
+    },
+    {
+      "id": "theo-law",
+      "label": "Theo’s law log",
+      "detail": "Keep a single sheet with key Highway Code references (speed limits, stopping requirements). Review it before each lesson.",
+      "tone": "theo"
+    },
+    {
+      "id": "scenario-cards",
+      "label": "Scenario cards",
+      "detail": "Create flashcards for tricky situations—four-way stops, bus lanes, yellow box junctions. Practise explaining the correct response aloud."
+    }
+  ],
+  "quiz": {
+    "id": "rules-road-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What is the national speed limit for cars on a single carriageway road?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "50 mph",
+            "explanation": "50 mph applies only where signed—national limit is different."
+          },
+          {
+            "id": "q1o2",
+            "label": "60 mph",
+            "correct": true,
+            "explanation": "For cars, single carriageways default to 60 mph unless signs show otherwise."
+          },
+          {
+            "id": "q1o3",
+            "label": "70 mph",
+            "explanation": "70 mph is the limit for dual carriageways and motorways unless signed otherwise."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "You reach an unmarked crossroads at the same time as another vehicle. Who has priority?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "The vehicle on your right",
+            "explanation": "No one automatically has priority—treat with caution."
+          },
+          {
+            "id": "q2o2",
+            "label": "You do if you’re on the larger road",
+            "explanation": "Without signs or markings, there is no ‘larger road’ priority."
+          },
+          {
+            "id": "q2o3",
+            "label": "Neither driver; approach slowly and be prepared to stop",
+            "correct": true,
+            "explanation": "Unmarked crossroads require cooperation—communicate and proceed safely."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "When must you stop at a pedestrian crossing controlled by a school crossing patrol?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Only if children are present",
+            "explanation": "You must stop when the patrol shows the STOP sign, regardless of whether children are already on the crossing."
+          },
+          {
+            "id": "q3o2",
+            "label": "Only during school hours",
+            "explanation": "The sign is enforceable whenever displayed."
+          },
+          {
+            "id": "q3o3",
+            "label": "Whenever the patrol steps into the road with a STOP sign",
+            "correct": true,
+            "explanation": "Failing to stop is an offence and endangers the patrol and children."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "Which of these documents must you have before driving on public roads?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "A valid insurance policy for the vehicle",
+            "correct": true,
+            "explanation": "Driving without insurance is illegal and can lead to severe penalties."
+          },
+          {
+            "id": "q4o2",
+            "label": "A spare set of number plates",
+            "explanation": "Not required by law."
+          },
+          {
+            "id": "q4o3",
+            "label": "A signed permission letter from a supervisor",
+            "explanation": "Learners need a suitable supervisor, but no letter is required."
+          }
+        ]
+      }
+    ]
+  }
+}

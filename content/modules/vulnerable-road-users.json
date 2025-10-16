@@ -1,0 +1,188 @@
+{
+  "slug": "vulnerable-road-users",
+  "title": "Vulnerable Road Users: Protect Everyone Sharing the Road",
+  "summary": "Understand the needs of pedestrians, cyclists, horse riders, and more so you can plan safe, respectful interactions.",
+  "estimatedDuration": "21 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Users",
+    "Scenarios",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Vulnerable Users Need Extra Care",
+      "body": "People outside of vehicles have less protection and may behave unpredictably. Prioritising them keeps journeys safe and aligns with the Highway Code’s hierarchy of road users."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Hierarchy of road users: those who can cause the greatest harm have the greatest responsibility to reduce danger.",
+        "Give cyclists at least 1.5 m clearance at speeds up to 30 mph and more when faster or in bad weather.",
+        "Rule 215–222: Pass horse riders slowly (max 10 mph) and with wide clearance; be prepared to stop."
+      ]
+    },
+    {
+      "id": "user-groups",
+      "title": "Key Vulnerable Groups",
+      "items": [
+        "Pedestrians: especially children, older people, and those with reduced mobility or visibility.",
+        "Cyclists and e-scooter riders: may wobble to avoid drains or potholes.",
+        "Motorcyclists: accelerate and brake quickly—check mirrors before turning or changing lanes.",
+        "Horse riders: animals can be startled by noise or sudden movement—follow their signals."
+      ]
+    },
+    {
+      "id": "scenarios",
+      "title": "High-Alert Scenarios",
+      "items": [
+        "Approaching zebra and parallel crossings—be ready to stop even if pedestrians have not stepped off yet.",
+        "Cyclists filtering on the left in traffic—check mirrors and blind spots before moving off or turning.",
+        "Residential streets—expect children to appear between parked cars, especially near schools.",
+        "Rural lanes—look for mud or horse droppings that indicate riders ahead."
+      ]
+    },
+    {
+      "id": "communication",
+      "title": "Safe Communication",
+      "body": "Use eye contact, gentle signals, and clear positioning to show your intentions. Avoid revving or using the horn unless warning of immediate danger."
+    }
+  ],
+  "checklist": [
+    {
+      "id": "hierarchy",
+      "label": "I follow the hierarchy of road users and give priority to those most at risk."
+    },
+    {
+      "id": "passing-distance",
+      "label": "I leave at least 1.5 m when overtaking cyclists and more at higher speeds."
+    },
+    {
+      "id": "horse-care",
+      "label": "I slow to 10 mph or less and pass horses calmly, ready to stop if signalled."
+    },
+    {
+      "id": "blind-spot",
+      "label": "I check mirrors and blind spots for filtering riders before turning or moving off."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "observe-crossings",
+      "label": "Crossing watch",
+      "detail": "Spend ten minutes observing a busy crossing. Notice how pedestrians communicate and how drivers show they’re yielding."
+    },
+    {
+      "id": "theo-courtesy",
+      "label": "Theo’s courtesy wave",
+      "detail": "If someone lets you pass, raise a hand to thank them. Courtesy builds goodwill and keeps stress low.",
+      "tone": "theo"
+    },
+    {
+      "id": "cycling-perspective",
+      "label": "Ride or walk the route",
+      "detail": "Experience your usual driving route on foot or by bike. You’ll notice pinch points and visibility challenges to plan for when driving."
+    }
+  ],
+  "quiz": {
+    "id": "vulnerable-users-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What clearance should you give when overtaking cyclists at up to 30 mph?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "At least 1 metre",
+            "explanation": "DVSA guidance specifies a minimum of 1.5 m under 30 mph."
+          },
+          {
+            "id": "q1o2",
+            "label": "At least 1.5 metres",
+            "correct": true,
+            "explanation": "1.5 m gives cyclists space to wobble or avoid potholes safely."
+          },
+          {
+            "id": "q1o3",
+            "label": "Whatever space is available without crossing the centre line",
+            "explanation": "If you cannot leave 1.5 m, wait. Overtaking too close is unsafe and can be illegal."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "How should you pass a horse and rider?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Use the horn to warn them and pass at normal speed",
+            "explanation": "Loud noise may startle the horse and cause loss of control."
+          },
+          {
+            "id": "q2o2",
+            "label": "Slow to 10 mph or less, give plenty of room, and be prepared to stop",
+            "correct": true,
+            "explanation": "Follow the Highway Code guidance to keep the rider and horse safe."
+          },
+          {
+            "id": "q2o3",
+            "label": "Drive close so the horse can’t move into your lane",
+            "explanation": "Crowding a horse is dangerous; they may kick out or panic."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "You’re turning left at a junction and suspect a cyclist may be on your inside. What should you do?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Turn quickly before they reach you",
+            "explanation": "Turning across a cyclist risks a collision and is a common serious fault."
+          },
+          {
+            "id": "q3o2",
+            "label": "Check mirrors and blind spots, signal early, and wait if the cyclist is alongside",
+            "correct": true,
+            "explanation": "Only turn when you’re sure the space is clear."
+          },
+          {
+            "id": "q3o3",
+            "label": "Assume they will stop and continue",
+            "explanation": "Never assume—cyclists may be in your blind spot and have priority when ahead."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "Why is the hierarchy of road users important?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "It tells you who has the right to break traffic laws",
+            "explanation": "No one is allowed to break traffic laws."
+          },
+          {
+            "id": "q4o2",
+            "label": "It reminds drivers they carry the greatest responsibility to protect others",
+            "correct": true,
+            "explanation": "Drivers can cause more harm, so they must take extra care around vulnerable people."
+          },
+          {
+            "id": "q4o3",
+            "label": "It allows drivers to claim priority over pedestrians",
+            "explanation": "The hierarchy does the opposite—pedestrians are at the top and must be protected."
+          }
+        ]
+      }
+    ]
+  }
+}

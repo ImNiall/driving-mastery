@@ -1,0 +1,186 @@
+{
+  "slug": "incidents-accidents-emergencies",
+  "title": "Incidents, Accidents & Emergencies: Stay Calm Under Pressure",
+  "summary": "Know what to do when things go wrong—from breakdowns to collisions—so you keep people safe and comply with the law.",
+  "estimatedDuration": "22 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Breakdowns",
+    "Collisions",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Emergency Knowledge Matters",
+      "body": "When incidents happen, your preparation keeps everyone calm and safe. Knowing the steps in advance means you can focus on helping rather than panicking."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Use the DR ABC (Danger, Response, Airway, Breathing, Circulation) approach when helping injured people.",
+        "Stop at the scene of any collision you’re involved in and exchange details.",
+        "Never move injured people unless there’s an immediate danger, such as fire."
+      ]
+    },
+    {
+      "id": "breakdown",
+      "title": "Breakdowns and Vehicle Fires",
+      "items": [
+        "On motorways, try to reach a service area or exit. If not possible, pull onto the hard shoulder or an emergency refuge area and exit the vehicle from the passenger side.",
+        "Use hazard warning lights and, if safe, place a warning triangle at least 45 metres behind on non-motorway roads.",
+        "If you smell smoke or see flames, move passengers to a safe distance and call 999—don’t open the bonnet."
+      ]
+    },
+    {
+      "id": "collisions",
+      "title": "After a Collision",
+      "body": "Check for injuries, call emergency services if needed, and provide first aid if trained. Exchange names, addresses, insurance details, and vehicle registration numbers. Take photos and gather witness information for insurance claims."
+    },
+    {
+      "id": "reporting",
+      "title": "Reporting Obligations",
+      "items": [
+        "Report the collision to the police within 24 hours if you did not exchange details at the scene.",
+        "Inform your insurance company, even if you do not plan to claim.",
+        "If dangerous goods are involved, follow specific emergency instructions and keep clear."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "hazards-safe",
+      "label": "I know how to secure the scene with hazard lights and warning triangles."
+    },
+    {
+      "id": "first-aid",
+      "label": "I remember the DR ABC routine before assisting casualties."
+    },
+    {
+      "id": "details",
+      "label": "I know which details to exchange and when to inform the police."
+    },
+    {
+      "id": "breakdown-plan",
+      "label": "I have a breakdown plan, including emergency contacts and recovery cover."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "first-aid-video",
+      "label": "First-aid refresher",
+      "detail": "Watch a St John Ambulance or British Red Cross video on basic first aid for road users."
+    },
+    {
+      "id": "theo-check",
+      "label": "Theo’s glovebox check",
+      "detail": "Keep reflective vests, a basic first-aid kit, and a charged torch in your glovebox or boot. Check them monthly.",
+      "tone": "theo"
+    },
+    {
+      "id": "scenario-drill",
+      "label": "Scenario drill",
+      "detail": "Talk through what you’d do if you broke down on a smart motorway. Visualising the steps builds confidence."
+    }
+  ],
+  "quiz": {
+    "id": "incidents-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "You break down on a smart motorway without a hard shoulder. What’s your first priority?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Stay in the car with seat belts on",
+            "explanation": "Staying in the car puts you at risk if another vehicle collides with you."
+          },
+          {
+            "id": "q1o2",
+            "label": "Move to a safe place behind the barrier and call for help",
+            "correct": true,
+            "explanation": "Exit via the passenger side, get behind the barrier, and call National Highways."
+          },
+          {
+            "id": "q1o3",
+            "label": "Try to push the car to the next junction",
+            "explanation": "Pushing the car on a motorway is dangerous and illegal."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "What information should you swap after a collision?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Only your phone number",
+            "explanation": "You must provide name, address, and vehicle details at minimum."
+          },
+          {
+            "id": "q2o2",
+            "label": "Name, address, insurance details, and vehicle registration numbers",
+            "correct": true,
+            "explanation": "Collecting full details supports insurance and police reports."
+          },
+          {
+            "id": "q2o3",
+            "label": "The speed you were travelling",
+            "explanation": "Speed is not a required detail, though insurers may ask later."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "When should you call emergency services after a collision?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Only if someone asks you to",
+            "explanation": "Call if there are injuries, blockages, or hazards—don’t wait for permission."
+          },
+          {
+            "id": "q3o2",
+            "label": "If anyone is injured, the road is blocked, or you suspect drink/drug use",
+            "correct": true,
+            "explanation": "Emergency services must be alerted in serious situations."
+          },
+          {
+            "id": "q3o3",
+            "label": "Never—let insurers handle it",
+            "explanation": "Emergency services are vital for injuries and road safety."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "What does the DR ABC mnemonic stand for?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Drive, Reverse, Accelerate, Brake, Control",
+            "explanation": "DR ABC is a first-aid mnemonic, not a driving sequence."
+          },
+          {
+            "id": "q4o2",
+            "label": "Danger, Response, Airway, Breathing, Circulation",
+            "correct": true,
+            "explanation": "Use DR ABC to assess casualties safely."
+          },
+          {
+            "id": "q4o3",
+            "label": "Driver, Road, Airbags, Battery, Coolant",
+            "explanation": "This does not describe the first-aid steps."
+          }
+        ]
+      }
+    ]
+  }
+}

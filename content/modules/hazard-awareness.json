@@ -1,0 +1,186 @@
+{
+  "slug": "hazard-awareness",
+  "title": "Hazard Awareness: Spot It, Plan It, Avoid It",
+  "summary": "Train your eyes and mind to recognise developing hazards early and create safe plans before they escalate.",
+  "estimatedDuration": "24 min",
+  "difficulty": "Intermediate",
+  "progress": 0,
+  "stepIndex": 0,
+  "steps": [
+    "Overview",
+    "DVSA Essentials",
+    "Hazards",
+    "Planning",
+    "Checklist",
+    "Test"
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Why Hazard Awareness Matters",
+      "body": "Every hazard you spot early is an incident avoided. DVSA hazard perception clips reward anticipation, not reaction."
+    },
+    {
+      "id": "dvsa-essentials",
+      "title": "DVSA Essentials",
+      "items": [
+        "Developing hazards are things that will cause you to change speed or direction if they continue.",
+        "Use mirrors before every change in speed or position to check who is affected by your response.",
+        "Slow down and cover the brake when your view is limited—bends, junctions, and brows of hills."
+      ]
+    },
+    {
+      "id": "hazard-types",
+      "title": "Common Hazard Types",
+      "items": [
+        "Static hazards: parked vehicles, roadworks, traffic calming measures.",
+        "Moving hazards: cyclists, pedestrians stepping between cars, merging traffic.",
+        "Environmental hazards: rain, glare, debris, animals, or mud on the road."
+      ]
+    },
+    {
+      "id": "planning-ahead",
+      "title": "Planning a Safe Response",
+      "body": "Ask ‘What might happen next?’ and decide your plan early. Options include changing road position, easing off the accelerator, and preparing to brake. Smooth planning keeps passengers comfortable and avoids panic stops."
+    },
+    {
+      "id": "high-risk-scenarios",
+      "title": "High-Risk Scenarios",
+      "items": [
+        "Children near crossings or school gates—expect sudden movement.",
+        "Country roads with hidden entrances—use the limit point of vision and keep speeds moderate.",
+        "Night-time or dusk drives—look for reflections of lights on wet surfaces indicating hidden vehicles or pedestrians."
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "what-if",
+      "label": "I constantly ask ‘What if?’ to stay ahead of developing hazards."
+    },
+    {
+      "id": "mirror-use",
+      "label": "I check mirrors before changing speed or position in response to hazards."
+    },
+    {
+      "id": "speed-plan",
+      "label": "I reduce speed early when my view is limited or hazards are likely."
+    },
+    {
+      "id": "hazard-journal",
+      "label": "I review recent drives and note hazards I spotted early or late."
+    }
+  ],
+  "practiceTips": [
+    {
+      "id": "clip-practice",
+      "label": "Clip training",
+      "detail": "Use official DVSA hazard perception clips. Aim to click once when you see the hazard developing, then again if it continues."
+    },
+    {
+      "id": "theo-hazard",
+      "label": "Theo’s street scan",
+      "detail": "On walks, predict what each person, vehicle, or animal could do. The habit transfers directly into the driver’s seat.",
+      "tone": "theo"
+    },
+    {
+      "id": "journalling",
+      "label": "Hazard journal",
+      "detail": "After lessons, jot down three hazards you handled well and one to improve. Review before your next drive to stay intentional."
+    }
+  ],
+  "quiz": {
+    "id": "hazard-awareness-quiz",
+    "title": "Check your understanding",
+    "questions": [
+      {
+        "id": "q1",
+        "prompt": "What is a developing hazard?",
+        "options": [
+          {
+            "id": "q1o1",
+            "label": "Any object you can see on the road",
+            "explanation": "Not everything you see forces a change in your plan."
+          },
+          {
+            "id": "q1o2",
+            "label": "Something that will cause you to change speed or direction",
+            "correct": true,
+            "explanation": "DVSA defines developing hazards this way—spotting them early keeps you safe."
+          },
+          {
+            "id": "q1o3",
+            "label": "Only other moving vehicles",
+            "explanation": "Static hazards like roadworks can become developing hazards too."
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "prompt": "You see a ball roll into the road between parked cars. What should you do?",
+        "options": [
+          {
+            "id": "q2o1",
+            "label": "Sound the horn and keep driving at the same speed",
+            "explanation": "A child may follow—driving on risks a collision."
+          },
+          {
+            "id": "q2o2",
+            "label": "Slow down and be prepared to stop",
+            "correct": true,
+            "explanation": "Expect a child to follow the ball. Reducing speed keeps you ready to stop safely."
+          },
+          {
+            "id": "q2o3",
+            "label": "Speed up to pass the area quickly",
+            "explanation": "Accelerating reduces your reaction window and is unsafe."
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "prompt": "When approaching a concealed junction on a country lane, what’s the safest plan?",
+        "options": [
+          {
+            "id": "q3o1",
+            "label": "Move to the centre of the road to see better",
+            "explanation": "Moving out may put you in the path of oncoming traffic."
+          },
+          {
+            "id": "q3o2",
+            "label": "Slow down, keep to the left, and prepare to stop",
+            "correct": true,
+            "explanation": "Reducing speed and keeping a safe position protects you from unexpected traffic emerging."
+          },
+          {
+            "id": "q3o3",
+            "label": "Flash your headlights to warn others",
+            "explanation": "Flashing could confuse other drivers and doesn’t manage your own risk."
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "prompt": "How can you reduce the risk of missing hazards at night?",
+        "options": [
+          {
+            "id": "q4o1",
+            "label": "Drive faster so you spend less time in darkness",
+            "explanation": "Higher speeds give you less time to react to limited visibility."
+          },
+          {
+            "id": "q4o2",
+            "label": "Use dipped headlights, keep windows clean, and scan for reflections",
+            "correct": true,
+            "explanation": "Clean glass and careful scanning help you see hazards earlier in low light."
+          },
+          {
+            "id": "q4o3",
+            "label": "Avoid using mirrors because they cause glare",
+            "explanation": "Mirrors remain essential—glare can be managed by adjusting the anti-dazzle setting."
+          }
+        ]
+      }
+    ]
+  }
+}
