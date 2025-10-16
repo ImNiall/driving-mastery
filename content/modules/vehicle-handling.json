@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "Don’t brake at all",
             "explanation": "You may need to reduce speed—plan early rather than relying on luck."
+          },
+          {
+            "id": "q1o4",
+            "label": "Brake sharply just before you exit the bend",
+            "explanation": "Late, sharp braking destabilises the car and can cause understeer."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "Never—it’s not allowed on test",
             "explanation": "DVSA examiners expect smart gear choices, including block changes when appropriate."
+          },
+          {
+            "id": "q2o4",
+            "label": "Only when driving an automatic car",
+            "explanation": "Block gear changes apply to manual transmissions—automatics handle ratios themselves."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "Hold the car with the clutch only",
             "explanation": "Riding the clutch overheats it and gives less control."
+          },
+          {
+            "id": "q3o4",
+            "label": "Release the handbrake and rely on the parking brake to catch you",
+            "explanation": "The parking brake is the handbrake—once released, there’s nothing left to hold the car."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Pump the brakes rapidly",
             "explanation": "Pumping is for cars without ABS—modern systems already pulse the brakes for you."
+          },
+          {
+            "id": "q4o4",
+            "label": "Change down a gear immediately",
+            "explanation": "Focus on braking and steering; changing gear mid-emergency wastes valuable time."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You’re descending a long, steep hill. How should you control your speed?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Select a lower gear and use the brakes gently",
+            "correct": true,
+            "explanation": "Engine braking plus light brake pressure prevents overheating and keeps speed in check."
+          },
+          {
+            "id": "q5o2",
+            "label": "Coast in neutral to save fuel",
+            "explanation": "Coasting removes engine braking and reduces control—stay in gear."
+          },
+          {
+            "id": "q5o3",
+            "label": "Hold the clutch down and rely on the brakes alone",
+            "explanation": "Keeping the clutch down removes engine braking and risks brake fade."
+          },
+          {
+            "id": "q5o4",
+            "label": "Accelerate intermittently to keep momentum",
+            "explanation": "Speeding up on a descent is unsafe and increases stopping distance."
           }
         ]
       }

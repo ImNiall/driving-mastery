@@ -113,6 +113,11 @@
             "label": "Signal and pull over where it’s safe, without mounting the kerb or breaking red lights",
             "correct": true,
             "explanation": "Give emergency vehicles space, but only when it is safe and legal to do so."
+          },
+          {
+            "id": "q1o4",
+            "label": "Stop wherever you are, even on a junction or roundabout",
+            "explanation": "Stopping in an unsafe place can block the emergency vehicle and put others at risk."
           }
         ]
       },
@@ -135,6 +140,11 @@
             "label": "Maintain a steady speed and increase the gap ahead so you can slow gradually if needed",
             "correct": true,
             "explanation": "Creating extra space ahead keeps you and your passengers safe while discouraging tailgating."
+          },
+          {
+            "id": "q2o4",
+            "label": "Switch on your hazard lights to warn them off",
+            "explanation": "Hazard lights are for warning of actual hazards or queuing traffic, not disciplining other drivers."
           }
         ]
       },
@@ -157,6 +167,11 @@
             "id": "q3o3",
             "label": "Turn the radio up loud to distract yourself",
             "explanation": "Loud music won’t resolve stress and may distract you from hazards."
+          },
+          {
+            "id": "q3o4",
+            "label": "Grab a strong coffee and hope your mood improves on the move",
+            "explanation": "Caffeine can mask tension temporarily but doesn’t tackle the underlying stress before you drive."
           }
         ]
       },
@@ -179,6 +194,38 @@
             "id": "q4o3",
             "label": "Overtake immediately, regardless of road markings",
             "explanation": "Dangerous overtakes risk collisions and are unlawful."
+          },
+          {
+            "id": "q4o4",
+            "label": "Flash your headlights and gesture for them to hurry up",
+            "explanation": "Aggressive signals escalate tension and can distract the other driver from the road."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You reach a queue where two lanes merge into one. How should you show a positive driving attitude?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Close the gap so nobody from the other lane can merge",
+            "explanation": "Blocking others causes frustration and can lead to dangerous last-minute manoeuvres."
+          },
+          {
+            "id": "q5o2",
+            "label": "Allow one vehicle from the other lane to merge in turn",
+            "correct": true,
+            "explanation": "Merging in turn keeps traffic flowing smoothly and shows consideration for others."
+          },
+          {
+            "id": "q5o3",
+            "label": "Sound your horn to tell others you have priority",
+            "explanation": "The horn is for warning of danger, not claiming priority in queues."
+          },
+          {
+            "id": "q5o4",
+            "label": "Accelerate hard to get ahead before the lane ends",
+            "explanation": "Racing for space can cause collisions and contradicts the courteous attitude expected by the DVSA."
           }
         ]
       }

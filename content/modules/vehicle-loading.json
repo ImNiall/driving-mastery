@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "So the boot looks tidy",
             "explanation": "A tidy boot is nice, but the goal is vehicle stability."
+          },
+          {
+            "id": "q1o4",
+            "label": "Because the law says all items must be stacked high",
+            "explanation": "There’s no rule to stack items high—keep weight low and centred for stability."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "Switch off your indicators to save power",
             "explanation": "Indicators are essential—many trailers have repeaters."
+          },
+          {
+            "id": "q2o4",
+            "label": "Reduce your tyre pressures to soften the ride",
+            "explanation": "Use the recommended towing pressures—underinflated tyres overheat and wear quickly."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "Your insurance renewal date",
             "explanation": "Insurance details aren’t on the VIN plate."
+          },
+          {
+            "id": "q3o4",
+            "label": "The best fuel for motorway driving",
+            "explanation": "Fuel type guidance appears elsewhere—the VIN plate focuses on weight limits."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Open the sunroof for extra ventilation",
             "explanation": "Ventilation isn’t the issue—security is."
+          },
+          {
+            "id": "q4o4",
+            "label": "Leave straps slightly loose to avoid damage",
+            "explanation": "Loose straps let the load shift and can make the vehicle unstable."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "After coupling a trailer to your car, what checks should you carry out before moving off?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Confirm the breakaway cable is attached, the lights work, and the load is secure",
+            "correct": true,
+            "explanation": "These checks ensure the trailer stays connected and visible to other drivers."
+          },
+          {
+            "id": "q5o2",
+            "label": "Only check your mirrors because the trailer is already secure",
+            "explanation": "Mirrors matter, but you must also check the coupling, cable, lights, and load."
+          },
+          {
+            "id": "q5o3",
+            "label": "Release the handbrake and rely on the trailer to stabilise the car",
+            "explanation": "The trailer needs to be secure before you release the handbrake—never rely on it for stability."
+          },
+          {
+            "id": "q5o4",
+            "label": "Deflate the trailer tyres so it sits lower",
+            "explanation": "Tyres must be at the correct pressure to carry the load safely."
           }
         ]
       }

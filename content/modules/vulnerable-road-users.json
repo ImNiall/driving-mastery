@@ -114,6 +114,11 @@
             "id": "q1o3",
             "label": "Whatever space is available without crossing the centre line",
             "explanation": "If you cannot leave 1.5 m, wait. Overtaking too close is unsafe and can be illegal."
+          },
+          {
+            "id": "q1o4",
+            "label": "Half a metre if the cyclist is wearing bright clothing",
+            "explanation": "Visibility doesn’t reduce the clearance you must give—1.5 m is the minimum."
           }
         ]
       },
@@ -136,6 +141,11 @@
             "id": "q2o3",
             "label": "Drive close so the horse can’t move into your lane",
             "explanation": "Crowding a horse is dangerous; they may kick out or panic."
+          },
+          {
+            "id": "q2o4",
+            "label": "Pass between the horse and the kerb to protect oncoming traffic",
+            "explanation": "Never squeeze through—give the horse a wide berth and wait if necessary."
           }
         ]
       },
@@ -158,6 +168,11 @@
             "id": "q3o3",
             "label": "Assume they will stop and continue",
             "explanation": "Never assume—cyclists may be in your blind spot and have priority when ahead."
+          },
+          {
+            "id": "q3o4",
+            "label": "Sound your horn to warn them you’re turning",
+            "explanation": "Using the horn can startle cyclists—wait until the turn is safe instead."
           }
         ]
       },
@@ -180,6 +195,38 @@
             "id": "q4o3",
             "label": "It allows drivers to claim priority over pedestrians",
             "explanation": "The hierarchy does the opposite—pedestrians are at the top and must be protected."
+          },
+          {
+            "id": "q4o4",
+            "label": "It lists which roads are most important",
+            "explanation": "The hierarchy focuses on protecting people, not ranking roads."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You approach a zebra crossing where pedestrians are waiting at the kerb. What should you do?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Slow down, be prepared to stop, and allow them to cross",
+            "correct": true,
+            "explanation": "Drivers must give way once pedestrians show intent to cross at a zebra crossing."
+          },
+          {
+            "id": "q5o2",
+            "label": "Maintain speed if the pedestrians haven’t stepped onto the crossing",
+            "explanation": "Failing to slow could endanger them—be ready to stop."
+          },
+          {
+            "id": "q5o3",
+            "label": "Flash your headlights to tell them to wait",
+            "explanation": "Flashing headlights can confuse pedestrians; instead, slow down and stop."
+          },
+          {
+            "id": "q5o4",
+            "label": "Sound the horn and continue",
+            "explanation": "The horn should not be used to demand priority over pedestrians."
           }
         ]
       }

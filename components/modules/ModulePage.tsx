@@ -40,10 +40,15 @@ function calculateQuizProgress(module: Module) {
     if (typeof window === "undefined") return 0;
     const raw = window.localStorage.getItem(`module:${module.slug}:quiz`);
     if (!raw) return 0;
-    const state = JSON.parse(raw) as { answers?: Record<string, string> };
+    const state = JSON.parse(raw) as {
+      answers?: Record<string, string>;
+      questionOrder?: string[];
+    };
     const answered = Object.keys(state.answers ?? {}).length;
-    const total = module.quiz.questions.length || 1;
-    return Math.round((answered / total) * 100);
+    const total =
+      state.questionOrder?.length || module.quiz.questions.length || 1;
+    const safeTotal = total || 1;
+    return Math.round((Math.min(answered, safeTotal) / safeTotal) * 100);
   } catch {
     return 0;
   }

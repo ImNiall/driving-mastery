@@ -111,6 +111,11 @@
             "id": "q1o3",
             "label": "Swerve into the right-hand lane immediately",
             "explanation": "Changing lanes without planning may put you in conflict with faster traffic."
+          },
+          {
+            "id": "q1o4",
+            "label": "Sound your horn repeatedly to alert other drivers",
+            "explanation": "The horn is only for warning of immediate danger; planning ahead calmly keeps everyone safer."
           }
         ]
       },
@@ -133,6 +138,11 @@
             "id": "q2o3",
             "label": "Whenever you approach traffic lights",
             "explanation": "Traffic lights do not require a blind-spot check unless you plan to move sideways."
+          },
+          {
+            "id": "q2o4",
+            "label": "Only when you think a cyclist might be nearby",
+            "explanation": "Blind spots must be checked every time you move laterally because vulnerable road users can appear quickly."
           }
         ]
       },
@@ -155,6 +165,11 @@
             "id": "q3o3",
             "label": "Drink more caffeinated drinks than usual",
             "explanation": "Caffeine may mask fatigue briefly but does not remove the underlying risk."
+          },
+          {
+            "id": "q3o4",
+            "label": "Drive later at night when the roads are quieter",
+            "explanation": "Night-time driving when tired increases risk; the DVSA advises resting before continuing."
           }
         ]
       },
@@ -177,6 +192,11 @@
             "id": "q4o3",
             "label": "Slow down sharply then change it",
             "explanation": "Braking sharply distracts following traffic and may cause rear-end collisions."
+          },
+          {
+            "id": "q4o4",
+            "label": "Balance the sat-nav on your lap and glance down when it’s safe",
+            "explanation": "Looking down at a device diverts your attention from the road and creates avoidable danger."
           }
         ]
       },
@@ -199,6 +219,11 @@
             "id": "q5o3",
             "label": "Every time you accelerate hard",
             "explanation": "Accelerating hard should be avoided unless absolutely necessary, and mirror checks must be more frequent than that."
+          },
+          {
+            "id": "q5o4",
+            "label": "Mainly when joining motorways or dual carriageways",
+            "explanation": "Regular mirror checks are needed on every road type, not just high-speed ones."
           }
         ]
       }

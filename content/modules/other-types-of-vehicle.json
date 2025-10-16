@@ -113,6 +113,11 @@
             "id": "q1o3",
             "label": "Because the driver is unsure where to turn",
             "explanation": "Professional drivers plan turns carefully—the movement is deliberate."
+          },
+          {
+            "id": "q1o4",
+            "label": "To let you undertake them on the left",
+            "explanation": "Never pass between a large vehicle and the kerb; they may swing back in."
           }
         ]
       },
@@ -135,6 +140,11 @@
             "id": "q2o3",
             "label": "When the tractor slows at any junction",
             "explanation": "They may be turning—overtaking here is dangerous."
+          },
+          {
+            "id": "q2o4",
+            "label": "Whenever oncoming traffic flashes to let you pass",
+            "explanation": "Only overtake with a clear view; never rely solely on another driver’s signal."
           }
         ]
       },
@@ -157,6 +167,11 @@
             "id": "q3o3",
             "label": "Sound your horn so the bus knows you’re there",
             "explanation": "Use the horn only to warn of danger."
+          },
+          {
+            "id": "q3o4",
+            "label": "Overtake on the left before it pulls away",
+            "explanation": "Undertaking a bus at a stop is risky—passengers may step out and the bus may move off."
           }
         ]
       },
@@ -179,6 +194,38 @@
             "id": "q4o3",
             "label": "Stop on the tracks to check for trams",
             "explanation": "Never stop on the rails—you must ensure your exit is clear before crossing."
+          },
+          {
+            "id": "q4o4",
+            "label": "Accelerate quickly to clear the crossing regardless of signals",
+            "explanation": "Ignoring tram signals can put you directly in the path of an approaching tram."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You approach a large vehicle displaying flashing amber beacons on a dual carriageway. What should you do?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Slow down, keep well back, and follow any instructions or road signs",
+            "correct": true,
+            "explanation": "Amber beacons warn of a slow-moving or stationary vehicle—give it plenty of room."
+          },
+          {
+            "id": "q5o2",
+            "label": "Overtake immediately on whichever side has space",
+            "explanation": "You may encounter workers or debris—wait until it’s clearly safe and legal to pass."
+          },
+          {
+            "id": "q5o3",
+            "label": "Sound the horn repeatedly so they know you’re behind",
+            "explanation": "Use the horn only if there’s danger—not to hurry other road users."
+          },
+          {
+            "id": "q5o4",
+            "label": "Flash your headlights to make them move over",
+            "explanation": "Flashing may dazzle the driver and won’t change their need for extra space."
           }
         ]
       }

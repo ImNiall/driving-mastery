@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "One second because the lorry is slow",
             "explanation": "Reducing the gap makes spray worse and removes your stopping space."
+          },
+          {
+            "id": "q1o4",
+            "label": "Three seconds if you have ABS",
+            "explanation": "ABS helps with steering control but you still need a four-second gap in the wet."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "So you can use full beam more often",
             "explanation": "Full beam must be dipped for oncoming traffic regardless of distance."
+          },
+          {
+            "id": "q2o4",
+            "label": "Because the speed limit is lower at night",
+            "explanation": "Speed limits stay the same—longer gaps are about visibility, not limit changes."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "Brake firmly and hold the pedal down",
             "explanation": "Heavy braking can lock wheels and make the skid worse, even with ABS."
+          },
+          {
+            "id": "q3o4",
+            "label": "Steer sharply towards the kerb",
+            "explanation": "Sudden steering inputs can cause a spin—keep movements smooth while the tyres regain grip."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "It makes no difference if you have ABS",
             "explanation": "ABS helps steering control but cannot defy physics—leave more room."
+          },
+          {
+            "id": "q4o4",
+            "label": "It reduces it because engine braking increases",
+            "explanation": "A heavy load adds momentum; it doesn’t improve stopping ability."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "You’re driving on a road covered in ice. What gap should you leave from the vehicle in front?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "At least ten times the normal distance",
+            "correct": true,
+            "explanation": "Icy conditions need a huge gap so you can slow down gently without skidding."
+          },
+          {
+            "id": "q5o2",
+            "label": "The usual two-second gap",
+            "explanation": "Two seconds is far too short on ice—you risk sliding into the vehicle ahead."
+          },
+          {
+            "id": "q5o3",
+            "label": "Half the normal distance because you’re travelling slowly",
+            "explanation": "Reduced speed doesn’t cancel the longer stopping distance needed on ice."
+          },
+          {
+            "id": "q5o4",
+            "label": "Whatever gap the car behind leaves",
+            "explanation": "Base your gap on conditions, not on what drivers behind choose to do."
           }
         ]
       }

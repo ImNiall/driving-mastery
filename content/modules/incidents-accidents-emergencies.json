@@ -112,6 +112,11 @@
             "id": "q1o3",
             "label": "Try to push the car to the next junction",
             "explanation": "Pushing the car on a motorway is dangerous and illegal."
+          },
+          {
+            "id": "q1o4",
+            "label": "Run down the carriageway to find the nearest phone",
+            "explanation": "Stay near your vehicle behind the barrier and use an emergency phone or your mobile."
           }
         ]
       },
@@ -134,6 +139,11 @@
             "id": "q2o3",
             "label": "The speed you were travelling",
             "explanation": "Speed is not a required detail, though insurers may ask later."
+          },
+          {
+            "id": "q2o4",
+            "label": "Your bank account details",
+            "explanation": "Never share financial information—focus on identity and insurance details."
           }
         ]
       },
@@ -156,6 +166,11 @@
             "id": "q3o3",
             "label": "Never—let insurers handle it",
             "explanation": "Emergency services are vital for injuries and road safety."
+          },
+          {
+            "id": "q3o4",
+            "label": "Only if the damage seems expensive",
+            "explanation": "Cost isn’t the trigger—call if there are injuries, obstructions, or suspected offences."
           }
         ]
       },
@@ -178,6 +193,38 @@
             "id": "q4o3",
             "label": "Driver, Road, Airbags, Battery, Coolant",
             "explanation": "This does not describe the first-aid steps."
+          },
+          {
+            "id": "q4o4",
+            "label": "Danger, Rescue, Ambulance, Breathing, CPR",
+            "explanation": "This mixes steps from different mnemonics—use DR ABC to assess safely."
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "prompt": "Your vehicle breaks down on a two-way road (not a motorway). How should you warn other drivers?",
+        "options": [
+          {
+            "id": "q5o1",
+            "label": "Place a warning triangle at least 45 metres (147 feet) behind your vehicle on the same side",
+            "correct": true,
+            "explanation": "Positioning the triangle well back gives approaching traffic time to react."
+          },
+          {
+            "id": "q5o2",
+            "label": "Stand behind the vehicle and wave your arms",
+            "explanation": "Standing in the carriageway puts you at serious risk—keep yourself safe."
+          },
+          {
+            "id": "q5o3",
+            "label": "Leave your headlights on full beam",
+            "explanation": "Full beam can dazzle drivers; hazard lights and a warning triangle are better."
+          },
+          {
+            "id": "q5o4",
+            "label": "Place the triangle on the roof of your car",
+            "explanation": "Warning triangles must be on the road surface so drivers see them from a distance."
           }
         ]
       }
