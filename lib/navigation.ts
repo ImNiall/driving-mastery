@@ -78,14 +78,6 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     showInSidebar: false,
   },
   {
-    key: "faqs",
-    label: "FAQs",
-    href: "/faqs",
-    icon: ChatIcon,
-    section: "secondary",
-    showInSidebar: false,
-  },
-  {
     key: "memberships",
     label: "Memberships",
     href: "/memberships",
