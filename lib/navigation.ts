@@ -16,7 +16,8 @@ export type DashboardViewKey =
   | "mock-test"
   | "leaderboard"
   | "memberships"
-  | "about";
+  | "about"
+  | "theo";
 
 export type IconComponent = ComponentType<{ className?: string }>;
 
@@ -57,6 +58,15 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     href: "/mock-test",
     dashboardView: "mock-test",
     icon: QuizIcon,
+    requiresAuth: true,
+    section: "primary",
+  },
+  {
+    key: "theo",
+    label: "Theo Mentor",
+    href: "/dashboard?view=theo",
+    dashboardView: "theo",
+    icon: ChatIcon,
     requiresAuth: true,
     section: "primary",
   },

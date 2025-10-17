@@ -94,6 +94,8 @@ function DashboardContent() {
         return <MembershipsDashboardView />;
       case "about":
         return <AboutDashboardView />;
+      case "theo":
+        return <ChatDashboardView />;
       default:
         return null;
     }
@@ -435,8 +437,6 @@ function DashboardContent() {
                   </button>
                 </div>
               </div>
-
-              <ChatDashboardView />
             </>
           ) : (
             <div key={activeView} className="flex-1">
