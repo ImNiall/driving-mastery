@@ -11,11 +11,16 @@ function buildCSP() {
     "'self'",
     "https://*.supabase.co",
     "https://*.supabase.in",
+    "https://api.openai.com",
   ];
   if (isDev)
     connectSrc.push("ws:", "http://localhost:3000", "http://localhost:8888");
 
-  const frameSrc = ["'self'", "https://app.netlify.com"];
+  const frameSrc = [
+    "'self'",
+    "https://app.netlify.com",
+    "https://api.openai.com",
+  ];
 
   return [
     "default-src 'self'",
