@@ -1,31 +1,26 @@
 import type { Metadata } from "next";
-import ChatLanding from "@/components/chat/ChatLanding";
+import ChatKitWidget from "@/components/chat/ChatKitWidget";
 
 export const metadata: Metadata = {
-  title: "Chat | Chat A.I+",
+  title: "Theo AI Mentor",
   description:
-    "Start a new conversation with Chat A.I+ to explore driving theory explanations, study ideas, and revision shortcuts.",
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Chat A.I+",
-  applicationCategory: "EducationalApplication",
-  operatingSystem: "Web",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "GBP" },
-  description:
-    "Chat A.I+ helps UK learner drivers revise theory content, practise questions, and summarise guidance in plain English.",
+    "Chat with Theo, your AI driving mentor powered by OpenAI Agent Builder.",
 };
 
 export default function ChatPage() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <ChatLanding />
-    </>
+    <main className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl flex-col gap-8 px-4 py-8 sm:gap-10 sm:py-12">
+      <section className="space-y-3 text-center sm:space-y-4 md:text-left">
+        <h1 className="text-3xl font-bold text-slate-900 md:text-4xl">
+          Chat with Theo, your AI Mentor
+        </h1>
+        <p className="text-base leading-relaxed text-slate-600 md:text-lg">
+          Theo uses your Driving Mastery progress and DVSA guidance to answer
+          questions, plan revision, and keep you on track for the UK theory
+          test.
+        </p>
+      </section>
+      <ChatKitWidget />
+    </main>
   );
 }
