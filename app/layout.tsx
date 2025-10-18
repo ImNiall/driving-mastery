@@ -19,8 +19,31 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "Driving Mastery",
     type: "website",
+    images: [
+      {
+        url: "/og/default.png",
+        width: 1200,
+        height: 630,
+        alt: "Driving Mastery default share image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Driving Mastery",
+    description:
+      "AI-powered practice tests, micro-learning, and hazard perception training.",
+    images: ["/og/default.png"],
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
 };
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -92,6 +92,21 @@ export default function ChatKitWidget() {
 
   const { control, ref } = useChatKit(options);
 
+  useEffect(() => {
+    console.log("[ChatKitWidget] status", {
+      status,
+      error,
+      domainKeyPresent: Boolean(domainKey),
+    });
+  }, [status, error, domainKey]);
+
+  useEffect(() => {
+    console.log("[ChatKitWidget] control", {
+      hasControl: Boolean(control),
+      hasRef: Boolean(ref?.current),
+    });
+  }, [control, ref]);
+
   if (status === "loading") {
     return (
       <div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-gray-200 bg-white text-sm text-gray-600">
