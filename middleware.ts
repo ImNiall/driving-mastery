@@ -4,7 +4,11 @@ import { NextResponse } from "next/server";
 // Build a CSP that is strict in production but allows eval in development
 function buildCSP() {
   const isDev = process.env.NODE_ENV !== "production";
-  const scriptSrc = ["'self'", "'unsafe-inline'"];
+  const openAiScriptHosts = [
+    "https://cdn.openai.com",
+    "https://chat.openai.com",
+  ];
+  const scriptSrc = ["'self'", "'unsafe-inline'", ...openAiScriptHosts];
   if (isDev) scriptSrc.push("'unsafe-eval'"); // needed for React Refresh / dev tooling
 
   const connectSrc = [
@@ -12,6 +16,11 @@ function buildCSP() {
     "https://*.supabase.co",
     "https://*.supabase.in",
     "https://api.openai.com",
+    "https://chat.openai.com",
+    "https://files.openai.com",
+    "https://cdn.openai.com",
+    "wss://api.openai.com",
+    "wss://chat.openai.com",
   ];
   if (isDev)
     connectSrc.push("ws:", "http://localhost:3000", "http://localhost:8888");
@@ -20,6 +29,7 @@ function buildCSP() {
     "'self'",
     "https://app.netlify.com",
     "https://api.openai.com",
+    "https://chat.openai.com",
   ];
 
   return [
