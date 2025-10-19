@@ -9,6 +9,7 @@ import { ProgressService } from "@/lib/services/progress";
 import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
+  BOTTOM_SIGNED_IN_ITEMS,
   SIGN_OUT_ITEM,
   type DashboardViewKey,
 } from "@/lib/navigation";
@@ -19,6 +20,8 @@ import LeaderboardDashboardView from "@/components/dashboard/LeaderboardDashboar
 import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboardView";
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
 import ChatDashboardView from "@/components/dashboard/ChatDashboardView";
+import ProfilePageClient from "@/app/profile/page.client";
+import StudyGroupsPageClient from "@/app/study-groups/page.client";
 import { Menu } from "lucide-react";
 
 function DashboardContent() {
@@ -56,10 +59,14 @@ function DashboardContent() {
 
   const primaryNavItems = React.useMemo(() => PRIMARY_SIGNED_IN_ITEMS, []);
   const secondaryNavItems = React.useMemo(() => SECONDARY_SIGNED_IN_ITEMS, []);
+  const bottomNavItems = React.useMemo(
+    () => BOTTOM_SIGNED_IN_ITEMS.filter((item) => item.action !== "signOut"),
+    [],
+  );
   const signOutItem = SIGN_OUT_ITEM;
   const sidebarNavItems = React.useMemo(
-    () => [...primaryNavItems, ...secondaryNavItems],
-    [primaryNavItems, secondaryNavItems],
+    () => [...primaryNavItems, ...secondaryNavItems, ...bottomNavItems],
+    [primaryNavItems, secondaryNavItems, bottomNavItems],
   );
   const dashboardNavItems = React.useMemo(
     () => sidebarNavItems.filter((item) => !!item.dashboardView),
@@ -96,6 +103,10 @@ function DashboardContent() {
         return <AboutDashboardView />;
       case "theo":
         return <ChatDashboardView />;
+      case "profile":
+        return <ProfilePageClient />;
+      case "study-groups":
+        return <StudyGroupsPageClient />;
       default:
         return null;
     }
