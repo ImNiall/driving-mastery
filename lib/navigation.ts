@@ -1,11 +1,13 @@
 import type { ComponentType } from "react";
 import {
+  AcademicCapIcon,
   BookOpenIcon,
   ChatIcon,
   HomeIcon,
   InformationCircleIcon,
   LogoutIcon,
   QuizIcon,
+  StarIcon,
   TrophyIcon,
   UserGroupIcon,
   UserIcon,
@@ -16,6 +18,7 @@ export type DashboardViewKey =
   | "modules"
   | "mock-test"
   | "leaderboard"
+  | "test-ready"
   | "profile"
   | "memberships"
   | "about"
@@ -78,6 +81,15 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     href: "/leaderboard",
     dashboardView: "leaderboard",
     icon: TrophyIcon,
+    requiresAuth: true,
+    section: "secondary",
+  },
+  {
+    key: "test-ready",
+    label: "Test Ready",
+    href: "/test-ready",
+    dashboardView: "test-ready",
+    icon: StarIcon,
     requiresAuth: true,
     section: "secondary",
   },

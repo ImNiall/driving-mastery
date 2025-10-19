@@ -21,6 +21,8 @@ import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboar
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
 import ChatDashboardView from "@/components/dashboard/ChatDashboardView";
 import ProfilePageClient from "@/app/profile/page.client";
+import TestReadyView from "@/components/TestReadyView";
+import TestReadyWidget from "@/components/TestReadyWidget";
 import { Menu } from "lucide-react";
 
 function DashboardContent() {
@@ -96,6 +98,8 @@ function DashboardContent() {
         return <MockTestDashboardView />;
       case "leaderboard":
         return <LeaderboardDashboardView masteryPoints={masteryPoints} />;
+      case "test-ready":
+        return <TestReadyView />;
       case "memberships":
         return <MembershipsDashboardView />;
       case "about":
@@ -307,6 +311,11 @@ function DashboardContent() {
                   Review your progress and get help from your AI Mentor.
                 </p>
               </div>
+
+              {/* Test Ready Widget */}
+              <TestReadyWidget
+                onViewDetails={() => handleViewChange("test-ready")}
+              />
 
               <div className="grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2 rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">
