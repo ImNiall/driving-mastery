@@ -212,4 +212,25 @@ export const ProgressService = {
         body: JSON.stringify(payload),
       },
     ),
+
+  getLeaderboard: () =>
+    callFn<{
+      leaderboard: Array<{
+        rank: number;
+        name: string;
+        masteryPoints: number;
+        categoriesMastered: number;
+        isCurrentUser: boolean;
+        lastActivity: string | null;
+      }>;
+      currentUserRank: {
+        rank: number;
+        name: string;
+        masteryPoints: number;
+        categoriesMastered: number;
+        isCurrentUser: boolean;
+        lastActivity: string | null;
+      } | null;
+      totalEntries: number;
+    }>("leaderboard", { method: "GET" }),
 };
