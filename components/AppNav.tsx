@@ -7,6 +7,7 @@ import {
   PRIMARY_SIGNED_IN_ITEMS,
   PUBLIC_NAV_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
+  BOTTOM_SIGNED_IN_ITEMS,
 } from "@/lib/navigation";
 
 export default function AppNav() {
@@ -15,7 +16,13 @@ export default function AppNav() {
   const [signedIn, setSignedIn] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const signedInTabs = React.useMemo(
-    () => [...PRIMARY_SIGNED_IN_ITEMS, ...SECONDARY_SIGNED_IN_ITEMS],
+    () => [
+      ...PRIMARY_SIGNED_IN_ITEMS,
+      ...SECONDARY_SIGNED_IN_ITEMS,
+      ...BOTTOM_SIGNED_IN_ITEMS.filter(
+        (item) => item.href && item.action !== "signOut",
+      ),
+    ],
     [],
   );
   const tabs = signedIn ? signedInTabs : PUBLIC_NAV_ITEMS;
