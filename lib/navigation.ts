@@ -16,7 +16,6 @@ export type DashboardViewKey =
   | "modules"
   | "mock-test"
   | "leaderboard"
-  | "study-groups"
   | "profile"
   | "memberships"
   | "about"
@@ -79,15 +78,6 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     href: "/leaderboard",
     dashboardView: "leaderboard",
     icon: TrophyIcon,
-    requiresAuth: true,
-    section: "secondary",
-  },
-  {
-    key: "study-groups",
-    label: "Study Groups",
-    href: "/study-groups",
-    dashboardView: "study-groups",
-    icon: UserGroupIcon,
     requiresAuth: true,
     section: "secondary",
   },

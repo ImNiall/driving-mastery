@@ -21,7 +21,6 @@ import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboar
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
 import ChatDashboardView from "@/components/dashboard/ChatDashboardView";
 import ProfilePageClient from "@/app/profile/page.client";
-import StudyGroupsPageClient from "@/app/study-groups/page.client";
 import { Menu } from "lucide-react";
 
 function DashboardContent() {
@@ -105,8 +104,6 @@ function DashboardContent() {
         return <ChatDashboardView />;
       case "profile":
         return <ProfilePageClient />;
-      case "study-groups":
-        return <StudyGroupsPageClient />;
       default:
         return null;
     }
