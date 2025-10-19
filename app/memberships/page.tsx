@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import MembershipsPageClient, {
-  MembershipsContent as MembershipsContentClient,
-} from "./page.client";
+import MembershipsPageClient from "./page.client";
 
 const title = "Driving Mastery Memberships | Plans & Pricing";
 const description =
@@ -35,8 +33,6 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
 };
-
-export const MembershipsContent = MembershipsContentClient;
 
 export default function MembershipsPage() {
   return <MembershipsPageClient />;

@@ -4,7 +4,8 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 const MockTestContent = dynamic(
-  () => import("@/app/mock-test/page").then((mod) => mod.MockTestContent),
+  () =>
+    import("@/app/mock-test/page.client").then((mod) => mod.MockTestContent),
   {
     ssr: false,
     loading: () => (

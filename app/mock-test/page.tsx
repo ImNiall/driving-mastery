@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import MockTestPageClient, {
-  MockTestContent as MockTestContentClient,
-} from "./page.client";
+import MockTestPageClient from "./page.client";
 
 const title = "Mock Driving Theory Test | Driving Mastery";
 const description =
@@ -35,8 +33,6 @@ export const metadata: Metadata = {
     images: [ogImage],
   },
 };
-
-export const MockTestContent = MockTestContentClient;
 
 export default function MockTestPage() {
   return <MockTestPageClient />;

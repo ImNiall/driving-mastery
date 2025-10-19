@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MembershipsContent } from "@/app/memberships/page";
+import { MembershipsContent } from "@/app/memberships/page.client";
 
 export default function MembershipsDashboardView() {
   return (
