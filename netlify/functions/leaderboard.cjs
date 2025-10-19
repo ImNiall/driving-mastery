@@ -26,25 +26,39 @@ exports.handler = async (event) => {
       return { statusCode: 500, body: JSON.stringify({ error: leaderboardErr.message }) };
     }
 
-    // Get user profiles for display names (anonymized)
+    // Get user profiles for display names
     const userIds = leaderboard.map(entry => entry.user_id);
     const { data: profiles, error: profilesErr } = await admin
-      .from('users')
-      .select('id, email')
-      .in('id', userIds);
+      .from('profiles')
+      .select('user_id, display_name, name, email')
+      .in('user_id', userIds);
 
     if (profilesErr) {
       console.warn('Failed to fetch user profiles:', profilesErr.message);
     }
 
-    // Create anonymized leaderboard with ranks
-    const anonymizedLeaderboard = leaderboard.map((entry, index) => {
-      const profile = profiles?.find(p => p.id === entry.user_id);
+    // Create leaderboard with real names
+    const namedLeaderboard = leaderboard.map((entry, index) => {
+      const profile = profiles?.find(p => p.user_id === entry.user_id);
       const isCurrentUser = entry.user_id === currentUserId;
+      
+      // Determine display name priority: display_name > name > email prefix > fallback
+      let displayName;
+      if (isCurrentUser) {
+        displayName = 'You';
+      } else if (profile?.display_name) {
+        displayName = profile.display_name;
+      } else if (profile?.name) {
+        displayName = profile.name;
+      } else if (profile?.email) {
+        displayName = profile.email.split('@')[0];
+      } else {
+        displayName = `User ${String(index + 1).padStart(3, '0')}`;
+      }
       
       return {
         rank: index + 1,
-        name: isCurrentUser ? 'You' : `User ${String(index + 1).padStart(3, '0')}`,
+        name: displayName,
         masteryPoints: entry.total_points,
         categoriesMastered: entry.categories_mastered,
         isCurrentUser,
@@ -53,7 +67,7 @@ exports.handler = async (event) => {
     });
 
     // Find current user's position if not in top 100
-    const currentUserEntry = anonymizedLeaderboard.find(entry => entry.isCurrentUser);
+    const currentUserEntry = namedLeaderboard.find(entry => entry.isCurrentUser);
     let currentUserRank = null;
     
     if (!currentUserEntry) {
@@ -76,7 +90,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        leaderboard: anonymizedLeaderboard,
+        leaderboard: namedLeaderboard,
         currentUserRank: currentUserRank,
         totalEntries: leaderboard.length
       })

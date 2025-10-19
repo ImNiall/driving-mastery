@@ -233,4 +233,19 @@ export const ProgressService = {
       } | null;
       totalEntries: number;
     }>("leaderboard", { method: "GET" }),
+
+  updateProfile: (payload: {
+    display_name?: string;
+    name?: string;
+    email?: string;
+  }) =>
+    callFn<{
+      user_id: string;
+      display_name: string | null;
+      name: string | null;
+      email: string | null;
+    }>("profile-update", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
