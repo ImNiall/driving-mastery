@@ -186,23 +186,6 @@ export default function ProfilePageClient() {
           </div>
         </form>
       </div>
-
-      <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-blue-900 mb-2">
-          How your name appears:
-        </h3>
-        <ul className="text-sm text-blue-800 space-y-1">
-          <li>
-            • <strong>Display Name:</strong> Used first if provided
-          </li>
-          <li>
-            • <strong>Full Name:</strong> Used if no display name is set
-          </li>
-          <li>
-            • <strong>Email prefix:</strong> Used as last resort (part before @)
-          </li>
-        </ul>
-      </div>
     </main>
   );
 }
