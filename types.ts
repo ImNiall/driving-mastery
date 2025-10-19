@@ -101,10 +101,6 @@ export interface FinalQuizResults {
   pointsEarned: number;
   timeExpired?: boolean; // Indicates if the quiz ended because time ran out
 }
-export interface LeaderboardEntry {
-  name: string;
-  masteryPoints: number;
-}
 
 export type View =
   | "dashboard"

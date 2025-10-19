@@ -1,4 +1,4 @@
-import { Category, LeaderboardEntry } from "@/types";
+import { Category } from "@/types";
 
 export const DVSA_CATEGORIES: Category[] = Object.values(Category);
 
@@ -11,11 +11,3 @@ export const MASTERY_POINTS = {
   },
   MODULE_MASTERY: 150,
 };
-
-export const LEADERBOARD_MOCK_DATA: LeaderboardEntry[] = [
-  { name: "Amelia K.", masteryPoints: 1820 },
-  { name: "Kai B.", masteryPoints: 1765 },
-  { name: "Sanjay R.", masteryPoints: 1650 },
-  { name: "Mia L.", masteryPoints: 1515 },
-  { name: "Elliot N.", masteryPoints: 1430 },
-];

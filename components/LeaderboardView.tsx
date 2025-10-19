@@ -1,5 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { LeaderboardEntry } from "../types";
+import React, { useState, useEffect } from "react";
 import { MedalIcon, TrophyIcon } from "./icons";
 import { ProgressService } from "@/lib/services/progress";
 
