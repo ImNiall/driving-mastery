@@ -318,15 +318,16 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
 
                     <div className="text-right space-y-2">
                       <div className="text-xl font-bold text-gray-800">
-                        {entry.masteryPoints.toLocaleString()}{" "}
+                        {(entry.masteryPoints || 0).toLocaleString()}{" "}
                         <span className="text-sm font-semibold text-gray-500">
                           MP
                         </span>
                       </div>
 
-                      {entry.weeklyPoints > 0 && (
+                      {(entry.weeklyPoints || 0) > 0 && (
                         <div className="text-sm font-semibold text-green-600">
-                          +{entry.weeklyPoints.toLocaleString()} pts this week
+                          +{(entry.weeklyPoints || 0).toLocaleString()} pts this
+                          week
                         </div>
                       )}
 
@@ -336,10 +337,10 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
                         </div>
                       )}
 
-                      {entry.categoriesMastered > 0 && (
+                      {(entry.categoriesMastered || 0) > 0 && (
                         <div className="text-xs text-gray-500">
                           {pluralise(
-                            entry.categoriesMastered,
+                            entry.categoriesMastered || 0,
                             "category mastered",
                             "categories mastered",
                           )}
@@ -361,6 +362,7 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
       </div>
 
       {currentUserRank &&
+        currentUserRank.rank &&
         !leaderboardData.some((entry) => entry.isCurrentUser) && (
           <div className="mt-6 bg-white border border-dashed border-brand-blue rounded-lg p-5 text-sm text-gray-700">
             <p className="font-semibold text-brand-blue mb-1">
