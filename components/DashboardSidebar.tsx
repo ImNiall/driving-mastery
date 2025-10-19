@@ -4,7 +4,6 @@ import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
   BOTTOM_SIGNED_IN_ITEMS,
-  SIGN_OUT_ITEM,
   type DashboardViewKey,
 } from "@/lib/navigation";
 
@@ -37,8 +36,6 @@ function SidebarContent({
     () => BOTTOM_SIGNED_IN_ITEMS.filter((item) => item.showInSidebar !== false),
     [],
   );
-  const signOutItem = SIGN_OUT_ITEM;
-  const SignOutIcon = signOutItem?.icon;
 
   return (
     <div className="flex h-full flex-col">
@@ -133,24 +130,37 @@ function SidebarContent({
             {bottomItems.map((item) => {
               const Icon = item.icon;
               const active = item.dashboardView === activeView;
+              const isSignOut = item.action === "signOut";
+
               return (
                 <li key={item.key}>
                   <button
                     type="button"
-                    onClick={() =>
-                      item.dashboardView && onNavigate(item.dashboardView)
-                    }
+                    onClick={() => {
+                      if (isSignOut) {
+                        onSignOut();
+                      } else if (item.dashboardView) {
+                        onNavigate(item.dashboardView);
+                      } else if (item.href) {
+                        window.location.href = item.href;
+                      }
+                    }}
+                    disabled={isSignOut && signingOut}
                     className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue/60 ${
-                      active
-                        ? "bg-brand-blue text-white shadow-sm"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      isSignOut
+                        ? "text-gray-600 hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+                        : active
+                          ? "bg-brand-blue text-white shadow-sm"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
                     <span
                       className={`flex h-9 w-9 items-center justify-center rounded-xl ${
-                        active
-                          ? "bg-white/20 text-white"
-                          : "bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue/15"
+                        isSignOut
+                          ? "bg-red-50 text-red-500"
+                          : active
+                            ? "bg-white/20 text-white"
+                            : "bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue/15"
                       }`}
                     >
                       <Icon className="h-5 w-5" />
@@ -160,21 +170,6 @@ function SidebarContent({
                 </li>
               );
             })}
-            {signOutItem && SignOutIcon && (
-              <li>
-                <button
-                  type="button"
-                  onClick={onSignOut}
-                  disabled={signingOut}
-                  className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-red-50 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue/60"
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-500">
-                    <SignOutIcon className="h-5 w-5" />
-                  </span>
-                  <span>{signOutItem.label}</span>
-                </button>
-              </li>
-            )}
           </ul>
         </div>
 
