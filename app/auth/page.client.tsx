@@ -301,7 +301,7 @@ function AuthInner() {
                   <input
                     type="text"
                     required
-                    placeholder="Your name on the leaderboard"
+                    placeholder="Enter your name"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     maxLength={50}
