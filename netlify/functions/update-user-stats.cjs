@@ -44,6 +44,9 @@ exports.handler = async (event) => {
     // Recalculate user stats
     await recalculateUserStats(admin, userId);
 
+    // Update group challenge progress
+    await updateGroupChallengeProgress(admin, userId, action, actionData);
+
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
   } catch (e) {
     console.error('Update user stats error:', e);
@@ -134,5 +137,80 @@ async function recalculateUserStats(admin, userId) {
         })
         .eq('user_id', userId);
     }
+  }
+}
+
+async function updateGroupChallengeProgress(admin, userId, action, actionData) {
+  try {
+    // Get user's active group challenges
+    const { data: userGroups } = await admin
+      .from('study_group_members')
+      .select('group_id')
+      .eq('user_id', userId);
+
+    if (!userGroups || userGroups.length === 0) return;
+
+    const groupIds = userGroups.map(g => g.group_id);
+
+    // Get active challenges for user's groups
+    const { data: challenges } = await admin
+      .from('group_challenges')
+      .select(`
+        id,
+        challenge_type,
+        target_value,
+        end_date,
+        group_challenge_participants!inner (
+          user_id,
+          current_progress,
+          completed_at
+        )
+      `)
+      .in('group_id', groupIds)
+      .eq('is_active', true)
+      .eq('group_challenge_participants.user_id', userId)
+      .gt('end_date', new Date().toISOString());
+
+    if (!challenges || challenges.length === 0) return;
+
+    // Update progress based on action
+    for (const challenge of challenges) {
+      const participant = challenge.group_challenge_participants[0];
+      if (participant.completed_at) continue; // Already completed
+
+      let progressIncrement = 0;
+      
+      switch (challenge.challenge_type) {
+        case 'quiz_count':
+          if (action === 'quiz_completed') progressIncrement = 1;
+          break;
+        case 'points_target':
+          if (action === 'quiz_completed') progressIncrement = actionData.points_earned || 0;
+          break;
+        case 'study_time':
+          if (action === 'study_session') progressIncrement = actionData.duration_minutes || 0;
+          break;
+        case 'streak_goal':
+          // This would need to be handled differently, checking current streak
+          break;
+      }
+
+      if (progressIncrement > 0) {
+        const newProgress = participant.current_progress + progressIncrement;
+        const isCompleted = newProgress >= challenge.target_value;
+
+        await admin
+          .from('group_challenge_participants')
+          .update({
+            current_progress: newProgress,
+            completed_at: isCompleted ? new Date().toISOString() : null
+          })
+          .eq('challenge_id', challenge.id)
+          .eq('user_id', userId);
+      }
+    }
+  } catch (error) {
+    console.error('Group challenge progress update error:', error);
+    // Don't throw error to avoid breaking main stats update
   }
 }

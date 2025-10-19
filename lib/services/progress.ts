@@ -273,4 +273,72 @@ export const ProgressService = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
+
+  getStudyGroups: () =>
+    callFn<{
+      userGroups: Array<{
+        id: string;
+        name: string;
+        description: string | null;
+        role: string;
+        memberCount: number;
+        joinedAt: string;
+        is_private: boolean;
+        invite_code: string | null;
+      }>;
+      publicGroups: Array<{
+        id: string;
+        name: string;
+        description: string | null;
+        memberCount: number;
+        is_private: boolean;
+      }>;
+    }>("study-groups", { method: "GET" }),
+
+  createStudyGroup: (payload: {
+    name: string;
+    description?: string;
+    isPrivate: boolean;
+  }) =>
+    callFn<{
+      id: string;
+      name: string;
+      description: string | null;
+      invite_code: string | null;
+      memberCount: number;
+    }>("study-groups", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
+  joinStudyGroup: (payload: { groupId: string; inviteCode?: string }) =>
+    callFn<{ message: string }>("join-group", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
+  leaveStudyGroup: (payload: { groupId: string }) =>
+    callFn<{ message: string }>("leave-group", {
+      method: "DELETE",
+      body: JSON.stringify(payload),
+    }),
+
+  getGroupLeaderboard: (groupId: string) =>
+    callFn<{
+      groupLeaderboard: Array<{
+        rank: number;
+        name: string;
+        role: string;
+        masteryPoints: number;
+        currentStreak: number;
+        totalQuizzes: number;
+        averageScore: number;
+        weeklyPoints: number;
+        isCurrentUser: boolean;
+        joinedAt: string;
+      }>;
+    }>("group-leaderboard", {
+      method: "GET",
+      body: JSON.stringify({ groupId }),
+    }),
 };
