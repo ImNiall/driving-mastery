@@ -8,6 +8,7 @@ import {
   QuizIcon,
   TrophyIcon,
   UserGroupIcon,
+  UserIcon,
 } from "@/components/icons";
 
 export type DashboardViewKey =
@@ -102,6 +103,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: InformationCircleIcon,
     section: "secondary",
     showInSidebar: false,
+  },
+  {
+    key: "profile",
+    label: "Profile",
+    href: "/profile",
+    icon: UserIcon,
+    requiresAuth: true,
+    section: "secondary",
   },
   {
     key: "signout",
