@@ -213,7 +213,7 @@ export const ProgressService = {
       },
     ),
 
-  getLeaderboard: () =>
+  getLeaderboard: (timeFrame: "weekly" | "monthly" | "allTime" = "allTime") =>
     callFn<{
       leaderboard: Array<{
         rank: number;
@@ -231,6 +231,7 @@ export const ProgressService = {
         studyTime: string;
         memberSince: string | null;
         lastActive: string | null;
+        lastActiveRaw: string | null;
         country: string | null;
         region: string | null;
         testDate: string | null;
@@ -245,7 +246,10 @@ export const ProgressService = {
         lastActivity: string | null;
       } | null;
       totalEntries: number;
-    }>("leaderboard", { method: "GET" }),
+    }>(
+      `leaderboard${timeFrame === "allTime" ? "" : `?timeframe=${timeFrame}`}`,
+      { method: "GET" },
+    ),
 
   updateProfile: (payload: {
     display_name?: string;
