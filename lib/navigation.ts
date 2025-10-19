@@ -17,6 +17,7 @@ export type DashboardViewKey =
   | "mock-test"
   | "leaderboard"
   | "study-groups"
+  | "profile"
   | "memberships"
   | "about"
   | "theo";
@@ -118,6 +119,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     key: "profile",
     label: "Profile",
     href: "/profile",
+    dashboardView: "profile",
     icon: UserIcon,
     requiresAuth: true,
     section: "bottom",

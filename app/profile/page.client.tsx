@@ -6,7 +6,7 @@ import { ProgressService } from "@/lib/services/progress";
 export default function ProfilePageClient() {
   const [displayName, setDisplayName] = useState("");
   const [name, setName] = useState("");
-  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
   const [testDate, setTestDate] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function ProfilePageClient() {
       await ProgressService.updateProfile({
         display_name: displayName.trim() || undefined,
         name: name.trim() || undefined,
-        country: country.trim() || undefined,
+        country: city.trim() || undefined,
         region: region.trim() || undefined,
         test_date: testDate || undefined,
       });
@@ -88,7 +88,6 @@ export default function ProfilePageClient() {
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Full Name
-              <span className="text-gray-500 font-normal ml-1">(optional)</span>
             </label>
             <input
               type="text"
@@ -106,20 +105,17 @@ export default function ProfilePageClient() {
 
           <div>
             <label
-              htmlFor="country"
+              htmlFor="city"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Country
-              <span className="text-gray-500 font-normal ml-1">
-                (for regional leaderboards)
-              </span>
+              City
             </label>
             <input
               type="text"
-              id="country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              placeholder="United Kingdom"
+              id="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="London"
               maxLength={50}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
             />
@@ -131,7 +127,6 @@ export default function ProfilePageClient() {
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Region/State
-              <span className="text-gray-500 font-normal ml-1">(optional)</span>
             </label>
             <input
               type="text"
@@ -149,8 +144,7 @@ export default function ProfilePageClient() {
               htmlFor="testDate"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Driving Test Date
-              <span className="text-gray-500 font-normal ml-1">(optional)</span>
+              Theory Test Date
             </label>
             <input
               type="date"

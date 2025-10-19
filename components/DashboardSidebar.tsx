@@ -3,6 +3,7 @@ import Image from "next/image";
 import {
   PRIMARY_SIGNED_IN_ITEMS,
   SECONDARY_SIGNED_IN_ITEMS,
+  BOTTOM_SIGNED_IN_ITEMS,
   SIGN_OUT_ITEM,
   type DashboardViewKey,
 } from "@/lib/navigation";
@@ -30,6 +31,10 @@ function SidebarContent({
   const secondaryItems = React.useMemo(
     () =>
       SECONDARY_SIGNED_IN_ITEMS.filter((item) => item.showInSidebar !== false),
+    [],
+  );
+  const bottomItems = React.useMemo(
+    () => BOTTOM_SIGNED_IN_ITEMS.filter((item) => item.showInSidebar !== false),
     [],
   );
   const signOutItem = SIGN_OUT_ITEM;
@@ -110,6 +115,36 @@ function SidebarContent({
                         : "text-gray-600 hover:bg-brand-blue/10 hover:text-brand-blue"
                     }`}
                     aria-current={active ? "page" : undefined}
+                  >
+                    <span
+                      className={`flex h-9 w-9 items-center justify-center rounded-xl ${
+                        active
+                          ? "bg-white/20 text-white"
+                          : "bg-brand-blue/10 text-brand-blue group-hover:bg-brand-blue/15"
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span>{item.label}</span>
+                  </button>
+                </li>
+              );
+            })}
+            {bottomItems.map((item) => {
+              const Icon = item.icon;
+              const active = item.dashboardView === activeView;
+              return (
+                <li key={item.key}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      item.dashboardView && onNavigate(item.dashboardView)
+                    }
+                    className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue/60 ${
+                      active
+                        ? "bg-brand-blue text-white shadow-sm"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
                   >
                     <span
                       className={`flex h-9 w-9 items-center justify-center rounded-xl ${
