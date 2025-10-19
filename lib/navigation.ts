@@ -29,7 +29,7 @@ export type NavigationItem = {
   dashboardView?: DashboardViewKey;
   icon: IconComponent;
   requiresAuth?: boolean;
-  section: "primary" | "secondary";
+  section: "primary" | "secondary" | "bottom";
   action?: "signOut";
   showInSidebar?: boolean;
 };
@@ -110,14 +110,14 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     href: "/profile",
     icon: UserIcon,
     requiresAuth: true,
-    section: "secondary",
+    section: "bottom",
   },
   {
     key: "signout",
     label: "Sign Out",
     icon: LogoutIcon,
     requiresAuth: true,
-    section: "secondary",
+    section: "bottom",
     action: "signOut",
   },
 ];
@@ -128,6 +128,10 @@ export const PRIMARY_SIGNED_IN_ITEMS = NAVIGATION_ITEMS.filter(
 
 export const SECONDARY_SIGNED_IN_ITEMS = NAVIGATION_ITEMS.filter(
   (item) => item.section === "secondary" && item.action !== "signOut",
+);
+
+export const BOTTOM_SIGNED_IN_ITEMS = NAVIGATION_ITEMS.filter(
+  (item) => item.requiresAuth && item.section === "bottom",
 );
 
 export const SIGN_OUT_ITEM = NAVIGATION_ITEMS.find(

@@ -2,6 +2,7 @@
 import React, { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { ProgressService } from "@/lib/services/progress";
 
 type AuthView = "signin" | "signup" | "forgot" | "reset";
 
@@ -21,6 +22,7 @@ function AuthInner() {
   const [view, setView] = React.useState<AuthView>(initialMode);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [displayName, setDisplayName] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -109,21 +111,43 @@ function AuthInner() {
     setLoading(true);
     try {
       if (view === "signup") {
+        if (!displayName.trim()) {
+          setError("Display name is required");
+          return;
+        }
+
         const { data, error: err } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+          options: {
+            emailRedirectTo: `${window.location.origin}/dashboard`,
+            data: {
+              display_name: displayName.trim(),
+            },
+          },
         });
         if (err) throw err;
-        if (data.session) {
+
+        // If user is immediately signed in, create their profile
+        if (data.session && data.user) {
+          try {
+            await ProgressService.updateProfile({
+              display_name: displayName.trim(),
+              email: email,
+            });
+          } catch (profileErr) {
+            console.warn("Failed to create profile:", profileErr);
+          }
           router.replace("/dashboard");
           return;
         }
+
         setNotice(
           "Check your inbox for a confirmation link. Once your email is verified you can sign in.",
         );
         setEmail("");
         setPassword("");
+        setDisplayName("");
       } else if (view === "signin") {
         const { data, error: err } = await supabase.auth.signInWithPassword({
           email,
@@ -269,6 +293,24 @@ function AuthInner() {
                     className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/70"
                     autoComplete="email"
                   />
+                </label>
+              )}
+              {view === "signup" && (
+                <label className="block text-sm font-medium text-slate-700">
+                  Display Name
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name on the leaderboard"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    maxLength={50}
+                    className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base shadow-sm transition focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/70"
+                    autoComplete="name"
+                  />
+                  <p className="mt-1 text-xs text-slate-500">
+                    This name will be shown on the leaderboard
+                  </p>
                 </label>
               )}
               {(view === "signin" || view === "signup") && (
