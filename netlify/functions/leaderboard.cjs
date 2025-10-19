@@ -14,10 +14,16 @@ exports.handler = async (event) => {
     if (userErr || !userData?.user) return { statusCode: 401, body: 'Unauthorized' };
     const currentUserId = userData.user.id;
 
-    // Get leaderboard data from view
+    // Get enhanced leaderboard data from view
     const { data: leaderboard, error: leaderboardErr } = await admin
-      .from('leaderboard_view')
-      .select('user_id, total_points, categories_mastered, last_mastery')
+      .from('enhanced_leaderboard_view')
+      .select(`
+        user_id, total_points, categories_mastered, last_mastery,
+        current_streak, longest_streak, total_quizzes, perfect_scores,
+        average_score, weekly_points, study_time_minutes,
+        display_name, name, email, country, region, test_date,
+        member_since, last_active, rank_change
+      `)
       .order('total_points', { ascending: false })
       .order('last_mastery', { ascending: false })
       .limit(100);
@@ -26,35 +32,37 @@ exports.handler = async (event) => {
       return { statusCode: 500, body: JSON.stringify({ error: leaderboardErr.message }) };
     }
 
-    // Get user profiles for display names
-    const userIds = leaderboard.map(entry => entry.user_id);
-    const { data: profiles, error: profilesErr } = await admin
-      .from('profiles')
-      .select('user_id, display_name, name, email')
-      .in('user_id', userIds);
-
-    if (profilesErr) {
-      console.warn('Failed to fetch user profiles:', profilesErr.message);
-    }
-
-    // Create leaderboard with real names
-    const namedLeaderboard = leaderboard.map((entry, index) => {
-      const profile = profiles?.find(p => p.user_id === entry.user_id);
+    // Create enhanced leaderboard with all stats
+    const enhancedLeaderboard = leaderboard.map((entry, index) => {
       const isCurrentUser = entry.user_id === currentUserId;
       
       // Determine display name priority: display_name > name > email prefix > fallback
       let displayName;
       if (isCurrentUser) {
         displayName = 'You';
-      } else if (profile?.display_name) {
-        displayName = profile.display_name;
-      } else if (profile?.name) {
-        displayName = profile.name;
-      } else if (profile?.email) {
-        displayName = profile.email.split('@')[0];
+      } else if (entry.display_name) {
+        displayName = entry.display_name;
+      } else if (entry.name) {
+        displayName = entry.name;
+      } else if (entry.email) {
+        displayName = entry.email.split('@')[0];
       } else {
         displayName = `User ${String(index + 1).padStart(3, '0')}`;
       }
+
+      // Format member since date
+      const memberSince = entry.member_since ? 
+        new Date(entry.member_since).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short' 
+        }) : null;
+
+      // Format last active
+      const lastActive = entry.last_active ? 
+        formatRelativeTime(entry.last_active) : null;
+
+      // Format study time
+      const studyTimeFormatted = formatStudyTime(entry.study_time_minutes);
       
       return {
         rank: index + 1,
@@ -62,12 +70,50 @@ exports.handler = async (event) => {
         masteryPoints: entry.total_points,
         categoriesMastered: entry.categories_mastered,
         isCurrentUser,
-        lastActivity: entry.last_mastery
+        lastActivity: entry.last_mastery,
+        
+        // New enhanced stats
+        currentStreak: entry.current_streak,
+        longestStreak: entry.longest_streak,
+        totalQuizzes: entry.total_quizzes,
+        perfectScores: entry.perfect_scores,
+        averageScore: Math.round(entry.average_score || 0),
+        weeklyPoints: entry.weekly_points,
+        studyTime: studyTimeFormatted,
+        memberSince: memberSince,
+        lastActive: lastActive,
+        country: entry.country,
+        region: entry.region,
+        testDate: entry.test_date,
+        rankChange: entry.rank_change
       };
     });
 
+    // Helper functions
+    function formatRelativeTime(dateString) {
+      const now = new Date();
+      const date = new Date(dateString);
+      const diffMs = now - date;
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffHours / 24);
+      
+      if (diffHours < 1) return 'Active now';
+      if (diffHours < 24) return `${diffHours}h ago`;
+      if (diffDays < 7) return `${diffDays}d ago`;
+      return `${Math.floor(diffDays / 7)}w ago`;
+    }
+
+    function formatStudyTime(minutes) {
+      if (!minutes) return '0h';
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      if (hours === 0) return `${mins}m`;
+      if (mins === 0) return `${hours}h`;
+      return `${hours}h ${mins}m`;
+    }
+
     // Find current user's position if not in top 100
-    const currentUserEntry = namedLeaderboard.find(entry => entry.isCurrentUser);
+    const currentUserEntry = enhancedLeaderboard.find(entry => entry.isCurrentUser);
     let currentUserRank = null;
     
     if (!currentUserEntry) {
@@ -90,7 +136,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        leaderboard: namedLeaderboard,
+        leaderboard: enhancedLeaderboard,
         currentUserRank: currentUserRank,
         totalEntries: leaderboard.length
       })

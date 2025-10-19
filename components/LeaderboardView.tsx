@@ -23,9 +23,32 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
         setError(null);
         const data = await ProgressService.getLeaderboard();
 
-        // For now, we'll use the all-time data for all timeframes
-        // In the future, you could implement time-based filtering in the backend
-        setLeaderboardData(data.leaderboard || []);
+        let filteredData = data.leaderboard || [];
+
+        // Apply timeframe filtering
+        if (timeFrame === "weekly") {
+          // Sort by weekly points instead of total points
+          filteredData = filteredData
+            .filter((entry) => entry.weeklyPoints > 0)
+            .sort((a, b) => (b.weeklyPoints || 0) - (a.weeklyPoints || 0))
+            .map((entry, index) => ({ ...entry, rank: index + 1 }));
+        } else if (timeFrame === "monthly") {
+          // For monthly, we'll use a combination of recent activity and points
+          const oneMonthAgo = new Date();
+          oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+          filteredData = filteredData
+            .filter((entry) => {
+              if (!entry.lastActive) return false;
+              const lastActiveDate = new Date(entry.lastActive);
+              return lastActiveDate >= oneMonthAgo;
+            })
+            .sort((a, b) => (b.masteryPoints || 0) - (a.masteryPoints || 0))
+            .map((entry, index) => ({ ...entry, rank: index + 1 }));
+        }
+        // 'allTime' uses the default sorting from backend
+
+        setLeaderboardData(filteredData);
       } catch (err: any) {
         setError(err?.message || "Failed to load leaderboard");
         console.error("Leaderboard fetch error:", err);
@@ -131,28 +154,109 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
             {leaderboardData.map((entry: any) => (
               <li
                 key={entry.rank}
-                className={`flex items-center p-4 transition-colors ${entry.isCurrentUser ? "bg-brand-blue-light" : "hover:bg-gray-50"}`}
+                className={`p-4 transition-colors ${entry.isCurrentUser ? "bg-brand-blue-light border-l-4 border-brand-blue" : "hover:bg-gray-50"}`}
               >
-                <div className="w-12 text-center text-lg font-bold flex-shrink-0">
-                  {entry.rank <= 3 ? (
-                    <MedalIcon
-                      className="w-8 h-8 mx-auto"
-                      color={getMedalColor(entry.rank)}
-                    />
-                  ) : (
-                    <span className="text-gray-500">{entry.rank}</span>
-                  )}
-                </div>
-                <div
-                  className={`flex-grow px-4 ${entry.isCurrentUser ? "font-extrabold text-brand-blue" : "font-semibold text-gray-800"}`}
-                >
-                  {entry.name}
-                </div>
-                <div className="text-right font-bold text-lg text-gray-700">
-                  {entry.masteryPoints.toLocaleString()}{" "}
-                  <span className="text-sm font-semibold text-gray-500">
-                    MP
-                  </span>
+                <div className="flex items-center justify-between">
+                  {/* Rank and Name Section */}
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 text-center text-lg font-bold flex-shrink-0">
+                      {entry.rank <= 3 ? (
+                        <MedalIcon
+                          className="w-8 h-8 mx-auto"
+                          color={getMedalColor(entry.rank)}
+                        />
+                      ) : (
+                        <span className="text-gray-500">{entry.rank}</span>
+                      )}
+                    </div>
+                    <div className="flex-grow">
+                      <div
+                        className={`text-lg ${entry.isCurrentUser ? "font-extrabold text-brand-blue" : "font-semibold text-gray-800"}`}
+                      >
+                        {entry.name}
+                        {entry.currentStreak > 0 && (
+                          <span className="ml-2 text-sm bg-orange-100 text-orange-600 px-2 py-1 rounded-full">
+                            🔥 {entry.currentStreak} day
+                            {entry.currentStreak !== 1 ? "s" : ""}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center space-x-4 text-xs text-gray-500 mt-1">
+                        {entry.totalQuizzes > 0 && (
+                          <span>
+                            {entry.totalQuizzes} quiz
+                            {entry.totalQuizzes !== 1 ? "es" : ""}
+                          </span>
+                        )}
+                        {entry.averageScore > 0 && (
+                          <span
+                            className={`px-2 py-1 rounded ${
+                              entry.averageScore >= 90
+                                ? "bg-green-100 text-green-600"
+                                : entry.averageScore >= 80
+                                  ? "bg-blue-100 text-blue-600"
+                                  : entry.averageScore >= 70
+                                    ? "bg-orange-100 text-orange-600"
+                                    : "bg-red-100 text-red-600"
+                            }`}
+                          >
+                            Avg: {entry.averageScore}%
+                          </span>
+                        )}
+                        {entry.perfectScores > 0 && (
+                          <span className="text-yellow-600">
+                            ⭐ {entry.perfectScores} perfect
+                          </span>
+                        )}
+                        {entry.memberSince && (
+                          <span>Member since {entry.memberSince}</span>
+                        )}
+                        {entry.lastActive && (
+                          <span
+                            className={`${
+                              entry.lastActive.includes("now") ||
+                              entry.lastActive.includes("h ago")
+                                ? "text-green-600"
+                                : entry.lastActive.includes("d ago")
+                                  ? "text-yellow-600"
+                                  : "text-gray-400"
+                            }`}
+                          >
+                            {entry.lastActive.includes("now")
+                              ? "🟢"
+                              : entry.lastActive.includes("h ago") ||
+                                  entry.lastActive.includes("d ago")
+                                ? "🟡"
+                                : "⚪"}{" "}
+                            {entry.lastActive}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Points and Stats Section */}
+                  <div className="text-right">
+                    <div className="font-bold text-lg text-gray-700">
+                      {entry.masteryPoints.toLocaleString()}{" "}
+                      <span className="text-sm font-semibold text-gray-500">
+                        MP
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-500 space-y-1">
+                      {entry.weeklyPoints > 0 && (
+                        <div className="text-green-600">
+                          +{entry.weeklyPoints} this week
+                        </div>
+                      )}
+                      {entry.studyTime && entry.studyTime !== "0h" && (
+                        <div>📚 {entry.studyTime}</div>
+                      )}
+                      {entry.categoriesMastered > 0 && (
+                        <div>{entry.categoriesMastered} categories</div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </li>
             ))}

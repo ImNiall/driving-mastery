@@ -222,6 +222,19 @@ export const ProgressService = {
         categoriesMastered: number;
         isCurrentUser: boolean;
         lastActivity: string | null;
+        currentStreak: number;
+        longestStreak: number;
+        totalQuizzes: number;
+        perfectScores: number;
+        averageScore: number;
+        weeklyPoints: number;
+        studyTime: string;
+        memberSince: string | null;
+        lastActive: string | null;
+        country: string | null;
+        region: string | null;
+        testDate: string | null;
+        rankChange: number;
       }>;
       currentUserRank: {
         rank: number;
@@ -238,6 +251,9 @@ export const ProgressService = {
     display_name?: string;
     name?: string;
     email?: string;
+    country?: string;
+    region?: string;
+    test_date?: string;
   }) =>
     callFn<{
       user_id: string;
@@ -245,6 +261,15 @@ export const ProgressService = {
       name: string | null;
       email: string | null;
     }>("profile-update", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+
+  updateUserStats: (payload: {
+    action: "quiz_completed" | "module_completed" | "study_session";
+    data: any;
+  }) =>
+    callFn<{ success: boolean }>("update-user-stats", {
       method: "POST",
       body: JSON.stringify(payload),
     }),

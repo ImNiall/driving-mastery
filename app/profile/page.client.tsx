@@ -6,6 +6,9 @@ import { ProgressService } from "@/lib/services/progress";
 export default function ProfilePageClient() {
   const [displayName, setDisplayName] = useState("");
   const [name, setName] = useState("");
+  const [country, setCountry] = useState("");
+  const [region, setRegion] = useState("");
+  const [testDate, setTestDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
@@ -21,6 +24,9 @@ export default function ProfilePageClient() {
       await ProgressService.updateProfile({
         display_name: displayName.trim() || undefined,
         name: name.trim() || undefined,
+        country: country.trim() || undefined,
+        region: region.trim() || undefined,
+        test_date: testDate || undefined,
       });
 
       setMessage({
@@ -95,6 +101,67 @@ export default function ProfilePageClient() {
             />
             <p className="text-xs text-gray-500 mt-1">
               Used as fallback if no display name is set.
+            </p>
+          </div>
+
+          <div>
+            <label
+              htmlFor="country"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Country
+              <span className="text-gray-500 font-normal ml-1">
+                (for regional leaderboards)
+              </span>
+            </label>
+            <input
+              type="text"
+              id="country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="United Kingdom"
+              maxLength={50}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="region"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Region/State
+              <span className="text-gray-500 font-normal ml-1">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="region"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+              placeholder="England, Scotland, Wales, etc."
+              maxLength={50}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="testDate"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Driving Test Date
+              <span className="text-gray-500 font-normal ml-1">(optional)</span>
+            </label>
+            <input
+              type="date"
+              id="testDate"
+              value={testDate}
+              onChange={(e) => setTestDate(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Set your test date to see a countdown and get targeted preparation
+              reminders.
             </p>
           </div>
 
