@@ -1,6 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { env } from "../env";
 
+// Use implicit flow for local development, PKCE for production
+const isProduction = process.env.NODE_ENV === "production";
+const flowType = isProduction ? "pkce" : "implicit";
+
 declare global {
   // eslint-disable-next-line no-var
   var __supabase__: ReturnType<typeof createClient> | undefined;
@@ -16,7 +20,7 @@ export const supabase =
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        flowType: "pkce",
+        flowType: process.env.NODE_ENV === "development" ? "implicit" : "pkce",
       },
       global: {
         headers: {
