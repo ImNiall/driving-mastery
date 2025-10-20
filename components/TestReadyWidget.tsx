@@ -12,9 +12,7 @@ import {
   StarIcon,
 } from "./icons";
 
-interface TestReadyWidgetProps {
-  onViewDetails?: () => void;
-}
+interface TestReadyWidgetProps {}
 
 const READINESS_TARGET = 85;
 
@@ -231,7 +229,7 @@ const MetricCard: React.FC<{
   </div>
 );
 
-const TestReadyWidget: React.FC<TestReadyWidgetProps> = ({ onViewDetails }) => {
+const TestReadyWidget: React.FC<TestReadyWidgetProps> = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [readinessData, setReadinessData] = useState<TestReadinessData | null>(
@@ -422,19 +420,10 @@ const TestReadyWidget: React.FC<TestReadyWidgetProps> = ({ onViewDetails }) => {
 
         {/* Action Section */}
         <div className="flex gap-3 pt-6">
-          {onViewDetails && (
-            <button
-              type="button"
-              onClick={onViewDetails}
-              className={`flex-1 rounded-lg border ${theme.accentBorder} bg-white px-6 py-3 text-base font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50`}
-            >
-              View details
-            </button>
-          )}
           <button
             type="button"
             onClick={handlePracticeCta}
-            className={`flex-1 rounded-lg px-6 py-3 text-base font-semibold text-white shadow-md transition-all ${theme.cta} ${theme.ctaHover}`}
+            className={`w-full rounded-lg px-6 py-3 text-base font-semibold text-white shadow-md transition-all ${theme.cta} ${theme.ctaHover}`}
           >
             Practice now
           </button>

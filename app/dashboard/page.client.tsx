@@ -313,9 +313,7 @@ function DashboardContent() {
               </div>
 
               {/* Test Ready Widget */}
-              <TestReadyWidget
-                onViewDetails={() => handleViewChange("test-ready")}
-              />
+              <TestReadyWidget />
 
               <div className="grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2 rounded-xl border border-gray-200/70 bg-white p-6 shadow-sm">

@@ -85,15 +85,6 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
     section: "secondary",
   },
   {
-    key: "test-ready",
-    label: "Test Ready",
-    href: "/test-ready",
-    dashboardView: "test-ready",
-    icon: StarIcon,
-    requiresAuth: true,
-    section: "secondary",
-  },
-  {
     key: "faqs",
     label: "FAQs",
     href: "/faqs",
