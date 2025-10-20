@@ -5,25 +5,86 @@ import { ChatKit, useChatKit } from "@openai/chatkit-react";
 import { env } from "@/lib/env";
 import { supabase } from "@/lib/supabase/client";
 
-type SessionPayload = {
-  client_secret: string;
-  expires_after?: number | null;
-};
+type Status = "idle" | "loading" | "ready" | "error";
 
-type Status = "loading" | "ready" | "error";
+const CHATKIT_LOADER_URL =
+  process.env.NEXT_PUBLIC_CHATKIT_LOADER_URL ??
+  "https://cdn.openai.com/chatkit/v1/chatkit.js";
+
+let chatKitLoaderPromise: Promise<void> | null = null;
+
+function loadChatKitScript(): Promise<void> {
+  if (typeof window === "undefined") {
+    return Promise.resolve();
+  }
+
+  if (window.customElements?.get("openai-chatkit")) {
+    return Promise.resolve();
+  }
+
+  if (chatKitLoaderPromise) {
+    return chatKitLoaderPromise;
+  }
+
+  chatKitLoaderPromise = new Promise((resolve, reject) => {
+    const attach = (element: HTMLScriptElement) => {
+      const handleLoad = () => {
+        element.removeEventListener("load", handleLoad);
+        element.removeEventListener("error", handleError);
+        resolve();
+      };
+      const handleError = () => {
+        element.removeEventListener("load", handleLoad);
+        element.removeEventListener("error", handleError);
+        element.remove();
+        chatKitLoaderPromise = null;
+        reject(
+          new Error("Failed to load the chat experience. Please try again."),
+        );
+      };
+      element.addEventListener("load", handleLoad, { once: true });
+      element.addEventListener("error", handleError, { once: true });
+    };
+
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[data-chatkit-loader="true"]',
+    );
+    if (existing) {
+      attach(existing);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.type = "module";
+    script.async = true;
+    script.src = CHATKIT_LOADER_URL;
+    script.dataset.chatkitLoader = "true";
+    attach(script);
+    document.head.appendChild(script);
+  });
+
+  return chatKitLoaderPromise;
+}
 
 export default function ChatKitWidget() {
-  const [status, setStatus] = useState<Status>("loading");
+  const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [scriptReady, setScriptReady] = useState(false);
+  const [scriptError, setScriptError] = useState<string | null>(null);
+
+  const domainKey = env.NEXT_PUBLIC_CHATKIT_DOMAIN_PUBLIC_KEY;
+  const hasDomainKey = Boolean(domainKey);
 
   const fetchClientSecret = useCallback(
     async (current: string | null = null) => {
       if (current) {
         return current;
       }
+
       try {
-        setStatus("loading");
+        setStatus((prev) => (prev === "ready" ? prev : "loading"));
         setError(null);
+
         const {
           data: { session },
         } = await supabase.auth.getSession();
@@ -32,19 +93,27 @@ export default function ChatKitWidget() {
         const response = await fetch(`/api/chatkit/session${query}`, {
           method: "POST",
         });
+
+        const payload = (await response.json().catch(() => ({}))) as Record<
+          string,
+          unknown
+        >;
+
         if (!response.ok) {
-          const payload = (await response.json().catch(() => ({}))) as Record<
-            string,
-            unknown
-          >;
           const message =
-            (payload?.error as string) ??
-            `ChatKit session failed (${response.status})`;
+            (typeof payload.error === "string" && payload.error.length > 0
+              ? payload.error
+              : null) ?? `ChatKit session failed (${response.status})`;
           throw new Error(message);
         }
-        const payload = (await response.json()) as SessionPayload;
+
+        const clientSecret = payload.client_secret;
+        if (typeof clientSecret !== "string" || clientSecret.length === 0) {
+          throw new Error("ChatKit session response malformed");
+        }
+
         setStatus("ready");
-        return payload.client_secret;
+        return clientSecret;
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Unable to initialise chat";
@@ -57,15 +126,43 @@ export default function ChatKitWidget() {
   );
 
   useEffect(() => {
+    if (!hasDomainKey) {
+      setScriptReady(false);
+      setScriptError(null);
+      return;
+    }
+
+    let active = true;
+    loadChatKitScript()
+      .then(() => {
+        if (!active) return;
+        setScriptReady(true);
+        setScriptError(null);
+      })
+      .catch((err) => {
+        if (!active) return;
+        const message =
+          err instanceof Error
+            ? err.message
+            : "Unable to load the chat experience.";
+        setScriptReady(false);
+        setScriptError(message);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [hasDomainKey]);
+
+  useEffect(() => {
+    if (!scriptReady || !hasDomainKey) {
+      return;
+    }
+
     fetchClientSecret().catch(() => {
       // error state handled inside fetchClientSecret
     });
-  }, [fetchClientSecret]);
-
-  const domainKey = env.NEXT_PUBLIC_CHATKIT_DOMAIN_PUBLIC_KEY;
-
-  // Check if domain key is missing
-  const hasDomainKey = Boolean(domainKey);
+  }, [scriptReady, hasDomainKey, fetchClientSecret]);
 
   const options = useMemo(
     () => ({
@@ -95,42 +192,54 @@ export default function ChatKitWidget() {
 
   const { control, ref } = useChatKit(options);
 
-  useEffect(() => {
-    console.log("[ChatKitWidget] Initialization", {
-      status,
-      error,
-      domainKeyPresent: hasDomainKey,
-      hasControl: Boolean(control),
-      hasRef: Boolean(ref?.current),
-    });
-  }, [status, error, hasDomainKey, control, ref]);
-
-  useEffect(() => {
-    if (status === "ready" && control && ref?.current) {
-      console.log("[ChatKitWidget] Ready to render ChatKit", {
-        controlType: typeof control,
-        refType: typeof ref,
-        refCurrent: ref.current,
-      });
+  const handleRetry = useCallback(() => {
+    if (!hasDomainKey) {
+      return;
     }
-  }, [status, control, ref]);
 
-  useEffect(() => {
-    console.log("[ChatKitWidget] Render check", {
-      shouldRender: !(!control || !ref),
-      control: Boolean(control),
-      ref: Boolean(ref),
-      refCurrent: Boolean(ref?.current),
-    });
-  }, [control, ref]);
+    (async () => {
+      setError(null);
+      setStatus("idle");
 
-  if (status === "loading") {
-    return (
-      <div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-gray-200 bg-white text-sm text-gray-600">
-        Connecting to your AI mentor…
-      </div>
-    );
-  }
+      try {
+        await loadChatKitScript();
+        setScriptReady(true);
+        setScriptError(null);
+      } catch (err) {
+        const message =
+          err instanceof Error
+            ? err.message
+            : "Unable to load the chat experience.";
+        setScriptReady(false);
+        setScriptError(message);
+        return;
+      }
+
+      fetchClientSecret().catch(() => {
+        // session errors are handled inside fetchClientSecret
+      });
+    })();
+  }, [hasDomainKey, fetchClientSecret]);
+
+  const showConnecting = status === "idle" || status === "loading";
+
+  const renderErrorPanel = (
+    title: string,
+    message: string,
+    actionLabel = "Retry connection",
+  ) => (
+    <div className="flex min-h-[420px] flex-col items-center justify-center gap-4 rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-sm text-red-700">
+      <p className="font-semibold">{title}</p>
+      <p>{message}</p>
+      <button
+        type="button"
+        onClick={handleRetry}
+        className="rounded-full bg-red-600 px-4 py-2 font-semibold text-white shadow-sm transition hover:bg-red-700"
+      >
+        {actionLabel}
+      </button>
+    </div>
+  );
 
   if (!hasDomainKey) {
     return (
@@ -144,22 +253,30 @@ export default function ChatKitWidget() {
     );
   }
 
+  if (scriptError) {
+    return renderErrorPanel("Unable to load chat", scriptError, "Try again");
+  }
+
   if (status === "error") {
+    return renderErrorPanel(
+      "Connection failed",
+      error ?? "We couldn't connect to your mentor. Please try again.",
+      "Retry connection",
+    );
+  }
+
+  if (!scriptReady) {
     return (
-      <div className="flex min-h-[420px] flex-col items-center justify-center gap-4 rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-sm text-red-700">
-        <p className="font-semibold">Connection failed</p>
-        <p>{error}</p>
-        <button
-          type="button"
-          onClick={() =>
-            fetchClientSecret().catch(() => {
-              // retry handled internally
-            })
-          }
-          className="rounded-full bg-red-600 px-4 py-2 font-semibold text-white shadow-sm transition hover:bg-red-700"
-        >
-          Retry connection
-        </button>
+      <div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-gray-200 bg-white text-sm text-gray-600">
+        Loading chat experience…
+      </div>
+    );
+  }
+
+  if (showConnecting) {
+    return (
+      <div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-gray-200 bg-white text-sm text-gray-600">
+        Connecting to your AI mentor…
       </div>
     );
   }

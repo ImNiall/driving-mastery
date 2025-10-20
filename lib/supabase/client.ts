@@ -20,7 +20,7 @@ export const supabase =
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        flowType: process.env.NODE_ENV === "development" ? "implicit" : "pkce",
+        flowType,
       },
       global: {
         headers: {
