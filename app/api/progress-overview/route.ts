@@ -5,13 +5,19 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
+    console.log("[progress-overview] Starting request");
     const supabase = supabaseServer();
+    console.log("[progress-overview] Supabase client created");
 
     // Get the current user
     const {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser();
+    console.log("[progress-overview] Auth check:", {
+      userId: user?.id,
+      authError,
+    });
 
     // Return empty data for unauthenticated users
     if (authError || !user) {
@@ -46,9 +52,12 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false });
 
     if (attemptsError) {
-      console.error("Error fetching attempts:", attemptsError);
+      console.error(
+        "[progress-overview] Error fetching attempts:",
+        attemptsError,
+      );
       return NextResponse.json(
-        { error: "Failed to fetch attempts" },
+        { error: "Failed to fetch attempts", details: attemptsError.message },
         { status: 500 },
       );
     }
@@ -114,6 +123,10 @@ export async function GET(request: NextRequest) {
       ].filter(Boolean),
     };
 
+    console.log("[progress-overview] Success:", {
+      categoriesCount: categories.length,
+      masteryPoints,
+    });
     return NextResponse.json({
       categories,
       attempts: attempts || [],
@@ -121,9 +134,15 @@ export async function GET(request: NextRequest) {
       studyPlan,
     });
   } catch (error) {
-    console.error("Progress overview error:", error);
+    console.error("[progress-overview] Error:", {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
-      { error: "Internal server error" },
+      {
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 },
     );
   }
