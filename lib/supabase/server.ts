@@ -16,7 +16,9 @@ export function supabaseServer() {
   return createServerComponentClient<Database>({ cookies: () => cookieStore });
 }
 
-function createServiceRoleClient(): SupabaseClient<Database> {
+type SupabaseRouteClient = ReturnType<typeof supabaseServer>;
+
+function createServiceRoleClient(): SupabaseRouteClient {
   if (!serverEnv.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error("SUPABASE_SERVICE_ROLE_KEY is not configured");
   }
@@ -30,11 +32,11 @@ function createServiceRoleClient(): SupabaseClient<Database> {
         autoRefreshToken: false,
       },
     },
-  );
+  ) as unknown as SupabaseRouteClient;
 }
 
 type RouteContext = {
-  supabase: SupabaseClient<Database>;
+  supabase: SupabaseRouteClient;
   user: User | null;
   error: AuthError | null;
   token: string | null;
@@ -80,7 +82,7 @@ export async function getSupabaseRouteContext(
     );
     const { data, error } = await supabase.auth.getUser(token);
     return {
-      supabase,
+      supabase: supabase as unknown as SupabaseRouteClient,
       user: data?.user ?? null,
       error,
       token,
