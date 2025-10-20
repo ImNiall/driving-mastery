@@ -52,7 +52,13 @@ async function callFn<T>(
   attempt = 0,
 ): Promise<T> {
   const token = await getToken();
-  const res = await fetch(`/.netlify/functions/${name}`, {
+
+  // Use local API routes in development, Netlify functions in production
+  const isLocal =
+    typeof window !== "undefined" && window.location.hostname === "localhost";
+  const baseUrl = isLocal ? "/api" : "/.netlify/functions";
+
+  const res = await fetch(`${baseUrl}/${name}`, {
     ...(init || {}),
     headers: {
       "Content-Type": "application/json",
