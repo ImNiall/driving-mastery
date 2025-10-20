@@ -104,8 +104,6 @@ function DashboardContent() {
         return <MembershipsDashboardView />;
       case "about":
         return <AboutDashboardView />;
-      case "theo":
-        return <ChatDashboardView />;
       case "profile":
         return <ProfilePageClient />;
       default:
