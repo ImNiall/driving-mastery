@@ -364,13 +364,7 @@ const TestReadyWidget: React.FC<TestReadyWidgetProps> = ({ onViewDetails }) => {
   const weakestCategory = readinessData.weakestCategories?.[0];
 
   const handlePracticeCta = () => {
-    if (readinessData.status === "ready") {
-      window.location.href = "/mock-test";
-    } else if (weakestCategory) {
-      window.location.href = "/quiz-by-category";
-    } else {
-      window.location.href = "/modules";
-    }
+    window.location.href = "/mock-test";
   };
 
   return (
@@ -442,9 +436,7 @@ const TestReadyWidget: React.FC<TestReadyWidgetProps> = ({ onViewDetails }) => {
             onClick={handlePracticeCta}
             className={`flex-1 rounded-lg px-6 py-3 text-base font-semibold text-white shadow-md transition-all ${theme.cta} ${theme.ctaHover}`}
           >
-            {readinessData.status === "ready"
-              ? "Take mock test"
-              : "Practice now"}
+            Practice now
           </button>
         </div>
       </div>
