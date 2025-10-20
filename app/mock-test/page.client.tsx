@@ -5,6 +5,7 @@ import { QUESTION_BANK } from "@/constants";
 import type { Question, Category } from "@/types";
 import QuestionCard from "@/components/QuestionCard";
 import QuizTimer from "@/components/QuizTimer";
+import BackToDashboardLink from "@/components/BackToDashboardLink";
 import { ProgressService } from "@/lib/services/progress";
 import {
   ArrowLeftIcon,
@@ -526,12 +527,7 @@ Are you sure you want to finish the test now?`
     return (
       <main className="mx-auto max-w-5xl p-6">
         <div className="max-w-4xl mx-auto animate-fade-in">
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="text-brand-blue font-semibold mb-6"
-          >
-            &larr; Back to Dashboard
-          </button>
+          <BackToDashboardLink className="mb-6 inline-flex" />
 
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-800">
@@ -793,12 +789,7 @@ Are you sure you want to finish the test now?`
             </div>
           </div>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <button
-              onClick={() => router.push("/dashboard")}
-              className="rounded-full border border-gray-300 px-6 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100"
-            >
-              Back to Dashboard
-            </button>
+            <BackToDashboardLink variant="pill" />
             <button
               onClick={() => window.location.reload()}
               className="rounded-full bg-brand-blue px-6 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
@@ -960,6 +951,7 @@ Are you sure you want to finish the test now?`
           : "mx-auto max-w-4xl p-4 sm:p-6 space-y-4"
       }
     >
+      {variant === "page" ? <BackToDashboardLink /> : null}
       <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-gray-800">Mock Test</h1>

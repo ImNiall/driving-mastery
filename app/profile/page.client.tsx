@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import BackToDashboardLink from "@/components/BackToDashboardLink";
 import { ProgressService } from "@/lib/services/progress";
 
 export default function ProfilePageClient() {
@@ -44,8 +45,9 @@ export default function ProfilePageClient() {
   };
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <div className="mb-8">
+    <main className="mx-auto max-w-2xl space-y-6 p-6">
+      <BackToDashboardLink />
+      <div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Profile Settings
         </h1>

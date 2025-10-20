@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+import BackToDashboardLink from "@/components/BackToDashboardLink";
+
 const values = [
   {
     title: "Learner-first design",
@@ -46,6 +48,11 @@ export function AboutContent({ variant = "page" }: AboutContentProps) {
 
   return (
     <div className={isDashboard ? "space-y-12" : undefined}>
+      {!isDashboard && (
+        <div className="mx-auto max-w-5xl px-4 pt-6">
+          <BackToDashboardLink />
+        </div>
+      )}
       {isDashboard ? (
         <header className="rounded-3xl border border-gray-200/70 bg-white px-6 py-5 shadow-sm">
           <span className="inline-flex items-center justify-center rounded-full bg-brand-blue-light px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-blue">
