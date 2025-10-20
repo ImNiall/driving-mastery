@@ -5,9 +5,7 @@ import type { Database } from "@/src/types/supabase";
 
 export const dynamic = "force-dynamic";
 
-type AttemptRow = Database["public"]["Tables"]["quiz_attempts"]["Row"] & {
-  dvsa_category?: string | null;
-};
+type AttemptRow = Database["public"]["Tables"]["quiz_attempts"]["Row"];
 
 const requestSchema = z.object({
   source: z.string().min(1).optional(),
@@ -38,9 +36,7 @@ export async function POST(request: NextRequest) {
 
   const { data, error } = await supabase
     .from("quiz_attempts")
-    .select(
-      "id, source, current_index, started_at, finished_at, questions, dvsa_category",
-    )
+    .select("id, source, current_index, started_at, finished_at, questions")
     .eq("user_id", user.id)
     .eq("source", source)
     .order("started_at", { ascending: false })
@@ -63,7 +59,6 @@ export async function POST(request: NextRequest) {
       current_index: 0,
       questions: null,
       finished: true,
-      dvsa_category: null,
     });
   }
 
@@ -76,6 +71,5 @@ export async function POST(request: NextRequest) {
     current_index: attempt.current_index ?? 0,
     questions: attempt.questions ?? null,
     finished: Boolean(attempt.finished_at),
-    dvsa_category: attempt.dvsa_category ?? null,
   });
 }
