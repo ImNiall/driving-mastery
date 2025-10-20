@@ -105,6 +105,25 @@ export default function ChatKitWidget() {
     });
   }, [status, error, hasDomainKey, control, ref]);
 
+  useEffect(() => {
+    if (status === "ready" && control && ref?.current) {
+      console.log("[ChatKitWidget] Ready to render ChatKit", {
+        controlType: typeof control,
+        refType: typeof ref,
+        refCurrent: ref.current,
+      });
+    }
+  }, [status, control, ref]);
+
+  useEffect(() => {
+    console.log("[ChatKitWidget] Render check", {
+      shouldRender: !(!control || !ref),
+      control: Boolean(control),
+      ref: Boolean(ref),
+      refCurrent: Boolean(ref?.current),
+    });
+  }, [control, ref]);
+
   if (status === "loading") {
     return (
       <div className="flex min-h-[420px] items-center justify-center rounded-3xl border border-gray-200 bg-white text-sm text-gray-600">
