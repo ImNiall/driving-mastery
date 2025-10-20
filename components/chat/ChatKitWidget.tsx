@@ -64,10 +64,13 @@ export default function ChatKitWidget() {
 
   const domainKey = env.NEXT_PUBLIC_CHATKIT_DOMAIN_PUBLIC_KEY;
 
+  // Check if domain key is missing
+  const hasDomainKey = Boolean(domainKey);
+
   const options = useMemo(
     () => ({
       api: {
-        domainKey,
+        domainKey: domainKey || "",
         getClientSecret: fetchClientSecret,
       },
       header: {
@@ -93,19 +96,14 @@ export default function ChatKitWidget() {
   const { control, ref } = useChatKit(options);
 
   useEffect(() => {
-    console.log("[ChatKitWidget] status", {
+    console.log("[ChatKitWidget] Initialization", {
       status,
       error,
-      domainKeyPresent: Boolean(domainKey),
-    });
-  }, [status, error, domainKey]);
-
-  useEffect(() => {
-    console.log("[ChatKitWidget] control", {
+      domainKeyPresent: hasDomainKey,
       hasControl: Boolean(control),
       hasRef: Boolean(ref?.current),
     });
-  }, [control, ref]);
+  }, [status, error, hasDomainKey, control, ref]);
 
   if (status === "loading") {
     return (
@@ -115,9 +113,22 @@ export default function ChatKitWidget() {
     );
   }
 
+  if (!hasDomainKey) {
+    return (
+      <div className="flex min-h-[420px] flex-col items-center justify-center gap-4 rounded-3xl border border-amber-200 bg-amber-50 p-8 text-center text-sm text-amber-700">
+        <p className="font-semibold">ChatKit configuration missing</p>
+        <p className="text-xs">
+          Please ensure NEXT_PUBLIC_CHATKIT_DOMAIN_PUBLIC_KEY is set in your
+          environment variables.
+        </p>
+      </div>
+    );
+  }
+
   if (status === "error") {
     return (
       <div className="flex min-h-[420px] flex-col items-center justify-center gap-4 rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-sm text-red-700">
+        <p className="font-semibold">Connection failed</p>
         <p>{error}</p>
         <button
           type="button"
@@ -130,6 +141,14 @@ export default function ChatKitWidget() {
         >
           Retry connection
         </button>
+      </div>
+    );
+  }
+
+  if (!control || !ref) {
+    return (
+      <div className="flex min-h-[540px] items-center justify-center rounded-3xl border border-gray-200 bg-white text-sm text-gray-600">
+        Initializing chat interface…
       </div>
     );
   }
