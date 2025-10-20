@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import LeaderboardView from "@/components/LeaderboardView";
+import BackToDashboardLink from "@/components/BackToDashboardLink";
 import { ProgressService } from "@/lib/services/progress";
 
 export default function LeaderboardPage() {
@@ -31,7 +32,8 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl p-6">
+    <main className="mx-auto max-w-4xl space-y-6 p-6">
+      <BackToDashboardLink />
       <LeaderboardView currentUserMasteryPoints={points} />
     </main>
   );

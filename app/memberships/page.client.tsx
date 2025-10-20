@@ -8,6 +8,8 @@ import {
   XCircleIcon,
 } from "@/components/icons";
 
+import BackToDashboardLink from "@/components/BackToDashboardLink";
+
 type MembershipKey = "free" | "pro";
 
 type Feature = {
@@ -80,6 +82,11 @@ export function MembershipsContent({
 
   return (
     <div className={isDashboard ? "space-y-10" : undefined}>
+      {!isDashboard && (
+        <div className="mx-auto max-w-5xl px-4 pt-6">
+          <BackToDashboardLink />
+        </div>
+      )}
       {isDashboard ? (
         <header className="rounded-3xl border border-gray-200/70 bg-white px-6 py-5 text-center shadow-sm sm:text-left">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue-light px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-blue">

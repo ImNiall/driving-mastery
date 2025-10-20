@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Bookmark, Share2, ChevronRight } from "lucide-react";
 import React from "react";
 
+import BackToDashboardLink from "@/components/BackToDashboardLink";
+
 interface ModuleHeaderProps {
   slug: string;
   title: string;
@@ -34,7 +36,10 @@ export default function ModuleHeader({
   return (
     <header className="sticky top-0 z-10 -mx-4 mb-8 border-b border-slate-200 bg-white/90 px-4 py-6 backdrop-blur sm:rounded-3xl sm:border sm:px-6 sm:shadow-lg">
       <div className="mx-auto max-w-5xl space-y-4">
-        <nav aria-label="breadcrumb">
+        <nav
+          aria-label="breadcrumb"
+          className="flex flex-wrap items-center justify-between gap-3 sm:justify-start"
+        >
           <Link
             href="/modules"
             className="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue transition hover:text-brand-blue/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue"
@@ -42,6 +47,7 @@ export default function ModuleHeader({
             <span aria-hidden>←</span>
             Back to Modules
           </Link>
+          <BackToDashboardLink />
         </nav>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BackToDashboardLink from "@/components/BackToDashboardLink";
 import { ProgressService } from "@/lib/services/progress";
 
 interface StudyGroup {
@@ -263,8 +264,9 @@ const StudyGroups: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-8">
+    <div className="mx-auto max-w-6xl space-y-8 p-6">
+      <BackToDashboardLink />
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Study Groups 👥

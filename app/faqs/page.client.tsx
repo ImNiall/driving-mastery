@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import BackToDashboardLink from "@/components/BackToDashboardLink";
 import { FAQ_SECTIONS } from "@/content/faqs";
 
 type AccordionKey = `${string}:${string}`;
@@ -35,6 +36,9 @@ export default function FaqsPage() {
   return (
     <main className="bg-slate-50">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <div className="mb-6">
+          <BackToDashboardLink />
+        </div>
         <section className="rounded-3xl bg-white px-6 py-12 shadow-xl sm:px-8 lg:px-12">
           <div className="max-w-3xl space-y-5">
             <span className="inline-flex items-center rounded-full bg-brand-blue/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brand-blue">
