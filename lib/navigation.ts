@@ -21,8 +21,7 @@ export type DashboardViewKey =
   | "test-ready"
   | "profile"
   | "memberships"
-  | "about"
-  | "theo";
+  | "about";
 
 export type IconComponent = ComponentType<{ className?: string }>;
 
@@ -69,8 +68,7 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     key: "theo",
     label: "Theo Mentor",
-    href: "/dashboard?view=theo",
-    dashboardView: "theo",
+    href: "/mentor",
     icon: ChatIcon,
     requiresAuth: true,
     section: "primary",
