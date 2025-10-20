@@ -30,8 +30,18 @@ export async function POST(request: NextRequest) {
   try {
     const openAiKey = serverEnv.OPENAI_API_KEY;
     if (!openAiKey) {
+      console.error("[ChatKit] OPENAI_API_KEY not configured");
       return NextResponse.json(
         { error: "OPENAI_API_KEY not configured" },
+        { status: 500 },
+      );
+    }
+
+    const workflowId = serverEnv.WORKFLOW_ID;
+    if (!workflowId) {
+      console.error("[ChatKit] WORKFLOW_ID not configured");
+      return NextResponse.json(
+        { error: "WORKFLOW_ID not configured" },
         { status: 500 },
       );
     }
@@ -46,7 +56,7 @@ export async function POST(request: NextRequest) {
     const existingSessionId =
       cookieStore.get(SESSION_COOKIE_NAME)?.value ?? null;
 
-    const workflowId = serverEnv.WORKFLOW_ID;
+    console.log("[ChatKit] Creating session with workflow:", workflowId);
 
     const response = await fetch(`${CHATKIT_API_BASE}/v1/chatkit/sessions`, {
       method: "POST",
@@ -64,7 +74,10 @@ export async function POST(request: NextRequest) {
     const payload = await response.json();
 
     if (!response.ok) {
-      console.error("ChatKit session create failed", payload);
+      console.error("[ChatKit] Session creation failed", {
+        status: response.status,
+        error: payload?.error ?? payload,
+      });
       return NextResponse.json(
         {
           error: "chatkit_session_error",
@@ -73,6 +86,8 @@ export async function POST(request: NextRequest) {
         { status: response.status },
       );
     }
+
+    console.log("[ChatKit] Session created successfully");
 
     const sessionCookie = buildCookieHeader(
       existingSessionId ?? crypto.randomUUID(),
@@ -88,9 +103,9 @@ export async function POST(request: NextRequest) {
       headers,
     });
   } catch (error) {
-    console.error("ChatKit session route error", error);
+    console.error("[ChatKit] Session route error", error);
     return NextResponse.json(
-      { error: "chatkit_session_unexpected" },
+      { error: "chatkit_session_unexpected", details: String(error) },
       { status: 500 },
     );
   }
