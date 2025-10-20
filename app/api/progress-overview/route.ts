@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
       supabase
         .from("quiz_attempts")
         .select(
-          "id, started_at, finished_at, total, correct, score_percent, duration_sec, source, dvsa_category",
+          "id, started_at, finished_at, total, correct, score_percent, duration_sec, source",
         )
         .eq("user_id", user.id)
         .order("started_at", { ascending: false })
@@ -127,31 +127,25 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const categories = (categoriesResponse.data ?? []).map(
-    (row: CategoryRow) => ({
-      category: row.category ?? "Mixed",
-      correct: row.correct ?? 0,
-      total: row.total ?? 0,
-    }),
-  );
+  const categories = (categoriesResponse.data ?? []).map((row: any) => ({
+    category: row.category ?? "Mixed",
+    correct: row.correct ?? 0,
+    total: row.total ?? 0,
+  }));
 
-  const attempts = (attemptsResponse.data ?? []).map((attempt) => {
-    const record = attempt as AttemptRow;
-    return {
-      id: record.id,
-      source: record.source ?? "module",
-      total: record.total ?? 0,
-      correct: record.correct ?? 0,
-      score_percent: record.score_percent ?? 0,
-      started_at: record.started_at,
-      finished_at: record.finished_at,
-      duration_sec: record.duration_sec ?? null,
-      dvsa_category: record.dvsa_category ?? null,
-    };
-  });
+  const attempts = (attemptsResponse.data ?? []).map((attempt: any) => ({
+    id: attempt.id,
+    source: attempt.source ?? "module",
+    total: attempt.total ?? 0,
+    correct: attempt.correct ?? 0,
+    score_percent: attempt.score_percent ?? 0,
+    started_at: attempt.started_at,
+    finished_at: attempt.finished_at,
+    duration_sec: attempt.duration_sec ?? null,
+  }));
 
   const masteryPoints = (masteryResponse.data ?? []).reduce(
-    (sum, row: MasteryRow) => {
+    (sum: number, row: any) => {
       return sum + (row.points ?? 0);
     },
     0,
