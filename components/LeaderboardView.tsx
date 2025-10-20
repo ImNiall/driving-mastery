@@ -187,7 +187,7 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
           Leaderboard
         </h2>
         <p className="text-gray-600 mt-2">
-          Track real learner progress with streaks, achievements, and study time
+          See how you compare with streaks, achievements, and study time
           insights. Keep climbing by mastering quizzes every day.
         </p>
       </div>
