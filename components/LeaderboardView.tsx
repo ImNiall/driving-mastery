@@ -337,16 +337,6 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
                         </div>
                       )}
 
-                      {(entry.categoriesMastered || 0) > 0 && (
-                        <div className="text-xs text-gray-500">
-                          {pluralise(
-                            entry.categoriesMastered || 0,
-                            "category mastered",
-                            "categories mastered",
-                          )}
-                        </div>
-                      )}
-
                       {testCountdown && (
                         <div className="text-sm font-medium text-blue-600">
                           {testCountdown}
@@ -375,10 +365,6 @@ const LeaderboardView: React.FC<LeaderboardViewProps> = ({
             </p>
           </div>
         )}
-
-      <div className="mt-4 text-sm text-gray-400 text-center">
-        Tracking {totalEntries} active learners across Driving Mastery.
-      </div>
     </div>
   );
 };
