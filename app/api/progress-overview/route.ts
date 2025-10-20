@@ -1,149 +1,172 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabase/server";
+import { getSupabaseRouteContext } from "@/lib/supabase/server";
+import type { Database } from "@/src/types/supabase";
 
 export const dynamic = "force-dynamic";
 
+type CategoryRow = Database["public"]["Views"]["v_category_performance"]["Row"];
+type AttemptRow = Database["public"]["Tables"]["quiz_attempts"]["Row"] & {
+  dvsa_category?: string | null;
+};
+type MasteryRow = Database["public"]["Tables"]["module_mastery"]["Row"];
+type StudyPlanRow = Database["public"]["Tables"]["study_plan_state"]["Row"];
+
+const EMPTY_OVERVIEW = {
+  categories: [] as Array<{ category: string; correct: number; total: number }>,
+  attempts: [] as Array<Record<string, unknown>>,
+  masteryPoints: 0,
+  studyPlan: {
+    currentLevel: "Beginner",
+    recommendedActions: [] as string[],
+    plan: null as {
+      planKey: string;
+      steps: StudyPlanRow["steps"];
+      updatedAt: StudyPlanRow["updated_at"];
+    } | null,
+  },
+};
+
+function buildStudyPlanSummary(points: number, plan: StudyPlanRow | null) {
+  const currentLevel =
+    points >= 80 ? "Advanced" : points >= 60 ? "Intermediate" : "Beginner";
+  const recommendedActions = [
+    points < 60 ? "Focus on theory modules" : null,
+    points < 80 ? "Practice weak categories" : null,
+    points >= 80 ? "Take mock tests" : null,
+  ].filter(Boolean) as string[];
+
+  return {
+    currentLevel,
+    recommendedActions,
+    plan: plan
+      ? {
+          planKey: plan.plan_key,
+          steps: plan.steps,
+          updatedAt: plan.updated_at,
+        }
+      : null,
+  };
+}
+
 export async function GET(request: NextRequest) {
-  try {
-    console.log("[progress-overview] Starting request");
-    const supabase = supabaseServer();
-    console.log("[progress-overview] Supabase client created");
+  const {
+    supabase,
+    user,
+    error: authError,
+  } = await getSupabaseRouteContext(request);
 
-    // Get the current user
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-    console.log("[progress-overview] Auth check:", {
-      userId: user?.id,
-      authError,
-    });
+  if (authError || !user) {
+    return NextResponse.json(EMPTY_OVERVIEW);
+  }
 
-    // Return empty data for unauthenticated users
-    if (authError || !user) {
-      return NextResponse.json({
-        categories: [],
-        attempts: [],
-        masteryPoints: 0,
-        studyPlan: {
-          currentLevel: "Beginner",
-          recommendedActions: [],
-        },
-      });
-    }
+  const [categoriesResponse, attemptsResponse, masteryResponse, planResponse] =
+    await Promise.all([
+      supabase
+        .from("v_category_performance")
+        .select("category, correct, total")
+        .eq("user_id", user.id),
+      supabase
+        .from("quiz_attempts")
+        .select(
+          "id, started_at, finished_at, total, correct, score_percent, duration_sec, source, dvsa_category",
+        )
+        .eq("user_id", user.id)
+        .order("started_at", { ascending: false })
+        .limit(20),
+      supabase.from("module_mastery").select("points").eq("user_id", user.id),
+      supabase
+        .from("study_plan_state")
+        .select("plan_key, steps, updated_at")
+        .eq("user_id", user.id)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
 
-    // Get user's quiz attempts
-    const { data: attempts, error: attemptsError } = await supabase
-      .from("quiz_attempts")
-      .select(
-        `
-        id,
-        score_percent,
-        total_questions,
-        correct_answers,
-        source,
-        dvsa_category,
-        started_at,
-        finished_at,
-        created_at
-      `,
-      )
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
-
-    if (attemptsError) {
-      console.error(
-        "[progress-overview] Error fetching attempts:",
-        attemptsError,
-      );
-      return NextResponse.json(
-        { error: "Failed to fetch attempts", details: attemptsError.message },
-        { status: 500 },
-      );
-    }
-
-    // Calculate category statistics
-    const categoryStats: Record<string, { correct: number; total: number }> =
-      {};
-
-    (attempts || []).forEach((attempt) => {
-      const category = attempt.dvsa_category || "Mixed";
-      if (!categoryStats[category]) {
-        categoryStats[category] = { correct: 0, total: 0 };
-      }
-      categoryStats[category].correct += attempt.correct_answers || 0;
-      categoryStats[category].total += attempt.total_questions || 0;
-    });
-
-    // Convert to array format
-    const categories = Object.entries(categoryStats).map(
-      ([category, stats]) => ({
-        category,
-        correct: stats.correct,
-        total: stats.total,
-      }),
+  if (categoriesResponse.error) {
+    console.error(
+      "progress-overview: failed to load categories",
+      categoriesResponse.error,
     );
-
-    // Calculate mastery points (simple calculation based on performance)
-    const totalCorrect = categories.reduce((sum, cat) => sum + cat.correct, 0);
-    const totalQuestions = categories.reduce((sum, cat) => sum + cat.total, 0);
-    const masteryPoints =
-      totalQuestions > 0
-        ? Math.round((totalCorrect / totalQuestions) * 100)
-        : 0;
-
-    // If no data, return 0%
-    if (categories.length === 0) {
-      return NextResponse.json({
-        categories: [],
-        attempts: [],
-        masteryPoints: 0,
-        studyPlan: {
-          currentLevel: "Beginner",
-          recommendedActions: [
-            "Start with modules",
-            "Complete practice questions",
-          ],
-        },
-      });
-    }
-
-    // Basic study plan (placeholder)
-    const studyPlan = {
-      currentLevel:
-        masteryPoints >= 80
-          ? "Advanced"
-          : masteryPoints >= 60
-            ? "Intermediate"
-            : "Beginner",
-      recommendedActions: [
-        masteryPoints < 60 ? "Focus on theory modules" : null,
-        masteryPoints < 80 ? "Practice weak categories" : null,
-        masteryPoints >= 80 ? "Take mock tests" : null,
-      ].filter(Boolean),
-    };
-
-    console.log("[progress-overview] Success:", {
-      categoriesCount: categories.length,
-      masteryPoints,
-    });
-    return NextResponse.json({
-      categories,
-      attempts: attempts || [],
-      masteryPoints,
-      studyPlan,
-    });
-  } catch (error) {
-    console.error("[progress-overview] Error:", {
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-    });
     return NextResponse.json(
-      {
-        error: "Internal server error",
-        details: error instanceof Error ? error.message : String(error),
-      },
+      { error: "Failed to load progress overview" },
       { status: 500 },
     );
   }
+
+  if (attemptsResponse.error) {
+    console.error(
+      "progress-overview: failed to load attempts",
+      attemptsResponse.error,
+    );
+    return NextResponse.json(
+      { error: "Failed to load progress overview" },
+      { status: 500 },
+    );
+  }
+
+  if (masteryResponse.error) {
+    console.error(
+      "progress-overview: failed to load mastery",
+      masteryResponse.error,
+    );
+    return NextResponse.json(
+      { error: "Failed to load progress overview" },
+      { status: 500 },
+    );
+  }
+
+  if (planResponse.error && planResponse.error.code !== "PGRST116") {
+    console.error(
+      "progress-overview: failed to load study plan",
+      planResponse.error,
+    );
+    return NextResponse.json(
+      { error: "Failed to load progress overview" },
+      { status: 500 },
+    );
+  }
+
+  const categories = (categoriesResponse.data ?? []).map(
+    (row: CategoryRow) => ({
+      category: row.category ?? "Mixed",
+      correct: row.correct ?? 0,
+      total: row.total ?? 0,
+    }),
+  );
+
+  const attempts = (attemptsResponse.data ?? []).map((attempt) => {
+    const record = attempt as AttemptRow;
+    return {
+      id: record.id,
+      source: record.source ?? "module",
+      total: record.total ?? 0,
+      correct: record.correct ?? 0,
+      score_percent: record.score_percent ?? 0,
+      started_at: record.started_at,
+      finished_at: record.finished_at,
+      duration_sec: record.duration_sec ?? null,
+      dvsa_category: record.dvsa_category ?? null,
+    };
+  });
+
+  const masteryPoints = (masteryResponse.data ?? []).reduce(
+    (sum, row: MasteryRow) => {
+      return sum + (row.points ?? 0);
+    },
+    0,
+  );
+
+  const planData = planResponse.data ?? null;
+  const studyPlan = buildStudyPlanSummary(
+    masteryPoints,
+    planData as StudyPlanRow | null,
+  );
+
+  return NextResponse.json({
+    categories,
+    attempts,
+    masteryPoints,
+    studyPlan,
+  });
 }

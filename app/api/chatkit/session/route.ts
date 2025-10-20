@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { OpenAI } from "openai";
 import { serverEnv } from "@/lib/env.server";
 
 const SESSION_COOKIE_NAME = "chatkit_session_id";
@@ -7,9 +6,13 @@ const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const CHATKIT_API_BASE =
   process.env.CHATKIT_API_BASE ?? "https://api.openai.com";
 
-const client = new OpenAI({
-  apiKey: serverEnv.OPENAI_API_KEY,
-});
+const isDebugEnabled = process.env.NODE_ENV !== "production";
+const debug = (...args: unknown[]) => {
+  if (isDebugEnabled) {
+    // eslint-disable-next-line no-console
+    console.info(...args);
+  }
+};
 
 function buildCookieHeader(value: string | null) {
   if (!value) return undefined;
@@ -56,7 +59,7 @@ export async function POST(request: NextRequest) {
     const existingSessionId =
       cookieStore.get(SESSION_COOKIE_NAME)?.value ?? null;
 
-    console.log("[ChatKit] Creating session with workflow:", workflowId);
+    debug("[ChatKit] Creating session with workflow:", workflowId);
 
     const response = await fetch(`${CHATKIT_API_BASE}/v1/chatkit/sessions`, {
       method: "POST",
@@ -87,7 +90,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("[ChatKit] Session created successfully");
+    debug("[ChatKit] Session created successfully");
 
     const sessionCookie = buildCookieHeader(
       existingSessionId ?? crypto.randomUUID(),
