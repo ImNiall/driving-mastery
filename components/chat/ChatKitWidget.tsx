@@ -61,11 +61,32 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
     );
   }
 
+  const storageKey = "chatkitAnonId";
+  let userId: string | null = null;
+
+  try {
+    userId = window.localStorage.getItem(storageKey);
+  } catch (error) {
+    console.warn("[ChatKit] localStorage unavailable", error);
+  }
+
+  if (!userId) {
+    userId = `anon-${crypto.randomUUID()}`;
+    try {
+      window.localStorage.setItem(storageKey, userId);
+    } catch (error) {
+      console.warn("[ChatKit] unable to persist anon id", error);
+    }
+  }
+
   const { control } = useChatKit({
     domainPublicKey: domainKey,
     api: {
       async getClientSecret() {
-        const res = await fetch("/api/chatkit/session", { method: "POST" });
+        const res = await fetch(
+          `/api/chatkit/session?userId=${encodeURIComponent(userId!)}`,
+          { method: "POST" },
+        );
         const payload = await res.json();
         if (!res.ok || !payload?.client_secret) {
           throw new Error("No client_secret");
