@@ -21,8 +21,33 @@ export default function ChatKitWidget() {
           const {
             data: { session },
           } = await supabase.auth.getSession();
-          const userId = session?.user?.id;
-          const query = userId ? `?userId=${encodeURIComponent(userId)}` : "";
+
+          let userId = session?.user?.id ?? null;
+
+          if (!userId) {
+            const storageKey = "chatkitAnonId";
+            let anonId = null;
+
+            try {
+              anonId = window.localStorage.getItem(storageKey);
+            } catch (error) {
+              console.warn("[ChatKit] localStorage unavailable", error);
+            }
+
+            if (!anonId) {
+              anonId = crypto.randomUUID();
+              try {
+                window.localStorage.setItem(storageKey, anonId);
+              } catch (error) {
+                console.warn("[ChatKit] unable to persist anon id", error);
+              }
+            }
+
+            userId = `anon-${anonId}`;
+            console.log("[ChatKit] using anonymous user id");
+          }
+
+          const query = `?userId=${encodeURIComponent(userId)}`;
 
           const response = await fetch(`/api/chatkit/session${query}`, {
             method: "POST",
