@@ -8,6 +8,10 @@ const EnvSchema = z.object({
     .url()
     .default("https://www.drivingmastery.co.uk"),
   NEXT_PUBLIC_CHATKIT_DOMAIN_PUBLIC_KEY: z.string().min(10).optional(),
+  NEXT_PUBLIC_CHATKIT_LOADER_URL: z
+    .string()
+    .url()
+    .default("https://cdn.openai.com/chatkit/latest/chatkit.js"),
   NODE_ENV: z.enum(["development", "test", "production"]).default("production"),
 });
 
@@ -21,5 +25,7 @@ export const env = EnvSchema.parse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_CHATKIT_DOMAIN_PUBLIC_KEY:
     trimmedDomainKey.length > 0 ? trimmedDomainKey : undefined,
+  NEXT_PUBLIC_CHATKIT_LOADER_URL:
+    process.env.NEXT_PUBLIC_CHATKIT_LOADER_URL?.trim() || undefined,
   NODE_ENV: process.env.NODE_ENV,
 });
