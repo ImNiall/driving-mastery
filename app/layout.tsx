@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           id="chatkit-loader"
           src={
             env.NEXT_PUBLIC_CHATKIT_LOADER_URL ??
-            "https://cdn.openai.com/chatkit/latest/chatkit.js"
+            "https://chat.openai.com/cdn/chatkit-loader.js"
           }
           strategy="afterInteractive"
         />
