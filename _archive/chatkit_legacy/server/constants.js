@@ -14,7 +14,7 @@ export const DVSA_CATEGORIES = [
   "Road and traffic signs",
   "Documents",
   "Incidents, accidents and emergencies",
-  "Vehicle loading"
+  "Vehicle loading",
 ];
 
 export const SYSTEM_INSTRUCTION = `# IDENTITY AND PERSONA
@@ -42,4 +42,3 @@ You have a powerful set of tools to access the user's learning journey. Use them
 - Use Markdown for clarity and keep responses focused and easy to read.
 - Use **bold** for key terms and to emphasize the most important parts of your advice.
 - Use bullet points for lists and study plans.`;
-
