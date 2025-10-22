@@ -358,7 +358,7 @@ export default function ModulesIndex({
   return (
     <div className="space-y-6">
       {derived.recommendedModules.length > 0 ? (
-        <section className="space-y-4 rounded-3xl border border-brand-blue/15 bg-brand-blue/5 p-6">
+        <section className="space-y-4 rounded-3xl bg-brand-blue/5 p-6">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-brand-blue">

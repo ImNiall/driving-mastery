@@ -3,8 +3,6 @@ import { serverEnv } from "@/lib/env.server";
 
 const SESSION_COOKIE_NAME = "chatkit_session_id";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
-const CHATKIT_API_BASE =
-  process.env.CHATKIT_API_BASE ?? "https://api.openai.com";
 
 const isDebugEnabled = process.env.NODE_ENV !== "production";
 const debug = (...args: unknown[]) => {
@@ -40,18 +38,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const workflowId = serverEnv.WORKFLOW_ID;
-    if (!workflowId) {
-      console.error("[ChatKit] WORKFLOW_ID not configured");
-      return NextResponse.json(
-        { error: "WORKFLOW_ID not configured" },
-        { status: 500 },
-      );
-    }
+    const url = new URL(request.url);
+    const urlWorkflowId = url.searchParams.get("workflow") ?? undefined;
+    const workflowId = (urlWorkflowId ?? serverEnv.WORKFLOW_ID ?? "").trim();
 
-    const { searchParams } = new URL(request.url);
     const userId =
-      searchParams.get("userId") ??
+      url.searchParams.get("userId") ??
       request.headers.get("x-user-id") ??
       undefined;
 
@@ -61,17 +53,19 @@ export async function POST(request: NextRequest) {
 
     debug("[ChatKit] Creating session with workflow:", workflowId);
 
-    const response = await fetch(`${CHATKIT_API_BASE}/v1/chatkit/sessions`, {
+    const body: Record<string, unknown> = { user: userId };
+    if (workflowId) {
+      body.workflow = { id: workflowId };
+    }
+
+    const response = await fetch("https://api.openai.com/v1/chatkit/sessions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${openAiKey}`,
         "OpenAI-Beta": "chatkit_beta=v1",
       },
-      body: JSON.stringify({
-        workflow: { id: workflowId },
-        user: userId,
-      }),
+      body: JSON.stringify(body),
     });
 
     const payload = await response.json();
@@ -101,10 +95,20 @@ export async function POST(request: NextRequest) {
     };
     if (sessionCookie) headers["Set-Cookie"] = sessionCookie;
 
-    return new NextResponse(JSON.stringify(payload), {
-      status: 200,
-      headers,
-    });
+    if (typeof payload?.client_secret !== "string") {
+      console.error("[ChatKit] Session payload missing client_secret", payload);
+      return NextResponse.json(
+        {
+          error: "chatkit_session_invalid",
+        },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json(
+      { client_secret: payload.client_secret },
+      { status: 200, headers },
+    );
   } catch (error) {
     console.error("[ChatKit] Session route error", error);
     return NextResponse.json(

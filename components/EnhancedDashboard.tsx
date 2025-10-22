@@ -86,12 +86,15 @@ const EnhancedDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="mx-auto max-w-7xl px-3 py-6 sm:px-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mb-6 h-7 w-1/3 rounded bg-gray-200"></div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-48 bg-gray-200 rounded-lg"></div>
+              <div
+                key={i}
+                className="h-40 rounded-lg bg-gray-200 sm:h-48"
+              ></div>
             ))}
           </div>
         </div>
@@ -100,39 +103,43 @@ const EnhancedDashboard: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+    <div className="mx-auto max-w-7xl px-3 py-6 sm:px-6">
+      <div className="mb-8 space-y-2 sm:space-y-3">
+        <h1 className="break-words text-2xl font-bold text-gray-900 sm:text-3xl">
           Welcome back
           {userProfile?.display_name ? `, ${userProfile.display_name}` : ""}! 👋
         </h1>
-        <p className="text-gray-600">
+        <p className="max-w-2xl text-sm text-gray-600 sm:text-base">
           Here&apos;s your learning progress and achievements
         </p>
       </div>
 
       {/* Stats Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
         {/* Rank Card */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6">
+        <div className="rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 p-5 text-white sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm">Current Rank</p>
-              <p className="text-3xl font-bold">#{userStats?.rank || "N/A"}</p>
+              <p className="text-sm text-blue-100 sm:text-base">Current Rank</p>
+              <p className="text-2xl font-bold sm:text-3xl">
+                #{userStats?.rank || "N/A"}
+              </p>
             </div>
-            <div className="text-4xl">🏆</div>
+            <div className="text-3xl sm:text-4xl">🏆</div>
           </div>
-          <p className="text-blue-100 text-sm mt-2">
+          <p className="mt-2 text-xs text-blue-100 sm:text-sm">
             {userStats?.masteryPoints || 0} Mastery Points
           </p>
         </div>
 
         {/* Streak Card */}
-        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-6">
+        <div className="rounded-lg bg-gradient-to-r from-orange-500 to-red-500 p-5 text-white sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-orange-100 text-sm">Current Streak</p>
-              <p className="text-3xl font-bold">
+              <p className="text-sm text-orange-100 sm:text-base">
+                Current Streak
+              </p>
+              <p className="text-2xl font-bold sm:text-3xl">
                 {userStats?.currentStreak || 0}
               </p>
             </div>
@@ -142,20 +149,22 @@ const EnhancedDashboard: React.FC = () => {
                 level={getStreakBadgeLevel(userStats?.currentStreak || 0)}
                 size="lg"
               />
-              <span className="text-2xl">🔥</span>
+              <span className="text-xl sm:text-2xl">🔥</span>
             </div>
           </div>
-          <p className="text-orange-100 text-sm mt-2">
+          <p className="mt-2 text-xs text-orange-100 sm:text-sm">
             {userStats?.currentStreak === 1 ? "day" : "days"} in a row
           </p>
         </div>
 
         {/* Quiz Progress Card */}
-        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg p-6">
+        <div className="rounded-lg bg-gradient-to-r from-green-500 to-green-600 p-5 text-white sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm">Quizzes Completed</p>
-              <p className="text-3xl font-bold">
+              <p className="text-sm text-green-100 sm:text-base">
+                Quizzes Completed
+              </p>
+              <p className="text-2xl font-bold sm:text-3xl">
                 {userStats?.totalQuizzes || 0}
               </p>
             </div>
@@ -165,33 +174,35 @@ const EnhancedDashboard: React.FC = () => {
                 level={getQuizBadgeLevel(userStats?.totalQuizzes || 0)}
                 size="lg"
               />
-              <span className="text-2xl">📚</span>
+              <span className="text-xl sm:text-2xl">📚</span>
             </div>
           </div>
-          <p className="text-green-100 text-sm mt-2">
+          <p className="mt-2 text-xs text-green-100 sm:text-sm">
             Avg: {userStats?.averageScore || 0}% score
           </p>
         </div>
 
         {/* Weekly Progress Card */}
-        <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg p-6">
+        <div className="rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 p-5 text-white sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100 text-sm">This Week</p>
-              <p className="text-3xl font-bold">
+              <p className="text-sm text-purple-100 sm:text-base">This Week</p>
+              <p className="text-2xl font-bold sm:text-3xl">
                 {userStats?.weeklyPoints || 0}
               </p>
             </div>
-            <div className="text-4xl">⚡</div>
+            <div className="text-3xl sm:text-4xl">⚡</div>
           </div>
-          <p className="text-purple-100 text-sm mt-2">Points earned</p>
+          <p className="mt-2 text-xs text-purple-100 sm:text-sm">
+            Points earned
+          </p>
         </div>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         {/* Left Column */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="space-y-6 lg:col-span-2 lg:space-y-8">
           {/* Test Countdown */}
           {userProfile?.test_date && (
             <TestCountdown testDate={userProfile.test_date} />
@@ -201,13 +212,13 @@ const EnhancedDashboard: React.FC = () => {
           <LearningProgress />
 
           {/* Achievements Section */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <div className="rounded-lg bg-white px-4 py-5 shadow-md sm:p-6">
+            <h3 className="mb-4 flex items-center text-base font-semibold text-gray-900 sm:text-lg">
               🏅 Recent Achievements
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4 md:gap-4">
               {userStats?.currentStreak && userStats.currentStreak >= 7 && (
-                <div className="text-center p-4 bg-orange-50 rounded-lg">
+                <div className="rounded-lg bg-orange-50 p-4 text-center">
                   <Badge
                     type="streak"
                     level="silver"
@@ -222,7 +233,7 @@ const EnhancedDashboard: React.FC = () => {
               )}
 
               {userStats?.totalQuizzes && userStats.totalQuizzes >= 10 && (
-                <div className="text-center p-4 bg-green-50 rounded-lg">
+                <div className="rounded-lg bg-green-50 p-4 text-center">
                   <Badge
                     type="quiz"
                     level="silver"
@@ -237,7 +248,7 @@ const EnhancedDashboard: React.FC = () => {
               )}
 
               {userStats?.perfectScores && userStats.perfectScores >= 1 && (
-                <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                <div className="rounded-lg bg-yellow-50 p-4 text-center">
                   <Badge
                     type="perfect"
                     level="gold"
@@ -252,7 +263,7 @@ const EnhancedDashboard: React.FC = () => {
               )}
 
               {userStats?.averageScore && userStats.averageScore >= 90 && (
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <div className="rounded-lg bg-blue-50 p-4 text-center">
                   <Badge
                     type="score"
                     level="gold"
@@ -270,7 +281,7 @@ const EnhancedDashboard: React.FC = () => {
         </div>
 
         {/* Right Column */}
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* Regional Leaderboard */}
           <RegionalLeaderboard
             userCountry={userProfile?.country || undefined}
@@ -278,26 +289,26 @@ const EnhancedDashboard: React.FC = () => {
           />
 
           {/* Quick Stats */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="rounded-lg bg-white px-4 py-5 shadow-md sm:p-6">
+            <h3 className="mb-4 text-base font-semibold text-gray-900 sm:text-lg">
               📈 Quick Stats
             </h3>
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between gap-3">
                 <span className="text-sm text-gray-600">Perfect Scores</span>
                 <span className="font-semibold text-yellow-600">
                   ⭐ {userStats?.perfectScores || 0}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between gap-3">
                 <span className="text-sm text-gray-600">Study Time</span>
                 <span className="font-semibold text-blue-600">
                   📚 {userStats?.studyTime || "0h"}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between gap-3">
                 <span className="text-sm text-gray-600">Average Score</span>
                 <span
                   className={`font-semibold ${
@@ -315,7 +326,7 @@ const EnhancedDashboard: React.FC = () => {
               </div>
 
               {userProfile?.last_active && (
-                <div className="flex justify-between items-center">
+                <div className="flex items-center justify-between gap-3">
                   <span className="text-sm text-gray-600">Last Active</span>
                   <span className="font-semibold text-gray-700">
                     {userProfile.last_active}

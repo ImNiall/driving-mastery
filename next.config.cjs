@@ -2,12 +2,12 @@
 
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "connect-src 'self' https://*.supabase.co https://*.supabase.in",
+  "script-src 'self' 'unsafe-inline' https://cdn.openai.com https://chat.openai.com",
+  "connect-src 'self' https://*.supabase.co https://*.supabase.in https://api.openai.com https://chat.openai.com https://files.openai.com https://cdn.openai.com wss://api.openai.com wss://chat.openai.com",
   "img-src 'self' data:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "frame-src 'self'",
+  "frame-src 'self' https://app.netlify.com https://api.openai.com https://chat.openai.com",
   "frame-ancestors 'self'"
 ].join("; ");
 
