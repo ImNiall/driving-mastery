@@ -8,12 +8,7 @@ function buildCSP() {
     "https://cdn.openai.com",
     "https://chat.openai.com",
   ];
-  const scriptSrc = [
-    "'self'",
-    "'unsafe-inline'",
-    ...openAiScriptHosts,
-    "'strict-dynamic'",
-  ];
+  const scriptSrc = ["'self'", "'unsafe-inline'", ...openAiScriptHosts];
   if (isDev) scriptSrc.push("'unsafe-eval'"); // needed for React Refresh / dev tooling
 
   const connectSrc = [
