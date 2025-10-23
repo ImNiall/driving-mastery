@@ -82,20 +82,29 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
     domainPublicKey: domainKey,
     api: {
       async getClientSecret() {
+        console.debug("[ChatKit] requesting client secret", { userId });
         const res = await fetch(
           `/api/chatkit/session?userId=${encodeURIComponent(userId)}`,
           { method: "POST" },
         );
         const payload = await res.json();
         if (!res.ok || !payload?.client_secret) {
+          console.error("[ChatKit] session request failed", {
+            status: res.status,
+            payload,
+          });
           throw new Error("No client_secret");
         }
+        console.debug("[ChatKit] received client secret", { userId });
         return payload.client_secret;
       },
     },
   } as UseChatKitOptions);
 
-  useEffect(() => setReady(true), []);
+  useEffect(() => {
+    console.debug("[ChatKit] widget mounted", { userId, domainKey });
+    setReady(true);
+  }, [domainKey, userId]);
 
   return (
     <div style={{ width: "100%", height: 600, position: "relative" }}>
