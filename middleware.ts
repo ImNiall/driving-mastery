@@ -7,6 +7,7 @@ function buildCSP() {
   const openAiScriptHosts = [
     "https://cdn.openai.com",
     "https://chat.openai.com",
+    "https://chatgpt.com",
   ];
   const scriptSrc = ["'self'", "'unsafe-inline'", ...openAiScriptHosts];
   if (isDev) scriptSrc.push("'unsafe-eval'"); // needed for React Refresh / dev tooling
@@ -17,6 +18,7 @@ function buildCSP() {
     "https://*.supabase.in",
     "https://api.openai.com",
     "https://chat.openai.com",
+    "https://chatgpt.com",
     "https://files.openai.com",
     "https://cdn.openai.com",
     "wss://api.openai.com",
@@ -30,9 +32,15 @@ function buildCSP() {
     "https://app.netlify.com",
     "https://api.openai.com",
     "https://chat.openai.com",
+    "https://chatgpt.com",
   ];
 
-  const workerSrc = ["'self'", "blob:", "https://chat.openai.com"];
+  const workerSrc = [
+    "'self'",
+    "blob:",
+    "https://chat.openai.com",
+    "https://chatgpt.com",
+  ];
 
   return [
     "default-src 'self'",
