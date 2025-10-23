@@ -102,6 +102,10 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
   } as UseChatKitOptions);
 
   useEffect(() => {
+    console.debug("[ChatKit] control ready", control);
+  }, [control]);
+
+  useEffect(() => {
     console.debug("[ChatKit] widget mounted", { userId, domainKey });
     setReady(true);
   }, [domainKey, userId]);
