@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import type { ReactNode } from "react";
 import "./globals.css";
 import SWKillRegister from "./sw-kill-register";
 import AppNav from "@/components/AppNav";
 import Footer from "@/components/Footer";
-import { env } from "@/lib/env";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -51,14 +49,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Script
-          id="chatkit-loader"
-          src={
-            env.NEXT_PUBLIC_CHATKIT_LOADER_URL ??
-            "https://chat.openai.com/cdn/chatkit-loader.js"
-          }
-          strategy="afterInteractive"
-        />
         <SWKillRegister />
         <AppNav />
         <main>{children}</main>
