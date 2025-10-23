@@ -8,7 +8,12 @@ function buildCSP() {
     "https://cdn.openai.com",
     "https://chat.openai.com",
   ];
-  const scriptSrc = ["'self'", "'unsafe-inline'", ...openAiScriptHosts];
+  const scriptSrc = [
+    "'self'",
+    "'unsafe-inline'",
+    ...openAiScriptHosts,
+    "'strict-dynamic'",
+  ];
   if (isDev) scriptSrc.push("'unsafe-eval'"); // needed for React Refresh / dev tooling
 
   const connectSrc = [
@@ -32,6 +37,8 @@ function buildCSP() {
     "https://chat.openai.com",
   ];
 
+  const workerSrc = ["'self'", "blob:", "https://chat.openai.com"];
+
   return [
     "default-src 'self'",
     `script-src ${scriptSrc.join(" ")}`,
@@ -41,6 +48,7 @@ function buildCSP() {
     "font-src 'self' data: https://fonts.gstatic.com",
     `frame-src ${frameSrc.join(" ")}`,
     "frame-ancestors 'self'",
+    `worker-src ${workerSrc.join(" ")}`,
   ].join("; ");
 }
 

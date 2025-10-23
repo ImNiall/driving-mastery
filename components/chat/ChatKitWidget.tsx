@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ChatKit,
   useChatKit,
@@ -51,6 +51,21 @@ function ChatKitGuard({
   return <>{children(rawKey)}</>;
 }
 
+function stableBrowserId() {
+  try {
+    const storageKey = "theo_uid";
+    let value = window.localStorage.getItem(storageKey);
+    if (!value) {
+      value = crypto.randomUUID();
+      window.localStorage.setItem(storageKey, value);
+    }
+    return `anon-${value}`;
+  } catch (error) {
+    console.warn("[ChatKit] unable to access localStorage", error);
+    return "anon-browser";
+  }
+}
+
 function ChatKitInner({ domainKey }: { domainKey: string }) {
   const [ready, setReady] = useState(false);
 
@@ -61,30 +76,14 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
     );
   }
 
-  const storageKey = "chatkitAnonId";
-  let userId: string | null = null;
-
-  try {
-    userId = window.localStorage.getItem(storageKey);
-  } catch (error) {
-    console.warn("[ChatKit] localStorage unavailable", error);
-  }
-
-  if (!userId) {
-    userId = `anon-${crypto.randomUUID()}`;
-    try {
-      window.localStorage.setItem(storageKey, userId);
-    } catch (error) {
-      console.warn("[ChatKit] unable to persist anon id", error);
-    }
-  }
+  const userId = useMemo(() => stableBrowserId(), []);
 
   const { control } = useChatKit({
     domainPublicKey: domainKey,
     api: {
       async getClientSecret() {
         const res = await fetch(
-          `/api/chatkit/session?userId=${encodeURIComponent(userId!)}`,
+          `/api/chatkit/session?userId=${encodeURIComponent(userId)}`,
           { method: "POST" },
         );
         const payload = await res.json();
