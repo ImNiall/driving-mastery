@@ -50,10 +50,11 @@ type ChatkitIncomingEvent =
   | { type: "response.completed"; response_id?: string }
   | { type: "response.error"; error: { message?: string } }
   | { type: "error"; error?: { message?: string } }
+  | { type: "proxy.session"; model?: string }
   | { type: string; [key: string]: unknown };
 
 const DEFAULT_MODEL = "gpt-4o-realtime-preview";
-const WS_ENDPOINT = "wss://api.openai.com/v1/realtime";
+const WS_PROXY_PATH = "/api/chatkit/ws";
 const MAX_RECONNECT_ATTEMPTS = 1;
 
 function formatTimestamp(timestamp: number) {
@@ -172,6 +173,12 @@ export default function CustomChat() {
   const handleIncomingEvent = useCallback(
     (event: ChatkitIncomingEvent) => {
       switch (event.type) {
+        case "proxy.session": {
+          if (typeof event.model === "string" && event.model.length > 0) {
+            setModelName(event.model);
+          }
+          break;
+        }
         case "message.created": {
           if (!("message" in event) || !event.message) {
             break;
@@ -306,30 +313,16 @@ export default function CustomChat() {
     setError(null);
 
     try {
-      const response = await fetch(
-        `/api/chatkit/session?userId=${encodeURIComponent(userId)}`,
-        { method: "POST" },
-      );
-      const payload = await response.json();
-
-      if (!response.ok || typeof payload?.client_secret !== "string") {
-        throw new Error("Unable to create ChatKit session.");
+      if (typeof window === "undefined") {
+        throw new Error("Chat is unavailable in this environment.");
       }
 
-      const sessionModel: string =
-        payload?.session?.model ?? payload?.model ?? DEFAULT_MODEL;
-      setModelName(sessionModel);
+      const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+      const wsUrl = new URL(`${protocol}://${window.location.host}`);
+      wsUrl.pathname = WS_PROXY_PATH;
+      wsUrl.searchParams.set("userId", userId ?? "anon-browser");
 
-      const socketUrl = new URL(WS_ENDPOINT);
-      socketUrl.searchParams.set("model", sessionModel);
-      socketUrl.searchParams.set("openai-beta", "chatkit_beta=v1");
-      socketUrl.searchParams.set("client_secret", payload.client_secret);
-
-      if (payload?.session?.id) {
-        socketUrl.searchParams.set("session_id", payload.session.id);
-      }
-
-      const socket = new WebSocket(socketUrl.toString(), "realtime");
+      const socket = new WebSocket(wsUrl.toString());
       wsRef.current = socket;
 
       socket.onopen = () => {

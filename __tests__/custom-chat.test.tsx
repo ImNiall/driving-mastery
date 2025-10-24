@@ -103,6 +103,14 @@ describe("CustomChat", () => {
       socket.open();
     });
 
+    expect(socket.url).toBe(
+      `ws://${window.location.host}/api/chatkit/ws?userId=anon-test-uuid`,
+    );
+
+    await act(async () => {
+      socket.receive({ type: "proxy.session", model: "gpt-test" });
+    });
+
     const input = screen.getByPlaceholderText(
       /ask theo anything/i,
     ) as HTMLTextAreaElement;
