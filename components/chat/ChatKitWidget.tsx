@@ -2,11 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
-import {
-  ChatKit,
-  useChatKit,
-  type UseChatKitOptions,
-} from "@openai/chatkit-react";
+import { ChatKit, useChatKit } from "@openai/chatkit-react";
 
 function ChatUnavailable({ message }: { message: string }) {
   return (
@@ -79,7 +75,6 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
   const userId = useMemo(() => stableBrowserId(), []);
 
   const { control } = useChatKit({
-    domainPublicKey: domainKey,
     api: {
       async getClientSecret() {
         console.debug("[ChatKit] requesting client secret", { userId });
@@ -99,7 +94,7 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
         return payload.client_secret;
       },
     },
-  } as UseChatKitOptions);
+  });
 
   useEffect(() => {
     console.debug("[ChatKit] control ready", control);
