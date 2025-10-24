@@ -77,7 +77,7 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
   const { control } = useChatKit({
     api: {
       async getClientSecret() {
-        console.debug("[ChatKit] requesting client secret", { userId });
+        console.log("[ChatKit] requesting client secret", { userId });
         const res = await fetch(
           `/api/chatkit/session?userId=${encodeURIComponent(userId)}`,
           { method: "POST" },
@@ -90,18 +90,18 @@ function ChatKitInner({ domainKey }: { domainKey: string }) {
           });
           throw new Error("No client_secret");
         }
-        console.debug("[ChatKit] received client secret", { userId });
+        console.log("[ChatKit] received client secret", { userId });
         return payload.client_secret;
       },
     },
   });
 
   useEffect(() => {
-    console.debug("[ChatKit] control ready", control);
+    console.log("[ChatKit] control ready", control);
   }, [control]);
 
   useEffect(() => {
-    console.debug("[ChatKit] widget mounted", { userId, domainKey });
+    console.log("[ChatKit] widget mounted", { userId, domainKey });
     setReady(true);
   }, [domainKey, userId]);
 
