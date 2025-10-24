@@ -19,7 +19,6 @@
     "precommit:secrets": "secretlint --maskSecrets \"**/*\""
   },
   "dependencies": {
-    "@openai/chatkit-react": "^1.1.1",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.74.0",
     "lodash.debounce": "^4.0.8",

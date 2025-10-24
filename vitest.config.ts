@@ -8,6 +8,14 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: [path.resolve(__dirname, "setupTests.ts")],
+    include: ["__tests__/**/*.test.ts", "__tests__/**/*.test.tsx"],
+    exclude: [
+      "_archive/**/*",
+      "node_modules/**/*",
+      ".next/**/*",
+      "dist/**/*",
+      "driving-mastery_full-updated/**/*",
+    ],
     alias: {
       "@": path.resolve(__dirname, "."),
     },

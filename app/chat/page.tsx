@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const ChatKitWidget = dynamic(() => import("@/components/chat/ChatKitWidget"), {
+const CustomChat = dynamic(() => import("@/components/chat/CustomChat"), {
   ssr: false,
 });
 
@@ -8,7 +8,9 @@ export default function ChatPage() {
   return (
     <>
       <h1 style={{ display: "none" }}>Chat</h1>
-      <ChatKitWidget />
+      <div className="flex justify-center">
+        <CustomChat />
+      </div>
     </>
   );
 }

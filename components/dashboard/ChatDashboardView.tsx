@@ -1,6 +1,6 @@
 "use client";
 
-import ChatKitWidget from "@/components/chat/ChatKitWidget";
+import CustomChat from "@/components/chat/CustomChat";
 
 export default function ChatDashboardView() {
   return (
@@ -21,7 +21,9 @@ export default function ChatDashboardView() {
           </p>
         </header>
 
-        <ChatKitWidget />
+        <div className="flex justify-center">
+          <CustomChat />
+        </div>
       </div>
     </div>
   );
