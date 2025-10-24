@@ -323,17 +323,13 @@ export default function CustomChat() {
       const socketUrl = new URL(WS_ENDPOINT);
       socketUrl.searchParams.set("model", sessionModel);
       socketUrl.searchParams.set("openai-beta", "chatkit_beta=v1");
+      socketUrl.searchParams.set("client_secret", payload.client_secret);
 
       if (payload?.session?.id) {
         socketUrl.searchParams.set("session_id", payload.session.id);
       }
 
-      const protocols = [
-        "realtime",
-        `openai-insecure-api-key.${payload.client_secret}`,
-      ];
-
-      const socket = new WebSocket(socketUrl.toString(), protocols);
+      const socket = new WebSocket(socketUrl.toString(), "realtime");
       wsRef.current = socket;
 
       socket.onopen = () => {
