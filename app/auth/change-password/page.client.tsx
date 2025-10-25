@@ -31,8 +31,14 @@ function ChangePasswordInner() {
     const establishSessionFromParams = async () => {
       setInitializing(true);
       const hashParams = parseHashParams();
-      const getParam = (key: string) =>
-        searchParams.get(key) ?? hashParams.get(key);
+      const getParam = (key: string) => {
+        const fromSearch = searchParams?.get?.(key);
+        if (fromSearch) {
+          return fromSearch;
+        }
+        const fromHash = hashParams.get(key);
+        return fromHash ?? null;
+      };
 
       const type = getParam("type");
       if (type !== "recovery") {
