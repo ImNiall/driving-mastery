@@ -16,6 +16,8 @@ function buildCSP() {
     "'self'",
     "https://*.supabase.co",
     "https://*.supabase.in",
+    "wss://*.supabase.co",
+    "wss://*.supabase.in",
     "https://api.openai.com",
     "https://cdn.openai.com",
     "https://chat.openai.com",
