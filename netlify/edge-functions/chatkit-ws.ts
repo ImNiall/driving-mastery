@@ -102,6 +102,7 @@ export default async function handler(request: Request): Promise<Response> {
     headers: {
       Authorization: `Bearer ${session.clientSecret}`,
       "OpenAI-Beta": BETA_HEADER,
+      "Sec-WebSocket-Protocol": "realtime",
     },
     // @ts-ignore Deno specific upgrade option
     upgrade: "websocket",
