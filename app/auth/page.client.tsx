@@ -10,14 +10,19 @@ function AuthInner() {
   const sp = useSearchParams();
   const router = useRouter();
 
+  const getSearchParam = React.useCallback(
+    (key: string) => sp?.get?.(key) ?? null,
+    [sp],
+  );
+
   const initialMode = React.useMemo<AuthView>(() => {
-    const type = sp.get("type");
+    const type = getSearchParam("type");
     if (type === "recovery") return "reset";
-    const mode = sp.get("mode");
+    const mode = getSearchParam("mode");
     if (mode === "signup") return "signup";
     if (mode === "reset") return "reset";
     return "signin";
-  }, [sp]);
+  }, [getSearchParam]);
 
   const [view, setView] = React.useState<AuthView>(initialMode);
   const [email, setEmail] = React.useState("");
@@ -41,7 +46,8 @@ function AuthInner() {
       typeof window !== "undefined"
         ? new URLSearchParams(window.location.hash.replace(/^#/, ""))
         : new URLSearchParams();
-    const getParam = (key: string) => sp.get(key) ?? hashParams.get(key);
+    const getParam = (key: string) =>
+      getSearchParam(key) ?? hashParams.get(key) ?? null;
     const type = getParam("type");
     if (type !== "recovery") return;
 
@@ -73,11 +79,11 @@ function AuthInner() {
       .finally(() => {
         setLoading(false);
       });
-  }, [router, sp]);
+  }, [router, getSearchParam]);
 
   React.useEffect(() => {
     if (resetNoticeHandled.current) return;
-    if (sp.get("reset") !== "success") return;
+    if (getSearchParam("reset") !== "success") return;
     resetNoticeHandled.current = true;
     setNotice(
       "Password updated. You can now sign in with your new credentials.",
@@ -85,13 +91,13 @@ function AuthInner() {
     setError(null);
     setView("signin");
     router.replace("/auth?mode=signin");
-  }, [router, sp]);
+  }, [router, getSearchParam]);
 
   React.useEffect(() => {
-    if (sp.get("mode") === "reset") {
+    if (getSearchParam("mode") === "reset") {
       router.replace("/auth/change-password");
     }
-  }, [router, sp]);
+  }, [router, getSearchParam]);
 
   React.useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
