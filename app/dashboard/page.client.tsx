@@ -76,9 +76,8 @@ function DashboardContent() {
 
   const handleViewChange = React.useCallback(
     (view: DashboardViewKey) => {
-      const params = new URLSearchParams(
-        Array.from(searchParams.entries() ?? []),
-      );
+      const entries = searchParams ? Array.from(searchParams.entries()) : [];
+      const params = new URLSearchParams(entries);
       if (view === "dashboard") {
         params.delete("view");
       } else {
