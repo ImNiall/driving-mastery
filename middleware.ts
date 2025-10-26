@@ -14,19 +14,10 @@ function buildCSP() {
 
   const connectSrc = [
     "'self'",
-    "wss://www.drivingmastery.co.uk",
-    "https://*.supabase.co",
-    "https://*.supabase.in",
-    "wss://*.supabase.co",
-    "wss://*.supabase.in",
     "https://api.openai.com",
-    "https://cdn.openai.com",
-    "https://chat.openai.com",
-    "wss://api.openai.com",
-    "wss://chat.openai.com",
+    "https://*.supabase.co",
   ];
-  if (isDev)
-    connectSrc.push("ws:", "http://localhost:3000", "http://localhost:8888");
+  if (isDev) connectSrc.push("http://localhost:3000", "http://localhost:8888");
 
   const frameSrc = [
     "'self'",

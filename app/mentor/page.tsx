@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import BackToDashboardLink from "@/components/BackToDashboardLink";
 
-const CustomChat = dynamic(() => import("@/components/chat/CustomChat"), {
+const BasicChat = dynamic(() => import("@/components/chat/BasicChat"), {
   ssr: false,
 });
 
@@ -27,9 +27,7 @@ export default function MentorPage() {
         </p>
       </section>
 
-      <div className="flex justify-center">
-        <CustomChat />
-      </div>
+      <BasicChat />
     </main>
   );
 }

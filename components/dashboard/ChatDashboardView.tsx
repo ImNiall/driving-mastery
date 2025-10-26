@@ -1,6 +1,10 @@
 "use client";
 
-import CustomChat from "@/components/chat/CustomChat";
+import dynamic from "next/dynamic";
+
+const BasicChat = dynamic(() => import("@/components/chat/BasicChat"), {
+  ssr: false,
+});
 
 export default function ChatDashboardView() {
   return (
@@ -21,9 +25,7 @@ export default function ChatDashboardView() {
           </p>
         </header>
 
-        <div className="flex justify-center">
-          <CustomChat />
-        </div>
+        <BasicChat />
       </div>
     </div>
   );

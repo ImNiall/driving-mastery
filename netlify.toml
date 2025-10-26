@@ -4,7 +4,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[[edge_functions]]
-  function = "chatkit-ws"
-  path = "/api/chatkit/ws"
