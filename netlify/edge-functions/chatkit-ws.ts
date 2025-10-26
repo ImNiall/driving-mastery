@@ -91,29 +91,57 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   const upstreamUrl = new URL(CHATKIT_UPSTREAM);
-  upstreamUrl.searchParams.set("model", session.model);
-  upstreamUrl.searchParams.set("openai-beta", BETA_HEADER);
   if (session.sessionId) {
     upstreamUrl.searchParams.set("session_id", session.sessionId);
   }
 
-  const upstreamResponse = await fetch(upstreamUrl.toString(), {
-    method: "GET",
-    headers: {
+  let upstreamResponse: Response;
+  try {
+    const headers: Record<string, string> = {
       Authorization: `Bearer ${session.clientSecret}`,
-      "OpenAI-Beta": BETA_HEADER,
       "Sec-WebSocket-Protocol": "realtime",
-    },
-    // @ts-ignore Deno specific upgrade option
-    upgrade: "websocket",
-  });
+    };
+    if (BETA_HEADER) {
+      headers["OpenAI-Beta"] = BETA_HEADER;
+    }
 
-  const upstreamSocket = upstreamResponse.webSocket;
-  if (!upstreamSocket) {
-    closeQuietly(serverSocket, 1011, "upstream handshake failed");
+    upstreamResponse = await fetch(upstreamUrl.toString(), {
+      method: "GET",
+      headers,
+      // @ts-ignore Deno specific upgrade option
+      upgrade: "websocket",
+    });
+  } catch (error) {
+    console.error("[realtime] upstream fetch threw", error);
+    closeQuietly(serverSocket, 1011, "upstream fetch error");
     return new Response("Failed to connect upstream", { status: 502 });
   }
-  upstreamSocket.accept();
+
+  if (upstreamResponse.status !== 101) {
+    const requestId =
+      upstreamResponse.headers.get("openai-request-id") ?? "unknown";
+    console.error("[realtime] upstream upgrade failed", {
+      status: upstreamResponse.status,
+      requestId,
+      model: session.model,
+    });
+    closeQuietly(serverSocket, 1011, `upstream ${upstreamResponse.status}`);
+    return new Response("Failed to connect upstream", { status: 502 });
+  }
+
+  const upstreamSocket: WebSocket | undefined =
+    // @ts-ignore Edge extension
+    upstreamResponse.webSocket;
+  if (!upstreamSocket) {
+    closeQuietly(serverSocket, 1011, "no upstream socket");
+    return new Response("Failed to connect upstream", { status: 502 });
+  }
+
+  try {
+    (upstreamSocket as any).accept?.();
+  } catch {
+    // ignore
+  }
 
   let upstreamOpen = false;
   const queuedMessages: Array<string | ArrayBufferLike | Blob> = [];
