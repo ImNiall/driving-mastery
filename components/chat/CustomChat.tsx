@@ -53,7 +53,7 @@ type ChatkitIncomingEvent =
   | { type: "proxy.session"; model?: string }
   | { type: string; [key: string]: unknown };
 
-const DEFAULT_MODEL = "gpt-4o-realtime-preview";
+const DEFAULT_MODEL = "gpt-realtime";
 const WS_PROXY_PATH = "/api/chatkit/ws";
 const MAX_RECONNECT_ATTEMPTS = 1;
 
@@ -354,7 +354,12 @@ export default function CustomChat() {
         setError("Chat connection experienced an error.");
       };
 
-      socket.onclose = () => {
+      socket.onclose = (event) => {
+        console.error("[CustomChat] websocket closed", {
+          code: event.code,
+          reason: event.reason,
+          wasClean: event.wasClean,
+        });
         wsRef.current = null;
         if (reconnectAttempts.current < MAX_RECONNECT_ATTEMPTS) {
           reconnectAttempts.current += 1;

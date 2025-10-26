@@ -8,6 +8,8 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:3001",
 ]);
 
+const MODEL = process.env.OPENAI_MODEL || "gpt-realtime";
+
 function buildCorsHeaders(origin: string | null) {
   const headers = new Headers({
     "Access-Control-Allow-Methods": "OPTIONS, POST",
@@ -74,7 +76,7 @@ export async function POST(request: Request) {
 
     const body: Record<string, unknown> = {
       workflow: { id: workflowId },
-      model: "gpt-realtime",
+      model: MODEL,
       ...(userId ? { user: userId } : {}),
     };
 

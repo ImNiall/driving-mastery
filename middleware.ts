@@ -14,6 +14,7 @@ function buildCSP() {
 
   const connectSrc = [
     "'self'",
+    "wss://www.drivingmastery.co.uk",
     "https://*.supabase.co",
     "https://*.supabase.in",
     "wss://*.supabase.co",
