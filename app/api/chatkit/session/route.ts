@@ -74,6 +74,7 @@ export async function POST(request: Request) {
 
     const body: Record<string, unknown> = {
       workflow: { id: workflowId },
+      model: "gpt-realtime",
       ...(userId ? { user: userId } : {}),
     };
 
@@ -82,7 +83,7 @@ export async function POST(request: Request) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
-        "OpenAI-Beta": "chatkit_beta=v1",
+        "OpenAI-Beta": "realtime=v1",
       },
       body: JSON.stringify(body),
     });

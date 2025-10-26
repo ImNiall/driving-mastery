@@ -1,6 +1,6 @@
-const DEFAULT_MODEL = "gpt-4o-realtime-preview";
+const DEFAULT_MODEL = "gpt-realtime";
 const CHATKIT_UPSTREAM = "wss://api.openai.com/v1/realtime";
-const BETA_HEADER = "chatkit_beta=v1";
+const BETA_HEADER = "realtime=v1";
 
 declare global {
   interface WebSocket {
