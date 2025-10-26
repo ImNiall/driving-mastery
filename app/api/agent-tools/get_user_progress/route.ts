@@ -307,13 +307,15 @@ async function fetchModuleMastery(
 
   if (error) throw error;
 
-  const categories: { points: number }[] = (data ?? []).map(
-    (row: SupabaseRow) => ({
-      category: row.category ?? "Unknown",
-      points: Number(row.points ?? 0),
-      mastered_at: row.mastered_at ?? new Date().toISOString(),
-    }),
-  );
+  const categories: {
+    category: string;
+    points: number;
+    mastered_at: string;
+  }[] = (data ?? []).map((row: SupabaseRow) => ({
+    category: row.category ?? "Unknown",
+    points: Number(row.points ?? 0),
+    mastered_at: row.mastered_at ?? new Date().toISOString(),
+  }));
 
   const total_points = categories.reduce((sum, row) => sum + row.points, 0);
 
