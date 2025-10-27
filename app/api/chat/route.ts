@@ -6,6 +6,11 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+type OpenAIResponseError = Error & {
+  status?: number;
+  body?: string;
+};
+
 const TOOL_DEFINITION = {
   type: "function",
   name: "getWeakestCategory",
@@ -48,7 +53,14 @@ async function createResponse(payload: Record<string, unknown>) {
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(text || `OpenAI error ${res.status}`);
+    // Log error to server console for debugging
+    console.error("[OpenAI API error]", res.status, text);
+    const error: OpenAIResponseError = new Error(
+      text || `OpenAI error ${res.status}`,
+    );
+    error.status = res.status;
+    error.body = text;
+    throw error;
   }
 
   return res.json();
@@ -255,11 +267,17 @@ General rules:
         send("assistant_message", JSON.stringify({ content: answer }));
         send("done", "{}");
         controller.close();
-      } catch (err: any) {
-        console.error("/api/chat error", err);
+      } catch (err: unknown) {
+        const error = err as OpenAIResponseError;
+        console.error("/api/chat error", error);
         send(
           "error",
-          JSON.stringify({ message: err?.message || "assistant_error" }),
+          JSON.stringify({
+            message: error?.message || "assistant_error",
+            status:
+              typeof error?.status === "number" ? error.status : undefined,
+            detail: error?.body || undefined,
+          }),
         );
         controller.close();
       }

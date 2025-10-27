@@ -211,6 +211,116 @@ export default function ChatLayout({
     [user?.id],
   );
 
+  // Consume the /api/chat SSE stream so we can surface either the assistant
+  // reply or any backend error directly in the UI.
+  const fetchAssistantResponse = useCallback(async (prompt: string) => {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ message: prompt }),
+    });
+    if (!response.ok) {
+      const text = await response.text().catch(() => "");
+      throw new Error(
+        text || `Failed to contact assistant (${response.status})`,
+      );
+    }
+
+    const body = response.body;
+    if (!body) {
+      throw new Error("Assistant response stream missing");
+    }
+
+    const reader = body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let assistantContent = "";
+    let errorMessage: string | null = null;
+
+    const processEvent = (block: string) => {
+      const lines = block.split("\n");
+      let eventType = "message";
+      let data = "";
+      for (const line of lines) {
+        if (line.startsWith("event:")) {
+          eventType = line.slice("event:".length).trim();
+        } else if (line.startsWith("data:")) {
+          data += `${line.slice("data:".length).trimStart()}\n`;
+        }
+      }
+
+      const trimmed = data.trim();
+      if (!trimmed) return;
+
+      if (eventType === "assistant_message") {
+        try {
+          const parsed = JSON.parse(trimmed) as { content?: string };
+          if (typeof parsed?.content === "string") {
+            assistantContent = parsed.content;
+          }
+        } catch (parseError) {
+          console.error(
+            "[ChatLayout] failed to parse assistant message",
+            parseError,
+          );
+        }
+      } else if (eventType === "error") {
+        try {
+          const parsed = JSON.parse(trimmed) as {
+            message?: string;
+            detail?: string;
+            status?: number;
+          };
+          const baseMessage =
+            typeof parsed?.message === "string"
+              ? parsed.message
+              : "Assistant failed to respond.";
+          const detail =
+            typeof parsed?.detail === "string" && parsed.detail
+              ? parsed.detail
+              : null;
+          const status =
+            typeof parsed?.status === "number" ? ` (${parsed.status})` : "";
+          errorMessage = detail
+            ? `${baseMessage}${status}: ${detail}`
+            : `${baseMessage}${status}`;
+        } catch {
+          errorMessage = "Assistant failed to respond.";
+        }
+      }
+    };
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      let delimiter = buffer.indexOf("\n\n");
+      while (delimiter !== -1) {
+        const chunk = buffer.slice(0, delimiter);
+        buffer = buffer.slice(delimiter + 2);
+        if (chunk.trim().length > 0) {
+          processEvent(chunk);
+        }
+        delimiter = buffer.indexOf("\n\n");
+      }
+    }
+
+    if (buffer.trim().length > 0) {
+      processEvent(buffer);
+    }
+
+    if (errorMessage) {
+      throw new Error(errorMessage);
+    }
+
+    if (!assistantContent) {
+      throw new Error("Assistant returned no content.");
+    }
+
+    return assistantContent;
+  }, []);
+
   const handleSendMessage = useCallback(
     async (content: string) => {
       if (!user?.id) {
@@ -227,22 +337,26 @@ export default function ChatLayout({
       }
       if (!sessionId) return;
 
+      const targetSessionId = sessionId;
       setError(null);
       const optimistic: ChatMessageRecord = {
         id: `temp-${Date.now()}`,
-        session_id: sessionId,
+        session_id: targetSessionId,
         role: "user",
         content: trimmed,
         created_at: new Date().toISOString(),
       };
       setMessagesBySession((prev) => {
-        const current = prev[sessionId!] ?? [];
+        const current = prev[targetSessionId] ?? [];
         return {
           ...prev,
-          [sessionId!]: [...current, optimistic],
+          [targetSessionId]: [...current, optimistic],
         };
       });
       setSending(true);
+
+      let userMessageSaved = false;
+      let assistantOptimisticId: string | null = null;
 
       try {
         const response = await fetch("/api/chat/message", {
@@ -250,7 +364,7 @@ export default function ChatLayout({
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({
-            session_id: sessionId,
+            session_id: targetSessionId,
             user_id: user.id,
             role: "user",
             content: trimmed,
@@ -262,23 +376,83 @@ export default function ChatLayout({
         const payload = (await response.json()) as ApiMessageResponse;
         if (payload.error) throw new Error(payload.error);
         const savedMessage = payload.message;
+        if (!savedMessage) {
+          throw new Error("Failed to persist user message.");
+        }
+        userMessageSaved = true;
         setMessagesBySession((prev) => {
-          const current = prev[sessionId!] ?? [];
-          if (!savedMessage) return prev;
+          const current = prev[targetSessionId] ?? [];
           return {
             ...prev,
-            [sessionId!]: current.map((msg) =>
+            [targetSessionId]: current.map((msg) =>
               msg.id === optimistic.id ? savedMessage : msg,
             ),
           };
         });
+
+        const assistantContent = await fetchAssistantResponse(trimmed);
+        const assistantOptimistic: ChatMessageRecord = {
+          id: `assistant-temp-${Date.now()}`,
+          session_id: targetSessionId,
+          role: "assistant",
+          content: assistantContent,
+          created_at: new Date().toISOString(),
+        };
+        assistantOptimisticId = assistantOptimistic.id;
+        setMessagesBySession((prev) => {
+          const current = prev[targetSessionId] ?? [];
+          return {
+            ...prev,
+            [targetSessionId]: [...current, assistantOptimistic],
+          };
+        });
+
+        const assistantSave = await fetch("/api/chat/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            session_id: targetSessionId,
+            user_id: user.id,
+            role: "assistant",
+            content: assistantContent,
+          }),
+        });
+        if (!assistantSave.ok) {
+          const text = await assistantSave.text().catch(() => "");
+          throw new Error(
+            text || `Failed to save assistant reply (${assistantSave.status})`,
+          );
+        }
+        const assistantPayload =
+          (await assistantSave.json()) as ApiMessageResponse;
+        if (assistantPayload.error) throw new Error(assistantPayload.error);
+        const persistedAssistant = assistantPayload.message;
+        if (persistedAssistant) {
+          setMessagesBySession((prev) => {
+            const current = prev[targetSessionId] ?? [];
+            return {
+              ...prev,
+              [targetSessionId]: current.map((msg) =>
+                msg.id === assistantOptimisticId ? persistedAssistant : msg,
+              ),
+            };
+          });
+        }
       } catch (err) {
         console.error("[ChatLayout] send message error", err);
         setMessagesBySession((prev) => {
-          const current = prev[sessionId!] ?? [];
+          const current = prev[targetSessionId] ?? [];
+          let next = current;
+          if (!userMessageSaved) {
+            next = next.filter((msg) => msg.id !== optimistic.id);
+          }
+          if (assistantOptimisticId) {
+            next = next.filter((msg) => msg.id !== assistantOptimisticId);
+          }
           return {
             ...prev,
-            [sessionId!]: current.filter((msg) => msg.id !== optimistic.id),
+            [targetSessionId]: next,
           };
         });
         setError(
@@ -288,7 +462,7 @@ export default function ChatLayout({
         setSending(false);
       }
     },
-    [createSession, selectedSessionId, user?.id],
+    [createSession, fetchAssistantResponse, selectedSessionId, user?.id],
   );
 
   useEffect(() => {
