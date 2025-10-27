@@ -25,19 +25,27 @@ export async function POST(req: NextRequest) {
     return new Response("message required", { status: 400 });
   }
 
-  const res = await fetch(
-    `https://api.openai.com/v1/assistants/${OPENAI_ASSISTANT_ID}/messages`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        messages: [{ role: "user", content: userInput }],
-      }),
+  const res = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
     },
-  );
+    body: JSON.stringify({
+      assistant_id: OPENAI_ASSISTANT_ID,
+      input: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: userInput,
+            },
+          ],
+        },
+      ],
+    }),
+  });
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");

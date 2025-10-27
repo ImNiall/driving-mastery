@@ -37,3 +37,36 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ session: data });
 }
+
+export async function PATCH(req: NextRequest) {
+  const body = await req.json();
+  const sessionId = body?.session_id;
+  const title = body?.title;
+
+  if (!sessionId || typeof title !== "string") {
+    return NextResponse.json(
+      { error: "session_id and title are required" },
+      { status: 400 },
+    );
+  }
+
+  const trimmedTitle = title.trim();
+  if (!trimmedTitle) {
+    return NextResponse.json(
+      { error: "title cannot be empty" },
+      { status: 400 },
+    );
+  }
+
+  const { data, error } = await supabase
+    .from("chat_sessions")
+    .update({ title: trimmedTitle })
+    .eq("id", sessionId)
+    .select("id, title, created_at, archived")
+    .single();
+
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json({ session: data });
+}

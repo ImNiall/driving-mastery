@@ -46,6 +46,21 @@ function createDefaultTitle() {
   })}`;
 }
 
+function generateTitleFromMessage(message: string) {
+  const normalized = message.trim().replace(/\s+/g, " ");
+  if (!normalized) return createDefaultTitle();
+  if (normalized.length <= MAX_TITLE_LENGTH) return normalized;
+  return `${normalized.slice(0, MAX_TITLE_LENGTH - 1)}…`;
+}
+
+function isDefaultGeneratedTitle(title: string | null | undefined) {
+  if (!title) return true;
+  const trimmed = title.trim();
+  if (!trimmed) return true;
+  if (trimmed === "New Chat") return true;
+  return /^Chat\s—\s/.test(trimmed);
+}
+
 export type ChatLayoutProps = {
   headerSlot?: ReactNode;
   variant?: "full" | "embedded";
@@ -211,6 +226,33 @@ export default function ChatLayout({
     [user?.id],
   );
 
+  const updateSessionTitle = useCallback(
+    async (sessionId: string, sourceText: string) => {
+      const nextTitle = generateTitleFromMessage(sourceText);
+      setSessions((prev) =>
+        prev.map((session) =>
+          session.id === sessionId ? { ...session, title: nextTitle } : session,
+        ),
+      );
+
+      try {
+        const response = await fetch("/api/chat/session", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ session_id: sessionId, title: nextTitle }),
+        });
+        if (!response.ok) {
+          const text = await response.text().catch(() => "");
+          throw new Error(text || `Failed to rename chat (${response.status})`);
+        }
+      } catch (err) {
+        console.error("[ChatLayout] update session title error", err);
+      }
+    },
+    [],
+  );
+
   // Consume the /api/chat SSE stream so we can surface either the assistant
   // reply or any backend error directly in the UI.
   const fetchAssistantResponse = useCallback(async (prompt: string) => {
@@ -331,11 +373,26 @@ export default function ChatLayout({
       if (!trimmed) return;
 
       let sessionId = selectedSessionId;
+      let shouldRenameSession = false;
+
       if (!sessionId) {
-        const newSession = await createSession(trimmed.slice(0, 32));
+        const newSession = await createSession(
+          generateTitleFromMessage(trimmed),
+        );
         sessionId = newSession?.id ?? null;
       }
       if (!sessionId) return;
+
+      const targetSession = sessions.find(
+        (session) => session.id === sessionId,
+      );
+      const existingMessages = messagesBySession[sessionId] ?? [];
+      const hasUserMessages = existingMessages.some(
+        (msg) => msg.role === "user",
+      );
+      if (!hasUserMessages && isDefaultGeneratedTitle(targetSession?.title)) {
+        shouldRenameSession = true;
+      }
 
       const targetSessionId = sessionId;
       setError(null);
@@ -389,6 +446,10 @@ export default function ChatLayout({
             ),
           };
         });
+
+        if (shouldRenameSession) {
+          void updateSessionTitle(targetSessionId, trimmed);
+        }
 
         const assistantContent = await fetchAssistantResponse(trimmed);
         const assistantOptimistic: ChatMessageRecord = {
@@ -529,7 +590,7 @@ export default function ChatLayout({
           />
         </div>
 
-        <div className="flex flex-1 flex-col gap-4">
+        <div className="flex flex-1 min-h-0 flex-col gap-4">
           <div className="flex items-center justify-between lg:hidden">
             <button
               type="button"
@@ -544,7 +605,7 @@ export default function ChatLayout({
             )}
           </div>
 
-          <div className={chatContainerClass}>
+          <div className={`${chatContainerClass} min-h-0`}>
             {showAuthPrompt ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-[40px] border border-dashed border-indigo-200 bg-white/80 p-10 text-center shadow-lg shadow-indigo-100">
                 <h2 className="text-2xl font-semibold text-slate-900">
