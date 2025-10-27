@@ -1,14 +1,15 @@
 import { NextRequest } from "next/server";
 
 const OPENAI_ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID ?? "";
+const OPENAI_MODEL = process.env.OPENAI_MODEL ?? "";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  if (!OPENAI_API_KEY || !OPENAI_ASSISTANT_ID) {
-    return new Response("Missing OpenAI credentials or assistant ID", {
+  if (!OPENAI_API_KEY || !OPENAI_ASSISTANT_ID || !OPENAI_MODEL) {
+    return new Response("Missing OpenAI credentials, assistant ID, or model", {
       status: 500,
     });
   }
@@ -33,6 +34,7 @@ export async function POST(req: NextRequest) {
     },
     body: JSON.stringify({
       assistant_id: OPENAI_ASSISTANT_ID,
+      model: OPENAI_MODEL,
       input: [
         {
           role: "user",
