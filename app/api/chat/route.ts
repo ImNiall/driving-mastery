@@ -106,18 +106,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const model = assistant.model || OPENAI_MODEL;
-    if (!model) {
-      return NextResponse.json(
-        { error: "No model defined for assistant." },
-        { status: 500 },
-      );
-    }
-
     const response = await openai.responses.create({
-      model,
-      instructions: assistant.instructions ?? undefined,
-      tools: assistant.tools?.length ? assistant.tools : undefined,
+      assistant_id: assistant.id,
       metadata: { assistant_id: assistant.id },
       input: [
         {
