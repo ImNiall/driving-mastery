@@ -18,6 +18,33 @@ const openai =
       })
     : null;
 
+type CachedAssistant = Awaited<
+  ReturnType<Exclude<typeof openai, null>["beta"]["assistants"]["retrieve"]>
+> | null;
+
+let assistantCache: CachedAssistant = null;
+let assistantCacheTimestamp = 0;
+const ASSISTANT_CACHE_TTL_MS = 5 * 60 * 1000;
+
+async function loadAssistant(assistantId: string) {
+  if (!openai) return null;
+  const now = Date.now();
+  if (
+    assistantCache &&
+    now - assistantCacheTimestamp < ASSISTANT_CACHE_TTL_MS &&
+    assistantCache.id === assistantId
+  ) {
+    return assistantCache;
+  }
+
+  const assistant = await openai.beta.assistants.retrieve(assistantId, {
+    headers: { "OpenAI-Beta": "assistants=v2" },
+  });
+  assistantCache = assistant;
+  assistantCacheTimestamp = now;
+  return assistant;
+}
+
 type ResponseOutput =
   | string
   | { type: string; text?: string; annotations?: unknown }
@@ -71,9 +98,27 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const payload = {
-      assistant_id: OPENAI_ASSISTANT_ID,
-      ...(OPENAI_MODEL ? { model: OPENAI_MODEL } : {}),
+    const assistant = await loadAssistant(OPENAI_ASSISTANT_ID);
+    if (!assistant) {
+      return NextResponse.json(
+        { error: "Assistant configuration unavailable." },
+        { status: 500 },
+      );
+    }
+
+    const model = assistant.model || OPENAI_MODEL;
+    if (!model) {
+      return NextResponse.json(
+        { error: "No model defined for assistant." },
+        { status: 500 },
+      );
+    }
+
+    const response = await openai.responses.create({
+      model,
+      instructions: assistant.instructions ?? undefined,
+      tools: assistant.tools?.length ? assistant.tools : undefined,
+      metadata: { assistant_id: assistant.id },
       input: [
         {
           role: "user",
@@ -85,9 +130,7 @@ export async function POST(req: NextRequest) {
           ],
         },
       ],
-    } as Record<string, unknown>;
-
-    const response = await openai.responses.create(payload as any);
+    } as any);
 
     const textOutput =
       extractText((response.output ?? []) as ResponseOutput[]) ||
