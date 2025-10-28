@@ -106,8 +106,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const model = assistant.model || OPENAI_MODEL;
+    if (!model) {
+      return NextResponse.json(
+        { error: "Assistant has no model configured." },
+        { status: 500 },
+      );
+    }
+
     const response = await openai.responses.create({
       assistant_id: assistant.id,
+      model,
       metadata: { assistant_id: assistant.id },
       input: [
         {
