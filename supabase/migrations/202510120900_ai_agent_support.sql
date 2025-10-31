@@ -17,11 +17,25 @@ create table if not exists public.quiz_attempts (
 create table if not exists public.question_attempts (
   id uuid primary key default gen_random_uuid(),
   quiz_id uuid references public.quiz_attempts(id) on delete cascade,
+  user_id uuid references auth.users(id) on delete cascade,
   question_id text not null,
   was_correct boolean not null,
   topic text,
   answered_at timestamp with time zone not null default now()
 );
+
+alter table public.question_attempts
+  add column if not exists user_id uuid;
+
+alter table public.question_attempts
+  add constraint question_attempts_user_fk
+    foreign key (user_id) references auth.users(id) on delete cascade;
+
+update public.question_attempts qa
+set user_id = sub.user_id
+from public.quiz_attempts sub
+where qa.quiz_id = sub.id
+  and qa.user_id is null;
 
 alter table public.quiz_attempts
   add column if not exists dvsa_category text;

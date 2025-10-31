@@ -19,7 +19,6 @@ import MockTestDashboardView from "@/components/dashboard/MockTestDashboardView"
 import LeaderboardDashboardView from "@/components/dashboard/LeaderboardDashboardView";
 import MembershipsDashboardView from "@/components/dashboard/MembershipsDashboardView";
 import AboutDashboardView from "@/components/dashboard/AboutDashboardView";
-import ChatDashboardView from "@/components/dashboard/ChatDashboardView";
 import ProfilePageClient from "@/app/profile/page.client";
 import TestReadyView from "@/components/TestReadyView";
 import TestReadyWidget from "@/components/TestReadyWidget";

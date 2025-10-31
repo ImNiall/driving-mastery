@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import AssistantChat from "@/components/assistant/AssistantChat";
 import BackToDashboardLink from "@/components/BackToDashboardLink";
-
-const ChatLayout = dynamic(() => import("@/components/chat/ChatLayout"), {
-  ssr: false,
-});
 
 export const metadata: Metadata = {
   title: "Theo Mentor",
@@ -14,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function MentorPage() {
   return (
-    <ChatLayout
-      headerSlot={
-        <div className="space-y-6">
+    <div className="bg-gradient-to-br from-slate-100 via-white to-slate-100 py-12">
+      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:px-6">
+        <header className="space-y-6">
           <BackToDashboardLink variant="pill" />
           <div className="space-y-4">
             <h1 className="text-3xl font-bold text-slate-900 md:text-4xl">
@@ -28,8 +24,14 @@ export default function MentorPage() {
               your study on track and adapts every conversation to your goals.
             </p>
           </div>
-        </div>
-      }
-    />
+        </header>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-200/60 sm:p-8">
+          <div className="h-[560px] md:h-[640px]">
+            <AssistantChat />
+          </div>
+        </section>
+      </div>
+    </div>
   );
 }

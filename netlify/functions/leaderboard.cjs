@@ -61,6 +61,8 @@ exports.handler = async (event) => {
     const timeFrame = normalizeTimeFrame(event.queryStringParameters?.timeframe);
 
     // Base query to fetch enhanced leaderboard data.
+    console.log('[leaderboard] fetching leaderboard data');
+
     let query = admin
       .from('enhanced_leaderboard_view')
       .select(`
