@@ -10,6 +10,7 @@ import {
 import { wireAssistantStreamPersistence } from "@/lib/assistant/stream";
 import type { AssistantMessageRecord } from "@/lib/assistant/types";
 import { getSupabaseRouteContext } from "@/lib/supabase/server";
+import type { Database } from "@/src/types/supabase";
 
 export const runtime = "nodejs";
 
@@ -118,7 +119,9 @@ export async function POST(
     user.id,
   );
 
-  if (!threadResult.data) {
+  const thread = threadResult.data;
+
+  if (!thread) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
@@ -140,7 +143,7 @@ export async function POST(
       role: "user",
       content,
       status: "pending",
-    })
+    } satisfies Database["public"]["Tables"]["assistant_messages"]["Insert"])
     .select("*")
     .single();
 
@@ -158,12 +161,16 @@ export async function POST(
     });
     await supabase
       .from("assistant_messages")
-      .update({ status: "complete" })
+      .update({
+        status: "complete",
+      } satisfies Database["public"]["Tables"]["assistant_messages"]["Update"])
       .eq("id", insertedUserMessage.id);
   } catch (error) {
     await supabase
       .from("assistant_messages")
-      .update({ status: "error" })
+      .update({
+        status: "error",
+      } satisfies Database["public"]["Tables"]["assistant_messages"]["Update"])
       .eq("id", insertedUserMessage.id);
 
     console.error("[assistant-message] failed to send to OpenAI", {
@@ -182,7 +189,9 @@ export async function POST(
     if (derivedTitle) {
       await supabase
         .from("assistant_threads")
-        .update({ title: derivedTitle })
+        .update({
+          title: derivedTitle,
+        } satisfies Database["public"]["Tables"]["assistant_threads"]["Update"])
         .eq("id", thread.id)
         .eq("user_id", user.id);
     }
@@ -196,7 +205,7 @@ export async function POST(
         role: "assistant",
         content: "",
         status: "pending",
-      })
+      } satisfies Database["public"]["Tables"]["assistant_messages"]["Insert"])
       .select("*")
       .single();
 

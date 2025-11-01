@@ -599,7 +599,6 @@ const AssistantChat = ({
         if (
           event.event === "thread.run.failed" ||
           event.event === "thread.run.cancelled" ||
-          event.event === "thread.run.errored" ||
           event.event === "thread.run.expired"
         ) {
           finaliseAssistantMessage("error");

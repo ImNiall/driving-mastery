@@ -97,7 +97,6 @@ export function wireAssistantStreamPersistence(
       event.event === "thread.run.requires_action" ||
       event.event === "thread.run.failed" ||
       event.event === "thread.run.cancelled" ||
-      event.event === "thread.run.errored" ||
       event.event === "thread.run.expired"
     ) {
       flushContent(true);

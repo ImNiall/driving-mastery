@@ -4,7 +4,7 @@ import { openai } from "@/app/openai";
 import { fetchThreadForUser } from "@/lib/assistant/server";
 import { wireAssistantStreamPersistence } from "@/lib/assistant/stream";
 import { getSupabaseRouteContext } from "@/lib/supabase/server";
-import type { Json } from "@/src/types/supabase";
+import type { Database, Json } from "@/src/types/supabase";
 
 export const runtime = "nodejs";
 
@@ -66,7 +66,7 @@ export async function POST(
           content: toolCall.output ?? "",
           raw: toolCall as unknown as Json,
           status: "complete",
-        })
+        } satisfies Database["public"]["Tables"]["assistant_messages"]["Insert"])
         .select("*")
         .single(),
     ),
@@ -115,7 +115,9 @@ export async function POST(
     initialContent = existingAssistantMessage.content ?? "";
     await supabase
       .from("assistant_messages")
-      .update({ status: "pending" })
+      .update({
+        status: "pending",
+      } satisfies Database["public"]["Tables"]["assistant_messages"]["Update"])
       .eq("id", assistantMessageId);
   } else {
     const { data: assistantMessageRow, error: assistantMessageError } =
@@ -126,7 +128,7 @@ export async function POST(
           role: "assistant",
           content: "",
           status: "pending",
-        })
+        } satisfies Database["public"]["Tables"]["assistant_messages"]["Insert"])
         .select("*")
         .single();
 
@@ -152,7 +154,9 @@ export async function POST(
   } catch (error) {
     await supabase
       .from("assistant_messages")
-      .update({ status: "error" })
+      .update({
+        status: "error",
+      } satisfies Database["public"]["Tables"]["assistant_messages"]["Update"])
       .eq("id", assistantMessageId);
     console.error("[assistant-actions] failed to submit tool outputs", {
       threadId: thread.id,

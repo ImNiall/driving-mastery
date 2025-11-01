@@ -1,14 +1,29 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database } from "@/src/types/supabase";
+import type { SupabaseRouteClient } from "@/lib/supabase/server";
 import type {
   AssistantMessageRecord,
   AssistantThreadDetail,
   AssistantThreadSummary,
+  AssistantMessageStatus,
 } from "./types";
+import type { Database } from "@/src/types/supabase";
 
 type DbThreadRow = Database["public"]["Tables"]["assistant_threads"]["Row"];
 type DbMessageRow = Database["public"]["Tables"]["assistant_messages"]["Row"];
-type DbClient = SupabaseClient<Database>;
+type DbClient = SupabaseRouteClient;
+
+const MESSAGE_STATUS_VALUES: ReadonlyArray<AssistantMessageStatus> = [
+  "pending",
+  "complete",
+  "error",
+  "requires_action",
+];
+
+function normalizeStatus(value: string | null): AssistantMessageStatus | null {
+  if (!value) return null;
+  return MESSAGE_STATUS_VALUES.includes(value as AssistantMessageStatus)
+    ? (value as AssistantMessageStatus)
+    : null;
+}
 
 export function mapThreadRow(row: DbThreadRow): AssistantThreadSummary {
   return {
@@ -38,7 +53,7 @@ export function mapMessageRow(row: DbMessageRow): AssistantMessageRecord {
     role: row.role as AssistantMessageRecord["role"],
     content: row.content,
     raw: row.raw ?? null,
-    status: row.status ?? null,
+    status: normalizeStatus(row.status),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };

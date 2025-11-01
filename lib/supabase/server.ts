@@ -11,12 +11,14 @@ import { env } from "@/lib/env";
 import { serverEnv } from "@/lib/env.server";
 import type { Database } from "@/src/types/supabase";
 
-export function supabaseServer() {
-  const cookieStore = cookies();
-  return createServerComponentClient<Database>({ cookies: () => cookieStore });
-}
+export type SupabaseRouteClient = SupabaseClient<Database>;
 
-type SupabaseRouteClient = ReturnType<typeof supabaseServer>;
+export function supabaseServer(): SupabaseRouteClient {
+  const cookieStore = cookies();
+  return createServerComponentClient<Database>({
+    cookies: () => cookieStore,
+  }) as unknown as SupabaseRouteClient;
+}
 
 function createServiceRoleClient(): SupabaseRouteClient {
   if (!serverEnv.SUPABASE_SERVICE_ROLE_KEY) {
@@ -32,7 +34,7 @@ function createServiceRoleClient(): SupabaseRouteClient {
         autoRefreshToken: false,
       },
     },
-  ) as unknown as SupabaseRouteClient;
+  ) as SupabaseRouteClient;
 }
 
 type RouteContext = {
@@ -82,7 +84,7 @@ export async function getSupabaseRouteContext(
     );
     const { data, error } = await supabase.auth.getUser(token);
     return {
-      supabase: supabase as unknown as SupabaseRouteClient,
+      supabase: supabase as SupabaseRouteClient,
       user: data?.user ?? null,
       error,
       token,
