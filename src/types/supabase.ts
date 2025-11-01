@@ -58,6 +58,85 @@ export type Database = {
         };
         Relationships: [];
       };
+      assistant_messages: {
+        Row: {
+          content: string;
+          created_at: string;
+          id: string;
+          raw: Json | null;
+          role: string;
+          status: string | null;
+          thread_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          content: string;
+          created_at?: string;
+          id?: string;
+          raw?: Json | null;
+          role: string;
+          status?: string | null;
+          thread_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          content?: string;
+          created_at?: string;
+          id?: string;
+          raw?: Json | null;
+          role?: string;
+          status?: string | null;
+          thread_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "assistant_messages_thread_id_fkey";
+            columns: ["thread_id"];
+            isOneToOne: false;
+            referencedRelation: "assistant_threads";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      assistant_threads: {
+        Row: {
+          created_at: string;
+          id: string;
+          metadata: Json | null;
+          openai_thread_id: string;
+          title: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          metadata?: Json | null;
+          openai_thread_id: string;
+          title?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          metadata?: Json | null;
+          openai_thread_id?: string;
+          title?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "assistant_threads_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       bookmarks: {
         Row: {
           created_at: string;

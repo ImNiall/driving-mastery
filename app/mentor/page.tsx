@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function MentorPage() {
   return (
-    <div className="bg-gradient-to-br from-slate-100 via-white to-slate-100 py-12">
-      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 sm:px-6">
+    <div className="bg-gradient-to-br from-slate-100 via-white to-slate-100 min-h-screen">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-12 pt-8 sm:px-6 sm:pt-10 lg:gap-10 lg:px-8 lg:pb-20 lg:pt-14">
         <header className="space-y-6">
           <BackToDashboardLink variant="pill" />
           <div className="space-y-4">
@@ -26,8 +26,8 @@ export default function MentorPage() {
           </div>
         </header>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-200/60 sm:p-8">
-          <div className="h-[560px] md:h-[640px]">
+        <section className="flex flex-1 rounded-3xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-200/60 sm:p-6 lg:p-8">
+          <div className="flex h-[70vh] min-h-[520px] w-full flex-col md:h-[600px] lg:h-[680px]">
             <AssistantChat />
           </div>
         </section>
