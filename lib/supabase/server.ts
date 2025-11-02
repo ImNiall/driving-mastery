@@ -95,9 +95,8 @@ export async function getSupabaseRouteContext(
     };
   }
 
-  const cookieStore = cookies();
   const supabase = createRouteHandlerClient<Database>({
-    cookies: () => cookieStore,
+    cookies,
   }) as unknown as SupabaseRouteClient;
   const { data, error } = await supabase.auth.getUser();
   return {
