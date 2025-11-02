@@ -255,7 +255,10 @@ const AssistantChat = ({
 
   const loadThreadSummaries = useCallback(async () => {
     try {
-      const response = await fetch("/api/assistants/threads");
+      const response = await fetch("/api/assistants/threads", {
+        credentials: "include",
+        cache: "no-store",
+      });
       if (!response.ok) {
         throw new Error(`Failed to list threads (${response.status})`);
       }
@@ -309,6 +312,8 @@ const AssistantChat = ({
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(reset ? { reset: true } : {}),
+          credentials: "include",
+          cache: "no-store",
         });
         if (!response.ok) {
           throw new Error(
@@ -338,7 +343,10 @@ const AssistantChat = ({
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/assistants/threads/${threadId}`);
+        const response = await fetch(`/api/assistants/threads/${threadId}`, {
+          credentials: "include",
+          cache: "no-store",
+        });
         if (!response.ok) {
           throw new Error(`Failed to load thread (${response.status})`);
         }
@@ -367,6 +375,10 @@ const AssistantChat = ({
     try {
       const response = await fetch(
         `/api/assistants/threads/${threadId}/messages?limit=${MESSAGE_SYNC_LIMIT}`,
+        {
+          credentials: "include",
+          cache: "no-store",
+        },
       );
       if (!response.ok) {
         throw new Error(`Failed to sync messages (${response.status})`);
@@ -393,6 +405,10 @@ const AssistantChat = ({
         `/api/assistants/threads/${activeThread.id}/messages?cursor=${encodeURIComponent(
           nextCursor,
         )}&limit=${MESSAGE_PAGE_LIMIT}`,
+        {
+          credentials: "include",
+          cache: "no-store",
+        },
       );
       if (!response.ok) {
         throw new Error(`Failed to load older messages (${response.status})`);
@@ -542,6 +558,8 @@ const AssistantChat = ({
                 runId: event.data.id,
                 toolCallOutputs: toolOutputs,
               }),
+              credentials: "include",
+              cache: "no-store",
             },
           );
 
@@ -676,6 +694,8 @@ const AssistantChat = ({
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ content: trimmed }),
+            credentials: "include",
+            cache: "no-store",
           },
         );
 

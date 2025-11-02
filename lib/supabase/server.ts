@@ -1,4 +1,7 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  createRouteHandlerClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import {
   createClient,
   type AuthError,
@@ -92,7 +95,10 @@ export async function getSupabaseRouteContext(
     };
   }
 
-  const supabase = supabaseServer();
+  const cookieStore = cookies();
+  const supabase = createRouteHandlerClient<Database>({
+    cookies: () => cookieStore,
+  }) as unknown as SupabaseRouteClient;
   const { data, error } = await supabase.auth.getUser();
   return {
     supabase,
