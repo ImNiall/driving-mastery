@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import ProgressChart from "@/components/ProgressChart";
 import { QuizIcon, BookOpenIcon } from "@/components/icons";
+import AssistantChat from "@/components/assistant/AssistantChat";
 import type { Category, QuizResult } from "@/types";
 import { ProgressService } from "@/lib/services/progress";
 import {
@@ -389,6 +391,29 @@ function DashboardContent() {
                       Browse Modules
                     </button>
                   </div>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-gray-200/70 bg-white p-6 shadow-lg">
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">
+                      Chat with Theo
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-600">
+                      Ask follow-up questions, get bite-sized explanations, and
+                      build revision plans without leaving your dashboard.
+                    </p>
+                  </div>
+                  <Link
+                    href="/mentor"
+                    className="inline-flex items-center justify-center rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:border-brand-blue/40 hover:text-brand-blue"
+                  >
+                    Open full view
+                  </Link>
+                </div>
+                <div className="mt-6 flex h-[640px] flex-col">
+                  <AssistantChat />
                 </div>
               </div>
 
