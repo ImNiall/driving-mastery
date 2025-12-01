@@ -11,5 +11,12 @@ dist
 *.env*
 .env.direct
 
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+.venv/
+
 # Local Netlify folder
 .netlify

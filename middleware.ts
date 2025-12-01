@@ -58,6 +58,10 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname.startsWith("/api/agents/run")) {
+    return NextResponse.next();
+  }
+
   const res = NextResponse.next();
   res.headers.set(
     "Cache-Control",
@@ -76,6 +80,6 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     // Match everything except static files and API static assets
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|api/agents/run).*)",
   ],
 };

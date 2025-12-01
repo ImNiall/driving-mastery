@@ -23,17 +23,20 @@ An interactive platform to help learner drivers master the UK driving theory tes
 ### Installation
 
 1. Clone the repository
+
    ```bash
    git clone https://github.com/yourusername/driving-mastery.git
    cd driving-mastery
    ```
 
 2. Install dependencies
+
    ```bash
    npm install
    ```
 
 3. Create a `.env.local` file based on `.env.local.example`
+
    ```bash
    cp .env.local.example .env.local
    ```
@@ -70,7 +73,39 @@ An interactive platform to help learner drivers master the UK driving theory tes
 - [ ] `https://<your-prod-domain>/sign-up`
 - [ ] `https://<your-prod-domain>/sso-callback`
 
-> **Note**: Production instance should be bound to your custom FQDN; development instance uses *.accounts.dev domain.
+> **Note**: Production instance should be bound to your custom FQDN; development instance uses \*.accounts.dev domain.
+
+### Django Backend
+
+1. Create and activate a Python virtual environment (optional but recommended)
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+2. Install backend dependencies
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. (Optional) Create a `.env.django` file and export values before running the server:
+   ```bash
+   export DJANGO_SECRET_KEY="change-me"
+   export DJANGO_ALLOWED_HOSTS="localhost,127.0.0.1"
+   export DJANGO_CORS_ALLOWED_ORIGINS="http://localhost:3000,http://localhost:5173"
+   export DJANGO_CSRF_TRUSTED_ORIGINS="http://localhost:3000,http://localhost:5173"
+   ```
+4. Apply migrations and start the development server
+   ```bash
+   python manage.py migrate
+   python manage.py runserver
+   ```
+5. Hit the health check endpoint to confirm everything is running:
+   ```bash
+   curl http://localhost:8000/api/health/
+   ```
+   Response should be:
+   ```json
+   { "status": "ok", "service": "driving-mastery-api" }
+   ```
 
 ## Deployment
 

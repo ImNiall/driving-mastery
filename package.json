@@ -13,12 +13,12 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
     "prepare": "husky install",
     "secretlint": "secretlint \"**/*\" -f @secretlint/formatter-stylish",
     "precommit:secrets": "secretlint --maskSecrets \"**/*\""
   },
   "dependencies": {
+    "@openai/agents": "^0.3.3",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.74.0",
     "lodash.debounce": "^4.0.8",
@@ -42,7 +42,6 @@
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^22.14.0",
     "@types/react": "19.2.0",
-    "@vitejs/plugin-react": "^5.0.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.13",
@@ -54,9 +53,7 @@
     "prettier": "^3.6.2",
     "secretlint": "^8.2.0",
     "tailwindcss": "^4.1.14",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0",
-    "vitest": "^4.0.1"
+    "typescript": "~5.8.2"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
